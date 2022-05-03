@@ -51,3 +51,28 @@ class TestTranslator(TestCase):
         t = Translator(input_file_path, output_file_path)
         with self.assertRaises(Exception):
             t.process()
+
+        input_file_path = self.run_dir_path / 'in.epJSON'
+        output_file_path = self.run_dir_path / 'out.json'
+        input_file_path.write_text(dumps(
+            {
+                "Version": {
+                    "Version 1": {
+                        "MISSING_version_identifier": "hai"
+                    }
+                }
+            }
+        ))
+        t = Translator(input_file_path, output_file_path)
+        with self.assertRaises(Exception):
+            t.process()
+
+    def test_from_resource_input_file(self):
+        this_dir = Path(__file__).parent.absolute()
+        resource_dir = this_dir / 'resources'
+        resource_input_file = resource_dir / 'test_input.epJSON'
+        output_file_path = self.run_dir_path / 'out.json'
+        t = Translator(resource_input_file, output_file_path)
+        t.process()
+        written_json = loads(output_file_path.read_text())
+        self.assertIn('message', written_json)
