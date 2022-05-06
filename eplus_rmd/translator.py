@@ -75,10 +75,37 @@ class Translator:
                 break
         self.building_segment['zones'] = zones
 
+    def add_spaces(self):
+        tabular_reports = self.json_results_object['TabularReports']
+        spaces = []
+        for tabular_report in tabular_reports:
+            if tabular_report['ReportName'] == 'Input Verification and Results Summary':
+                tables = tabular_report['Tables']
+                for table in tables:
+                    if table['TableName'] == 'Space Summary':
+                        rows = table['Rows']
+                        space_names = list(rows.keys())
+                        space_names.remove('Total')
+                        space_names.remove('Conditioned Total')
+                        space_names.remove('Unconditioned Total')
+                        space_names.remove('Not Part of Total')
+                        # print(space_names)
+                        cols = table['Cols']
+                        zone_name_column = cols.index('Zone Name')
+                        area_column = cols.index('Area [m2]')
+                        for space_name in space_names:
+                            space = {'id': space_name,
+                                    'floor_area': rows[space_name][area_column]}
+                            print(space)
+                        # NEXT need to insert the space into the corresponding Zone
+
+
+
     def process(self):
         epjson = self.epjson_object
         Translator.validate_input_contents(epjson)
         version_id = epjson['Version']['Version 1']['version_identifier']
         self.create_skeleton()
         self.add_zones()
+        self.add_spaces()
         self.rmd_file_path.write(self.rmd)
