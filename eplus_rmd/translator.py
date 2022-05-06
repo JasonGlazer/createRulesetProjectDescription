@@ -52,6 +52,7 @@ class Translator:
 
     def add_zones(self):
         tabular_reports = self.json_results_object['TabularReports']
+        zones = []
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'Input Verification and Results Summary':
                 tables = tabular_report['Tables']
@@ -63,12 +64,15 @@ class Translator:
                         zone_names.remove('Conditioned Total')
                         zone_names.remove('Unconditioned Total')
                         zone_names.remove('Not Part of Total')
-                        print(zone_names)
+                        # print(zone_names)
+                        cols = table['Cols']
+                        volume_column = cols.index('Volume [m3]')
+                        # print(volume_column)
+                        for zone_name in zone_names:
+                            zone = {'id': zone_name,
+                                    'volume': rows[zone_name][volume_column]}
+                            zones.append(zone)
                 break
-        zones = []
-        for zone_name in zone_names:
-            zone = {'id': zone_name}
-            zones.append(zone)
         self.building_segment['zones'] = zones
 
     def process(self):
