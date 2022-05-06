@@ -1,5 +1,3 @@
-import os
-
 from json import dumps
 from pathlib import Path
 from typing import Dict
@@ -7,9 +5,7 @@ from typing import Dict
 
 class OutputFile:
     def __init__(self, epjson_file_path: Path):
-
-        epjson_file_path_no_ext, _ = os.path.splitext(epjson_file_path)
-        self.rmd_file_path = Path(epjson_file_path_no_ext + ".rmd")
+        self.rmd_file_path = epjson_file_path.with_suffix('.rmd')
 
     def write(self, json_data: Dict):
         self.rmd_file_path.write_text(dumps(json_data, indent=2))
