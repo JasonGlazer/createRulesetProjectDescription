@@ -1,0 +1,48 @@
+{
+    "TabularReports": [
+        {
+            "For": "Entire Facility",
+            "ReportName": "Input Verification and Results Summary",
+            "Tables": [
+                {
+                    "Cols": [
+                        "Value"
+                    ],
+                    "Rows": {
+                        "Elevation [m]": [
+                            "1726.00"
+                        ],
+                        "Hours Simulated [hrs]": [
+                            "8760.00"
+                        ],
+                        "Latitude [deg]": [
+                            "39.72"
+                        ],
+                        "Longitude [deg]": [
+                            "-104.8"
+                        ],
+                        "North Axis Angle [deg]": [
+                            "0.00"
+                        ],
+                        "Program Version and Build": [
+                            "EnergyPlus, Version 22.1.0-52e5724caf, YMD=2022.05.04 11:40"
+                        ],
+                        "Rotation for Appendix G [deg]": [
+                            "0.00"
+                        ],
+                        "RunPeriod": [
+                            "RUNPERIOD 1"
+                        ],
+                        "Time Zone": [
+                            "-7.0"
+                        ],
+                        "Weather File": [
+                            "Denver-Aurora-Buckley AFB CO USA TMY3 WMO#=724695"
+                        ]
+                    },
+                    "TableName": "General"
+                }
+            ]
+        }
+    ]
+}

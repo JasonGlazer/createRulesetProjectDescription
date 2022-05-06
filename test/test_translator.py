@@ -12,7 +12,6 @@ class TestTranslator(TestCase):
 
     def test_operation(self):
         input_file_path = self.run_dir_path / 'in.epJSON'
-        output_file_path = self.run_dir_path / 'out.json'
         input_file_path.write_text(dumps(
             {
                 "Version": {
@@ -22,25 +21,37 @@ class TestTranslator(TestCase):
                 }
             }
         ))
-        t = Translator(input_file_path, output_file_path)
+        output_file_path = self.run_dir_path / 'inout.json'
+        output_file_path.write_text(dumps(
+            {
+                "TabularReports": ""
+            }
+        ))
+        t = Translator(input_file_path)
         t.process()
         written_json = loads(output_file_path.read_text())
-        self.assertIn('message', written_json)
+        self.assertIn('TabularReports', written_json)
 
     def test_input_file_is_invalid_for_translation(self):
         input_file_path = self.run_dir_path / 'in.epJSON'
-        output_file_path = self.run_dir_path / 'out.json'
         input_file_path.write_text(dumps(
             {
                 "MISSINGVERSION": "Hi"
             }
         ))
-        t = Translator(input_file_path, output_file_path)
+
+        output_file_path = self.run_dir_path / 'inout.json'
+        output_file_path.write_text(dumps(
+            {
+                "TabularReports": ""
+            }
+        ))
+
+        t = Translator(input_file_path)
         with self.assertRaises(Exception):
             t.process()
 
         input_file_path = self.run_dir_path / 'in.epJSON'
-        output_file_path = self.run_dir_path / 'out.json'
         input_file_path.write_text(dumps(
             {
                 "Version": {
@@ -48,12 +59,11 @@ class TestTranslator(TestCase):
                 }
             }
         ))
-        t = Translator(input_file_path, output_file_path)
+        t = Translator(input_file_path)
         with self.assertRaises(Exception):
             t.process()
 
         input_file_path = self.run_dir_path / 'in.epJSON'
-        output_file_path = self.run_dir_path / 'out.json'
         input_file_path.write_text(dumps(
             {
                 "Version": {
@@ -63,7 +73,7 @@ class TestTranslator(TestCase):
                 }
             }
         ))
-        t = Translator(input_file_path, output_file_path)
+        t = Translator(input_file_path)
         with self.assertRaises(Exception):
             t.process()
 
@@ -71,8 +81,8 @@ class TestTranslator(TestCase):
         this_dir = Path(__file__).parent.absolute()
         resource_dir = this_dir / 'resources'
         resource_input_file = resource_dir / 'test_input.epJSON'
-        output_file_path = self.run_dir_path / 'out.json'
-        t = Translator(resource_input_file, output_file_path)
+        output_file_path = resource_dir / 'test_inputout.json'
+        t = Translator(resource_input_file)
         t.process()
         written_json = loads(output_file_path.read_text())
-        self.assertIn('message', written_json)
+        self.assertIn('TabularReports', written_json)

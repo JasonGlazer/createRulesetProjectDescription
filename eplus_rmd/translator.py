@@ -7,6 +7,7 @@ from eplus_rmd.output_file import OutputFile
 
 class Translator:
     """This class reads in the input files and does the heavy lifting to write output files"""
+
     def __init__(self, epjson_file_path: Path):
         print(f"Reading epJSON input file at {str(epjson_file_path)}")
         self.epjson_file = InputFile(epjson_file_path)
