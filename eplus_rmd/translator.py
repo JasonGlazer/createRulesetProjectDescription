@@ -7,11 +7,14 @@ from eplus_rmd.output_file import OutputFile
 
 class Translator:
     """This class reads in the input files and does the heavy lifting to write output files"""
-    def __init__(self, input_file_path: Path, output_file_path: Path):
-        print(f"Reading input file at {str(input_file_path)}")
-        self.input_file_object = InputFile(input_file_path)
-        print(f"Will write output file to {str(output_file_path)}")
-        self.output_file_path = output_file_path
+    def __init__(self, epjson_file_path: Path):
+        print(f"Reading epJSON input file at {str(epjson_file_path)}")
+        self.epjson_file = InputFile(epjson_file_path)
+        self.epjson_object = self.epjson_file.epjson_object
+        self.json_results_object = self.epjson_file.json_results_object
+
+        self.rmd_file_path = OutputFile(epjson_file_path)
+        print(f"Will write output file to {str(self.rmd_file_path)}")
 
     @staticmethod
     def validate_input_contents(input_json: Dict):
@@ -23,9 +26,8 @@ class Translator:
             raise Exception("Did not find \"version_identifier\" key in input epJSON Version value, aborting")
 
     def process(self):
-        input_json = self.input_file_object.input_file_json
-        Translator.validate_input_contents(input_json)
-        version_id = input_json['Version']['Version 1']['version_identifier']
+        epjson = self.epjson_object
+        Translator.validate_input_contents(epjson)
+        version_id = epjson['Version']['Version 1']['version_identifier']
         json_dictionary = {'message': f"Found input version as {version_id}"}
-        o = OutputFile(self.output_file_path)
-        o.write(json_dictionary)
+        self.rmd_file_path.write(json_dictionary)
