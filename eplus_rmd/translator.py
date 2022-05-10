@@ -78,6 +78,7 @@ class Translator:
     def add_spaces(self):
         tabular_reports = self.json_results_object['TabularReports']
         spaces = {}
+        lights_by_space = self.gather_interior_lighting()
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'Input Verification and Results Summary':
                 tables = tabular_report['Tables']
@@ -102,13 +103,41 @@ class Translator:
                             else:
                                 people = 0
                             space = {'id': space_name, 'floor_area': floor_area, 'number_of_occupants': round(people,2)}
-                            print(space, rows[space_name][zone_name_column])
+                            if space_name in lights_by_space:
+                                space['interior_lighting'] = lights_by_space[space_name]
+                            # print(space, rows[space_name][zone_name_column])
                             spaces[rows[space_name][zone_name_column]] = space
         # insert the space into the corresponding Zone
         for zone in self.building_segment['zones']:
             zone['spaces'] = []
             if zone['id'] in spaces:
                 zone['spaces'].append(spaces[zone['id']])
+
+    def gather_interior_lighting(self):
+        tabular_reports = self.json_results_object['TabularReports']
+        lights = {} #dictionary by space name containing the lights
+        for tabular_report in tabular_reports:
+            if tabular_report['ReportName'] == 'LightingSummary':
+                tables = tabular_report['Tables']
+                for table in tables:
+                    if table['TableName'] == 'Interior Lighting':
+                        rows = table['Rows']
+                        int_light_names = list(rows.keys())
+                        int_light_names.remove('Interior Lighting Total')
+                        cols = table['Cols']
+                        space_name_column = cols.index('Space Name')
+                        zone_name_column = cols.index('Zone Name')
+                        power_density_column = cols.index('Lighting Power Density [W/m2]')
+                        for int_light_name in int_light_names:
+                            power_density = rows[int_light_name][power_density_column]
+                            space_name = rows[int_light_name][space_name_column]
+                            light = {'id': int_light_name, 'power_per_area': power_density}
+                            print(light)
+                            if space_name not in lights:
+                                lights[space_name] = [light,]
+                            else:
+                                lights[space_name].append(light)
+        return lights
 
     def process(self):
         epjson = self.epjson_object
