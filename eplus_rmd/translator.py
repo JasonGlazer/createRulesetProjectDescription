@@ -77,7 +77,7 @@ class Translator:
 
     def add_spaces(self):
         tabular_reports = self.json_results_object['TabularReports']
-        spaces = []
+        spaces = {}
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'Input Verification and Results Summary':
                 tables = tabular_report['Tables']
@@ -93,18 +93,27 @@ class Translator:
                         cols = table['Cols']
                         zone_name_column = cols.index('Zone Name')
                         area_column = cols.index('Area [m2]')
+                        people_density_column = cols.index('People [m2 per person]')
                         for space_name in space_names:
-                            space = {'id': space_name,
-                                    'floor_area': rows[space_name][area_column]}
-                            print(space)
-                        # NEXT need to insert the space into the corresponding Zone
-
-
+                            floor_area = float(rows[space_name][area_column])
+                            people_density = float(rows[space_name][people_density_column])
+                            if people_density > 0:
+                                people = floor_area / people_density
+                            else:
+                                people = 0
+                            space = {'id': space_name, 'floor_area': floor_area, 'number_of_occupants': round(people,2)}
+                            print(space, rows[space_name][zone_name_column])
+                            spaces[rows[space_name][zone_name_column]] = space
+        # insert the space into the corresponding Zone
+        for zone in self.building_segment['zones']:
+            zone['spaces'] = []
+            if zone['id'] in spaces:
+                zone['spaces'].append(spaces[zone['id']])
 
     def process(self):
         epjson = self.epjson_object
         Translator.validate_input_contents(epjson)
-        version_id = epjson['Version']['Version 1']['version_identifier']
+        # version_id = epjson['Version']['Version 1']['version_identifier']
         self.create_skeleton()
         self.add_zones()
         self.add_spaces()
