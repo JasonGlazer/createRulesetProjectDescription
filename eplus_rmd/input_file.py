@@ -14,15 +14,15 @@ class InputFile:
             print(f"Could not process input file into JSON object; error: {str(e)}")
             raise
 
-        json_results_input_path = epjson_file_path.with_suffix(".json")
-        if not json_results_input_path.exists():
+        self.json_results_input_path = epjson_file_path.with_suffix(".json")
+        if not self.json_results_input_path.exists():
             # try with the out.json suffix
-            json_results_input_path = epjson_file_path.parent.joinpath(epjson_file_path.stem + "out.json")
-            if not json_results_input_path.exists():
-                raise Exception(f"Could not find EnergyPlus results json file at path: {str(json_results_input_path)}")
+            self.json_results_input_path = epjson_file_path.parent.joinpath(epjson_file_path.stem + "out.json")
+            if not self.json_results_input_path.exists():
+                raise Exception(f"Could not find EnergyPlus results json file at path: {str(self.json_results_input_path)}")
             try:
-                json_result_file_contents = json_results_input_path.read_text()
-                self.json_results_object = loads(json_result_file_contents)
+                self.json_result_file_contents = self.json_results_input_path.read_text()
+                self.json_results_object = loads(self.json_result_file_contents)
             except Exception as e:
                 print(f"Could not process results file into JSON object; error: {str(e)}")
                 raise

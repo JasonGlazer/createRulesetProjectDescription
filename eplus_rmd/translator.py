@@ -1,13 +1,9 @@
-import jsonschema
-import os
-import posixpath
-
 from pathlib import Path
 from typing import Dict
-from json import load
 
 from eplus_rmd.input_file import InputFile
 from eplus_rmd.output_file import OutputFile
+from eplus_rmd.validator import Validator
 
 
 class Translator:
@@ -15,12 +11,16 @@ class Translator:
 
     def __init__(self, epjson_file_path: Path):
         print(f"Reading epJSON input file at {str(epjson_file_path)}")
-        self.epjson_file = InputFile(epjson_file_path)
-        self.epjson_object = self.epjson_file.epjson_object
-        self.json_results_object = self.epjson_file.json_results_object
+        self.input_file = InputFile(epjson_file_path)
+        self.epjson_object = self.input_file.epjson_object
+        self.json_results_object = self.input_file.json_results_object
+        print(f"Reading EnergyPlus results JSON file: {str(self.input_file.json_results_input_path)}")
 
-        self.rmd_file_path = OutputFile(epjson_file_path)
+        self.output_file = OutputFile(epjson_file_path)
+        self.rmd_file_path = self.output_file.rmd_file_path
         print(f"Will write output file to {str(self.rmd_file_path)}")
+
+        self.validator = Validator()
 
         self.rmd = {}
         self.instance = {}
@@ -156,17 +156,6 @@ class Translator:
                                 lights[space_name].append(light)
         return lights
 
-    def validate_rmd(self):
-        schema_path = './ASHRAE229.schema.json'
-        with open(schema_path,'r') as schema_file:
-            uri_path = os.path.abspath(os.path.dirname(schema_path))
-            if os.sep != posixpath.sep:
-                uri_path = posixpath.sep + uri_path
-            resolver = jsonschema.RefResolver(f'file://{uri_path}/', schema_path)
-            schema = load(schema_file)
-            jsonschema.validate(instance=self.rmd, schema=schema, resolver=resolver)
-
-
     def process(self):
         epjson = self.epjson_object
         Translator.validate_input_contents(epjson)
@@ -174,5 +163,5 @@ class Translator:
         self.create_skeleton()
         self.add_zones()
         self.add_spaces()
-        self.validate_rmd()
-        self.rmd_file_path.write(self.rmd)
+        self.validator.validate_rmd(self.rmd)
+        self.output_file.write(self.rmd)
