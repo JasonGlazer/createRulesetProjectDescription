@@ -1,5 +1,10 @@
+import jsonschema
+import os
+import posixpath
+
 from pathlib import Path
 from typing import Dict
+from json import load
 
 from eplus_rmd.input_file import InputFile
 from eplus_rmd.output_file import OutputFile
@@ -40,7 +45,8 @@ class Translator:
 
         self.building = {'id': self.get_building_name(),
                          'notes': 'this file contains only a single building',
-                         'building_segments': [self.building_segment, ]}
+                         'building_segments': [self.building_segment, ],
+                         'building_open_schedule': 'always_1'}
 
         self.instance = {'id': 'Only instance',
                          'notes': 'this file contains only a single instance',
@@ -70,7 +76,12 @@ class Translator:
                         # print(volume_column)
                         for zone_name in zone_names:
                             zone = {'id': zone_name,
-                                    'volume': rows[zone_name][volume_column]}
+                                    'volume': float(rows[zone_name][volume_column]),
+                                    'thermostat_cooling_setpoint_schedule': 'always_70',
+                                    'thermostat_heating_setpoint_schedule': 'always_70',
+                                    'minimum_humidity_setpoint_schedule': 'always_0_3',
+                                    'maximum_humidity_setpoint_schedule': 'always_0_8',
+                                    'exhaust_airflow_rate_multiplier_schedule': 'always_1'}
                             zones.append(zone)
                 break
         self.building_segment['zones'] = zones
@@ -102,7 +113,9 @@ class Translator:
                                 people = floor_area / people_density
                             else:
                                 people = 0
-                            space = {'id': space_name, 'floor_area': floor_area, 'number_of_occupants': round(people,2)}
+                            space = {'id': space_name, 'floor_area': floor_area,
+                                     'number_of_occupants': round(people, 2),
+                                     'occupant_multiplier_schedule': 'always_1'}
                             if space_name in lights_by_space:
                                 space['interior_lighting'] = lights_by_space[space_name]
                             # print(space, rows[space_name][zone_name_column])
@@ -115,7 +128,7 @@ class Translator:
 
     def gather_interior_lighting(self):
         tabular_reports = self.json_results_object['TabularReports']
-        lights = {} #dictionary by space name containing the lights
+        lights = {}  # dictionary by space name containing the lights
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'LightingSummary':
                 tables = tabular_report['Tables']
@@ -127,17 +140,32 @@ class Translator:
                         cols = table['Cols']
                         space_name_column = cols.index('Space Name')
                         zone_name_column = cols.index('Zone Name')
+                        schedule_name_column = cols.index('Schedule Name')
                         power_density_column = cols.index('Lighting Power Density [W/m2]')
                         for int_light_name in int_light_names:
-                            power_density = rows[int_light_name][power_density_column]
+                            power_density = float(rows[int_light_name][power_density_column])
                             space_name = rows[int_light_name][space_name_column]
-                            light = {'id': int_light_name, 'power_per_area': power_density}
-                            print(light)
+                            schedule_name = rows[int_light_name][schedule_name_column]
+                            light = {'id': int_light_name,
+                                     'power_per_area': power_density,
+                                     'lighting_multiplier_schedule': schedule_name}
+                            # print(light)
                             if space_name not in lights:
-                                lights[space_name] = [light,]
+                                lights[space_name] = [light, ]
                             else:
                                 lights[space_name].append(light)
         return lights
+
+    def validate_rmd(self):
+        schema_path = './ASHRAE229.schema.json'
+        with open(schema_path,'r') as schema_file:
+            uri_path = os.path.abspath(os.path.dirname(schema_path))
+            if os.sep != posixpath.sep:
+                uri_path = posixpath.sep + uri_path
+            resolver = jsonschema.RefResolver(f'file://{uri_path}/', schema_path)
+            schema = load(schema_file)
+            jsonschema.validate(instance=self.rmd, schema=schema, resolver=resolver)
+
 
     def process(self):
         epjson = self.epjson_object
@@ -146,4 +174,5 @@ class Translator:
         self.create_skeleton()
         self.add_zones()
         self.add_spaces()
+        self.validate_rmd()
         self.rmd_file_path.write(self.rmd)
