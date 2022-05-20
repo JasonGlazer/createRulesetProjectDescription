@@ -77,11 +77,12 @@ class Translator:
                         for zone_name in zone_names:
                             zone = {'id': zone_name,
                                     'volume': float(rows[zone_name][volume_column]),
-                                    'thermostat_cooling_setpoint_schedule': 'always_70',
-                                    'thermostat_heating_setpoint_schedule': 'always_70',
-                                    'minimum_humidity_setpoint_schedule': 'always_0_3',
-                                    'maximum_humidity_setpoint_schedule': 'always_0_8',
-                                    'exhaust_airflow_rate_multiplier_schedule': 'always_1'}
+                                    }
+                                    # 'thermostat_cooling_setpoint_schedule': 'always_70',
+                                    # 'thermostat_heating_setpoint_schedule': 'always_70',
+                                    # 'minimum_humidity_setpoint_schedule': 'always_0_3',
+                                    # 'maximum_humidity_setpoint_schedule': 'always_0_8',
+                                    # 'exhaust_airflow_rate_multiplier_schedule': 'always_1'}
                             zones.append(zone)
                 break
         self.building_segment['zones'] = zones
@@ -132,6 +133,20 @@ class Translator:
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'LightingSummary':
                 tables = tabular_report['Tables']
+
+                # gather the daylighting method used by zone name
+                daylighting_method_dict = {}
+                for table in tables:
+                    if table['TableName'] == 'Daylighting':
+                        rows = table['Rows']
+                        daylighting_names = list(rows.keys())
+                        cols = table['Cols']
+                        zone_name_column = cols.index('Zone')
+                        daylighting_method_column = cols.index('Daylighting Method')
+                        for daylighting_name in daylighting_names:
+                            zone_name = rows[daylighting_name][zone_name_column]
+                            daylighting_method_dict[zone_name] = rows[daylighting_name][daylighting_method_column]
+
                 for table in tables:
                     if table['TableName'] == 'Interior Lighting':
                         rows = table['Rows']
@@ -145,10 +160,20 @@ class Translator:
                         for int_light_name in int_light_names:
                             power_density = float(rows[int_light_name][power_density_column])
                             space_name = rows[int_light_name][space_name_column]
+                            zone_name = rows[int_light_name][zone_name_column]
                             schedule_name = rows[int_light_name][schedule_name_column]
+                            daylighting_control_type = 'NONE'
+                            if zone_name in daylighting_method_dict:
+                                native_method = daylighting_method_dict[zone_name]
+                                if native_method.find('Continuous'):
+                                    daylighting_control_type = 'CONTINUOUS_DIMMING'
+                                elif native_method.find('Step'):
+                                    daylighting_control_type = 'STEPPED'
                             light = {'id': int_light_name,
                                      'power_per_area': power_density,
-                                     'lighting_multiplier_schedule': schedule_name}
+                                     'lighting_multiplier_schedule': schedule_name,
+                                     'daylighting_control_type': daylighting_control_type
+                                     }
                             # print(light)
                             if space_name not in lights:
                                 lights[space_name] = [light, ]
