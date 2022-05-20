@@ -163,5 +163,7 @@ class Translator:
         self.create_skeleton()
         self.add_zones()
         self.add_spaces()
-        self.validator.validate_rmd(self.rmd)
+        check_validity = self.validator.validate_rmd(self.rmd)
+        if not check_validity['passed']:
+            print(check_validity['error'])
         self.output_file.write(self.rmd)
