@@ -18,6 +18,11 @@ class TestTranslator(TestCase):
                     "Version 1": {
                         "version_identifier": "22.1"
                     }
+                },
+                "Building": {
+                    "OfficeSmall": {
+                        "loads_convergence_tolerance_value": 0.04
+                    }
                 }
             }
         ))
