@@ -26,7 +26,7 @@ class Translator:
         self.instance = {}
         self.building = {}
         self.building_segment = {}
-        self.surfaces_zone = {}
+        self.surfaces_by_zone = {}
 
     @staticmethod
     def validate_input_contents(input_json: Dict):
@@ -46,7 +46,7 @@ class Translator:
         surfaces_to_zone = {}
         for surface_name, fields in building_surface_detailed.items():
             if 'zone_name' in fields:
-                surfaces_to_zone[surface_name] = fields['zone_name']
+                surfaces_to_zone[surface_name.upper()] = fields['zone_name'].upper()
         return surfaces_to_zone
 
     def create_skeleton(self):
@@ -68,6 +68,7 @@ class Translator:
     def add_zones(self):
         tabular_reports = self.json_results_object['TabularReports']
         zones = []
+        surfaces_by_surface = self.gather_surfaces()
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'Input Verification and Results Summary':
                 tables = tabular_report['Tables']
@@ -93,6 +94,12 @@ class Translator:
                             # 'maximum_humidity_setpoint_schedule': 'always_0_8',
                             # 'exhaust_airflow_rate_multiplier_schedule': 'always_1'}
                             zones.append(zone)
+                            surfaces = []
+                            for key, value in self.surfaces_by_zone.items():
+                                if zone_name == value:
+                                    if key in surfaces_by_surface:
+                                        surfaces.append(surfaces_by_surface[key])
+                            zone['surfaces'] = surfaces
                 break
         self.building_segment['zones'] = zones
 
@@ -199,14 +206,45 @@ class Translator:
     #         if tabular_report['ReportName'] == 'InitializationSummary':
     #             tables = tabular_report['Tables']
 
+    def gather_surfaces(self):
+        tabular_reports = self.json_results_object['TabularReports']
+        surfaces = {}  # dictionary by zone name containing the surface data elements
+        for tabular_report in tabular_reports:
+            if tabular_report['ReportName'] == 'EnvelopeSummary':
+                tables = tabular_report['Tables']
+                for table in tables:
+                    if table['TableName'] == 'Opaque Exterior':
+                        rows = table['Rows']
+                        surface_names = list(rows.keys())
+                        cols = table['Cols']
+                        construction_name_column = cols.index('Construction')
+                        gross_area_column = cols.index('Gross Area [m2]')
+                        azimuth_column = cols.index('Azimuth [deg]')
+                        tilt_column = cols.index('Tilt [deg]')
+                        for surface_name in surface_names:
+                            construction_name = rows[surface_name][construction_name_column]
+                            gross_area = float(rows[surface_name][gross_area_column])
+                            azimuth = float(rows[surface_name][azimuth_column])
+                            tilt = float(rows[surface_name][tilt_column])
+                            surface = {
+                                'id': surface_name,
+                                'area': gross_area,
+                                'tilt': tilt,
+                                'azimuth': azimuth
+                            }
+                            surfaces[surface_name] = surface
+        print(surfaces)
+        return surfaces
+
     def process(self):
         epjson = self.epjson_object
         Translator.validate_input_contents(epjson)
         # version_id = epjson['Version']['Version 1']['version_identifier']
         self.create_skeleton()
+        self.surfaces_by_zone = self.get_zone_for_each_surface()
+        print(self.surfaces_by_zone)
         self.add_zones()
         self.add_spaces()
-        self.surfaces_zone = self.get_zone_for_each_surface()
         check_validity = self.validator.validate_rmd(self.rmd)
         if not check_validity['passed']:
             print(check_validity['error'])
