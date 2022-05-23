@@ -26,6 +26,7 @@ class Translator:
         self.instance = {}
         self.building = {}
         self.building_segment = {}
+        self.surfaces_zone = {}
 
     @staticmethod
     def validate_input_contents(input_json: Dict):
@@ -39,6 +40,14 @@ class Translator:
     def get_building_name(self):
         building_input = self.epjson_object['Building']
         return list(building_input.keys())[0]
+
+    def get_zone_for_each_surface(self):
+        building_surface_detailed = self.epjson_object['BuildingSurface:Detailed']
+        surfaces_to_zone = {}
+        for surface_name, fields in building_surface_detailed.items():
+            if 'zone_name' in fields:
+                surfaces_to_zone[surface_name] = fields['zone_name']
+        return surfaces_to_zone
 
     def create_skeleton(self):
         self.building_segment = {'id': 'segment 1'}
@@ -172,7 +181,9 @@ class Translator:
                             light = {'id': int_light_name,
                                      'power_per_area': power_density,
                                      'lighting_multiplier_schedule': schedule_name,
-                                     'daylighting_control_type': daylighting_control_type
+                                     'daylighting_control_type': daylighting_control_type,
+                                     'are_schedules_used_for_modeling_occupancy_control': True,
+                                     'are_schedules_used_for_modeling_daylighting_control': False
                                      }
                             # print(light)
                             if space_name not in lights:
@@ -181,6 +192,13 @@ class Translator:
                                 lights[space_name].append(light)
         return lights
 
+    # def gather_miscellaneous_equipment(self):
+    #     tabular_reports = self.json_results_object['TabularReports']
+    #     equipment = {}  # dictionary by space name containing the miscellaneous equipment
+    #     for tabular_report in tabular_reports:
+    #         if tabular_report['ReportName'] == 'InitializationSummary':
+    #             tables = tabular_report['Tables']
+
     def process(self):
         epjson = self.epjson_object
         Translator.validate_input_contents(epjson)
@@ -188,6 +206,7 @@ class Translator:
         self.create_skeleton()
         self.add_zones()
         self.add_spaces()
+        self.surfaces_zone = self.get_zone_for_each_surface()
         check_validity = self.validator.validate_rmd(self.rmd)
         if not check_validity['passed']:
             print(check_validity['error'])
