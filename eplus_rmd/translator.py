@@ -78,11 +78,11 @@ class Translator:
                             zone = {'id': zone_name,
                                     'volume': float(rows[zone_name][volume_column]),
                                     }
-                                    # 'thermostat_cooling_setpoint_schedule': 'always_70',
-                                    # 'thermostat_heating_setpoint_schedule': 'always_70',
-                                    # 'minimum_humidity_setpoint_schedule': 'always_0_3',
-                                    # 'maximum_humidity_setpoint_schedule': 'always_0_8',
-                                    # 'exhaust_airflow_rate_multiplier_schedule': 'always_1'}
+                            # 'thermostat_cooling_setpoint_schedule': 'always_70',
+                            # 'thermostat_heating_setpoint_schedule': 'always_70',
+                            # 'minimum_humidity_setpoint_schedule': 'always_0_3',
+                            # 'maximum_humidity_setpoint_schedule': 'always_0_8',
+                            # 'exhaust_airflow_rate_multiplier_schedule': 'always_1'}
                             zones.append(zone)
                 break
         self.building_segment['zones'] = zones

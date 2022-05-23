@@ -26,7 +26,7 @@ class TestInputFile(TestCase):
                 }
             }
         ))
-        result_file = self.run_dir_path / 'realout.JSON'
+        result_file = self.run_dir_path / 'realout.json'
         result_file.write_text(dumps(
             {
                 "out": 7

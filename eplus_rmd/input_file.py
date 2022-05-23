@@ -19,7 +19,8 @@ class InputFile:
             # try with the out.json suffix
             self.json_results_input_path = epjson_file_path.parent.joinpath(epjson_file_path.stem + "out.json")
             if not self.json_results_input_path.exists():
-                raise Exception(f"Could not find EnergyPlus results json file at path: {str(self.json_results_input_path)}")
+                raise Exception(
+                    f"Could not find EnergyPlus results json file at path: {str(self.json_results_input_path)}")
             try:
                 self.json_result_file_contents = self.json_results_input_path.read_text()
                 self.json_results_object = loads(self.json_result_file_contents)
