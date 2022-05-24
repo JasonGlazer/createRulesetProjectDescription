@@ -213,7 +213,8 @@ class Translator:
             if tabular_report['ReportName'] == 'EnvelopeSummary':
                 tables = tabular_report['Tables']
                 for table in tables:
-                    if table['TableName'] == 'Opaque Exterior':
+                    is_exterior = table['TableName'] == 'Opaque Exterior'
+                    if is_exterior or table['TableName'] == 'Opaque Interior':
                         rows = table['Rows']
                         surface_names = list(rows.keys())
                         cols = table['Cols']
@@ -226,11 +227,23 @@ class Translator:
                             gross_area = float(rows[surface_name][gross_area_column])
                             azimuth = float(rows[surface_name][azimuth_column])
                             tilt = float(rows[surface_name][tilt_column])
+                            if tilt > 120:
+                                surface_classification = 'FLOOR'
+                            elif tilt >= 60:
+                                surface_classification = 'WALL'
+                            else:
+                                surface_classification = 'CEILING'
+                            if is_exterior:
+                                adjacent_to = 'EXTERIOR'
+                            else:
+                                adjacent_to = 'INTERIOR'
                             surface = {
                                 'id': surface_name,
+                                'classification': surface_classification,
                                 'area': gross_area,
                                 'tilt': tilt,
-                                'azimuth': azimuth
+                                'azimuth': azimuth,
+                                'adjacent_to': adjacent_to
                             }
                             surfaces[surface_name] = surface
         print(surfaces)

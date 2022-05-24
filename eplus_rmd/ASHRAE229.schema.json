@@ -704,7 +704,9 @@
                         {
                             "$ref": "ASHRAE229.schema.json#/definitions/SurfaceAdjacentToOptions"
                         },
-                        {},
+                        {
+                            "$ref": "EnumerationsRESNET.schema.json#/definitions/AdditionalSurfaceAdjacentToOptionsRESNET"
+                        },
                         {
                             "$ref": "Enumerations2019ASHRAE901.schema.json#/definitions/AdditionalSurfaceAdjacentToOptions2019ASHRAE901"
                         }
@@ -4578,6 +4580,6 @@
             ]
         }
     },
-    "version": "0.0.16",
+    "version": "0.0.17",
     "$ref": "ASHRAE229.schema.json#/definitions/ASHRAE229"
 }
