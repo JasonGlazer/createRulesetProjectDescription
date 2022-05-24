@@ -49,6 +49,46 @@ class Translator:
                 surfaces_to_zone[surface_name.upper()] = fields['zone_name'].upper()
         return surfaces_to_zone
 
+    def get_adjacent_surface_for_each_surface(self):
+        building_surface_detailed = self.epjson_object['BuildingSurface:Detailed']
+        adjacent_by_surface = {}
+        for surface_name, fields in building_surface_detailed.items():
+            if 'outside_boundary_condition_object' in fields:
+                adjacent_by_surface[surface_name.upper()] = fields['outside_boundary_condition_object'].upper()
+        return adjacent_by_surface
+
+    def get_constructions_and_materials(self):
+        constructions_in = self.epjson_object['Construction']
+        materials_in = self.epjson_object['Material']
+        materials_no_mass_in = self.epjson_object['Material:NoMass']
+        constructions = {}
+        for construction_name, layer_dict in constructions_in.items():
+            materials = []
+            for layer_name, material_name in layer_dict.items():
+                if material_name in materials_in:
+                    material_in = materials_in[material_name]
+                    material = {
+                        'id': material_name,
+                        'thickness': material_in['thickness'],
+                        'thermal_conductivity': material_in['conductivity'],
+                        'density': material_in['density'],
+                        'specific_heat': material_in['specific_heat']
+                    }
+                    materials.append(material)
+                elif material_name in materials_no_mass_in:
+                    material_no_mass_in = materials_no_mass_in[material_name]
+                    material = {
+                        'id': material_name,
+                        'r_value': material_no_mass_in['thermal_resistance']
+                    }
+                    materials.append(material)
+            construction = {'id': construction_name,
+                            'surface_construction_input_option': 'LAYERS',
+                            'primary_layers': materials
+                            }
+            constructions[construction_name.upper()] = construction
+        return constructions
+
     def create_skeleton(self):
         self.building_segment = {'id': 'segment 1'}
 
@@ -199,16 +239,30 @@ class Translator:
                                 lights[space_name].append(light)
         return lights
 
-    # def gather_miscellaneous_equipment(self):
-    #     tabular_reports = self.json_results_object['TabularReports']
-    #     equipment = {}  # dictionary by space name containing the miscellaneous equipment
-    #     for tabular_report in tabular_reports:
-    #         if tabular_report['ReportName'] == 'InitializationSummary':
-    #             tables = tabular_report['Tables']
+    def gather_miscellaneous_equipment(self):
+        electric_equipments_in = self.epjson_object['ElectricEquipment']
+        gas_equipments_in = self.epjson_object['GasEquipment']
+        hot_water_equipments_in = self.epjson_object['HotWaterEquipment']
+        steam_equipments_in = self.epjson_object['SteamEquipment']
+        other_equipments_in = self.epjson_object['OtherEquipment']
+        info_equipments_in = self.epjson_object['ElectricEquipment:ITE:AirCooled']
+
+        miscellaneous_equipments_by_zone = {}  # dictionary by zone name containing a list of data groups for that zone
+        for equipment_name, equipment_dict in electric_equipments_in.items():
+            if 'design_level_calculation_method' in equipment_dict:
+                method = equipment_dict['design_level_calculation_method'].upper()
+                if method == 'WATTS/AREA':
+                    pass
+                equipment = {'id': equipment_name,
+                             'energy_type': 'ELECTRICITY'}
+
+
 
     def gather_surfaces(self):
         tabular_reports = self.json_results_object['TabularReports']
         surfaces = {}  # dictionary by zone name containing the surface data elements
+        constructions = self.get_constructions_and_materials()
+        # print(constructions)
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'EnvelopeSummary':
                 tables = tabular_report['Tables']
@@ -245,8 +299,16 @@ class Translator:
                                 'azimuth': azimuth,
                                 'adjacent_to': adjacent_to
                             }
+                            if not is_exterior:
+                                adjacent_surface = self.get_adjacent_surface_for_each_surface()
+                                if surface_name in adjacent_surface:
+                                    adjacent_surface = adjacent_surface[surface_name]
+                                    if adjacent_surface in self.surfaces_by_zone:
+                                        surface['adjacent_zone'] = self.surfaces_by_zone[adjacent_surface]
                             surfaces[surface_name] = surface
-        print(surfaces)
+                            if construction_name in constructions:
+                                surface['construction'] = constructions[construction_name]
+        # print(surfaces)
         return surfaces
 
     def process(self):
@@ -255,7 +317,7 @@ class Translator:
         # version_id = epjson['Version']['Version 1']['version_identifier']
         self.create_skeleton()
         self.surfaces_by_zone = self.get_zone_for_each_surface()
-        print(self.surfaces_by_zone)
+        # print(self.surfaces_by_zone)
         self.add_zones()
         self.add_spaces()
         check_validity = self.validator.validate_rmd(self.rmd)
