@@ -89,6 +89,23 @@ class Translator:
             constructions[construction_name.upper()] = construction
         return constructions
 
+    def gather_thermostat_setpoint_schedules(self):
+        zone_control_thermostats_in = self.epjson_object['ZoneControl:Thermostat']
+        thermostat_setpoint_dual_setpoints_in = self.epjson_object['ThermostatSetpoint:DualSetpoint']
+        setpoint_schedules_by_zone = {}
+        for zone_control_thermostat_names, zone_control_thermostat_in in zone_control_thermostats_in.items():
+            if 'zone_or_zonelist_name' in zone_control_thermostat_in:
+                zone_name = zone_control_thermostat_in['zone_or_zonelist_name']
+                if zone_control_thermostat_in['control_1_object_type'] == 'ThermostatSetpoint:DualSetpoint':
+                    thermostat_setpoint_dual_setpoint = \
+                        thermostat_setpoint_dual_setpoints_in[zone_control_thermostat_in['control_1_name']]
+                    cooling_schedule = thermostat_setpoint_dual_setpoint['cooling_setpoint_temperature_schedule_name']
+                    heating_schedule = thermostat_setpoint_dual_setpoint['heating_setpoint_temperature_schedule_name']
+                    setpoint_schedules_by_zone[zone_name.upper()] = {'cool': cooling_schedule,
+                                                                     'heat': heating_schedule}
+        # print(setpoint_schedules_by_zone)
+        return setpoint_schedules_by_zone
+
     def create_skeleton(self):
         self.building_segment = {'id': 'segment 1'}
 
@@ -109,6 +126,7 @@ class Translator:
         tabular_reports = self.json_results_object['TabularReports']
         zones = []
         surfaces_by_surface = self.gather_surfaces()
+        setpoint_schedules = self.gather_thermostat_setpoint_schedules()
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'Input Verification and Results Summary':
                 tables = tabular_report['Tables']
@@ -134,6 +152,9 @@ class Translator:
                             # 'maximum_humidity_setpoint_schedule': 'always_0_8',
                             # 'exhaust_airflow_rate_multiplier_schedule': 'always_1'}
                             zones.append(zone)
+                            if zone_name in setpoint_schedules:
+                                zone['thermostat_cooling_setpoint_schedule'] = setpoint_schedules[zone_name]['cool']
+                                zone['thermostat_heating_setpoint_schedule'] = setpoint_schedules[zone_name]['heat']
                             surfaces = []
                             for key, value in self.surfaces_by_zone.items():
                                 if zone_name == value:
@@ -255,13 +276,80 @@ class Translator:
                     pass
                 equipment = {'id': equipment_name,
                              'energy_type': 'ELECTRICITY'}
+                # STOPPED HERE
 
+    def gather_subsurface(self):
+        tabular_reports = self.json_results_object['TabularReports']
+        subsurface_by_surface = {}
+        for tabular_report in tabular_reports:
+            if tabular_report['ReportName'] == 'EnvelopeSummary':
+                tables = tabular_report['Tables']
+                for table in tables:
+                    if table['TableName'] == 'Exterior Fenestration':
+                        rows = table['Rows']
+                        fenestration_names = list(rows.keys())
+                        fenestration_names.remove('Non-North Total or Average')
+                        fenestration_names.remove('North Total or Average')
+                        fenestration_names.remove('Total or Average')
+                        cols = table['Cols']
+                        glass_area_column = cols.index('Glass Area [m2]')
+                        parent_surface_column = cols.index('Parent Surface')
+                        frame_area_column = cols.index('Frame Area [m2]')
+                        divider_area_column = cols.index('Divider Area [m2]')
+                        glass_u_factor_column = cols.index('Glass U-Factor [W/m2-K]')
+                        glass_shgc_column = cols.index('Glass SHGC')
+                        glass_visible_trans_column = cols.index('Glass Visible Transmittance')
+                        assembly_u_factor_column = cols.index('Assembly U-Factor [W/m2-K]')
+                        assembly_shgc_column = cols.index('Assembly SHGC')
+                        assembly_visible_trans_column = cols.index('Assembly Visible Transmittance')
+                        shade_control_column = cols.index('Shade Control')
+                        for fenestration_name in fenestration_names:
+                            glass_area = float(rows[fenestration_name][glass_area_column])
+                            parent_surface_name = rows[fenestration_name][parent_surface_column]
+                            frame_area = float(rows[fenestration_name][frame_area_column])
+                            divider_area = float(rows[fenestration_name][divider_area_column])
+                            glass_u_factor = float(rows[fenestration_name][glass_u_factor_column])
+                            glass_shgc = float(rows[fenestration_name][glass_shgc_column])
+                            glass_visible_trans = float(rows[fenestration_name][glass_visible_trans_column])
+                            assembly_u_factor_str = rows[fenestration_name][assembly_u_factor_column]
+                            assembly_shgc_str = rows[fenestration_name][assembly_shgc_column]
+                            assembly_visible_trans_str = rows[fenestration_name][assembly_visible_trans_column]
+                            if assembly_u_factor_str:
+                                u_factor = float(assembly_u_factor_str)
+                            else:
+                                u_factor = glass_u_factor
+                            if assembly_shgc_str:
+                                shgc = float(assembly_shgc_str)
+                            else:
+                                shgc = glass_shgc
+                            if assembly_visible_trans_str:
+                                visible_trans = float(assembly_visible_trans_str)
+                            else:
+                                visible_trans = glass_visible_trans
+                            shade_control = rows[fenestration_name][shade_control_column]
 
+                            subsurface = {
+                                'id': fenestration_name,
+                                'classification': 'WINDOW',
+                                'glazed_area': glass_area,
+                                'opaque_area': frame_area + divider_area,
+                                'u_factor': u_factor,
+                                'solar_heat_gain_coefficient': shgc,
+                                'visible_transmittance': visible_trans,
+                                'has_automatic_shades': shade_control == 'Yes'
+                            }
+                            if parent_surface_name not in subsurface_by_surface:
+                                subsurface_by_surface[parent_surface_name] = [subsurface, ]
+                            else:
+                                subsurface_by_surface[parent_surface_name].append(subsurface)
+        # print(subsurface_by_surface)
+        return subsurface_by_surface
 
     def gather_surfaces(self):
         tabular_reports = self.json_results_object['TabularReports']
         surfaces = {}  # dictionary by zone name containing the surface data elements
         constructions = self.get_constructions_and_materials()
+        subsurface_by_surface = self.gather_subsurface()
         # print(constructions)
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'EnvelopeSummary':
@@ -305,6 +393,8 @@ class Translator:
                                     adjacent_surface = adjacent_surface[surface_name]
                                     if adjacent_surface in self.surfaces_by_zone:
                                         surface['adjacent_zone'] = self.surfaces_by_zone[adjacent_surface]
+                            if surface_name in subsurface_by_surface:
+                                surface['subsurfaces'] = subsurface_by_surface[surface_name]
                             surfaces[surface_name] = surface
                             if construction_name in constructions:
                                 surface['construction'] = constructions[construction_name]
