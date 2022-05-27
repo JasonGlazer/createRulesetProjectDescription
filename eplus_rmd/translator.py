@@ -27,6 +27,7 @@ class Translator:
         self.building = {}
         self.building_segment = {}
         self.surfaces_by_zone = {}
+        self.schedules_used_names = []
 
     @staticmethod
     def validate_input_contents(input_json: Dict):
@@ -103,6 +104,8 @@ class Translator:
                     heating_schedule = thermostat_setpoint_dual_setpoint['heating_setpoint_temperature_schedule_name']
                     setpoint_schedules_by_zone[zone_name.upper()] = {'cool': cooling_schedule,
                                                                      'heat': heating_schedule}
+                    self.schedules_used_names.append(cooling_schedule)
+                    self.schedules_used_names.append(heating_schedule)
         # print(setpoint_schedules_by_zone)
         return setpoint_schedules_by_zone
 
@@ -253,6 +256,7 @@ class Translator:
                                      'are_schedules_used_for_modeling_occupancy_control': True,
                                      'are_schedules_used_for_modeling_daylighting_control': False
                                      }
+                            self.schedules_used_names.append(schedule_name)
                             # print(light)
                             if space_name not in lights:
                                 lights[space_name] = [light, ]
@@ -260,23 +264,22 @@ class Translator:
                                 lights[space_name].append(light)
         return lights
 
-    def gather_miscellaneous_equipment(self):
-        electric_equipments_in = self.epjson_object['ElectricEquipment']
-        gas_equipments_in = self.epjson_object['GasEquipment']
-        hot_water_equipments_in = self.epjson_object['HotWaterEquipment']
-        steam_equipments_in = self.epjson_object['SteamEquipment']
-        other_equipments_in = self.epjson_object['OtherEquipment']
-        info_equipments_in = self.epjson_object['ElectricEquipment:ITE:AirCooled']
-
-        miscellaneous_equipments_by_zone = {}  # dictionary by zone name containing a list of data groups for that zone
-        for equipment_name, equipment_dict in electric_equipments_in.items():
-            if 'design_level_calculation_method' in equipment_dict:
-                method = equipment_dict['design_level_calculation_method'].upper()
-                if method == 'WATTS/AREA':
-                    pass
-                equipment = {'id': equipment_name,
-                             'energy_type': 'ELECTRICITY'}
-                # STOPPED HERE
+    # def gather_miscellaneous_equipment(self):
+    #     electric_equipments_in = self.epjson_object['ElectricEquipment']
+    #     gas_equipments_in = self.epjson_object['GasEquipment']
+    #     hot_water_equipments_in = self.epjson_object['HotWaterEquipment']
+    #     steam_equipments_in = self.epjson_object['SteamEquipment']
+    #     other_equipments_in = self.epjson_object['OtherEquipment']
+    #     info_equipments_in = self.epjson_object['ElectricEquipment:ITE:AirCooled']
+    #
+    #     miscellaneous_equipments_by_zone = {}  # dictionary by zone name containing a list of data groups for that zone
+    #     for equipment_name, equipment_dict in electric_equipments_in.items():
+    #         if 'design_level_calculation_method' in equipment_dict:
+    #             method = equipment_dict['design_level_calculation_method'].upper()
+    #             if method == 'WATTS/AREA':
+    #                 pass
+    #             equipment = {'id': equipment_name,
+    #                          'energy_type': 'ELECTRICITY'}
 
     def gather_subsurface(self):
         tabular_reports = self.json_results_object['TabularReports']
@@ -401,6 +404,14 @@ class Translator:
         # print(surfaces)
         return surfaces
 
+    # def add_schedules(self):
+    #     schedule_compacts_in = self.epjson_object['Schedule:Compact']
+    #     unique_schedule_names_used = list(set(self.schedules_used_names))
+    #     print(unique_schedule_names_used)
+    #     for schedule_name, data in schedule_compacts_in.items():
+    #         if schedule_name in unique_schedule_names_used:
+    #             pass
+
     def process(self):
         epjson = self.epjson_object
         Translator.validate_input_contents(epjson)
@@ -410,6 +421,7 @@ class Translator:
         # print(self.surfaces_by_zone)
         self.add_zones()
         self.add_spaces()
+        # self.add_schedules()
         check_validity = self.validator.validate_rmd(self.rmd)
         if not check_validity['passed']:
             print(check_validity['error'])
