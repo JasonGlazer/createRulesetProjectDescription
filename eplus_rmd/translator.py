@@ -18,7 +18,7 @@ class Translator:
 
         self.output_file = OutputFile(epjson_file_path)
         self.rmd_file_path = self.output_file.rmd_file_path
-        print(f"Will write output file to {str(self.rmd_file_path)}")
+        print(f"Writing output file to {str(self.rmd_file_path)}")
 
         self.validator = Validator()
 
@@ -160,8 +160,6 @@ class Translator:
                                 cooling_design_day_option = 'COOLING_1_0'
                             elif '2%' in design_day_names or '2.0%' in design_day_names:
                                 cooling_design_day_option = 'COOLING_2_0'
-                        print(rows)
-
         weather = {
             'weather_file_name': weather_file,
             'data_source_type': 'OTHER',
@@ -172,6 +170,34 @@ class Translator:
         if heating_design_day_option:
             weather['heating_design_day_type'] = heating_design_day_option
         self.rmd['weather'] = weather
+
+    def add_exterior_lighting(self):
+        exterior_lightings = []
+        tabular_reports = self.json_results_object['TabularReports']
+        for tabular_report in tabular_reports:
+            if tabular_report['ReportName'] == 'LightingSummary':
+                tables = tabular_report['Tables']
+                for table in tables:
+                    if table['TableName'] == 'Exterior Lighting':
+                        rows = table['Rows']
+                        exterior_light_names = list(rows.keys())
+                        exterior_light_names.remove('Exterior Lighting Total')
+                        cols = table['Cols']
+                        total_watt_column = cols.index('Total Watts')
+                        schedule_column = cols.index('Schedule Name')
+                        type_column = cols.index('Astronomical Clock/Schedule')
+                        for exterior_light_name in exterior_light_names:
+                            exterior_light = {
+                                'id': exterior_light_name,
+                                'power': float(rows[exterior_light_name][total_watt_column]),
+                            }
+                            if rows[exterior_light_name][type_column] == 'AstronomicalClock':
+                                exterior_light['multiplier_schedule'] = 'uses_astronomical_clock_not_schedule'
+                            else:
+                                if rows[exterior_light_name][schedule_column] != '-':
+                                    exterior_light['multiplier_schedule'] = rows[exterior_light_name][schedule_column]
+                            exterior_lightings.append(exterior_light)
+        self.building['exterior_lighting'] = exterior_lightings
 
     def add_zones(self):
         tabular_reports = self.json_results_object['TabularReports']
@@ -476,6 +502,7 @@ class Translator:
         # print(self.surfaces_by_zone)
         self.add_zones()
         self.add_spaces()
+        self.add_exterior_lighting()
         # self.add_schedules()
         check_validity = self.validator.validate_rmd(self.rmd)
         if not check_validity['passed']:
