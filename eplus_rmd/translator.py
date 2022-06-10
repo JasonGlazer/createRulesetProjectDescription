@@ -130,6 +130,8 @@ class Translator:
         tabular_reports = self.json_results_object['TabularReports']
         weather_file = ''
         climate_zone = ''
+        heating_design_day_option = ''
+        cooling_design_day_option = ''
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'Input Verification and Results Summary':
                 tables = tabular_report['Tables']
@@ -145,12 +147,30 @@ class Translator:
                         climate_zone = rows['ASHRAE Climate Zone'][0]
                         if climate_zone:
                             climate_zone = 'CZ' + climate_zone
+                    if table['TableName'] == 'SizingPeriod:DesignDay':
+                        rows = table['Rows']
+                        for design_day_names in rows.keys():
+                            if '99.6%' in design_day_names:
+                                heating_design_day_option = 'HEATING_99_6'
+                            elif '99%' in design_day_names or '99.0%' in design_day_names:
+                                heating_design_day_option = 'HEATING_99_0'
+                            elif '.4%' in design_day_names:
+                                cooling_design_day_option = 'COOLING_0_4'
+                            elif '1%' in design_day_names or '1.0%' in design_day_names:
+                                cooling_design_day_option = 'COOLING_1_0'
+                            elif '2%' in design_day_names or '2.0%' in design_day_names:
+                                cooling_design_day_option = 'COOLING_2_0'
+                        print(rows)
 
         weather = {
             'weather_file_name': weather_file,
             'data_source_type': 'OTHER',
             'climate_zone': climate_zone
         }
+        if cooling_design_day_option:
+            weather['cooling_design_day_type'] = cooling_design_day_option
+        if heating_design_day_option:
+            weather['heating_design_day_type'] = heating_design_day_option
         self.rmd['weather'] = weather
 
     def add_zones(self):
@@ -435,7 +455,7 @@ class Translator:
 
     def gather_infiltration(self):
         infiltration_by_zone = {}
-        
+
         return infiltration_by_zone
 
     # def add_schedules(self):
