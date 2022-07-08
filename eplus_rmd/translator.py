@@ -15,6 +15,8 @@ class Translator:
         self.epjson_object = self.input_file.epjson_object
         self.json_results_object = self.input_file.json_results_object
         print(f"Reading EnergyPlus results JSON file: {str(self.input_file.json_results_input_path)}")
+        self.json_hourly_results_object = self.input_file.json_hourly_results_object
+        print(f"Reading EnergyPlus hourly results JSON file: {str(self.input_file.json_hourly_results_input_path)}")
 
         self.output_file = OutputFile(epjson_file_path)
         self.rmd_file_path = self.output_file.rmd_file_path
@@ -484,13 +486,34 @@ class Translator:
 
         return infiltration_by_zone
 
-    # def add_schedules(self):
-    #     schedule_compacts_in = self.epjson_object['Schedule:Compact']
-    #     unique_schedule_names_used = list(set(self.schedules_used_names))
-    #     print(unique_schedule_names_used)
-    #     for schedule_name, data in schedule_compacts_in.items():
-    #         if schedule_name in unique_schedule_names_used:
-    #             pass
+    def add_schedules(self):
+        unique_schedule_names_used = list(set(self.schedules_used_names))
+        unique_schedule_names_used = [name.upper() for name in unique_schedule_names_used]
+        output_variables = self.json_hourly_results_object['Cols']
+        selected_names = {}
+        for count, output_variable in enumerate(output_variables):
+            output_variable_name  = output_variable['Variable'].replace(':Schedule Value','')
+            if output_variable_name in unique_schedule_names_used:
+                selected_names[output_variable_name] = count
+        # print(selected_names)
+        rows = self.json_hourly_results_object['Rows']
+        schedules = []
+        for schedule_name, count in selected_names.items():
+            hourly = []
+            for row in rows:
+                timestamp = list(row.keys())[0]
+                values_at_time_step = row[timestamp]
+                hourly.append(values_at_time_step[count])
+            if len(hourly) != 8760:
+                print(f'The hourly schedule: {schedule_name} does not have 8760 values as expected. '
+                      f'Only {len(hourly)} values found')
+            schedule = {
+                'id': schedule_name,
+                'schedule_sequence_type': 'HOURLY',
+                'hourly_values': hourly
+            }
+            schedules.append(schedule)
+        self.instance['schedules'] = schedules
 
     def process(self):
         epjson = self.epjson_object
@@ -503,7 +526,7 @@ class Translator:
         self.add_zones()
         self.add_spaces()
         self.add_exterior_lighting()
-        # self.add_schedules()
+        self.add_schedules()
         check_validity = self.validator.validate_rmd(self.rmd)
         if not check_validity['passed']:
             print(check_validity['error'])
