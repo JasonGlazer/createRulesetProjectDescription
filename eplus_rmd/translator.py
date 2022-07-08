@@ -204,7 +204,7 @@ class Translator:
         zones = []
         surfaces_by_surface = self.gather_surfaces()
         setpoint_schedules = self.gather_thermostat_setpoint_schedules()
-        infiltration_by_zone = self.gather_infiltration()
+        #  infiltration_by_zone = self.gather_infiltration()
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'Input Verification and Results Summary':
                 tables = tabular_report['Tables']
@@ -347,7 +347,7 @@ class Translator:
     #     other_equipments_in = self.epjson_object['OtherEquipment']
     #     info_equipments_in = self.epjson_object['ElectricEquipment:ITE:AirCooled']
     #
-    #     miscellaneous_equipments_by_zone = {}  # dictionary by zone name containing a list of data groups for that zone
+    #     miscellaneous_equipments_by_zone = {}  # dictionary by zone name containing list of data groups for that zone
     #     for equipment_name, equipment_dict in electric_equipments_in.items():
     #         if 'design_level_calculation_method' in equipment_dict:
     #             method = equipment_dict['design_level_calculation_method'].upper()
