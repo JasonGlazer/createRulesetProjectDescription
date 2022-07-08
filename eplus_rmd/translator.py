@@ -492,7 +492,7 @@ class Translator:
         output_variables = self.json_hourly_results_object['Cols']
         selected_names = {}
         for count, output_variable in enumerate(output_variables):
-            output_variable_name  = output_variable['Variable'].replace(':Schedule Value','')
+            output_variable_name = output_variable['Variable'].replace(':Schedule Value', '')
             if output_variable_name in unique_schedule_names_used:
                 selected_names[output_variable_name] = count
         # print(selected_names)
