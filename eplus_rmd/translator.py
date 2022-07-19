@@ -206,7 +206,7 @@ class Translator:
         zones = []
         surfaces_by_surface = self.gather_surfaces()
         setpoint_schedules = self.gather_thermostat_setpoint_schedules()
-        #  infiltration_by_zone = self.gather_infiltration()
+        infiltration_by_zone = self.gather_infiltration()
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'Input Verification and Results Summary':
                 tables = tabular_report['Tables']
@@ -483,6 +483,33 @@ class Translator:
 
     def gather_infiltration(self):
         infiltration_by_zone = {}
+        tabular_reports = self.json_results_object['TabularReports']
+        for tabular_report in tabular_reports:
+            if tabular_report['ReportName'] == 'InitializationSummary':
+                tables = tabular_report['Tables']
+                for table in tables:
+                    if table['TableName'] == 'ZoneInfiltration Airflow Stats Nominal':
+                        print(table)
+                        rows = table['Rows']
+                        row_keys = list(rows.keys())
+                        cols = table['Cols']
+                        infiltration_name_column = cols.index('Name')
+                        zone_name_column = cols.index('Zone Name')
+                        design_volume_flow_rate_column = cols.index('Design Volume Flow Rate {m3/s}')
+                        schedule_name_column = cols.index('Schedule Name')
+                        for row_key in row_keys:
+                            infiltration_name = rows[row_key][infiltration_name_column]
+                            zone_name = rows[row_key][zone_name_column]
+                            design_volumn_flow_rate = float(rows[row_key][design_volume_flow_rate_column])
+                            schedule_name = rows[row_key][schedule_name_column]
+                            infiltration = {
+                                'id': infiltration_name,
+                                'modeling_method': 'WEATHER_DRIVEN',
+                                'algorithm_name': 'ZoneInfiltration',
+                                'infiltration_flow_rate': design_volumn_flow_rate,
+                                'multiplier_schedule': schedule_name
+                            }
+                            print(infiltration)
 
         return infiltration_by_zone
 
