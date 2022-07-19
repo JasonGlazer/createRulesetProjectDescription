@@ -510,7 +510,7 @@ class Translator:
                             if construction_name in constructions:
                                 surface['construction'] = constructions[construction_name]
                                 surface['construction']['u_factor'] = u_factor_with_film
-                                # print(surfaces)
+        # print(surfaces)
         return surfaces
 
     def gather_infiltration(self):
