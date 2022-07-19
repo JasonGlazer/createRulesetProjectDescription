@@ -477,6 +477,7 @@ class Translator:
                             azimuth = float(rows[surface_name][azimuth_column])
                             tilt = float(rows[surface_name][tilt_column])
                             u_factor_with_film_string = rows[surface_name][u_factor_with_film_column]
+                            u_factor_with_film = 0
                             if u_factor_with_film_string:
                                 u_factor_with_film = float(u_factor_with_film_string)
                             if tilt > 120:
@@ -508,7 +509,8 @@ class Translator:
                             surfaces[surface_name] = surface
                             if construction_name in constructions:
                                 surface['construction'] = constructions[construction_name]
-                                surface['construction']['u_factor'] = u_factor_with_film
+                                if u_factor_with_film_string:
+                                    surface['construction']['u_factor'] = u_factor_with_film
         # print(surfaces)
         return surfaces
 
