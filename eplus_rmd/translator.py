@@ -135,7 +135,7 @@ class Translator:
         heating_design_day_option = ''
         cooling_design_day_option = ''
         for tabular_report in tabular_reports:
-            if tabular_report['ReportName'] == 'Input Verification and Results Summary':
+            if tabular_report['ReportName'] == 'InputVerificationandResultsSummary':
                 tables = tabular_report['Tables']
                 for table in tables:
                     if table['TableName'] == 'General':
@@ -208,7 +208,7 @@ class Translator:
         setpoint_schedules = self.gather_thermostat_setpoint_schedules()
         infiltration_by_zone = self.gather_infiltration()
         for tabular_report in tabular_reports:
-            if tabular_report['ReportName'] == 'Input Verification and Results Summary':
+            if tabular_report['ReportName'] == 'InputVerificationandResultsSummary':
                 tables = tabular_report['Tables']
                 for table in tables:
                     if table['TableName'] == 'Zone Summary':
@@ -241,6 +241,8 @@ class Translator:
                                     if key in surfaces_by_surface:
                                         surfaces.append(surfaces_by_surface[key])
                             zone['surfaces'] = surfaces
+                            if zone_name in infiltration_by_zone:
+                                zone['infiltration'] = infiltration_by_zone[zone_name]
                 break
         self.building_segment['zones'] = zones
 
@@ -249,7 +251,7 @@ class Translator:
         spaces = {}
         lights_by_space = self.gather_interior_lighting()
         for tabular_report in tabular_reports:
-            if tabular_report['ReportName'] == 'Input Verification and Results Summary':
+            if tabular_report['ReportName'] == 'InputVerificationandResultsSummary':
                 tables = tabular_report['Tables']
                 for table in tables:
                     if table['TableName'] == 'Space Summary':
@@ -489,7 +491,6 @@ class Translator:
                 tables = tabular_report['Tables']
                 for table in tables:
                     if table['TableName'] == 'ZoneInfiltration Airflow Stats Nominal':
-                        print(table)
                         rows = table['Rows']
                         row_keys = list(rows.keys())
                         cols = table['Cols']
@@ -509,8 +510,9 @@ class Translator:
                                 'infiltration_flow_rate': design_volumn_flow_rate,
                                 'multiplier_schedule': schedule_name
                             }
-                            print(infiltration)
-
+                            self.schedules_used_names.append(schedule_name)
+                            # print(infiltration)
+                            infiltration_by_zone[zone_name.upper()] = infiltration
         return infiltration_by_zone
 
     def add_schedules(self):
