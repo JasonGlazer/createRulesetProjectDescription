@@ -131,7 +131,6 @@ class Translator:
         # print(people_schedule_by_zone)
         return people_schedule_by_zone
 
-
     def create_skeleton(self):
         self.building_segment = {'id': 'segment 1'}
 
