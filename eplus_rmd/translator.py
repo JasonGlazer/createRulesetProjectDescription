@@ -297,7 +297,8 @@ class Translator:
                             else:
                                 people = 0
                             space = {'id': space_name, 'floor_area': floor_area,
-                                     'number_of_occupants': round(people, 2)}
+                                     'number_of_occupants': round(people, 2),
+                                     'lighting_space_type': 'OFFICE_ENCLOSED'}
                             if zone_name in people_schedule_by_zone:
                                 space['occupant_multiplier_schedule'] = people_schedule_by_zone[zone_name]
                             if space_name in lights_by_space:
@@ -470,11 +471,15 @@ class Translator:
                         gross_area_column = cols.index('Gross Area [m2]')
                         azimuth_column = cols.index('Azimuth [deg]')
                         tilt_column = cols.index('Tilt [deg]')
+                        u_factor_with_film_column = cols.index('U-Factor with Film [W/m2-K]')
                         for surface_name in surface_names:
                             construction_name = rows[surface_name][construction_name_column]
                             gross_area = float(rows[surface_name][gross_area_column])
                             azimuth = float(rows[surface_name][azimuth_column])
                             tilt = float(rows[surface_name][tilt_column])
+                            u_factor_with_film_string = rows[surface_name][u_factor_with_film_column]
+                            if u_factor_with_film_string:
+                                u_factor_with_film = float(u_factor_with_film_string)
                             if tilt > 120:
                                 surface_classification = 'FLOOR'
                             elif tilt >= 60:
@@ -504,7 +509,8 @@ class Translator:
                             surfaces[surface_name] = surface
                             if construction_name in constructions:
                                 surface['construction'] = constructions[construction_name]
-        # print(surfaces)
+                                surface['construction']['u_factor'] = u_factor_with_film
+                                # print(surfaces)
         return surfaces
 
     def gather_infiltration(self):
