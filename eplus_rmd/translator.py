@@ -111,6 +111,27 @@ class Translator:
         # print(setpoint_schedules_by_zone)
         return setpoint_schedules_by_zone
 
+    def gather_people_schedule_by_zone(self):
+        people_schedule_by_zone = {}
+        tabular_reports = self.json_results_object['TabularReports']
+        for tabular_report in tabular_reports:
+            if tabular_report['ReportName'] == 'InitializationSummary':
+                tables = tabular_report['Tables']
+                for table in tables:
+                    if table['TableName'] == 'People Internal Gains Nominal':
+                        rows = table['Rows']
+                        row_keys = list(rows.keys())
+                        cols = table['Cols']
+                        zone_name_column = cols.index('Zone Name')
+                        schedule_name_column = cols.index('Schedule Name')
+                        for row_key in row_keys:
+                            zone_name = rows[row_key][zone_name_column]
+                            schedule_name = rows[row_key][schedule_name_column]
+                            people_schedule_by_zone[zone_name.upper()] = schedule_name
+        # print(people_schedule_by_zone)
+        return people_schedule_by_zone
+
+
     def create_skeleton(self):
         self.building_segment = {'id': 'segment 1'}
 
@@ -250,6 +271,7 @@ class Translator:
         tabular_reports = self.json_results_object['TabularReports']
         spaces = {}
         lights_by_space = self.gather_interior_lighting()
+        people_schedule_by_zone = self.gather_people_schedule_by_zone()
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'InputVerificationandResultsSummary':
                 tables = tabular_report['Tables']
@@ -269,17 +291,19 @@ class Translator:
                         for space_name in space_names:
                             floor_area = float(rows[space_name][area_column])
                             people_density = float(rows[space_name][people_density_column])
+                            zone_name = rows[space_name][zone_name_column]
                             if people_density > 0:
                                 people = floor_area / people_density
                             else:
                                 people = 0
                             space = {'id': space_name, 'floor_area': floor_area,
-                                     'number_of_occupants': round(people, 2),
-                                     'occupant_multiplier_schedule': 'always_1'}
+                                     'number_of_occupants': round(people, 2)}
+                            if zone_name in people_schedule_by_zone:
+                                space['occupant_multiplier_schedule'] = people_schedule_by_zone[zone_name]
                             if space_name in lights_by_space:
                                 space['interior_lighting'] = lights_by_space[space_name]
                             # print(space, rows[space_name][zone_name_column])
-                            spaces[rows[space_name][zone_name_column]] = space
+                            spaces[zone_name] = space
         # insert the space into the corresponding Zone
         for zone in self.building_segment['zones']:
             zone['spaces'] = []
