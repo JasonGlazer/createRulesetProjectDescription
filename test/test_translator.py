@@ -32,6 +32,12 @@ class TestTranslator(TestCase):
                 "TabularReports": ""
             }
         ))
+        hourly_result_file = self.run_dir_path / 'inout_hourly.json'
+        hourly_result_file.write_text(dumps(
+            {
+                "Cols": []
+            }
+        ))
         t = Translator(input_file_path)
         t.process()
         written_json = loads(output_file_path.read_text())
@@ -49,6 +55,13 @@ class TestTranslator(TestCase):
         output_file_path.write_text(dumps(
             {
                 "TabularReports": ""
+            }
+        ))
+
+        hourly_result_file = self.run_dir_path / 'inout_hourly.json'
+        hourly_result_file.write_text(dumps(
+            {
+                "Cols": []
             }
         ))
 

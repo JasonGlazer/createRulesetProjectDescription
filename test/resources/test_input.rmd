@@ -15,9 +15,16 @@
               "zones": []
             }
           ],
-          "building_open_schedule": "always_1"
+          "building_open_schedule": "always_1",
+          "exterior_lighting": []
         }
-      ]
+      ],
+      "schedules": []
     }
-  ]
+  ],
+  "weather": {
+    "weather_file_name": "",
+    "data_source_type": "OTHER",
+    "climate_zone": ""
+  }
 }

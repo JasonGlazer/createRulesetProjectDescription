@@ -45,11 +45,12 @@ class Translator:
         return list(building_input.keys())[0]
 
     def get_zone_for_each_surface(self):
-        building_surface_detailed = self.epjson_object['BuildingSurface:Detailed']
         surfaces_to_zone = {}
-        for surface_name, fields in building_surface_detailed.items():
-            if 'zone_name' in fields:
-                surfaces_to_zone[surface_name.upper()] = fields['zone_name'].upper()
+        if 'BuildingSurface:Detailed' in self.epjson_object:
+            building_surface_detailed = self.epjson_object['BuildingSurface:Detailed']
+            for surface_name, fields in building_surface_detailed.items():
+                if 'zone_name' in fields:
+                    surfaces_to_zone[surface_name.upper()] = fields['zone_name'].upper()
         return surfaces_to_zone
 
     def get_adjacent_surface_for_each_surface(self):
@@ -61,9 +62,15 @@ class Translator:
         return adjacent_by_surface
 
     def get_constructions_and_materials(self):
-        constructions_in = self.epjson_object['Construction']
-        materials_in = self.epjson_object['Material']
-        materials_no_mass_in = self.epjson_object['Material:NoMass']
+        constructions_in = {}
+        if 'Construction' in self.epjson_object:
+            constructions_in = self.epjson_object['Construction']
+        materials_in = {}
+        if 'Material' in self.epjson_object:
+            materials_in = self.epjson_object['Material']
+        materials_no_mass_in = {}
+        if 'Material:NoMass' in self.epjson_object:
+            materials_no_mass_in = self.epjson_object['Material:NoMass']
         constructions = {}
         for construction_name, layer_dict in constructions_in.items():
             materials = []
@@ -93,8 +100,12 @@ class Translator:
         return constructions
 
     def gather_thermostat_setpoint_schedules(self):
-        zone_control_thermostats_in = self.epjson_object['ZoneControl:Thermostat']
-        thermostat_setpoint_dual_setpoints_in = self.epjson_object['ThermostatSetpoint:DualSetpoint']
+        zone_control_thermostats_in = {}
+        if 'ZoneControl:Thermostat' in self.epjson_object:
+            zone_control_thermostats_in = self.epjson_object['ZoneControl:Thermostat']
+        thermostat_setpoint_dual_setpoints_in = {}
+        if 'ThermostatSetpoint:DualSetpoint' in self.epjson_object:
+            thermostat_setpoint_dual_setpoints_in = self.epjson_object['ThermostatSetpoint:DualSetpoint']
         setpoint_schedules_by_zone = {}
         for zone_control_thermostat_names, zone_control_thermostat_in in zone_control_thermostats_in.items():
             if 'zone_or_zonelist_name' in zone_control_thermostat_in:
@@ -549,14 +560,18 @@ class Translator:
     def add_schedules(self):
         unique_schedule_names_used = list(set(self.schedules_used_names))
         unique_schedule_names_used = [name.upper() for name in unique_schedule_names_used]
-        output_variables = self.json_hourly_results_object['Cols']
+        output_variables = {}
+        if 'Cols' in self.json_hourly_results_object:
+            output_variables = self.json_hourly_results_object['Cols']
         selected_names = {}
         for count, output_variable in enumerate(output_variables):
             output_variable_name = output_variable['Variable'].replace(':Schedule Value', '')
             if output_variable_name in unique_schedule_names_used:
                 selected_names[output_variable_name] = count
         # print(selected_names)
-        rows = self.json_hourly_results_object['Rows']
+        rows = {}
+        if 'Rows' in self.json_hourly_results_object:
+            rows = self.json_hourly_results_object['Rows']
         schedules = []
         for schedule_name, count in selected_names.items():
             hourly = []
