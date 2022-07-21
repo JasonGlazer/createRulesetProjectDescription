@@ -161,4 +161,68 @@ class TestTranslator(TestCase):
         t.add_schedules()
         self.assertEqual(t.instance['schedules'], instance)
 
+    def test_add_schedules_5(self):
+        t = self.set_minimal_files()
+        t.schedules_used_names = ['ONLY-SCHEDULE', ]
+        t.json_hourly_results_object = (
+            {
+                'Cols': [
+                    {"Variable": "ONLY-SCHEDULE:Schedule Value"},
+                ],
+                'Rows': [
+                    {"01/01 01:00:00": [1, ]},
+                    {"01/01 02:00:00": [2, ]},
+                    {"01/01 03:00:00": [3, ]},
+                    {"01/01 04:00:00": [4, ]},
+                    {"01/01 05:00:00": [5, ]}
+                ]
+            }
+        )
+        instance = [
+            {
+                'id': 'ONLY-SCHEDULE',
+                'schedule_sequence_type': 'HOURLY',
+                'hourly_values': [1, 2, 3, 4, 5]
+            }
+        ]
+        t.add_schedules()
+        self.assertEqual(t.instance['schedules'], instance)
 
+    def test_add_schedules_3_5(self):
+        t = self.set_minimal_files()
+        t.schedules_used_names = ['ONE-SCHEDULE', 'TWO-SCHEDULE', 'THREE-SCHEDULE']
+        t.json_hourly_results_object = (
+            {
+                'Cols': [
+                    {"Variable": "ONE-SCHEDULE:Schedule Value"},
+                    {"Variable": "TWO-SCHEDULE:Schedule Value"},
+                    {"Variable": "THREE-SCHEDULE:Schedule Value"},
+                ],
+                'Rows': [
+                    {"01/01 01:00:00": [1, 11, 21 ]},
+                    {"01/01 02:00:00": [2, 12, 22]},
+                    {"01/01 03:00:00": [3, 13, 23]},
+                    {"01/01 04:00:00": [4, 14, 24]},
+                    {"01/01 05:00:00": [5, 15, 25]}
+                ]
+            }
+        )
+        instance = [
+            {
+                'id': 'ONE-SCHEDULE',
+                'schedule_sequence_type': 'HOURLY',
+                'hourly_values': [1, 2, 3, 4, 5]
+            },
+            {
+                'id': 'TWO-SCHEDULE',
+                'schedule_sequence_type': 'HOURLY',
+                'hourly_values': [11, 12, 13, 14, 15]
+            },
+            {
+                'id': 'THREE-SCHEDULE',
+                'schedule_sequence_type': 'HOURLY',
+                'hourly_values': [21, 22, 23, 24, 25]
+            }
+        ]
+        t.add_schedules()
+        self.assertEqual(t.instance['schedules'], instance)
