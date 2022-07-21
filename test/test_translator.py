@@ -226,3 +226,97 @@ class TestTranslator(TestCase):
         ]
         t.add_schedules()
         self.assertEqual(t.instance['schedules'], instance)
+
+    def test_gather_infiltration(self):
+        t = self.set_minimal_files()
+        t.json_results_object['TabularReports'] = \
+            [
+                {'For': 'Entire Facility', 'ReportName': 'InitializationSummary',
+                 'Tables': [
+                     {'Cols':
+                          ['Name',
+                           'Schedule Name',
+                           'Zone Name',
+                           'Zone Floor Area {m2}',
+                           '# Zone Occupants',
+                           'Design Volume Flow Rate {m3/s}'],
+                      'Rows':
+                          {'1':
+                               ['ATTIC_INFILTRATION',
+                                'ALWAYS_ON',
+                                'ATTIC',
+                                '567.98',
+                                '0.0',
+                                '0.200'
+                                ],
+                           '3':
+                               ['PERIMETER_ZN_1_INFILTRATION',
+                                'INFIL_QUARTER_ON_SCH',
+                                'PERIMETER_ZN_1',
+                                '113.45',
+                                '6.8',
+                                '4.805E-002'
+                                ],
+                           '4':
+                               ['PERIMETER_ZN_2_INFILTRATION',
+                                'INFIL_QUARTER_ON_SCH',
+                                'PERIMETER_ZN_2',
+                                '67.30',
+                                '4.1',
+                                '3.203E-002'
+                                ],
+                           '5':
+                               ['PERIMETER_ZN_3_INFILTRATION',
+                                'INFIL_QUARTER_ON_SCH',
+                                'PERIMETER_ZN_3',
+                                '113.45',
+                                '6.8',
+                                '4.805E-002'
+                                ],
+                           '6':
+                               ['PERIMETER_ZN_4_INFILTRATION',
+                                'INFIL_QUARTER_ON_SCH',
+                                'PERIMETER_ZN_4',
+                                '67.30',
+                                '4.1',
+                                '3.203E-002'
+                                ]
+                           },
+                      'TableName': 'ZoneInfiltration Airflow Stats Nominal'},
+                 ],
+                 }
+            ]
+        gathered_infiltration = t.gather_infiltration()
+        expected = {'ATTIC':
+                        {'id': 'ATTIC_INFILTRATION',
+                         'modeling_method': 'WEATHER_DRIVEN',
+                         'algorithm_name': 'ZoneInfiltration',
+                         'infiltration_flow_rate': 0.2,
+                         'multiplier_schedule': 'ALWAYS_ON'},
+                    'PERIMETER_ZN_1':
+                        {'id': 'PERIMETER_ZN_1_INFILTRATION',
+                         'modeling_method': 'WEATHER_DRIVEN',
+                         'algorithm_name': 'ZoneInfiltration',
+                         'infiltration_flow_rate': 0.04805,
+                         'multiplier_schedule': 'INFIL_QUARTER_ON_SCH'},
+                    'PERIMETER_ZN_2':
+                        {'id': 'PERIMETER_ZN_2_INFILTRATION',
+                         'modeling_method': 'WEATHER_DRIVEN',
+                         'algorithm_name': 'ZoneInfiltration',
+                         'infiltration_flow_rate': 0.03203,
+                         'multiplier_schedule': 'INFIL_QUARTER_ON_SCH'},
+                    'PERIMETER_ZN_3':
+                        {'id': 'PERIMETER_ZN_3_INFILTRATION',
+                         'modeling_method': 'WEATHER_DRIVEN',
+                         'algorithm_name': 'ZoneInfiltration',
+                         'infiltration_flow_rate': 0.04805,
+                         'multiplier_schedule': 'INFIL_QUARTER_ON_SCH'},
+                    'PERIMETER_ZN_4':
+                        {'id': 'PERIMETER_ZN_4_INFILTRATION',
+                         'modeling_method': 'WEATHER_DRIVEN',
+                         'algorithm_name': 'ZoneInfiltration',
+                         'infiltration_flow_rate': 0.03203,
+                         'multiplier_schedule': 'INFIL_QUARTER_ON_SCH'}
+                    }
+
+        self.assertEqual(gathered_infiltration, expected)
