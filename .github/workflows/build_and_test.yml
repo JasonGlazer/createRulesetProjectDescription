@@ -13,7 +13,7 @@ jobs:
         include:
           - os: ubuntu-20.04
             pip_arg: ""
-          - os: macos-10.15
+          - os: macos-11
             pip_arg: ""
           - os: windows-2019
             pip_arg: --user
