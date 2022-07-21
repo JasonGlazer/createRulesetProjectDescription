@@ -32,6 +32,12 @@ class TestInputFile(TestCase):
                 "out": 7
             }
         ))
+        hourly_result_file = self.run_dir_path / 'realout_hourly.json'
+        hourly_result_file.write_text(dumps(
+            {
+                "Cols": []
+            }
+        ))
         i = InputFile(real_file)
         self.assertIn('Version', i.epjson_object)
 
