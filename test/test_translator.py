@@ -104,3 +104,61 @@ class TestTranslator(TestCase):
         t.process()
         written_json = loads(output_file_path.read_text())
         self.assertIn('TabularReports', written_json)
+
+    def set_minimal_files(self):
+        input_file_path = self.run_dir_path / 'in.epJSON'
+        input_file_path.write_text(dumps(
+            {
+                "Version": {
+                    "Version 1": {
+                        "version_identifier": "22.1"
+                    }
+                },
+                "Building": {
+                    "OfficeSmall": {
+                        "loads_convergence_tolerance_value": 0.04
+                    }
+                }
+            }
+        ))
+        output_file_path = self.run_dir_path / 'inout.json'
+        output_file_path.write_text(dumps(
+            {
+                "TabularReports": ""
+            }
+        ))
+        hourly_result_file = self.run_dir_path / 'inout_hourly.json'
+        hourly_result_file.write_text(dumps(
+            {
+                "Cols": []
+            }
+        ))
+        t = Translator(input_file_path)
+        return t
+
+    def test_add_schedules(self):
+        t = self.set_minimal_files()
+        t.schedules_used_names = ['ONLY-SCHEDULE',]
+        t.json_hourly_results_object = (
+            {
+                'Cols': [
+                    {"Variable": "ONLY-SCHEDULE:Schedule Value"},
+                ],
+                'Rows': [
+                    {
+                        "01/01 01:00:00": [ 1, ]
+                    }
+                ]
+            }
+        )
+        instance = [
+            {
+                'id': 'ONLY-SCHEDULE',
+                'schedule_sequence_type': 'HOURLY',
+                'hourly_values': [1]
+             }
+        ]
+        t.add_schedules()
+        self.assertEqual(t.instance['schedules'], instance)
+
+
