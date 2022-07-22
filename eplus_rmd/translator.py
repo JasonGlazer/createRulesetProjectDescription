@@ -405,9 +405,12 @@ class Translator:
                     if table['TableName'] == 'Exterior Fenestration':
                         rows = table['Rows']
                         fenestration_names = list(rows.keys())
-                        fenestration_names.remove('Non-North Total or Average')
-                        fenestration_names.remove('North Total or Average')
-                        fenestration_names.remove('Total or Average')
+                        if 'Non-North Total or Average' in fenestration_names:
+                            fenestration_names.remove('Non-North Total or Average')
+                        if 'North Total or Average' in fenestration_names:
+                            fenestration_names.remove('North Total or Average')
+                        if 'Total or Average' in fenestration_names:
+                            fenestration_names.remove('Total or Average')
                         cols = table['Cols']
                         glass_area_column = cols.index('Glass Area [m2]')
                         parent_surface_column = cols.index('Parent Surface')
