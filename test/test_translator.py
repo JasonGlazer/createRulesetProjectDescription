@@ -138,7 +138,7 @@ class TestTranslator(TestCase):
 
     def test_add_schedules(self):
         t = self.set_minimal_files()
-        t.schedules_used_names = ['ONLY-SCHEDULE',]
+        t.schedules_used_names = ['ONLY-SCHEDULE', ]
         t.json_hourly_results_object = (
             {
                 'Cols': [
@@ -146,7 +146,7 @@ class TestTranslator(TestCase):
                 ],
                 'Rows': [
                     {
-                        "01/01 01:00:00": [ 1, ]
+                        "01/01 01:00:00": [1, ]
                     }
                 ]
             }
@@ -156,7 +156,7 @@ class TestTranslator(TestCase):
                 'id': 'ONLY-SCHEDULE',
                 'schedule_sequence_type': 'HOURLY',
                 'hourly_values': [1]
-             }
+            }
         ]
         t.add_schedules()
         self.assertEqual(t.instance['schedules'], instance)
@@ -199,7 +199,7 @@ class TestTranslator(TestCase):
                     {"Variable": "THREE-SCHEDULE:Schedule Value"},
                 ],
                 'Rows': [
-                    {"01/01 01:00:00": [1, 11, 21 ]},
+                    {"01/01 01:00:00": [1, 11, 21]},
                     {"01/01 02:00:00": [2, 12, 22]},
                     {"01/01 03:00:00": [3, 13, 23]},
                     {"01/01 04:00:00": [4, 14, 24]},
@@ -504,9 +504,8 @@ class TestTranslator(TestCase):
                               '90.00',
                               'E']},
                       'TableName': 'Exterior Fenestration'},
-                     ]}
+                 ]}
         ]
-
 
         gathered_subsurface_by_surface = t.gather_subsurface()
 
@@ -672,13 +671,64 @@ class TestTranslator(TestCase):
 
         gathered_lights = t.gather_interior_lighting()
 
-        expected = { 'PERIMETER_ZN_1' :
-            [{'id': 'PERIMETER_ZN_1_LIGHTS',
-              'power_per_area': 6.8889,
-              'lighting_multiplier_schedule': 'BLDG_LIGHT_SCH',
-              'daylighting_control_type': 'CONTINUOUS_DIMMING',
-              'are_schedules_used_for_modeling_occupancy_control': True,
-              'are_schedules_used_for_modeling_daylighting_control': False}]
-        }
+        expected = {'PERIMETER_ZN_1':
+                        [{'id': 'PERIMETER_ZN_1_LIGHTS',
+                          'power_per_area': 6.8889,
+                          'lighting_multiplier_schedule': 'BLDG_LIGHT_SCH',
+                          'daylighting_control_type': 'CONTINUOUS_DIMMING',
+                          'are_schedules_used_for_modeling_occupancy_control': True,
+                          'are_schedules_used_for_modeling_daylighting_control': False}]
+                    }
 
         self.assertEqual(gathered_lights, expected)
+
+    def test_add_spaces(self):
+        t = self.set_minimal_files()
+
+        t.json_results_object['TabularReports'] = [
+            {'For': 'Entire Facility',
+             'ReportName': 'InputVerificationandResultsSummary',
+             'Tables': [
+                 {
+                     'Cols':
+                         ['Area [m2]',
+                          'Conditioned (Y/N)',
+                          'Part of Total Floor Area (Y/N)',
+                          'Multipliers',
+                          'Zone Name',
+                          'Space Type',
+                          'Radiant/Solar Enclosure Name',
+                          'Lighting [W/m2]',
+                          'People [m2 per person]',
+                          'Plug and Process [W/m2]',
+                          'Tags'],
+                     'Rows': {
+                         'PERIMETER_ZN_1':
+                             ['113.45',
+                              'Yes',
+                              'Yes',
+                              '1.00',
+                              'PERIMETER_ZN_1',
+                              'GENERAL',
+                              'PERIMETER_ZN_1',
+                              '6.8889',
+                              '16.59',
+                              '6.7800',
+                              '']
+                     },
+                     'TableName': 'Space Summary'}
+             ]
+             }
+        ]
+
+        t.building_segment['zones'] = [{'id': 'PERIMETER_ZN_1'}]
+
+        added_spaces = t.add_spaces()
+
+        expected = {'PERIMETER_ZN_1':
+                        {'id': 'PERIMETER_ZN_1', 'floor_area': 113.45, 'number_of_occupants': 6.84,
+                         'lighting_space_type': 'OFFICE_ENCLOSED'
+                         }
+                    }
+
+        self.assertEqual(added_spaces, expected)

@@ -289,10 +289,14 @@ class Translator:
                     if table['TableName'] == 'Space Summary':
                         rows = table['Rows']
                         space_names = list(rows.keys())
-                        space_names.remove('Total')
-                        space_names.remove('Conditioned Total')
-                        space_names.remove('Unconditioned Total')
-                        space_names.remove('Not Part of Total')
+                        if 'Total' in space_names:
+                            space_names.remove('Total')
+                        if 'Conditioned Total' in space_names:
+                            space_names.remove('Conditioned Total')
+                        if 'Unconditioned Total' in space_names:
+                            space_names.remove('Unconditioned Total')
+                        if 'Not Part of Total' in space_names:
+                            space_names.remove('Not Part of Total')
                         # print(space_names)
                         cols = table['Cols']
                         zone_name_column = cols.index('Zone Name')
@@ -320,6 +324,7 @@ class Translator:
             zone['spaces'] = []
             if zone['id'] in spaces:
                 zone['spaces'].append(spaces[zone['id']])
+        return spaces
 
     def gather_interior_lighting(self):
         tabular_reports = self.json_results_object['TabularReports']
