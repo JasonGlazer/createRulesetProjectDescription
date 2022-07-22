@@ -320,3 +320,67 @@ class TestTranslator(TestCase):
                     }
 
         self.assertEqual(gathered_infiltration, expected)
+
+    def test_get_construction_and_materials(self):
+        t = self.set_minimal_files()
+        t.epjson_object['Construction'] = {
+            'nonres_ext_wall':
+                {'layer_2': 'G01 16mm gypsum board',
+                 'layer_3': 'Nonres_Exterior_Wall_Insulation',
+                 'layer_4': 'G01 16mm gypsum board',
+                 'outside_layer': 'F07 25mm stucco'},
+        }
+        t.epjson_object['Material'] = {
+            'F07 25mm stucco': {'conductivity': 0.72,
+                                'density': 1856,
+                                'roughness': 'Smooth',
+                                'solar_absorptance': 0.7,
+                                'specific_heat': 840,
+                                'thermal_absorptance': 0.9,
+                                'thickness': 0.0254,
+                                'visible_absorptance': 0.7
+                                },
+            'G01 16mm gypsum board': {'conductivity': 0.16,
+                                      'density': 800,
+                                      'roughness': 'MediumSmooth',
+                                      'specific_heat': 1090,
+                                      'thickness': 0.0159
+                                      }
+        }
+        t.epjson_object['Material:NoMass'] = {
+            'Nonres_Exterior_Wall_Insulation': {'roughness': 'MediumSmooth',
+                                                'solar_absorptance': 0.7,
+                                                'thermal_absorptance': 0.9,
+                                                'thermal_resistance': 3.06941962105791,
+                                                'visible_absorptance': 0.7
+                                                }
+
+        }
+        expected = {
+            'NONRES_EXT_WALL':
+                {'id': 'nonres_ext_wall',
+                 'surface_construction_input_option':
+                     'LAYERS', 'primary_layers':
+                     [
+                         {'id': 'G01 16mm gypsum board',
+                          'thickness': 0.0159,
+                          'thermal_conductivity': 0.16,
+                          'density': 800,
+                          'specific_heat': 1090},
+                         {'id': 'Nonres_Exterior_Wall_Insulation',
+                          'r_value': 3.06941962105791},
+                         {'id': 'G01 16mm gypsum board',
+                          'thickness': 0.0159,
+                          'thermal_conductivity': 0.16,
+                          'density': 800,
+                          'specific_heat': 1090},
+                         {'id': 'F07 25mm stucco',
+                          'thickness': 0.0254,
+                          'thermal_conductivity': 0.72,
+                          'density': 1856,
+                          'specific_heat': 840}
+                     ]
+                 }
+        }
+        gotten_construction = t.get_constructions_and_materials()
+        self.assertEqual(gotten_construction, expected)
