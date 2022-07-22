@@ -345,7 +345,8 @@ class Translator:
                     if table['TableName'] == 'Interior Lighting':
                         rows = table['Rows']
                         int_light_names = list(rows.keys())
-                        int_light_names.remove('Interior Lighting Total')
+                        if 'Interior Lighting Total' in int_light_names:
+                            int_light_names.remove('Interior Lighting Total')
                         cols = table['Cols']
                         space_name_column = cols.index('Space Name')
                         zone_name_column = cols.index('Zone Name')

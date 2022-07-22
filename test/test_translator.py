@@ -597,3 +597,88 @@ class TestTranslator(TestCase):
                     }
 
         self.assertEqual(gathered_surfaces, expected)
+
+    def test_gather_interior_lighting(self):
+        t = self.set_minimal_files()
+
+        t.json_results_object['TabularReports'] = [
+            {'For': 'Entire Facility',
+             'ReportName': 'LightingSummary',
+             'Tables': [
+                 {'Cols':
+                      ['Zone Name',
+                       'Space Name',
+                       'Space Type',
+                       'Lighting Power Density [W/m2]',
+                       'Space Area [m2]',
+                       'Total Power [W]',
+                       'End Use Subcategory',
+                       'Schedule Name',
+                       'Scheduled Hours/Week [hr]',
+                       'Hours/Week > 1% [hr]',
+                       'Full Load Hours/Week [hr]',
+                       'Return Air Fraction',
+                       'Conditioned (Y/N)',
+                       'Consumption [GJ]'],
+                  'Rows': {
+                      'PERIMETER_ZN_1_LIGHTS':
+                          ['PERIMETER_ZN_1',
+                           'PERIMETER_ZN_1',
+                           'GENERAL',
+                           '6.8889',
+                           '113.45',
+                           '781.55',
+                           'LightsWired',
+                           'BLDG_LIGHT_SCH',
+                           '57.72',
+                           '168.00',
+                           '35.49',
+                           '0.0000',
+                           'Y',
+                           '5.21']},
+                  'TableName': 'Interior Lighting'},
+                 {
+                     'Cols':
+                         ['Zone',
+                          'Control Name',
+                          'Daylighting Method',
+                          'Control Type',
+                          'Fraction Controlled',
+                          'Lighting Installed in Zone [W]',
+                          'Lighting Controlled [W]'],
+                     'Rows': {
+                         'PERIMETER_ZN_1_DAYLREFPT1':
+                             ['PERIMETER_ZN_1',
+                              'PERIMETER_ZN_1_DAYLCTRL',
+                              'SplitFlux',
+                              'Continuous/Off',
+                              '0.24',
+                              '781.55',
+                              '187.49'],
+                         'PERIMETER_ZN_1_DAYLREFPT2':
+                             ['PERIMETER_ZN_1',
+                              'PERIMETER_ZN_1_DAYLCTRL',
+                              'SplitFlux',
+                              'Continuous/Off',
+                              '0.03',
+                              '781.55',
+                              '23.60']
+                     },
+                     'TableName': 'Daylighting'
+                 }
+             ]
+             }
+        ]
+
+        gathered_lights = t.gather_interior_lighting()
+
+        expected = { 'PERIMETER_ZN_1' :
+            [{'id': 'PERIMETER_ZN_1_LIGHTS',
+              'power_per_area': 6.8889,
+              'lighting_multiplier_schedule': 'BLDG_LIGHT_SCH',
+              'daylighting_control_type': 'CONTINUOUS_DIMMING',
+              'are_schedules_used_for_modeling_occupancy_control': True,
+              'are_schedules_used_for_modeling_daylighting_control': False}]
+        }
+
+        self.assertEqual(gathered_lights, expected)
