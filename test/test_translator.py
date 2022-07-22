@@ -550,4 +550,50 @@ class TestTranslator(TestCase):
 
         self.assertEqual(gathered_subsurface_by_surface, expected)
 
-        print('gathered_subsurface_by_surface', gathered_subsurface_by_surface)
+    def test_gather_surfaces(self):
+        t = self.set_minimal_files()
+
+        t.json_results_object['TabularReports'] = [
+            {'For': 'Entire Facility',
+             'ReportName': 'EnvelopeSummary',
+             'Tables': [
+                 {'Cols':
+                      ['Construction',
+                       'Reflectance',
+                       'U-Factor with Film [W/m2-K]',
+                       'U-Factor no Film [W/m2-K]',
+                       'Gross Area [m2]',
+                       'Net Area [m2]',
+                       'Azimuth [deg]',
+                       'Tilt [deg]',
+                       'Cardinal Direction'],
+                  'Rows': {
+                      'PERIMETER_ZN_4_WALL_WEST':
+                          ['NONRES_EXT_WALL',
+                           '0.30',
+                           '0.290',
+                           '0.303',
+                           '56.30',
+                           '45.15',
+                           '270.00',
+                           '90.00',
+                           'W']},
+                  'TableName': 'Opaque Exterior'}
+             ]
+             }
+
+        ]
+
+        gathered_surfaces = t.gather_surfaces()
+
+        expected = {'PERIMETER_ZN_4_WALL_WEST':
+                        {'id': 'PERIMETER_ZN_4_WALL_WEST',
+                         'classification': 'WALL',
+                         'area': 56.3,
+                         'tilt': 90.0,
+                         'azimuth': 270.0,
+                         'adjacent_to': 'EXTERIOR',
+                         }
+                    }
+
+        self.assertEqual(gathered_surfaces, expected)
