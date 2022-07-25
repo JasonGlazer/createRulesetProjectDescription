@@ -829,3 +829,34 @@ class TestTranslator(TestCase):
             }
 
         self.assertEqual(gathered_thermostat_setpoint_schedules, expected)
+
+    def test_gather_people_schedule_by_zone(self):
+        t = self.set_minimal_files()
+        t.json_results_object['TabularReports'] = \
+            [
+                {'For': 'Entire Facility', 'ReportName': 'InitializationSummary',
+                 'Tables': [
+                     {'Cols':
+                          ['Name',
+                           'Schedule Name',
+                           'Zone Name',
+                           ],
+                      'Rows': {
+                          '1': ['CORE_ZN', 'BLDG_OCC_SCH_WO_SB', 'CORE_ZN'],
+                          '2': ['PERIMETER_ZN_1', 'BLDG_OCC_SCH_WO_SB', 'PERIMETER_ZN_1'],
+                          '3': ['PERIMETER_ZN_2', 'BLDG_OCC_SCH_W_SB', 'PERIMETER_ZN_2'],
+                          '4': ['PERIMETER_ZN_3', 'BLDG_OCC_SCH_WO_SB', 'PERIMETER_ZN_3'],
+                          '5': ['PERIMETER_ZN_4', 'BLDG_OCC_SCH_WO_SB', 'PERIMETER_ZN_4']
+                      },
+                      'TableName': 'People Internal Gains Nominal'}
+                 ]
+                 }
+            ]
+        gathered_people_schedule_by_zone = t.gather_people_schedule_by_zone()
+        expected = {
+            'CORE_ZN': 'BLDG_OCC_SCH_WO_SB', 'PERIMETER_ZN_1': 'BLDG_OCC_SCH_WO_SB',
+            'PERIMETER_ZN_2': 'BLDG_OCC_SCH_W_SB', 'PERIMETER_ZN_3': 'BLDG_OCC_SCH_WO_SB',
+            'PERIMETER_ZN_4': 'BLDG_OCC_SCH_WO_SB'
+        }
+
+        self.assertEqual(gathered_people_schedule_by_zone, expected)
