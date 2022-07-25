@@ -278,6 +278,7 @@ class Translator:
                                 zone['infiltration'] = infiltration_by_zone[zone_name]
                 break
         self.building_segment['zones'] = zones
+        return zones
 
     def add_spaces(self):
         tabular_reports = self.json_results_object['TabularReports']

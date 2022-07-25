@@ -939,3 +939,62 @@ class TestTranslator(TestCase):
              'multiplier_schedule': 'uses_astronomical_clock_not_schedule'}]
 
         self.assertEqual(added_exterior_lighting, expected)
+
+    def test_add_zones(self):
+        t = self.set_minimal_files()
+        t.json_results_object['TabularReports'] = \
+            [
+                {'For': 'Entire Facility', 'ReportName': 'InputVerificationandResultsSummary',
+                 'Tables':
+                     [
+                         {'Cols': ['Area [m2]',
+                                   'Conditioned (Y/N)',
+                                   'Part of Total Floor Area (Y/N)',
+                                   'Volume [m3]',
+                                   'Multipliers',
+                                   'Above Ground Gross Wall Area [m2]',
+                                   'Underground Gross Wall Area [m2]',
+                                   'Window Glass Area [m2]',
+                                   'Opening Area [m2]',
+                                   'Lighting [W/m2]',
+                                   'People [m2 per person]',
+                                   'Plug and Process [W/m2]'],
+                          'Rows': {
+                              'ATTIC': ['567.98', 'No', 'No', '720.19', '1.00', '0.00', '0.00', '0.00', '0.00',
+                                        '0.0000',
+                                        '', '0.0000'],
+                              'CORE_ZN': ['149.66', 'Yes', 'Yes', '456.46', '1.00', '0.00', '0.00', '0.00', '0.00',
+                                          '6.8889', '16.59', '6.7800'],
+                              'Conditioned Total': ['511.16', '', '', '1559.03', '', '281.51', '0.00', '59.68', '59.68',
+                                                    '6.8889', '16.59', '6.7800'],
+                              'Not Part of Total': ['567.98', '', '', '720.19', '', '0.00', '0.00', '0.00', '0.00',
+                                                    '0.0000', '', '0.0000'],
+                              'PERIMETER_ZN_1': ['113.45', 'Yes', 'Yes', '346.02', '1.00', '84.45', '0.00', '20.64',
+                                                 '20.64', '6.8889', '16.59', '6.7800'],
+                              'PERIMETER_ZN_2': ['67.30', 'Yes', 'Yes', '205.26', '1.00', '56.30', '0.00', '11.16',
+                                                 '11.16', '6.8889', '16.59', '6.7800'],
+                              'PERIMETER_ZN_3': ['113.45', 'Yes', 'Yes', '346.02', '1.00', '84.45', '0.00', '16.73',
+                                                 '16.73', '6.8889', '16.59', '6.7800'],
+                              'PERIMETER_ZN_4': ['67.30', 'Yes', 'Yes', '205.26', '1.00', '56.30', '0.00', '11.16',
+                                                 '11.16', '6.8889', '16.59', '6.7800'],
+                              'Total': ['511.16', '', '', '1559.03', '', '281.51', '0.00', '59.68', '59.68', '6.8889',
+                                        '16.59', '6.7800'],
+                              'Unconditioned Total': ['0.00', '', '', '0.00', '', '0.00', '0.00', '0.00', '0.00', '',
+                                                      '',
+                                                      '']},
+                          'TableName': 'Zone Summary'}
+
+                     ]
+                 }
+            ]
+        added_zones = t.add_zones()
+        expected = [
+            {'id': 'ATTIC', 'volume': 720.19, 'surfaces': []},
+            {'id': 'CORE_ZN', 'volume': 456.46, 'surfaces': []},
+            {'id': 'PERIMETER_ZN_1', 'volume': 346.02, 'surfaces': []},
+            {'id': 'PERIMETER_ZN_2', 'volume': 205.26, 'surfaces': []},
+            {'id': 'PERIMETER_ZN_3', 'volume': 346.02, 'surfaces': []},
+            {'id': 'PERIMETER_ZN_4', 'volume': 205.26, 'surfaces': []}
+        ]
+
+        self.assertEqual(added_zones, expected)
