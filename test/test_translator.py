@@ -732,3 +732,25 @@ class TestTranslator(TestCase):
                     }
 
         self.assertEqual(added_spaces, expected)
+
+    def test_get_zone_for_each_surface(self):
+        t = self.set_minimal_files()
+
+        t.epjson_object['BuildingSurface:Detailed'] = {
+            'Core_ZN_wall_east':  {'zone_name': 'Core_ZN'},
+            'Core_ZN_wall_north':  {'zone_name': 'Core_ZN'},
+            'Perimeter_ZN_1_floor': {'zone_name': 'Perimeter_ZN_1'},
+            'Perimeter_ZN_1_wall_east': {'zone_name': 'Perimeter_ZN_1'}
+        }
+
+        gotten_surfaces_to_zone = t.get_zone_for_each_surface()
+
+        expected = \
+            {
+                'CORE_ZN_WALL_EAST': 'CORE_ZN',
+                'CORE_ZN_WALL_NORTH': 'CORE_ZN',
+                'PERIMETER_ZN_1_FLOOR': 'PERIMETER_ZN_1',
+                'PERIMETER_ZN_1_WALL_EAST': 'PERIMETER_ZN_1'
+            }
+
+        self.assertEqual(gotten_surfaces_to_zone, expected)
