@@ -203,6 +203,7 @@ class Translator:
         if heating_design_day_option:
             weather['heating_design_day_type'] = heating_design_day_option
         self.rmd['weather'] = weather
+        return weather
 
     def add_exterior_lighting(self):
         exterior_lightings = []

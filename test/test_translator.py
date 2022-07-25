@@ -860,3 +860,45 @@ class TestTranslator(TestCase):
         }
 
         self.assertEqual(gathered_people_schedule_by_zone, expected)
+
+    def test_add_weather(self):
+        t = self.set_minimal_files()
+        t.json_results_object['TabularReports'] = \
+            [
+                {'For': 'Entire Facility', 'ReportName': 'InputVerificationandResultsSummary',
+                 'Tables':
+                     [
+                         {'Cols': ['Value'],
+                          'Rows': {
+                              'Weather File': ['Denver-Aurora-Buckley AFB CO USA TMY3 WMO#=724695']
+                          },
+                          'TableName': 'General'},
+                     ]
+                 },
+                {'For': 'Entire Facility', 'ReportName': 'ClimaticDataSummary',
+                 'Tables': [
+                     {'Cols': [
+                         'Maximum Dry Bulb [C]',
+                         'Daily Temperature Range [deltaC]',
+                         'Humidity Value',
+                         'Humidity Type',
+                         'Wind Speed [m/s]',
+                         'Wind Direction'],
+                         'Rows': {
+                             'DENVER-AURORA-BUCKLEY.AFB_CO_USA ANN CLG .4% CONDNS DB=>MWB':
+                                 [],
+                             'DENVER-AURORA-BUCKLEY.AFB_CO_USA ANN HTG 99.6% CONDNS DB':
+                                 []},
+                         'TableName': 'SizingPeriod:DesignDay'},
+                     {'Cols': ['Value'], 'Rows': {
+                         'ASHRAE Climate Zone': ['5B'],
+                     },
+                      'TableName': 'Weather Statistics File'}]}
+            ]
+        added_weather = t.add_weather()
+        expected = {
+            'weather_file_name': 'Denver-Aurora-Buckley AFB CO USA TMY3 WMO#=724695', 'data_source_type': 'OTHER',
+            'climate_zone': 'CZ5B', 'cooling_design_day_type': 'COOLING_0_4',
+            'heating_design_day_type': 'HEATING_99_6'}
+
+        self.assertEqual(added_weather, expected)
