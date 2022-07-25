@@ -754,3 +754,23 @@ class TestTranslator(TestCase):
             }
 
         self.assertEqual(gotten_surfaces_to_zone, expected)
+
+    def test_get_adjacent_surface_for_each_surface(self):
+        t = self.set_minimal_files()
+
+        t.epjson_object['BuildingSurface:Detailed'] = {
+            'Core_ZN_wall_east':  {'outside_boundary_condition_object': 'Perimeter_ZN_2_wall_west'},
+            'Core_ZN_wall_north':  {'outside_boundary_condition_object': 'Perimeter_ZN_3_wall_south'},
+            'Perimeter_ZN_1_wall_east': {'outside_boundary_condition_object': 'Perimeter_ZN_2_wall_south'}
+        }
+
+        gotten_adjacent_by_surface = t.get_adjacent_surface_for_each_surface()
+
+        expected = \
+            {
+                'CORE_ZN_WALL_EAST': 'PERIMETER_ZN_2_WALL_WEST',
+                'CORE_ZN_WALL_NORTH': 'PERIMETER_ZN_3_WALL_SOUTH',
+                'PERIMETER_ZN_1_WALL_EAST': 'PERIMETER_ZN_2_WALL_SOUTH'
+            }
+
+        self.assertEqual(gotten_adjacent_by_surface, expected)
