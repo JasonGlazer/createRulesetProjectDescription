@@ -902,3 +902,40 @@ class TestTranslator(TestCase):
             'heating_design_day_type': 'HEATING_99_6'}
 
         self.assertEqual(added_weather, expected)
+
+    def test_add_exterior_lighting(self):
+        t = self.set_minimal_files()
+        t.json_results_object['TabularReports'] = \
+            [
+                {'For': 'Entire Facility', 'ReportName': 'LightingSummary',
+                 'Tables': [
+                     {'Cols':
+                          ['Total Watts',
+                           'Astronomical Clock/Schedule',
+                           'Schedule Name',
+                           'Scheduled Hours/Week [hr]',
+                           'Hours/Week > 1% [hr]',
+                           'Full Load Hours/Week [hr]',
+                           'Consumption [GJ]'],
+                      'Rows': {'EXTERIOR_LIGHTS_A': ['50.70', 'AstronomicalClock', '-', '', '42.26', '42.26', '0.40'],
+                               'EXTERIOR_LIGHTS_B': ['115.10', 'AstronomicalClock', '-', '', '83.67', '62.97', '1.36'],
+                               'EXTERIOR_LIGHTS_C': ['445.50', 'AstronomicalClock', '-', '', '83.67', '46.88', '3.92'],
+                               'Exterior Lighting Total': ['611.30', '', '', '', '', '', '5.68']},
+                      'TableName': 'Exterior Lighting'}
+                 ]
+                 }
+            ]
+        added_exterior_lighting = t.add_exterior_lighting()
+
+        expected = [
+            {'id': 'EXTERIOR_LIGHTS_A',
+             'power': 50.7,
+             'multiplier_schedule': 'uses_astronomical_clock_not_schedule'},
+            {'id': 'EXTERIOR_LIGHTS_B',
+             'power': 115.1,
+             'multiplier_schedule': 'uses_astronomical_clock_not_schedule'},
+            {'id': 'EXTERIOR_LIGHTS_C',
+             'power': 445.5,
+             'multiplier_schedule': 'uses_astronomical_clock_not_schedule'}]
+
+        self.assertEqual(added_exterior_lighting, expected)

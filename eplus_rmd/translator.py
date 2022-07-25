@@ -232,6 +232,7 @@ class Translator:
                                     exterior_light['multiplier_schedule'] = rows[exterior_light_name][schedule_column]
                             exterior_lightings.append(exterior_light)
         self.building['exterior_lighting'] = exterior_lightings
+        return exterior_lightings
 
     def add_zones(self):
         tabular_reports = self.json_results_object['TabularReports']
