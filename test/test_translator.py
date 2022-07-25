@@ -737,8 +737,8 @@ class TestTranslator(TestCase):
         t = self.set_minimal_files()
 
         t.epjson_object['BuildingSurface:Detailed'] = {
-            'Core_ZN_wall_east':  {'zone_name': 'Core_ZN'},
-            'Core_ZN_wall_north':  {'zone_name': 'Core_ZN'},
+            'Core_ZN_wall_east': {'zone_name': 'Core_ZN'},
+            'Core_ZN_wall_north': {'zone_name': 'Core_ZN'},
             'Perimeter_ZN_1_floor': {'zone_name': 'Perimeter_ZN_1'},
             'Perimeter_ZN_1_wall_east': {'zone_name': 'Perimeter_ZN_1'}
         }
@@ -759,8 +759,8 @@ class TestTranslator(TestCase):
         t = self.set_minimal_files()
 
         t.epjson_object['BuildingSurface:Detailed'] = {
-            'Core_ZN_wall_east':  {'outside_boundary_condition_object': 'Perimeter_ZN_2_wall_west'},
-            'Core_ZN_wall_north':  {'outside_boundary_condition_object': 'Perimeter_ZN_3_wall_south'},
+            'Core_ZN_wall_east': {'outside_boundary_condition_object': 'Perimeter_ZN_2_wall_west'},
+            'Core_ZN_wall_north': {'outside_boundary_condition_object': 'Perimeter_ZN_3_wall_south'},
             'Perimeter_ZN_1_wall_east': {'outside_boundary_condition_object': 'Perimeter_ZN_2_wall_south'}
         }
 
@@ -774,3 +774,58 @@ class TestTranslator(TestCase):
             }
 
         self.assertEqual(gotten_adjacent_by_surface, expected)
+
+    def test_gather_thermostat_setpoint_schedules(self):
+        t = self.set_minimal_files()
+
+        t.epjson_object['ZoneControl:Thermostat'] = \
+            {
+                'Core_ZN Thermostat': {'control_1_name': 'Core_ZN DualSPSched',
+                                       'control_1_object_type': 'ThermostatSetpoint:DualSetpoint',
+                                       'control_type_schedule_name': 'Dual Zone Control Type Sched',
+                                       'zone_or_zonelist_name': 'Core_ZN'},
+                'Perimeter_ZN_1 Thermostat': {'control_1_name': 'Perimeter_ZN_1 DualSPSched',
+                                              'control_1_object_type': 'ThermostatSetpoint:DualSetpoint',
+                                              'control_type_schedule_name': 'Dual Zone Control Type Sched',
+                                              'zone_or_zonelist_name': 'Perimeter_ZN_1'},
+                'Perimeter_ZN_2 Thermostat': {'control_1_name': 'Perimeter_ZN_2 DualSPSched',
+                                              'control_1_object_type': 'ThermostatSetpoint:DualSetpoint',
+                                              'control_type_schedule_name': 'Dual Zone Control Type Sched',
+                                              'zone_or_zonelist_name': 'Perimeter_ZN_2'},
+                'Perimeter_ZN_3 Thermostat': {'control_1_name': 'Perimeter_ZN_3 DualSPSched',
+                                              'control_1_object_type': 'ThermostatSetpoint:DualSetpoint',
+                                              'control_type_schedule_name': 'Dual Zone Control Type Sched',
+                                              'zone_or_zonelist_name': 'Perimeter_ZN_3'},
+                'Perimeter_ZN_4 Thermostat': {'control_1_name': 'Perimeter_ZN_4 DualSPSched',
+                                              'control_1_object_type': 'ThermostatSetpoint:DualSetpoint',
+                                              'control_type_schedule_name': 'Dual Zone Control Type Sched',
+                                              'zone_or_zonelist_name': 'Perimeter_ZN_4'}
+            }
+
+        t.epjson_object['ThermostatSetpoint:DualSetpoint'] = \
+            {
+                'Core_ZN DualSPSched': {'cooling_setpoint_temperature_schedule_name': 'CLGSETP_SCH_NO_OPTIMUM',
+                                        'heating_setpoint_temperature_schedule_name': 'HTGSETP_SCH_NO_OPTIMUM'},
+                'Perimeter_ZN_1 DualSPSched': {'cooling_setpoint_temperature_schedule_name': 'CLGSETP_SCH_NO_OPTIMUM',
+                                               'heating_setpoint_temperature_schedule_name': 'HTGSETP_SCH_NO_OPTIMUM'},
+                'Perimeter_ZN_2 DualSPSched': {
+                    'cooling_setpoint_temperature_schedule_name': 'CLGSETP_SCH_NO_OPTIMUM_w_SB',
+                    'heating_setpoint_temperature_schedule_name': 'HTGSETP_SCH_NO_OPTIMUM_w_SB'},
+                'Perimeter_ZN_3 DualSPSched': {'cooling_setpoint_temperature_schedule_name': 'CLGSETP_SCH_NO_OPTIMUM',
+                                               'heating_setpoint_temperature_schedule_name': 'HTGSETP_SCH_NO_OPTIMUM'},
+                'Perimeter_ZN_4 DualSPSched': {'cooling_setpoint_temperature_schedule_name': 'CLGSETP_SCH_NO_OPTIMUM',
+                                               'heating_setpoint_temperature_schedule_name': 'HTGSETP_SCH_NO_OPTIMUM'}
+            }
+
+        gathered_thermostat_setpoint_schedules = t.gather_thermostat_setpoint_schedules()
+
+        expected = \
+            {
+                'CORE_ZN': {'cool': 'CLGSETP_SCH_NO_OPTIMUM', 'heat': 'HTGSETP_SCH_NO_OPTIMUM'},
+                'PERIMETER_ZN_1': {'cool': 'CLGSETP_SCH_NO_OPTIMUM', 'heat': 'HTGSETP_SCH_NO_OPTIMUM'},
+                'PERIMETER_ZN_2': {'cool': 'CLGSETP_SCH_NO_OPTIMUM_w_SB', 'heat': 'HTGSETP_SCH_NO_OPTIMUM_w_SB'},
+                'PERIMETER_ZN_3': {'cool': 'CLGSETP_SCH_NO_OPTIMUM', 'heat': 'HTGSETP_SCH_NO_OPTIMUM'},
+                'PERIMETER_ZN_4': {'cool': 'CLGSETP_SCH_NO_OPTIMUM', 'heat': 'HTGSETP_SCH_NO_OPTIMUM'}
+            }
+
+        self.assertEqual(gathered_thermostat_setpoint_schedules, expected)
