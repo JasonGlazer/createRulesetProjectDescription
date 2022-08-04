@@ -11,3 +11,6 @@ jsonschema==3.2.0
 # for packaging
 # pyinstaller
 # wheel
+
+setuptools~=47.1.0
+PyYAML~=5.3.1

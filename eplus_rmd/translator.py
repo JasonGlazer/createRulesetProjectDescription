@@ -4,6 +4,7 @@ from typing import Dict
 from eplus_rmd.input_file import InputFile
 from eplus_rmd.output_file import OutputFile
 from eplus_rmd.validator import Validator
+from eplus_rmd.status_reporter import StatusReporter
 
 
 class Translator:
@@ -23,6 +24,7 @@ class Translator:
         print(f"Writing output file to {str(self.rmd_file_path)}")
 
         self.validator = Validator()
+        self.status_reporter = StatusReporter(epjson_file_path)
 
         self.rmd = {}
         self.instance = {}
@@ -618,3 +620,4 @@ class Translator:
         if not check_validity['passed']:
             print(check_validity['error'])
         self.output_file.write(self.rmd)
+        self.status_reporter.generate(self.rmd)
