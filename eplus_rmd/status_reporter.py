@@ -1,9 +1,13 @@
+import datetime
+
 from yaml import safe_load, safe_dump
 from pathlib import Path
+from datetime import datetime
 
 
 class StatusReporter:
     def __init__(self, epjson_file_path: Path):
+        self.extra_schema = {}
         parent_dir = Path(__file__).parent
 
         # the extra schema file includes extra tags on fields related to appendix G and energyplus
@@ -15,9 +19,10 @@ class StatusReporter:
         self.report_file_path = epjson_file_path.with_suffix('.report')
 
     def generate(self, rmd_dict):
-        if self.extra_schema:
+        if self.extra_schema:  # if the YAML schema file is not present then don't generate report
             with open(self.report_file_path, 'w') as f:
                 f.write('============= Generated Report ==============\n')
+                f.write('Updated at: ' + str(datetime.now()) + '\n')
                 for data_group_name, node in self.extra_schema.items():
                     if 'Object Type' in node:
                         if node['Object Type'] == 'Data Group':
@@ -32,6 +37,37 @@ class StatusReporter:
                                 f.write('  ' + type + '  ' + data_element + '\n')
                                 counter[type] = counter[type] + 1
                             f.write('  Data element EP counts:  ' + str(counter) + '\n')
+
+                # f.write('============= Traverse RMD ==============\n')
+                # for key, value in rmd_dict.items():
+                #     # f.write(key + '\n')
+                #     if isinstance(value, dict): # or value is list:
+                #         f.write("dictionary: " + str(key) + '\n')
+                #     if isinstance(value, list): # or value is list:
+                #         f.write("list: " + str(key) + '\n')
+                #
+                # https://stackoverflow.com/questions/10756427/loop-through-all-nested-dictionary-values
+                # https://stackoverflow.com/questions/9807634/find-all-occurrences-of-a-key-in-nested-dictionaries-and-lists
+                # stack = list(rmd_dict.items())
+                # while stack:
+                #     item = stack.pop()
+                #     if isinstance(item, dict):
+                #         k, v = item
+                #     elif isinstance(item, tuple):
+                #         k, v = item
+                #     elif isinstance(item, list):
+                #         k = 'list'
+                #         v = item
+                #     else:
+                #         k = 'element'
+                #         v = item
+                #     f.write(f'{k}: {v} \n')
+                #     if isinstance(v, dict):
+                #         stack.extend(list(v.items()))
+                #     elif isinstance(v, tuple):
+                #         stack.extend(v.items())
+                #     elif isinstance(v, list):
+                #         stack.extend(list(v))
 
     def type_of_ep_field(self, fields):
         plus_in = False
