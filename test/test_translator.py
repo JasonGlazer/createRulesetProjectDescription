@@ -709,7 +709,7 @@ class TestTranslator(TestCase):
                               'Yes',
                               '1.00',
                               'PERIMETER_ZN_1',
-                              'GENERAL',
+                              'COPY_PRINT_ROOM',
                               'PERIMETER_ZN_1',
                               '6.8889',
                               '16.59',
@@ -727,7 +727,7 @@ class TestTranslator(TestCase):
 
         expected = {'PERIMETER_ZN_1':
                         {'id': 'PERIMETER_ZN_1', 'floor_area': 113.45, 'number_of_occupants': 6.84,
-                         'lighting_space_type': 'OFFICE_ENCLOSED'
+                         'lighting_space_type': 'COPY_PRINT_ROOM'
                          }
                     }
 

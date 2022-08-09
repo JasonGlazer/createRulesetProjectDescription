@@ -327,8 +327,8 @@ class Translator:
                             if space_name in lights_by_space:
                                 space['interior_lighting'] = lights_by_space[space_name]
                             if space_type:
-                                if self.validator.is_in_901_enumeration \
-                                            ('LightingSpaceOptions2019ASHRAE901TG37', space_type.upper()):
+                                if self.validator.is_in_901_enumeration('LightingSpaceOptions2019ASHRAE901TG37',
+                                                                        space_type.upper()):
                                     space['lighting_space_type'] = space_type
                                 # print(space, rows[space_name][zone_name_column])
                             tag_list = []
@@ -339,13 +339,13 @@ class Translator:
                                     tag_list.append(tags)
                             if tag_list:
                                 first_tag = tag_list.pop(0)
-                                if self.validator.is_in_901_enumeration \
-                                            ('VentilationSpaceOptions2019ASHRAE901', first_tag.upper()):
+                                if self.validator.is_in_901_enumeration('VentilationSpaceOptions2019ASHRAE901',
+                                                                        first_tag.upper()):
                                     space['ventilations_space_type'] = first_tag
                             if tag_list:
                                 second_tag = tag_list.pop(0)
-                                if self.validator.is_in_901_enumeration \
-                                            ('ServiceWaterHeatingSpaceOptions2019ASHRAE901', second_tag.upper()):
+                                if self.validator.is_in_901_enumeration('ServiceWaterHeatingSpaceOptions2019ASHRAE901',
+                                                                        second_tag.upper()):
                                     space['service_water_heating_space_type'] = second_tag
                             spaces[zone_name] = space
         # insert the space into the corresponding Zone

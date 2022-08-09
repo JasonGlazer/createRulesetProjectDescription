@@ -1,6 +1,4 @@
-import datetime
-
-from yaml import safe_load, safe_dump
+from yaml import safe_load
 from pathlib import Path
 from datetime import datetime
 
