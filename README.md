@@ -70,6 +70,28 @@ The EnergyPlus input file has some added requirements to be used with the create
     hourly;
 ```
 
+ - add space type tags by using the Space input object
+
+```
+  Space,
+    core_space,              !- Name
+    Core_ZN,                 !- Zone Name
+    autocalculate,           !- Ceiling Height
+    autocalculate,           !- Volume
+    autocalculate,           !- Floor Area {m2}
+    OFFICE_OPEN_PLAN,        !- Space Type
+    OFFICE_BUILDINGS_OFFICE_SPACE, !- Tag 1
+    OFFICE;                  !- Tag 2
+```
+
+The fields should be completed as described below:
+
+ - the Space Type field should be set to the appropriate option for lighting_space_type see LightingSpaceOptions2019ASHRAE901TG37 for the list of options.
+ - the Tag 1 field should be set to the the appropriate option for ventilations_space_type see VentilationSpaceOptions2019ASHRAE901 for the list of options.
+ - the Tag 2 field should be set to the the appropriate option for service_water_heating_space_type see ServiceWaterHeatingSpaceOptions2019ASHRAE901 for the list of options.
+
+If you had not been using the Space input object before, set the numeric inputs to 'autocalculate'.
+
 It maybe easier to make these changes prior to converting the file into the epJSON format.
 
 The resulting file will be created in the same directory as the epJSON file with the same name and the file extension .rmd
