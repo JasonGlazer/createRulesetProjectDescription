@@ -307,22 +307,46 @@ class Translator:
                         zone_name_column = cols.index('Zone Name')
                         area_column = cols.index('Area [m2]')
                         people_density_column = cols.index('People [m2 per person]')
+                        space_type_column = cols.index('Space Type')
+                        tags_column = cols.index('Tags')
                         for space_name in space_names:
                             floor_area = float(rows[space_name][area_column])
                             people_density = float(rows[space_name][people_density_column])
                             zone_name = rows[space_name][zone_name_column]
+                            space_type = rows[space_name][space_type_column]
+                            tags = rows[space_name][tags_column]
+
                             if people_density > 0:
                                 people = floor_area / people_density
                             else:
                                 people = 0
                             space = {'id': space_name, 'floor_area': floor_area,
-                                     'number_of_occupants': round(people, 2),
-                                     'lighting_space_type': 'OFFICE_ENCLOSED'}
+                                     'number_of_occupants': round(people, 2)}
                             if zone_name in people_schedule_by_zone:
                                 space['occupant_multiplier_schedule'] = people_schedule_by_zone[zone_name]
                             if space_name in lights_by_space:
                                 space['interior_lighting'] = lights_by_space[space_name]
-                            # print(space, rows[space_name][zone_name_column])
+                            if space_type:
+                                if self.validator.is_in_901_enumeration \
+                                            ('LightingSpaceOptions2019ASHRAE901TG37', space_type.upper()):
+                                    space['lighting_space_type'] = space_type
+                                # print(space, rows[space_name][zone_name_column])
+                            tag_list = []
+                            if tags:
+                                if ',' in tags:
+                                    tag_list = tags.split(', ')
+                                else:
+                                    tag_list.append(tags)
+                            if tag_list:
+                                first_tag = tag_list.pop(0)
+                                if self.validator.is_in_901_enumeration \
+                                            ('VentilationSpaceOptions2019ASHRAE901', first_tag.upper()):
+                                    space['ventilations_space_type'] = first_tag
+                            if tag_list:
+                                second_tag = tag_list.pop(0)
+                                if self.validator.is_in_901_enumeration \
+                                            ('ServiceWaterHeatingSpaceOptions2019ASHRAE901', second_tag.upper()):
+                                    space['service_water_heating_space_type'] = second_tag
                             spaces[zone_name] = space
         # insert the space into the corresponding Zone
         for zone in self.building_segment['zones']:

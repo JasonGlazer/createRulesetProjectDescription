@@ -17,3 +17,8 @@ class TestValidator(TestCase):
         check_validity = v.validate_rmd(test2)
         self.assertFalse(check_validity['passed'])
         self.assertEqual(check_validity['error'], "invalid: 'id' is a required property")
+
+    def test_is_in_901_enumeration(self):
+        v = Validator()
+        self.assertTrue(v.is_in_901_enumeration('LightingSpaceOptions2019ASHRAE901TG37', 'ATRIUM_HIGH'))
+        self.assertFalse(v.is_in_901_enumeration('LightingSpaceOptions2019ASHRAE901TG37', 'DRY_DOCK'))

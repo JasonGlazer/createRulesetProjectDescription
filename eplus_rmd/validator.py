@@ -24,29 +24,35 @@ class Validator:
         enum_t24_path = Path(parent_dir).joinpath(enum_t24_file)
         output_901_path = Path(parent_dir).joinpath(output_901_file)
 
+        self.main_shema = {}
+        self.enum_901 = {}
+        self.enum_resnet = {}
+        self.enum_t24 = {}
+        self.output_901 = {}
+
         with open(main_schema_path) as schema_f:
-            main_schema = load(schema_f)
+            self.main_schema = load(schema_f)
         with open(enum_901_path) as enum_901_f:
-            enum_901 = load(enum_901_f)
+            self.enum_901 = load(enum_901_f)
         with open(enum_resnet_path) as enum_resnet_f:
-            enum_resnet = load(enum_resnet_f)
+            self.enum_resnet = load(enum_resnet_f)
         with open(enum_t24_path) as enum_t24_f:
-            enum_t24 = load(enum_t24_f)
+            self.enum_t24 = load(enum_t24_f)
         with open(output_901_path) as output_901_f:
-            output_901 = load(output_901_f)
+            self.output_901 = load(output_901_f)
 
         schema_store = {
-            main_schema_file: main_schema,
-            enum_901_file: enum_901,
-            enum_resnet_file: enum_resnet,
-            enum_t24_file: enum_t24,
-            output_901_file: output_901
+            main_schema_file: self.main_schema,
+            enum_901_file: self.enum_901,
+            enum_resnet_file: self.enum_resnet,
+            enum_t24_file: self.enum_t24,
+            output_901_file: self.output_901
         }
 
-        resolver = jsonschema.RefResolver.from_schema(main_schema, store=schema_store)
+        resolver = jsonschema.RefResolver.from_schema(self.main_schema, store=schema_store)
 
-        Validator = jsonschema.validators.validator_for(main_schema)
-        self.validator = Validator(main_schema, resolver=resolver)
+        Validator = jsonschema.validators.validator_for(self.main_schema)
+        self.validator = Validator(self.main_schema, resolver=resolver)
 
     def validate_rmd(self, rmd_dict):
         try:
@@ -54,3 +60,16 @@ class Validator:
             return {"passed": True, "error": None}
         except jsonschema.exceptions.ValidationError as err:
             return {"passed": False, "error": "invalid: " + err.message}
+
+    def is_in_901_enumeration(self, enumeration_list_name, search_string):
+        is_in = False
+        if self.enum_901:
+            if 'definitions' in self.enum_901:
+                dict_of_enumerations = self.enum_901['definitions']
+                if enumeration_list_name in dict_of_enumerations:
+                    enumeration_holder = dict_of_enumerations[enumeration_list_name]
+                    if 'enum' in enumeration_holder:
+                        enumerations = enumeration_holder['enum']
+                        if search_string in enumerations:
+                            is_in = True
+        return is_in
