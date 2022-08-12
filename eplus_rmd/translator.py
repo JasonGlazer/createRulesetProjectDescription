@@ -24,7 +24,7 @@ class Translator:
         print(f"Writing output file to {str(self.rmd_file_path)}")
 
         self.validator = Validator()
-        self.status_reporter = StatusReporter(epjson_file_path)
+        self.status_reporter = StatusReporter()
 
         self.rmd = {}
         self.instance = {}

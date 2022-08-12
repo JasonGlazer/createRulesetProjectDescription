@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 class StatusReporter:
-    def __init__(self, epjson_file_path: Path):
+    def __init__(self):
         self.extra_schema = {}
         parent_dir = Path(__file__).parent
 
@@ -14,13 +14,14 @@ class StatusReporter:
         if extra_schema_path.exists():
             with open(extra_schema_path) as schema_f:
                 self.extra_schema = safe_load(schema_f)
-        self.report_file_path = epjson_file_path.with_suffix('.report')
+        report_file = 'energyplus_implementation_report.txt'
+        self.report_file_path = Path(parent_dir).joinpath(report_file)
 
     def generate(self, rmd_dict):
         if self.extra_schema:  # if the YAML schema file is not present then don't generate report
             with open(self.report_file_path, 'w') as f:
                 f.write('============= Generated Report ==============\n')
-                f.write('Updated at: ' + str(datetime.now()) + '\n')
+                f.write('Updated at: ' + str(datetime.now()) + '\n\n')
                 for data_group_name, node in self.extra_schema.items():
                     if 'Object Type' in node:
                         if node['Object Type'] == 'Data Group':
@@ -28,44 +29,20 @@ class StatusReporter:
                         if 'Data Elements' in node:
                             data_elements = node['Data Elements']
                             counter = {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 0}
+                            status_count = {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0,
+                                            'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0,
+                                            'NotRequired': 0, 'NotStarted': 0}
                             f.write('  #elements: ' + str(len(data_elements)) + '\n')
                             for data_element in data_elements:
                                 fields = data_elements[data_element]
                                 type = self.type_of_ep_field(fields)
-                                f.write('  ' + type + '  ' + data_element + '\n')
+                                status = ''
+                                if 'EPstatus' in fields:
+                                    status = fields['EPstatus']
+                                    status_count[status] = status_count[status] + 1
+                                f.write('  ' + type + '  ' + status.ljust(25, ' ') + data_element + '\n')
                                 counter[type] = counter[type] + 1
-                            f.write('  Data element EP counts:  ' + str(counter) + '\n')
-
-                # f.write('============= Traverse RMD ==============\n')
-                # for key, value in rmd_dict.items():
-                #     # f.write(key + '\n')
-                #     if isinstance(value, dict): # or value is list:
-                #         f.write("dictionary: " + str(key) + '\n')
-                #     if isinstance(value, list): # or value is list:
-                #         f.write("list: " + str(key) + '\n')
-                #
-                # https://stackoverflow.com/questions/10756427/loop-through-all-nested-dictionary-values
-                # https://stackoverflow.com/questions/9807634/find-all-occurrences-of-a-key-in-nested-dictionaries-and-lists
-                # stack = list(rmd_dict.items())
-                # while stack:
-                #     item = stack.pop()
-                #     if isinstance(item, dict):
-                #         k, v = item
-                #     elif isinstance(item, tuple):
-                #         k, v = item
-                #     elif isinstance(item, list):
-                #         k = 'list'
-                #         v = item
-                #     else:
-                #         k = 'element'
-                #         v = item
-                #     f.write(f'{k}: {v} \n')
-                #     if isinstance(v, dict):
-                #         stack.extend(list(v.items()))
-                #     elif isinstance(v, tuple):
-                #         stack.extend(v.items())
-                #     elif isinstance(v, list):
-                #         stack.extend(list(v))
+                            f.write('  counts:  ' + str(counter) + str(status_count) + '\n\n')
 
     def type_of_ep_field(self, fields):
         plus_in = False
