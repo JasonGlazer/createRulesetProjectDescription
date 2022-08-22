@@ -289,6 +289,7 @@ class Translator:
         spaces = {}
         lights_by_space = self.gather_interior_lighting()
         people_schedule_by_zone = self.gather_people_schedule_by_zone()
+        equipment_by_zone = self.gather_miscellaneous_equipment()
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'InputVerificationandResultsSummary':
                 tables = tabular_report['Tables']
@@ -333,6 +334,14 @@ class Translator:
                                                                         space_type.upper()):
                                     space['lighting_space_type'] = space_type
                                 # print(space, rows[space_name][zone_name_column])
+                            if zone_name in equipment_by_zone:
+                                misc_equipments = equipment_by_zone[zone_name]
+                                # remove power density and replace with power
+                                for misc_equipment in misc_equipments:
+                                    power_density = misc_equipment.pop('POWER DENSITY')
+                                    power = power_density * floor_area
+                                    misc_equipment['power'] = power
+                                    space['miscellaneous_equipment'] = misc_equipments
                             tag_list = []
                             if tags:
                                 if ',' in tags:
@@ -415,22 +424,46 @@ class Translator:
                                 lights[space_name].append(light)
         return lights
 
-    # def gather_miscellaneous_equipment(self):
-    #     electric_equipments_in = self.epjson_object['ElectricEquipment']
-    #     gas_equipments_in = self.epjson_object['GasEquipment']
-    #     hot_water_equipments_in = self.epjson_object['HotWaterEquipment']
-    #     steam_equipments_in = self.epjson_object['SteamEquipment']
-    #     other_equipments_in = self.epjson_object['OtherEquipment']
-    #     info_equipments_in = self.epjson_object['ElectricEquipment:ITE:AirCooled']
-    #
-    #     miscellaneous_equipments_by_zone = {}  # dictionary by zone name containing list of data groups for that zone
-    #     for equipment_name, equipment_dict in electric_equipments_in.items():
-    #         if 'design_level_calculation_method' in equipment_dict:
-    #             method = equipment_dict['design_level_calculation_method'].upper()
-    #             if method == 'WATTS/AREA':
-    #                 pass
-    #             equipment = {'id': equipment_name,
-    #                          'energy_type': 'ELECTRICITY'}
+    def gather_miscellaneous_equipment(self):
+        miscellaneous_equipments_by_zone = {}  # dictionary by space name containing list of data elements
+        tabular_reports = self.json_results_object['TabularReports']
+        for tabular_report in tabular_reports:
+            if tabular_report['ReportName'] == 'InitializationSummary':
+                tables = tabular_report['Tables']
+                for table in tables:
+                    if table['TableName'] == 'ElectricEquipment Internal Gains Nominal':
+                        rows = table['Rows']
+                        row_keys = list(rows.keys())
+                        cols = table['Cols']
+                        equipmnet_name_column = cols.index('Name')
+                        zone_name_column = cols.index('Zone Name')
+                        power_density_column = cols.index('Equipment/Floor Area {W/m2}')
+                        schedule_name_column = cols.index('Schedule Name')
+                        latent_column = cols.index('Fraction Latent')
+                        lost_column = cols.index('Fraction Lost')
+                        for row_key in row_keys:
+                            equipment_name = rows[row_key][equipmnet_name_column]
+                            zone_name = rows[row_key][zone_name_column]
+                            power_density = float(rows[row_key][power_density_column])
+                            schedule_name = rows[row_key][schedule_name_column]
+                            latent = float(rows[row_key][latent_column])
+                            lost = float(rows[row_key][lost_column])
+                            sensible = 1 - (latent + lost)
+                            equipment = {
+                                'id': equipment_name,
+                                'energy_type': 'ELECTRICITY',
+                                'multiplier_schedule': schedule_name,
+                                'sensible_fraction': sensible,
+                                'latent_fraction': latent,
+                                'POWER DENSITY': power_density
+                            }
+                            self.schedules_used_names.append(schedule_name)
+                            # print(equipment)
+                            if zone_name.upper() not in miscellaneous_equipments_by_zone:
+                                miscellaneous_equipments_by_zone[zone_name.upper()] = [equipment, ]
+                            else:
+                                miscellaneous_equipments_by_zone[zone_name.upper()].append(equipment)
+        return miscellaneous_equipments_by_zone
 
     def gather_subsurface(self):
         tabular_reports = self.json_results_object['TabularReports']
@@ -664,7 +697,7 @@ class Translator:
                         solar_distribution_column = cols.index('Solar Distribution')
                         solar_distribution = rows['1'][solar_distribution_column]
                         # shadows are alwoys cast unless Solar Distribution is set to MinimalShadowing
-                        shadows_cast =  solar_distribution != 'MinimalShadowing'
+                        shadows_cast = solar_distribution != 'MinimalShadowing'
         return shadows_cast
 
     def process(self):
