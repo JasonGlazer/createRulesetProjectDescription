@@ -149,8 +149,9 @@ class Translator:
 
         self.building = {'id': self.get_building_name(),
                          'notes': 'this file contains only a single building',
-                         'building_segments': [self.building_segment, ],
-                         'building_open_schedule': 'always_1'}
+                         'building_open_schedule': 'always_1',
+                         'has_site_shading': self.is_site_shaded(),
+                         'building_segments': [self.building_segment, ]}
 
         self.instance = {'id': 'Only instance',
                          'notes': 'this file contains only a single instance',
@@ -628,6 +629,26 @@ class Translator:
             }
             schedules.append(schedule)
         self.instance['schedules'] = schedules
+
+    def is_site_shaded(self):
+        tabular_reports = self.json_results_object['TabularReports']
+        total_detatched = 0  # assume no shading surfaces
+        for tabular_report in tabular_reports:
+            if tabular_report['ReportName'] == 'ObjectCountSummary':
+                tables = tabular_report['Tables']
+                for table in tables:
+                    if table['TableName'] == 'Surfaces by Class':
+                        rows = table['Rows']
+                        row_keys = list(rows.keys())
+                        cols = table['Cols']
+                        total_column = cols.index('Total')
+                        building_detached = rows['Building Detached Shading'][total_column]
+                        fixed_detached = rows['Fixed Detached Shading'][total_column]
+                        try:
+                            total_detatched = float(building_detached) + float(fixed_detached)
+                        except:
+                            print('non-numeric value found in ObjectCountSummary:Surfaces by Class:* Detached Shading')
+        return total_detatched > 0
 
     def process(self):
         epjson = self.epjson_object
