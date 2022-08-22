@@ -507,6 +507,7 @@ class Translator:
         surfaces = {}  # dictionary by zone name containing the surface data elements
         constructions = self.get_constructions_and_materials()
         subsurface_by_surface = self.gather_subsurface()
+        do_surfaces_cast_shadows = self.are_shadows_cast_from_surfaces()
         # print(constructions)
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'EnvelopeSummary':
@@ -547,7 +548,8 @@ class Translator:
                                 'area': gross_area,
                                 'tilt': tilt,
                                 'azimuth': azimuth,
-                                'adjacent_to': adjacent_to
+                                'adjacent_to': adjacent_to,
+                                'does_cast_shade': do_surfaces_cast_shadows
                             }
                             if not is_exterior:
                                 adjacent_surface = self.get_adjacent_surface_for_each_surface()
@@ -639,7 +641,6 @@ class Translator:
                 for table in tables:
                     if table['TableName'] == 'Surfaces by Class':
                         rows = table['Rows']
-                        row_keys = list(rows.keys())
                         cols = table['Cols']
                         total_column = cols.index('Total')
                         building_detached = rows['Building Detached Shading'][total_column]
@@ -649,6 +650,22 @@ class Translator:
                         except:
                             print('non-numeric value found in ObjectCountSummary:Surfaces by Class:* Detached Shading')
         return total_detatched > 0
+
+    def are_shadows_cast_from_surfaces(self):
+        tabular_reports = self.json_results_object['TabularReports']
+        shadows_cast = True  # assume shadows are cast
+        for tabular_report in tabular_reports:
+            if tabular_report['ReportName'] == 'InitializationSummary':
+                tables = tabular_report['Tables']
+                for table in tables:
+                    if table['TableName'] == 'Building Information':
+                        rows = table['Rows']
+                        cols = table['Cols']
+                        solar_distribution_column = cols.index('Solar Distribution')
+                        solar_distribution = rows['1'][solar_distribution_column]
+                        # shadows are alwoys cast unless Solar Distribution is set to MinimalShadowing
+                        shadows_cast =  solar_distribution != 'MinimalShadowing'
+        return shadows_cast
 
     def process(self):
         epjson = self.epjson_object
