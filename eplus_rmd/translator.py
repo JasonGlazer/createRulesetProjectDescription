@@ -211,6 +211,7 @@ class Translator:
 
     def add_calendar(self):
         tabular_reports = self.json_results_object['TabularReports']
+        calendar = {}
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'InitializationSummary':
                 tables = tabular_report['Tables']
@@ -223,13 +224,10 @@ class Translator:
                         start_date_column = cols.index('Start Date')
                         start_day_of_week_column = cols.index('Start DayOfWeek')
                         duration_column = cols.index('Duration {#days}')
-                        daylight_savings_column = cols.index('Use Daylight Saving')
                         for row_key in row_keys:
                             environment_name = rows[row_key][environment_name_column]
                             start_date = rows[row_key][start_date_column]
                             duration = float(rows[row_key][duration_column])
-                            daylight_savings = rows[row_key][daylight_savings_column]
-                            calendar = {}
                             calendar['notes'] = 'name environment: ' + environment_name
                             # add day of week for january 1 only if the start date is 01/01/xxxx
                             start_date_parts = start_date.split('/')
@@ -240,10 +238,15 @@ class Translator:
                                 calendar['is_leap_year'] = False
                             elif duration == 366:
                                 calendar['is_leap_year'] = True
+                            self.rmd['calendar'] = calendar
+                    if table['TableName'] == 'Environment:Daylight Saving':
+                        rows = table['Rows']
+                        row_keys = list(rows.keys())
+                        cols = table['Cols']
+                        daylight_savings_column = cols.index('Daylight Saving Indicator')
+                        for row_key in row_keys:
+                            daylight_savings = rows[row_key][daylight_savings_column]
                             calendar['has_daylight_saving_time'] = daylight_savings == 'Yes'
-
-        print(calendar)
-        self.rmd['calendar'] = calendar
         return calendar
 
     def add_exterior_lighting(self):
