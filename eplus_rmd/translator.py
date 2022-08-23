@@ -209,6 +209,43 @@ class Translator:
         self.rmd['weather'] = weather
         return weather
 
+    def add_calendar(self):
+        tabular_reports = self.json_results_object['TabularReports']
+        for tabular_report in tabular_reports:
+            if tabular_report['ReportName'] == 'InitializationSummary':
+                tables = tabular_report['Tables']
+                for table in tables:
+                    if table['TableName'] == 'Environment':
+                        rows = table['Rows']
+                        row_keys = list(rows.keys())
+                        cols = table['Cols']
+                        environment_name_column = cols.index('Environment Name')
+                        start_date_column = cols.index('Start Date')
+                        start_day_of_week_column = cols.index('Start DayOfWeek')
+                        duration_column = cols.index('Duration {#days}')
+                        daylight_savings_column = cols.index('Use Daylight Saving')
+                        for row_key in row_keys:
+                            environment_name = rows[row_key][environment_name_column]
+                            start_date = rows[row_key][start_date_column]
+                            duration = float(rows[row_key][duration_column])
+                            daylight_savings = rows[row_key][daylight_savings_column]
+                            calendar = {}
+                            calendar['notes'] = 'name environment: ' + environment_name
+                            # add day of week for january 1 only if the start date is 01/01/xxxx
+                            start_date_parts = start_date.split('/')
+                            if start_date_parts[0] == '01' and start_date_parts[1] == '01':
+                                start_day_of_week = rows[row_key][start_day_of_week_column]
+                                calendar['day_of_week_for_january_1'] = start_day_of_week.upper()
+                            if duration == 365:
+                                calendar['is_leap_year'] = False
+                            elif duration == 366:
+                                calendar['is_leap_year'] = True
+                            calendar['has_daylight_saving_time'] = daylight_savings == 'Yes'
+
+        print(calendar)
+        self.rmd['calendar'] = calendar
+        return calendar
+
     def add_exterior_lighting(self):
         exterior_lightings = []
         tabular_reports = self.json_results_object['TabularReports']
@@ -706,6 +743,7 @@ class Translator:
         # version_id = epjson['Version']['Version 1']['version_identifier']
         self.create_skeleton()
         self.add_weather()
+        self.add_calendar()
         self.surfaces_by_zone = self.get_zone_for_each_surface()
         # print(self.surfaces_by_zone)
         self.add_zones()
