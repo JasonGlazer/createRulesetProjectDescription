@@ -999,3 +999,73 @@ class TestTranslator(TestCase):
         ]
 
         self.assertEqual(added_zones, expected)
+
+    def test_add_calendar(self):
+        t = self.set_minimal_files()
+        t.json_results_object['TabularReports'] = \
+            [
+                {'For': 'Entire Facility', 'ReportName': 'InitializationSummary',
+                 'Tables':
+                     [
+                         {
+                             "Cols": [
+                                 "Environment Name",
+                                 "Environment Type",
+                                 "Start Date",
+                                 "End Date",
+                                 "Start DayOfWeek",
+                                 "Duration {#days}",
+                                 "Source:Start DayOfWeek",
+                                 "Use Daylight Saving",
+                                 "Use Holidays",
+                                 "Apply Weekend Holiday Rule",
+                                 "Use Rain Values",
+                                 "Use Snow Values",
+                                 "Sky Temperature Model"
+                             ],
+                             "Rows": {
+                                 "1": [
+                                     "RUNPERIOD 1",
+                                     "WeatherFileRunPeriod",
+                                     "01/01/2017",
+                                     "12/31/2017",
+                                     "Sunday",
+                                     "365",
+                                     "Use RunPeriod Specified Day",
+                                     "No",
+                                     "No",
+                                     "No",
+                                     "Yes",
+                                     "Yes",
+                                     "Clark and Allen"
+                                 ]
+                             },
+                             "TableName": "Environment"
+                         },
+                         {
+                             "Cols": [
+                                 "Daylight Saving Indicator",
+                                 "Source",
+                                 "Start Date",
+                                 "End Date"
+                             ],
+                             "Rows": {
+                                 "1": [
+                                     "Yes",
+                                     "InputFile",
+                                     "03/12",
+                                     "11/05"
+                                 ]
+                             },
+                             "TableName": "Environment:Daylight Saving"
+                         },
+                     ]
+                 }
+            ]
+
+        added_calendar = t.add_calendar()
+
+        expected = {'notes': 'name environment: RUNPERIOD 1', 'day_of_week_for_january_1': 'SUNDAY',
+                    'is_leap_year': False, 'has_daylight_saving_time': True}
+
+        self.assertEqual(added_calendar, expected)
