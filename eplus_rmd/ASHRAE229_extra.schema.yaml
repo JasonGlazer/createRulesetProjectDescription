@@ -4402,7 +4402,7 @@ HeatingMetricOptions:
     THERMAL_EFFICIENCY:
       Description: "Et - thermal efficiency"
     COMBUSTION_EFFICIENCY:
-      Description: "Ec - combustion` efficiency"
+      Description: "Ec - combustion efficiency"
     ANNUAL_FUEL_UTILIZATION_EFFICIENCY:
       Description: "AFUE - annual fuel utilization efficiency"
     HEATING_SEASONAL_PERFORMANCE_FACTOR:
