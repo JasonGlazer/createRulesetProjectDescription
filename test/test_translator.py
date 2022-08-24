@@ -1218,3 +1218,48 @@ class TestTranslator(TestCase):
         ]
 
         self.assertTrue(t.is_site_shaded())
+
+    def test_are_shadows_cast_from_surfaces(self):
+        t = self.set_minimal_files()
+
+        t.json_results_object['TabularReports'] = [
+            {'For': 'Entire Facility', 'ReportName': 'InitializationSummary',
+             'Tables':
+                 [
+                     {
+                         "Cols": [
+                             "Solar Distribution"
+                         ],
+                         "Rows": {
+                             "1": [
+                                 "FullInteriorAndExterior"
+                             ]
+                         },
+                         "TableName": "Building Information"
+                     },
+                 ]
+             }
+        ]
+
+        self.assertTrue(t.are_shadows_cast_from_surfaces())
+
+        t.json_results_object['TabularReports'] = [
+            {'For': 'Entire Facility', 'ReportName': 'InitializationSummary',
+             'Tables':
+                 [
+                     {
+                         "Cols": [
+                             "Solar Distribution"
+                         ],
+                         "Rows": {
+                             "1": [
+                                 "MinimalShadowing"
+                             ]
+                         },
+                         "TableName": "Building Information"
+                     },
+                 ]
+             }
+        ]
+
+        self.assertFalse(t.are_shadows_cast_from_surfaces())
