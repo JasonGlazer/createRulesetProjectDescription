@@ -1069,3 +1069,68 @@ class TestTranslator(TestCase):
                     'is_leap_year': False, 'has_daylight_saving_time': True}
 
         self.assertEqual(added_calendar, expected)
+
+    def test_gather_miscellaneous_equipment(self):
+        t = self.set_minimal_files()
+
+        t.json_results_object['TabularReports'] = [
+            {'For': 'Entire Facility', 'ReportName': 'InitializationSummary',
+             'Tables':
+                 [
+                     {
+                         "Cols": [
+                             "Name",
+                             "Schedule Name",
+                             "Zone Name",
+                             "Zone Floor Area {m2}",
+                             "# Zone Occupants",
+                             "Equipment Level {W}",
+                             "Equipment/Floor Area {W/m2}",
+                             "Equipment per person {W/person}",
+                             "Fraction Latent",
+                             "Fraction Radiant",
+                             "Fraction Lost",
+                             "Fraction Convected",
+                             "End-Use SubCategory",
+                             "Nominal Minimum Equipment Level {W}",
+                             "Nominal Maximum Equipment Level {W}"
+                         ],
+                         "Rows": {
+                             "1": [
+                                 "PERIMETER_ZN_2_MISCPLUG_EQUIP",
+                                 "BLDG_EQUIP_SCH",
+                                 "PERIMETER_ZN_2",
+                                 "67.30",
+                                 "4.1",
+                                 "456.294",
+                                 "6.780",
+                                 "112.467",
+                                 "0.000",
+                                 "0.000",
+                                 "0.000",
+                                 "1.000",
+                                 "MiscPlug",
+                                 "0.000",
+                                 "456.294"
+                             ],
+                         },
+                         "TableName": "ElectricEquipment Internal Gains Nominal"
+                     },
+                 ]
+             }
+        ]
+
+        gathered_equipment = t.gather_miscellaneous_equipment()
+
+        expected = {
+            'PERIMETER_ZN_2': [
+                {'id': 'PERIMETER_ZN_2_MISCPLUG_EQUIP',
+                 'energy_type': 'ELECTRICITY',
+                 'multiplier_schedule': 'BLDG_EQUIP_SCH',
+                 'sensible_fraction': 1.0,
+                 'latent_fraction': 0.0,
+                 'POWER DENSITY': 6.78}
+            ]
+        }
+
+        self.assertEqual(gathered_equipment, expected)
