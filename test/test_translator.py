@@ -592,6 +592,7 @@ class TestTranslator(TestCase):
                          'tilt': 90.0,
                          'azimuth': 270.0,
                          'adjacent_to': 'EXTERIOR',
+                         'does_cast_shade': True,
                          }
                     }
 
