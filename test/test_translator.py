@@ -1134,3 +1134,87 @@ class TestTranslator(TestCase):
         }
 
         self.assertEqual(gathered_equipment, expected)
+
+    def test_is_site_shaded(self):
+        t = self.set_minimal_files()
+
+        t.json_results_object['TabularReports'] = [
+            {'For': 'Entire Facility', 'ReportName': 'ObjectCountSummary',
+             'Tables':
+                 [
+                     {
+                         "Cols": [
+                             "Total",
+                             "Outdoors"
+                         ],
+                         "Rows": {
+                             "Building Detached Shading": [
+                                 "0",
+                                 "0"
+                             ],
+                             "Fixed Detached Shading": [
+                                 "0",
+                                 "0"
+                             ],
+                         },
+                         "TableName": "Surfaces by Class"
+                     },
+                 ]
+             }
+        ]
+
+        self.assertFalse(t.is_site_shaded())
+
+        t.json_results_object['TabularReports'] = [
+            {'For': 'Entire Facility', 'ReportName': 'ObjectCountSummary',
+             'Tables':
+                 [
+                     {
+                         "Cols": [
+                             "Total",
+                             "Outdoors"
+                         ],
+                         "Rows": {
+                             "Building Detached Shading": [
+                                 "1",
+                                 "0"
+                             ],
+                             "Fixed Detached Shading": [
+                                 "0",
+                                 "0"
+                             ],
+                         },
+                         "TableName": "Surfaces by Class"
+                     },
+                 ]
+             }
+        ]
+
+        self.assertTrue(t.is_site_shaded())
+
+        t.json_results_object['TabularReports'] = [
+            {'For': 'Entire Facility', 'ReportName': 'ObjectCountSummary',
+             'Tables':
+                 [
+                     {
+                         "Cols": [
+                             "Total",
+                             "Outdoors"
+                         ],
+                         "Rows": {
+                             "Building Detached Shading": [
+                                 "0",
+                                 "0"
+                             ],
+                             "Fixed Detached Shading": [
+                                 "1",
+                                 "0"
+                             ],
+                         },
+                         "TableName": "Surfaces by Class"
+                     },
+                 ]
+             }
+        ]
+
+        self.assertTrue(t.is_site_shaded())
