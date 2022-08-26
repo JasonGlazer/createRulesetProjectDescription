@@ -756,7 +756,6 @@ class Translator:
                         row_keys = list(rows.keys())
                         cols = table['Cols']
                         coil_type_column = cols.index('Coil Type')
-                        coil_location_column = cols.index('Coil Location')
                         hvac_type_column = cols.index('HVAC Type')
                         hvac_name_column = cols.index('HVAC Name')
                         zone_names_column = cols.index('Zone Name(s)')
@@ -808,7 +807,7 @@ class Translator:
                                         terminal['heating_capacity'] = terminal_capacity_by_zone[zone]
                                     self.terminals_by_zone[zone.upper()] = [terminal, ]
         self.building_segment['heating_ventilation_air_conditioning_systems'] = hvac_systems
-        print(self.terminals_by_zone)
+        # print(self.terminals_by_zone)
         return hvac_systems, self.terminals_by_zone
 
     def process(self):

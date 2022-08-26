@@ -1263,3 +1263,96 @@ class TestTranslator(TestCase):
         ]
 
         self.assertFalse(t.are_shadows_cast_from_surfaces())
+
+    def test_add_simple_hvac(self):
+        t = self.set_minimal_files()
+
+        t.json_results_object['TabularReports'] = [
+            {'For': 'Entire Facility', 'ReportName': 'CoilSizingDetails',
+             'Tables':
+                 [
+                     {
+                         "Cols": [
+                             "Coil Type",
+                             "Coil Location",
+                             "HVAC Type",
+                             "HVAC Name",
+                             "Zone Name(s)",
+                             "System Sizing Method Concurrence",
+                             "System Sizing Method Capacity",
+                             "System Sizing Method Air Flow",
+                             "Autosized Coil Capacity?",
+                             "Autosized Coil Airflow?",
+                             "Autosized Coil Water Flow?",
+                             "OA Pretreated prior to coil inlet?",
+                             "Coil Final Gross Total Capacity [W]",
+                             "Coil Final Gross Sensible Capacity [W]"
+                         ],
+                         "Rows": {
+                             "5 ZONE PVAV 1 2SPD DX CLG COIL 320KBTU/HR 9.8EER": [
+                                 "Coil:Cooling:DX:TwoSpeed",
+                                 "AirLoop",
+                                 "AirLoopHVAC",
+                                 "5 ZONE PVAV 1",
+                                 "PERIMETER_MID_ZN_1 ZN; PERIMETER_MID_ZN_2 ZN;",
+                                 "Coincident",
+                                 "CoolingDesignCapacity",
+                                 "N/A",
+                                 "Yes",
+                                 "Yes",
+                                 "unknown",
+                                 "No",
+                                 "98149.824",
+                                 "78534.220",
+                             ],
+                             "PERIMETER_MID_ZN_1 ZN ELECTRIC REHEAT COIL": [
+                                 "Coil:Heating:Electric",
+                                 "Zone Equipment",
+                                 "ZONEHVAC:AIRDISTRIBUTIONUNIT",
+                                 "ADU PERIMETER_MID_ZN_1 ZN VAV TERMINAL",
+                                 "PERIMETER_MID_ZN_1 ZN",
+                                 "N/A",
+                                 "N/A",
+                                 "N/A",
+                                 "Yes",
+                                 "No",
+                                 "unknown",
+                                 "No",
+                                 "11828.176",
+                                 "11828.176",
+                             ]
+                         },
+                         "TableName": "Coils"
+                     }
+                 ]
+             }
+        ]
+
+        added_hvac_systems, added_terminals_by_zone = t.add_simple_hvac()
+
+        expected_hvac = [
+            {'id': '5 ZONE PVAV 1',
+             'cooling_system':
+                 {'id': '5 ZONE PVAV 1-cooling', 'design_total_cool_capacity': 98149.824,
+                  'design_sensible_cool_capacity': 78534.22
+                  }
+             }
+        ]
+
+        expected_terminals = \
+            {'PERIMETER_MID_ZN_1 ZN':
+                 [{'id': 'PERIMETER_MID_ZN_1 ZN-terminal',
+                   'served_by_heating_ventilation_air_conditioning_system': '5 ZONE PVAV 1',
+                   'heating_capacity': 11828.176
+                   }
+                  ],
+             'PERIMETER_MID_ZN_2 ZN':
+                 [{'id': 'PERIMETER_MID_ZN_2 ZN-terminal',
+                   'served_by_heating_ventilation_air_conditioning_system': '5 ZONE PVAV 1'
+                   }
+                  ],
+             }
+
+        self.assertEqual(added_hvac_systems, expected_hvac)
+
+        self.assertEqual(added_terminals_by_zone, expected_terminals)
