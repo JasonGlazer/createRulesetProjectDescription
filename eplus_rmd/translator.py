@@ -744,7 +744,7 @@ class Translator:
         return shadows_cast
 
     def add_simple_hvac(self):
-        # this only handles adding the heating and cooling capacities for the small office and medium office DOE prototypes
+        # only handles adding the heating and cooling capacities for the small office and medium office DOE prototypes
         hvac_systems = []
         tabular_reports = self.json_results_object['TabularReports']
         for tabular_report in tabular_reports:
