@@ -762,9 +762,15 @@ class Translator:
                         zone_names_column = cols.index('Zone Name(s)')
                         total_capacity_column = cols.index('Coil Final Gross Total Capacity [W]')
                         sensible_capacity_column = cols.index('Coil Final Gross Sensible Capacity [W]')
+                        terminal_capacity_by_zone = {}
+                        for row_key in row_keys:
+                            hvac_type = rows[row_key][hvac_type_column]
+                            zone_name = rows[row_key][zone_names_column]
+                            total_capacity = float(rows[row_key][total_capacity_column])
+                            if hvac_type == 'ZONEHVAC:AIRDISTRIBUTIONUNIT':
+                                terminal_capacity_by_zone[zone_name] = total_capacity
                         for row_key in row_keys:
                             coil_type = rows[row_key][coil_type_column]
-                            coil_location = rows[row_key][coil_location_column]
                             hvac_type = rows[row_key][hvac_type_column]
                             hvac_name = rows[row_key][hvac_name_column]
                             zone_names = rows[row_key][zone_names_column]
@@ -778,7 +784,7 @@ class Translator:
                             sensible_capacity = float(rows[row_key][sensible_capacity_column])
                             heating_system = {}
                             cooling_system = {}
-                            if coil_location == 'AirLoop':
+                            if hvac_type == 'AirLoopHVAC':
                                 if 'HEATING' in coil_type.upper():
                                     heating_system['id'] = hvac_name + '-heating'
                                     heating_system['design_capacity'] = total_capacity
@@ -798,7 +804,9 @@ class Translator:
                                         'id': zone + '-terminal',
                                         'served_by_heating_ventilation_air_conditioning_system': hvac_name
                                     }
-                                    self.terminals_by_zone[zone.upper()] = [terminal,]
+                                    if zone in terminal_capacity_by_zone:
+                                        terminal['heating_capacity'] = terminal_capacity_by_zone[zone]
+                                    self.terminals_by_zone[zone.upper()] = [terminal, ]
         self.building_segment['heating_ventilation_air_conditioning_systems'] = hvac_systems
         print(self.terminals_by_zone)
         return hvac_systems, self.terminals_by_zone
