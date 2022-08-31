@@ -1,0 +1,16 @@
+ ReadVarsESO
+ processing:C:\Users\jglaz\Documents\projects\EnergyPlusDev\RulesetModelDescription\90-1-2019-prototypes\update4 22.2.0 iofreeze\ASHRAE901_OfficeSmall_STD2019_Denver.rvi
+ input file:C:\Users\jglaz\Documents\projects\EnergyPlusDev\RulesetModelDescription\90-1-2019-prototypes\update4 22.2.0 iofreeze\ASHRAE901_OfficeSmall_STD2019_Denverout.eso
+ output file:C:\Users\jglaz\Documents\projects\EnergyPlusDev\RulesetModelDescription\90-1-2019-prototypes\update4 22.2.0 iofreeze\ASHRAE901_OfficeSmall_STD2019_Denverout.csv
+ getting all vars from:C:\Users\jglaz\Documents\projects\EnergyPlusDev\RulesetModelDescription\90-1-2019-prototypes\update4 22.2.0 iofreeze\ASHRAE901_OfficeSmall_STD2019_Denverout.eso
+  number variables requested for output=          49
+ ReadVars Run Time=00hr 00min  1.64sec
+ ReadVarsESO program completed successfully.
+ ReadVarsESO
+ processing:C:\Users\jglaz\Documents\projects\EnergyPlusDev\RulesetModelDescription\90-1-2019-prototypes\update4 22.2.0 iofreeze\ASHRAE901_OfficeSmall_STD2019_Denver.mvi
+ input file:C:\Users\jglaz\Documents\projects\EnergyPlusDev\RulesetModelDescription\90-1-2019-prototypes\update4 22.2.0 iofreeze\ASHRAE901_OfficeSmall_STD2019_Denverout.mtr
+ output file:C:\Users\jglaz\Documents\projects\EnergyPlusDev\RulesetModelDescription\90-1-2019-prototypes\update4 22.2.0 iofreeze\ASHRAE901_OfficeSmall_STD2019_Denvermtr.csv
+ getting all vars from:C:\Users\jglaz\Documents\projects\EnergyPlusDev\RulesetModelDescription\90-1-2019-prototypes\update4 22.2.0 iofreeze\ASHRAE901_OfficeSmall_STD2019_Denverout.mtr
+  number variables requested for output=           3
+ ReadVars Run Time=00hr 00min  0.22sec
+ ReadVarsESO program completed successfully.

@@ -1,0 +1,312 @@
+Program Version,EnergyPlus, Version 22.2.0-56f3a890b4, YMD=2022.08.31 10:31,
+   ************* Beginning Zone Sizing Calculations
+   ** Warning ** CheckUsedConstructions: There are 23 nominally unused constructions in input.
+   **   ~~~   ** For explicit details on each unused construction, use Output:Diagnostics,DisplayExtraWarnings;
+   ** Warning ** GetDaylightingControls: Fraction of zone or space controlled by the Daylighting reference points is < 1.0.
+   **   ~~~   ** ..discovered in Daylighting:Controls="PERIMETER_ZN_1_DAYLCTRL", only 0.270 of the zone or space is controlled.
+   ** Warning ** GetDaylightingControls: Fraction of zone or space controlled by the Daylighting reference points is < 1.0.
+   **   ~~~   ** ..discovered in Daylighting:Controls="PERIMETER_ZN_2_DAYLCTRL", only 0.270 of the zone or space is controlled.
+   ** Warning ** GetDaylightingControls: Fraction of zone or space controlled by the Daylighting reference points is < 1.0.
+   **   ~~~   ** ..discovered in Daylighting:Controls="PERIMETER_ZN_3_DAYLCTRL", only 0.270 of the zone or space is controlled.
+   ** Warning ** GetDaylightingControls: Fraction of zone or space controlled by the Daylighting reference points is < 1.0.
+   **   ~~~   ** ..discovered in Daylighting:Controls="PERIMETER_ZN_4_DAYLCTRL", only 0.270 of the zone or space is controlled.
+   ************* Beginning System Sizing Calculations
+   ************* Beginning Plant Sizing Calculations
+   ** Warning ** GetDXCoils: Coil:Heating:DX:SingleSpeed="PSZ-AC:1 HEAT PUMP DX HEATING COIL" curve values
+   **   ~~~   ** ... defrost_energy_input_ratio_function_of_temperature_curve_name = HPACCOOLEIRFT output is not equal to 1.0 (+ or - 10%) at rated conditions.
+   **   ~~~   ** ... Curve output at rated conditions = 0.787
+   ** Warning ** GetDXCoils: Coil:Heating:DX:SingleSpeed="PSZ-AC:2 HEAT PUMP DX HEATING COIL" curve values
+   **   ~~~   ** ... defrost_energy_input_ratio_function_of_temperature_curve_name = HPACCOOLEIRFT output is not equal to 1.0 (+ or - 10%) at rated conditions.
+   **   ~~~   ** ... Curve output at rated conditions = 0.787
+   ** Warning ** GetDXCoils: Coil:Heating:DX:SingleSpeed="PSZ-AC:3 HEAT PUMP DX HEATING COIL" curve values
+   **   ~~~   ** ... defrost_energy_input_ratio_function_of_temperature_curve_name = HPACCOOLEIRFT output is not equal to 1.0 (+ or - 10%) at rated conditions.
+   **   ~~~   ** ... Curve output at rated conditions = 0.787
+   ** Warning ** GetDXCoils: Coil:Heating:DX:SingleSpeed="PSZ-AC:4 HEAT PUMP DX HEATING COIL" curve values
+   **   ~~~   ** ... defrost_energy_input_ratio_function_of_temperature_curve_name = HPACCOOLEIRFT output is not equal to 1.0 (+ or - 10%) at rated conditions.
+   **   ~~~   ** ... Curve output at rated conditions = 0.787
+   ** Warning ** GetDXCoils: Coil:Heating:DX:SingleSpeed="PSZ-AC:5 HEAT PUMP DX HEATING COIL" curve values
+   **   ~~~   ** ... defrost_energy_input_ratio_function_of_temperature_curve_name = HPACCOOLEIRFT output is not equal to 1.0 (+ or - 10%) at rated conditions.
+   **   ~~~   ** ... Curve output at rated conditions = 0.787
+   ** Warning ** The Standard Ratings is calculated for Coil:Cooling:DX:SingleSpeed = PSZ-AC:1 HEAT PUMP DX COOLING COIL but not at the AHRI test condition due to curve out of bound.
+   **   ~~~   **  Review the Standard Ratings calculations in the Engineering Reference for this coil type. Also, use Output:Diagnostics, DisplayExtraWarnings for further guidance.
+   ** Warning ** The Standard Ratings is calculated for Coil:Cooling:DX:SingleSpeed = PSZ-AC:2 HEAT PUMP DX COOLING COIL but not at the AHRI test condition due to curve out of bound.
+   **   ~~~   **  Review the Standard Ratings calculations in the Engineering Reference for this coil type. Also, use Output:Diagnostics, DisplayExtraWarnings for further guidance.
+   ** Warning ** The Standard Ratings is calculated for Coil:Cooling:DX:SingleSpeed = PSZ-AC:3 HEAT PUMP DX COOLING COIL but not at the AHRI test condition due to curve out of bound.
+   **   ~~~   **  Review the Standard Ratings calculations in the Engineering Reference for this coil type. Also, use Output:Diagnostics, DisplayExtraWarnings for further guidance.
+   ** Warning ** The Standard Ratings is calculated for Coil:Cooling:DX:SingleSpeed = PSZ-AC:4 HEAT PUMP DX COOLING COIL but not at the AHRI test condition due to curve out of bound.
+   **   ~~~   **  Review the Standard Ratings calculations in the Engineering Reference for this coil type. Also, use Output:Diagnostics, DisplayExtraWarnings for further guidance.
+   ** Warning ** The Standard Ratings is calculated for Coil:Cooling:DX:SingleSpeed = PSZ-AC:5 HEAT PUMP DX COOLING COIL but not at the AHRI test condition due to curve out of bound.
+   **   ~~~   **  Review the Standard Ratings calculations in the Engineering Reference for this coil type. Also, use Output:Diagnostics, DisplayExtraWarnings for further guidance.
+   ** Warning ** Check input. Pump nominal power or motor efficiency is set to 0, for pump=SHWSYS1 PUMP
+   ************* Testing Individual Branch Integrity
+   ************* All Branches passed integrity testing
+   ************* Testing Individual Supply Air Path Integrity
+   ************* All Supply Air Paths passed integrity testing
+   ************* Testing Individual Return Air Path Integrity
+   ************* All Return Air Paths passed integrity testing
+   ** Warning ** Potential Node Connection Error for object WATERHEATER:MIXED, name=SHWSYS1 WATER HEATER
+   **   ~~~   **   Node Types are still UNDEFINED -- See Branch/Node Details file for further information
+   **   ~~~   **   Inlet Node : SHWSYS1 PUMP-SHWSYS1 WATER HEATERNODE
+   **   ~~~   **   Outlet Node: SHWSYS1 SUPPLY EQUIPMENT OUTLET NODE
+   ************* There was 1 node connection error noted.
+   ************* Beginning Simulation
+   ** Warning ** In Output:Table:Monthly 'NAMEHOLDERMONTHLYSUMMARY CLIMATEZONE 5B' invalid Variable or Meter Name 'SITE OUTDOOR AIR DRYBULB'
+   ** Warning ** In Output:Table:Monthly 'NAMEHOLDERMONTHLYSUMMARY CODEAMENDMENT NONEAMEND' invalid Variable or Meter Name 'SITE OUTDOOR AIR DRYBULB'
+   ** Warning ** In Output:Table:Monthly 'NAMEHOLDERMONTHLYSUMMARY CODENAME ASHRAE901' invalid Variable or Meter Name 'SITE OUTDOOR AIR DRYBULB'
+   ** Warning ** In Output:Table:Monthly 'NAMEHOLDERMONTHLYSUMMARY CODEYEAR 2019' invalid Variable or Meter Name 'SITE OUTDOOR AIR DRYBULB'
+   ** Warning ** In Output:Table:Monthly 'NAMEHOLDERMONTHLYSUMMARY PROTOTYPENAME OFFICESMALL' invalid Variable or Meter Name 'SITE OUTDOOR AIR DRYBULB'
+   ** Warning ** In Output:Table:Monthly 'NAMEHOLDERMONTHLYSUMMARY REPRESENTCITY USA_CO_DENVER' invalid Variable or Meter Name 'SITE OUTDOOR AIR DRYBULB'
+   ** Warning ** In Output:Table:Monthly 'NAMEHOLDERMONTHLYSUMMARY STATE NATIONAL' invalid Variable or Meter Name 'SITE OUTDOOR AIR DRYBULB'
+   ** Warning ** In Output:Table:Monthly 'NAMEHOLDERMONTHLYSUMMARY TASKPURPOSE PROGRESSINDICATOR' invalid Variable or Meter Name 'SITE OUTDOOR AIR DRYBULB'
+   ** Warning ** In Output:Table:Monthly 'NAMEHOLDERMONTHLYSUMMARY TASKSCOPE NATIONAL' invalid Variable or Meter Name 'SITE OUTDOOR AIR DRYBULB'
+   ** Warning ** In Output:Table:Monthly 'SpaceGainsMonthly' invalid Variable or Meter Name 'ZONE GAS EQUIPMENT TOTAL HEATING ENERGY'
+   ** Warning ** In Output:Table:Monthly 'SpaceGainsMonthly' invalid Variable or Meter Name 'ZONE HOT WATER EQUIPMENT TOTAL HEATING ENERGY'
+   ** Warning ** In Output:Table:Monthly 'SpaceGainsMonthly' invalid Variable or Meter Name 'ZONE STEAM EQUIPMENT TOTAL HEATING ENERGY'
+   ** Warning ** In Output:Table:Monthly 'SpaceGainsMonthly' invalid Variable or Meter Name 'ZONE OTHER EQUIPMENT TOTAL HEATING ENERGY'
+   ** Warning ** In Output:Table:Monthly 'PeakSpaceGainsMonthly' invalid Variable or Meter Name 'ZONE GAS EQUIPMENT TOTAL HEATING ENERGY'
+   ** Warning ** In Output:Table:Monthly 'PeakSpaceGainsMonthly' invalid Variable or Meter Name 'ZONE HOT WATER EQUIPMENT TOTAL HEATING ENERGY'
+   ** Warning ** In Output:Table:Monthly 'PeakSpaceGainsMonthly' invalid Variable or Meter Name 'ZONE STEAM EQUIPMENT TOTAL HEATING ENERGY'
+   ** Warning ** In Output:Table:Monthly 'PeakSpaceGainsMonthly' invalid Variable or Meter Name 'ZONE OTHER EQUIPMENT TOTAL HEATING ENERGY'
+   ** Warning ** In Output:Table:Monthly 'SpaceGainComponentsAtCoolingPeakMonthly' invalid Variable or Meter Name 'ZONE GAS EQUIPMENT TOTAL HEATING ENERGY'
+   ** Warning ** In Output:Table:Monthly 'SpaceGainComponentsAtCoolingPeakMonthly' invalid Variable or Meter Name 'ZONE HOT WATER EQUIPMENT TOTAL HEATING ENERGY'
+   ** Warning ** In Output:Table:Monthly 'SpaceGainComponentsAtCoolingPeakMonthly' invalid Variable or Meter Name 'ZONE STEAM EQUIPMENT TOTAL HEATING ENERGY'
+   ** Warning ** In Output:Table:Monthly 'SpaceGainComponentsAtCoolingPeakMonthly' invalid Variable or Meter Name 'ZONE OTHER EQUIPMENT TOTAL HEATING ENERGY'
+   ** Warning ** In Output:Table:Monthly 'EnergyConsumptionElectricityGeneratedPropaneMonthly' invalid Variable or Meter Name 'ELECTRICITYPRODUCED:FACILITY'
+   ** Warning ** In Output:Table:Monthly 'EnergyConsumptionElectricityGeneratedPropaneMonthly' invalid Variable or Meter Name 'ELECTRICITYPRODUCED:FACILITY'
+   ** Warning ** In Output:Table:Monthly 'EnergyConsumptionElectricityGeneratedPropaneMonthly' invalid Variable or Meter Name 'PROPANE:FACILITY'
+   ** Warning ** In Output:Table:Monthly 'EnergyConsumptionElectricityGeneratedPropaneMonthly' invalid Variable or Meter Name 'PROPANE:FACILITY'
+   ** Warning ** In Output:Table:Monthly 'EnergyConsumptionDieselFuelOilMonthly' invalid Variable or Meter Name 'DIESEL:FACILITY'
+   ** Warning ** In Output:Table:Monthly 'EnergyConsumptionDieselFuelOilMonthly' invalid Variable or Meter Name 'DIESEL:FACILITY'
+   ** Warning ** In Output:Table:Monthly 'EnergyConsumptionDieselFuelOilMonthly' invalid Variable or Meter Name 'FUELOILNO1:FACILITY'
+   ** Warning ** In Output:Table:Monthly 'EnergyConsumptionDieselFuelOilMonthly' invalid Variable or Meter Name 'FUELOILNO1:FACILITY'
+   ** Warning ** In Output:Table:Monthly 'EnergyConsumptionDieselFuelOilMonthly' invalid Variable or Meter Name 'FUELOILNO2:FACILITY'
+   ** Warning ** In Output:Table:Monthly 'EnergyConsumptionDieselFuelOilMonthly' invalid Variable or Meter Name 'FUELOILNO2:FACILITY'
+   ** Warning ** In Output:Table:Monthly 'EnergyConsumptionDistrictHeatingCoolingMonthly' invalid Variable or Meter Name 'DISTRICTCOOLING:FACILITY'
+   ** Warning ** In Output:Table:Monthly 'EnergyConsumptionDistrictHeatingCoolingMonthly' invalid Variable or Meter Name 'DISTRICTCOOLING:FACILITY'
+   ** Warning ** In Output:Table:Monthly 'EnergyConsumptionDistrictHeatingCoolingMonthly' invalid Variable or Meter Name 'DISTRICTHEATING:FACILITY'
+   ** Warning ** In Output:Table:Monthly 'EnergyConsumptionDistrictHeatingCoolingMonthly' invalid Variable or Meter Name 'DISTRICTHEATING:FACILITY'
+   ** Warning ** In Output:Table:Monthly 'EnergyConsumptionCoalGasolineMonthly' invalid Variable or Meter Name 'COAL:FACILITY'
+   ** Warning ** In Output:Table:Monthly 'EnergyConsumptionCoalGasolineMonthly' invalid Variable or Meter Name 'COAL:FACILITY'
+   ** Warning ** In Output:Table:Monthly 'EnergyConsumptionCoalGasolineMonthly' invalid Variable or Meter Name 'GASOLINE:FACILITY'
+   ** Warning ** In Output:Table:Monthly 'EnergyConsumptionCoalGasolineMonthly' invalid Variable or Meter Name 'GASOLINE:FACILITY'
+   ** Warning ** In Output:Table:Monthly 'EnergyConsumptionOtherFuelsMonthly' invalid Variable or Meter Name 'OTHERFUEL1:FACILITY'
+   ** Warning ** In Output:Table:Monthly 'EnergyConsumptionOtherFuelsMonthly' invalid Variable or Meter Name 'OTHERFUEL1:FACILITY'
+   ** Warning ** In Output:Table:Monthly 'EnergyConsumptionOtherFuelsMonthly' invalid Variable or Meter Name 'OTHERFUEL2:FACILITY'
+   ** Warning ** In Output:Table:Monthly 'EnergyConsumptionOtherFuelsMonthly' invalid Variable or Meter Name 'OTHERFUEL2:FACILITY'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionElectricityMonthly' invalid Variable or Meter Name 'EXTERIOREQUIPMENT:ELECTRICITY'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionElectricityMonthly' invalid Variable or Meter Name 'HEATREJECTION:ELECTRICITY'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionElectricityMonthly' invalid Variable or Meter Name 'HUMIDIFIER:ELECTRICITY'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionElectricityMonthly' invalid Variable or Meter Name 'HEATRECOVERY:ELECTRICITY'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionElectricityMonthly' invalid Variable or Meter Name 'COGENERATION:ELECTRICITY'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionNaturalGasMonthly' invalid Variable or Meter Name 'INTERIOREQUIPMENT:NATURALGAS'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionNaturalGasMonthly' invalid Variable or Meter Name 'EXTERIOREQUIPMENT:NATURALGAS'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionNaturalGasMonthly' invalid Variable or Meter Name 'COOLING:NATURALGAS'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionNaturalGasMonthly' invalid Variable or Meter Name 'WATERSYSTEMS:NATURALGAS'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionNaturalGasMonthly' invalid Variable or Meter Name 'COGENERATION:NATURALGAS'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionNaturalGasMonthly' invalid Variable or Meter Name 'HUMIDIFIER:NATURALGAS'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionDieselMonthly' invalid Variable or Meter Name 'EXTERIOREQUIPMENT:DIESEL'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionDieselMonthly' invalid Variable or Meter Name 'COOLING:DIESEL'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionDieselMonthly' invalid Variable or Meter Name 'HEATING:DIESEL'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionDieselMonthly' invalid Variable or Meter Name 'WATERSYSTEMS:DIESEL'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionDieselMonthly' invalid Variable or Meter Name 'COGENERATION:DIESEL'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionFuelOilMonthly' invalid Variable or Meter Name 'EXTERIOREQUIPMENT:FUELOILNO1'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionFuelOilMonthly' invalid Variable or Meter Name 'COOLING:FUELOILNO1'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionFuelOilMonthly' invalid Variable or Meter Name 'HEATING:FUELOILNO1'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionFuelOilMonthly' invalid Variable or Meter Name 'WATERSYSTEMS:FUELOILNO1'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionFuelOilMonthly' invalid Variable or Meter Name 'COGENERATION:FUELOILNO1'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionFuelOilMonthly' invalid Variable or Meter Name 'EXTERIOREQUIPMENT:FUELOILNO2'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionFuelOilMonthly' invalid Variable or Meter Name 'COOLING:FUELOILNO2'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionFuelOilMonthly' invalid Variable or Meter Name 'HEATING:FUELOILNO2'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionFuelOilMonthly' invalid Variable or Meter Name 'WATERSYSTEMS:FUELOILNO2'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionFuelOilMonthly' invalid Variable or Meter Name 'COGENERATION:FUELOILNO2'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionCoalMonthly' invalid Variable or Meter Name 'EXTERIOREQUIPMENT:COAL'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionCoalMonthly' invalid Variable or Meter Name 'HEATING:COAL'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionCoalMonthly' invalid Variable or Meter Name 'WATERSYSTEMS:COAL'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionPropaneMonthly' invalid Variable or Meter Name 'EXTERIOREQUIPMENT:PROPANE'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionPropaneMonthly' invalid Variable or Meter Name 'COOLING:PROPANE'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionPropaneMonthly' invalid Variable or Meter Name 'HEATING:PROPANE'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionPropaneMonthly' invalid Variable or Meter Name 'WATERSYSTEMS:PROPANE'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionPropaneMonthly' invalid Variable or Meter Name 'COGENERATION:PROPANE'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionPropaneMonthly' invalid Variable or Meter Name 'HUMIDIFIER:PROPANE'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionGasolineMonthly' invalid Variable or Meter Name 'EXTERIOREQUIPMENT:GASOLINE'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionGasolineMonthly' invalid Variable or Meter Name 'COOLING:GASOLINE'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionGasolineMonthly' invalid Variable or Meter Name 'HEATING:GASOLINE'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionGasolineMonthly' invalid Variable or Meter Name 'WATERSYSTEMS:GASOLINE'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionGasolineMonthly' invalid Variable or Meter Name 'COGENERATION:GASOLINE'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionOtherFuelsMonthly' invalid Variable or Meter Name 'EXTERIOREQUIPMENT:OTHERFUEL1'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionOtherFuelsMonthly' invalid Variable or Meter Name 'COOLING:OTHERFUEL1'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionOtherFuelsMonthly' invalid Variable or Meter Name 'HEATING:OTHERFUEL1'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionOtherFuelsMonthly' invalid Variable or Meter Name 'WATERSYSTEMS:OTHERFUEL1'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionOtherFuelsMonthly' invalid Variable or Meter Name 'COGENERATION:OTHERFUEL1'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionOtherFuelsMonthly' invalid Variable or Meter Name 'EXTERIOREQUIPMENT:OTHERFUEL2'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionOtherFuelsMonthly' invalid Variable or Meter Name 'COOLING:OTHERFUEL2'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionOtherFuelsMonthly' invalid Variable or Meter Name 'HEATING:OTHERFUEL2'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionOtherFuelsMonthly' invalid Variable or Meter Name 'WATERSYSTEMS:OTHERFUEL2'
+   ** Warning ** In Output:Table:Monthly 'EndUseEnergyConsumptionOtherFuelsMonthly' invalid Variable or Meter Name 'COGENERATION:OTHERFUEL2'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseElectricityPart1Monthly' invalid Variable or Meter Name 'EXTERIOREQUIPMENT:ELECTRICITY'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseElectricityPart2Monthly' invalid Variable or Meter Name 'HEATREJECTION:ELECTRICITY'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseElectricityPart2Monthly' invalid Variable or Meter Name 'HUMIDIFIER:ELECTRICITY'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseElectricityPart2Monthly' invalid Variable or Meter Name 'HEATRECOVERY:ELECTRICITY'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseElectricityPart2Monthly' invalid Variable or Meter Name 'COGENERATION:ELECTRICITY'
+   ** Warning ** In Output:Table:Monthly 'ElectricComponentsOfPeakDemandMonthly' invalid Variable or Meter Name 'EXTERIOREQUIPMENT:ELECTRICITY'
+   ** Warning ** In Output:Table:Monthly 'ElectricComponentsOfPeakDemandMonthly' invalid Variable or Meter Name 'HEATREJECTION:ELECTRICITY'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseNaturalGasMonthly' invalid Variable or Meter Name 'INTERIOREQUIPMENT:NATURALGAS'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseNaturalGasMonthly' invalid Variable or Meter Name 'EXTERIOREQUIPMENT:NATURALGAS'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseNaturalGasMonthly' invalid Variable or Meter Name 'COOLING:NATURALGAS'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseNaturalGasMonthly' invalid Variable or Meter Name 'WATERSYSTEMS:NATURALGAS'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseNaturalGasMonthly' invalid Variable or Meter Name 'COGENERATION:NATURALGAS'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseDieselMonthly' invalid Variable or Meter Name 'EXTERIOREQUIPMENT:DIESEL'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseDieselMonthly' invalid Variable or Meter Name 'COOLING:DIESEL'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseDieselMonthly' invalid Variable or Meter Name 'HEATING:DIESEL'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseDieselMonthly' invalid Variable or Meter Name 'WATERSYSTEMS:DIESEL'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseDieselMonthly' invalid Variable or Meter Name 'COGENERATION:DIESEL'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseFuelOilMonthly' invalid Variable or Meter Name 'EXTERIOREQUIPMENT:FUELOILNO1'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseFuelOilMonthly' invalid Variable or Meter Name 'COOLING:FUELOILNO1'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseFuelOilMonthly' invalid Variable or Meter Name 'HEATING:FUELOILNO1'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseFuelOilMonthly' invalid Variable or Meter Name 'WATERSYSTEMS:FUELOILNO1'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseFuelOilMonthly' invalid Variable or Meter Name 'COGENERATION:FUELOILNO1'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseFuelOilMonthly' invalid Variable or Meter Name 'EXTERIOREQUIPMENT:FUELOILNO2'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseFuelOilMonthly' invalid Variable or Meter Name 'COOLING:FUELOILNO2'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseFuelOilMonthly' invalid Variable or Meter Name 'HEATING:FUELOILNO2'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseFuelOilMonthly' invalid Variable or Meter Name 'WATERSYSTEMS:FUELOILNO2'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseFuelOilMonthly' invalid Variable or Meter Name 'COGENERATION:FUELOILNO2'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseCoalMonthly' invalid Variable or Meter Name 'EXTERIOREQUIPMENT:COAL'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseCoalMonthly' invalid Variable or Meter Name 'HEATING:COAL'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseCoalMonthly' invalid Variable or Meter Name 'WATERSYSTEMS:COAL'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUsePropaneMonthly' invalid Variable or Meter Name 'EXTERIOREQUIPMENT:PROPANE'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUsePropaneMonthly' invalid Variable or Meter Name 'COOLING:PROPANE'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUsePropaneMonthly' invalid Variable or Meter Name 'HEATING:PROPANE'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUsePropaneMonthly' invalid Variable or Meter Name 'WATERSYSTEMS:PROPANE'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUsePropaneMonthly' invalid Variable or Meter Name 'COGENERATION:PROPANE'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseGasolineMonthly' invalid Variable or Meter Name 'EXTERIOREQUIPMENT:GASOLINE'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseGasolineMonthly' invalid Variable or Meter Name 'COOLING:GASOLINE'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseGasolineMonthly' invalid Variable or Meter Name 'HEATING:GASOLINE'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseGasolineMonthly' invalid Variable or Meter Name 'WATERSYSTEMS:GASOLINE'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseGasolineMonthly' invalid Variable or Meter Name 'COGENERATION:GASOLINE'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseOtherFuelsMonthly' invalid Variable or Meter Name 'EXTERIOREQUIPMENT:OTHERFUEL1'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseOtherFuelsMonthly' invalid Variable or Meter Name 'COOLING:OTHERFUEL1'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseOtherFuelsMonthly' invalid Variable or Meter Name 'HEATING:OTHERFUEL1'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseOtherFuelsMonthly' invalid Variable or Meter Name 'WATERSYSTEMS:OTHERFUEL1'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseOtherFuelsMonthly' invalid Variable or Meter Name 'COGENERATION:OTHERFUEL1'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseOtherFuelsMonthly' invalid Variable or Meter Name 'EXTERIOREQUIPMENT:OTHERFUEL2'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseOtherFuelsMonthly' invalid Variable or Meter Name 'COOLING:OTHERFUEL2'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseOtherFuelsMonthly' invalid Variable or Meter Name 'HEATING:OTHERFUEL2'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseOtherFuelsMonthly' invalid Variable or Meter Name 'WATERSYSTEMS:OTHERFUEL2'
+   ** Warning ** In Output:Table:Monthly 'PeakEnergyEndUseOtherFuelsMonthly' invalid Variable or Meter Name 'COGENERATION:OTHERFUEL2'
+   ** Warning ** In Output:Table:Monthly 'UnglazedTranspiredSolarCollectorSummaryMonthly' invalid Variable or Meter Name 'SOLAR COLLECTOR SYSTEM EFFICIENCY'
+   ** Warning ** In Output:Table:Monthly 'UnglazedTranspiredSolarCollectorSummaryMonthly' invalid Variable or Meter Name 'SOLAR COLLECTOR SYSTEM EFFICIENCY'
+   ** Warning ** In Output:Table:Monthly 'UnglazedTranspiredSolarCollectorSummaryMonthly' invalid Variable or Meter Name 'SOLAR COLLECTOR OUTSIDE FACE SUCTION VELOCITY'
+   ** Warning ** In Output:Table:Monthly 'UnglazedTranspiredSolarCollectorSummaryMonthly' invalid Variable or Meter Name 'SOLAR COLLECTOR SENSIBLE HEATING RATE'
+   ** Warning ** In Output:Table:Monthly 'OccupantComfortDataSummaryMonthly' invalid Variable or Meter Name 'ZONE THERMAL COMFORT FANGER MODEL PMV'
+   ** Warning ** In Output:Table:Monthly 'OccupantComfortDataSummaryMonthly' invalid Variable or Meter Name 'ZONE THERMAL COMFORT FANGER MODEL PPD'
+   ** Warning ** In Output:Table:Monthly 'ChillerReportMonthly' invalid Variable or Meter Name 'CHILLER ELECTRICITY ENERGY'
+   ** Warning ** In Output:Table:Monthly 'ChillerReportMonthly' invalid Variable or Meter Name 'CHILLER ELECTRICITY RATE'
+   ** Warning ** In Output:Table:Monthly 'ChillerReportMonthly' invalid Variable or Meter Name 'CHILLER ELECTRICITY ENERGY'
+   ** Warning ** In Output:Table:Monthly 'ChillerReportMonthly' invalid Variable or Meter Name 'CHILLER EVAPORATOR COOLING ENERGY'
+   ** Warning ** In Output:Table:Monthly 'ChillerReportMonthly' invalid Variable or Meter Name 'CHILLER EVAPORATOR COOLING RATE'
+   ** Warning ** In Output:Table:Monthly 'ChillerReportMonthly' invalid Variable or Meter Name 'CHILLER CONDENSER HEAT TRANSFER ENERGY'
+   ** Warning ** In Output:Table:Monthly 'ChillerReportMonthly' invalid Variable or Meter Name 'CHILLER COP'
+   ** Warning ** In Output:Table:Monthly 'ChillerReportMonthly' invalid Variable or Meter Name 'CHILLER COP'
+   ** Warning ** In Output:Table:Monthly 'ChillerReportMonthly' invalid Variable or Meter Name 'CHILLER PART LOAD RATIO'
+   ** Warning ** In Output:Table:Monthly 'ChillerReportMonthly' invalid Variable or Meter Name 'CHILLER PART LOAD RATIO'
+   ** Warning ** In Output:Table:Monthly 'TowerReportMonthly' invalid Variable or Meter Name 'COOLING TOWER FAN ELECTRICITY ENERGY'
+   ** Warning ** In Output:Table:Monthly 'TowerReportMonthly' invalid Variable or Meter Name 'COOLING TOWER FAN ELECTRICITY ENERGY'
+   ** Warning ** In Output:Table:Monthly 'TowerReportMonthly' invalid Variable or Meter Name 'COOLING TOWER FAN ELECTRICITY RATE'
+   ** Warning ** In Output:Table:Monthly 'TowerReportMonthly' invalid Variable or Meter Name 'COOLING TOWER HEAT TRANSFER RATE'
+   ** Warning ** In Output:Table:Monthly 'TowerReportMonthly' invalid Variable or Meter Name 'COOLING TOWER INLET TEMPERATURE'
+   ** Warning ** In Output:Table:Monthly 'TowerReportMonthly' invalid Variable or Meter Name 'COOLING TOWER OUTLET TEMPERATURE'
+   ** Warning ** In Output:Table:Monthly 'TowerReportMonthly' invalid Variable or Meter Name 'COOLING TOWER MASS FLOW RATE'
+   ** Warning ** In Output:Table:Monthly 'BoilerReportMonthly' invalid Variable or Meter Name 'BOILER HEATING ENERGY'
+   ** Warning ** In Output:Table:Monthly 'BoilerReportMonthly' invalid Variable or Meter Name 'BOILER GAS CONSUMPTION'
+   ** Warning ** In Output:Table:Monthly 'BoilerReportMonthly' invalid Variable or Meter Name 'BOILER HEATING ENERGY'
+   ** Warning ** In Output:Table:Monthly 'BoilerReportMonthly' invalid Variable or Meter Name 'BOILER HEATING RATE'
+   ** Warning ** In Output:Table:Monthly 'BoilerReportMonthly' invalid Variable or Meter Name 'BOILER GAS CONSUMPTION RATE'
+   ** Warning ** In Output:Table:Monthly 'BoilerReportMonthly' invalid Variable or Meter Name 'BOILER INLET TEMPERATURE'
+   ** Warning ** In Output:Table:Monthly 'BoilerReportMonthly' invalid Variable or Meter Name 'BOILER OUTLET TEMPERATURE'
+   ** Warning ** In Output:Table:Monthly 'BoilerReportMonthly' invalid Variable or Meter Name 'BOILER MASS FLOW RATE'
+   ** Warning ** In Output:Table:Monthly 'BoilerReportMonthly' invalid Variable or Meter Name 'BOILER ANCILLARY ELECTRICITY RATE'
+   ** Warning ** In Output:Table:Monthly 'BoilerReportMonthly' invalid Variable or Meter Name 'BOILER PART LOAD RATIO'
+   ** Warning ** In Output:Table:Monthly 'BoilerReportMonthly' invalid Variable or Meter Name 'BOILER PART LOAD RATIO'
+   ** Warning ** In Output:Table:Monthly 'DXReportMonthly' invalid Variable or Meter Name 'COOLING COIL CRANKCASE HEATER ELECTRICITY ENERGY'
+   ** Warning ** In Output:Table:Monthly 'DXReportMonthly' invalid Variable or Meter Name 'COOLING COIL CRANKCASE HEATER ELECTRICITY RATE'
+   ** Warning ** In Output:Table:Monthly 'WindowACReportMonthly' invalid Variable or Meter Name 'ZONE WINDOW AIR CONDITIONER TOTAL COOLING ENERGY'
+   ** Warning ** In Output:Table:Monthly 'WindowACReportMonthly' invalid Variable or Meter Name 'ZONE WINDOW AIR CONDITIONER ELECTRICITY ENERGY'
+   ** Warning ** In Output:Table:Monthly 'WindowACReportMonthly' invalid Variable or Meter Name 'ZONE WINDOW AIR CONDITIONER TOTAL COOLING ENERGY'
+   ** Warning ** In Output:Table:Monthly 'WindowACReportMonthly' invalid Variable or Meter Name 'ZONE WINDOW AIR CONDITIONER SENSIBLE COOLING ENERGY'
+   ** Warning ** In Output:Table:Monthly 'WindowACReportMonthly' invalid Variable or Meter Name 'ZONE WINDOW AIR CONDITIONER LATENT COOLING ENERGY'
+   ** Warning ** In Output:Table:Monthly 'WindowACReportMonthly' invalid Variable or Meter Name 'ZONE WINDOW AIR CONDITIONER TOTAL COOLING RATE'
+   ** Warning ** In Output:Table:Monthly 'WindowACReportMonthly' invalid Variable or Meter Name 'ZONE WINDOW AIR CONDITIONER SENSIBLE COOLING RATE'
+   ** Warning ** In Output:Table:Monthly 'WindowACReportMonthly' invalid Variable or Meter Name 'ZONE WINDOW AIR CONDITIONER LATENT COOLING RATE'
+   ** Warning ** In Output:Table:Monthly 'WindowACReportMonthly' invalid Variable or Meter Name 'ZONE WINDOW AIR CONDITIONER ELECTRICITY RATE'
+   ** Warning ** In Output:Table:Monthly 'WaterHeaterReportMonthly' invalid Variable or Meter Name 'WATER HEATER BURNER HEATING ENERGY'
+   ** Warning ** In Output:Table:Monthly 'WaterHeaterReportMonthly' invalid Variable or Meter Name 'WATER HEATER GAS CONSUMPTION'
+   ** Warning ** In Output:Table:Monthly 'WaterHeaterReportMonthly' invalid Variable or Meter Name 'WATER HEATER LOSS DEMAND ENERGY'
+   ** Warning ** In Output:Table:Monthly 'WaterHeaterReportMonthly' invalid Variable or Meter Name 'WATER HEATER HEAT RECOVERY SUPPLY ENERGY'
+   ** Warning ** In Output:Table:Monthly 'WaterHeaterReportMonthly' invalid Variable or Meter Name 'WATER HEATER SOURCE ENERGY'
+   ** Warning ** In Output:Table:Monthly 'GeneratorReportMonthly' invalid Variable or Meter Name 'GENERATOR PRODUCED AC ELECTRICITY ENERGY'
+   ** Warning ** In Output:Table:Monthly 'GeneratorReportMonthly' invalid Variable or Meter Name 'GENERATOR DIESEL CONSUMPTION'
+   ** Warning ** In Output:Table:Monthly 'GeneratorReportMonthly' invalid Variable or Meter Name 'GENERATOR GAS CONSUMPTION'
+   ** Warning ** In Output:Table:Monthly 'GeneratorReportMonthly' invalid Variable or Meter Name 'GENERATOR PRODUCED AC ELECTRICITY ENERGY'
+   ** Warning ** In Output:Table:Monthly 'GeneratorReportMonthly' invalid Variable or Meter Name 'GENERATOR TOTAL HEAT RECOVERY'
+   ** Warning ** In Output:Table:Monthly 'GeneratorReportMonthly' invalid Variable or Meter Name 'GENERATOR JACKET HEAT RECOVERY ENERGY'
+   ** Warning ** In Output:Table:Monthly 'GeneratorReportMonthly' invalid Variable or Meter Name 'GENERATOR LUBE HEAT RECOVERY'
+   ** Warning ** In Output:Table:Monthly 'GeneratorReportMonthly' invalid Variable or Meter Name 'GENERATOR EXHAUST HEAT RECOVERY ENERGY'
+   ** Warning ** In Output:Table:Monthly 'GeneratorReportMonthly' invalid Variable or Meter Name 'GENERATOR EXHAUST AIR TEMPERATURE'
+   ** Warning ** In Output:Table:Monthly 'CoilReportMonthly' invalid Variable or Meter Name 'COOLING COIL WETTED AREA FRACTION'
+   ** Warning ** In Output:Table:Monthly 'AirLoopSystemEnergyAndWaterUseMonthly' invalid Variable or Meter Name 'AIR SYSTEM NATURAL GAS ENERGY'
+   ** Warning ** In Output:Table:Monthly 'AirLoopSystemComponentEnergyUseMonthly' invalid Variable or Meter Name 'AIR SYSTEM HEATING COIL NATURAL GAS ENERGY'
+   ** Warning ** In Output:Table:Monthly 'AirLoopSystemComponentEnergyUseMonthly' invalid Variable or Meter Name 'AIR SYSTEM HUMIDIFIER NATURAL GAS ENERGY'
+   ** Warning ** Processing Monthly Tabular Reports: Variable names not valid for this simulation
+   **   ~~~   ** ...use Output:Diagnostics,DisplayExtraWarnings; to show more details on individual variables.
+   ** Warning ** CalcEquipmentFlowRates: "CORE_ZN WATER EQUIPMENT" - Hot water temperature is less than the cold water temperature (2.27E-003 C)
+   **   ~~~   **  Environment=RUNPERIOD 1, at Simulation time=02/15 07:00 - 07:15
+   **   ~~~   ** ...hot water temperature       = 7.84 C
+   **   ~~~   ** ...cold water temperature       = 7.85 C
+   **   ~~~   ** ...Note: hot water temperature should be greater than or equal to the cold water temperature
+   **   ~~~   ** ...Hot water temperature should be greater than or equal to the cold water temperature. Verify temperature setpoints and schedules.
+   ** Warning ** CalcDoe2DXCoil: Coil:Cooling:DX:SingleSpeed "PSZ-AC:1 HEAT PUMP DX COOLING COIL" - Air-cooled condenser inlet dry-bulb temperature below 0 C. Outdoor dry-bulb temperature = -3.78
+   **   ~~~   **  ... Occurrence info = RUNPERIOD 1, 03/30 05:00 - 05:15
+   **   ~~~   ** ... Operation at low ambient temperatures may require special performance curves.
+   ** Warning ** CalcDoe2DXCoil: Coil:Cooling:DX:SingleSpeed "PSZ-AC:2 HEAT PUMP DX COOLING COIL" - Air-cooled condenser inlet dry-bulb temperature below 0 C. Outdoor dry-bulb temperature = -0.50
+   **   ~~~   **  ... Occurrence info = RUNPERIOD 1, 03/30 12:15 - 12:30
+   **   ~~~   ** ... Operation at low ambient temperatures may require special performance curves.
+   ************* Simulation Error Summary *************
+   ************* There are 22 unused schedules in input.
+   ************* Use Output:Diagnostics,DisplayUnusedSchedules; to see them.
+   *************
+   ************* ===== Recurring Error Summary =====
+   ************* The following recurring error messages occurred.
+   *************
+   *************  ** Warning ** "CORE_ZN WATER EQUIPMENT" - Hot water temperature should be greater than or equal to the cold water temperature error continues...
+   *************  **   ~~~   **   This error occurred 106079 total times;
+   *************  **   ~~~   **   during Warmup 0 times;
+   *************  **   ~~~   **   during Sizing 0 times.
+   *************  **   ~~~   **   Max=10.879902  Min=2.271455E-003
+   *************
+   *************  ** Warning ** CalcDoe2DXCoil: Coil:Cooling:DX:SingleSpeed="PSZ-AC:1 HEAT PUMP DX COOLING COIL" - Low condenser dry-bulb temperature error continues...
+   *************  **   ~~~   **   This error occurred 43 total times;
+   *************  **   ~~~   **   during Warmup 0 times;
+   *************  **   ~~~   **   during Sizing 0 times.
+   *************  **   ~~~   **   Max=-0.25 [C]  Min=-4.9 [C]
+   *************
+   *************  ** Warning ** CalcDoe2DXCoil: Coil:Cooling:DX:SingleSpeed="PSZ-AC:2 HEAT PUMP DX COOLING COIL" - Low condenser dry-bulb temperature error continues...
+   *************  **   ~~~   **   This error occurred 6 total times;
+   *************  **   ~~~   **   during Warmup 0 times;
+   *************  **   ~~~   **   during Sizing 0 times.
+   *************  **   ~~~   **   Max=-0.25 [C]  Min=-1. [C]
+   *************
+   *************
+   ************* ===== Final Error Summary =====
+   ************* The following error categories occurred.  Consider correcting or noting.
+   ************* Node Connection Errors
+   ************* ..Node connection errors are often caused by spelling mistakes in a node name field.
+   ************* ..To track down the problem, search the idf file for each node name listed to see if it
+   ************* ..occurs in the expected input fields.
+   ************* Nominally Unused Constructions
+   ************* ..The nominally unused constructions warning is provided to alert you to potential conditions that can cause
+   ************* ..extra time during simulation. Each construction is calculated by the algorithm indicated in the HeatBalanceAlgorithm
+   ************* ..object. You may remove the constructions indicated (when you use the DisplayExtraWarnings option).
+   *************
+   ************* EnergyPlus Warmup Error Summary. During Warmup: 0 Warning; 0 Severe Errors.
+   ************* EnergyPlus Sizing Error Summary. During Sizing: 5 Warning; 0 Severe Errors.
+   ************* EnergyPlus Completed Successfully-- 106353 Warning; 0 Severe Errors; Elapsed Time=00hr 00min 12.90sec

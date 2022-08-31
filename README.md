@@ -80,7 +80,10 @@ Additional warning messages may appear when including the monthly predefined rep
     No;                      !- Output MessagePack
 ```
 
-This will create filename_out.json files when EnergyPlus is run at the command line. If using EP-Launch this files may be found in the EPTEMP directory without the specific file name.
+This will create filename_out.json files when EnergyPlus is run at the command line. 
+
+Note: This utility was designed to work with files produced using EnergyPlus at the command line. Some file renaming might be necessary if using EP-Launch. 
+If using EP-Launch the eplusout.json and eplusout_hourly.json files may be found in the EPTEMP directory without the specific file name.
 
  - SI units should be used so
 
