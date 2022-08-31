@@ -30,20 +30,45 @@ https://github.com/open229/ruleset-model-description-schema
 
 The utility is intended to be used at a command line prompt:
 
+```
   createRulesetModelDescription in.epJSON
+```
 
-where in.epJSON is the name of the EnergyPlus input file with path in the epJSON format. EnergyPlus version 22.2.0 or newer is requried to use the utility.
+where in.epJSON is the name of the EnergyPlus input file with path in the epJSON format. 
 
-To create an epJSON file from an EnergyPlus IDF file use ConvertInputFormat.exe that comes with EnergyPlus. For help with ConvertInputFormat use the --help option.
+EnergyPlus version 22.2.0 or newer is requried to use the utility.
+
+## epJSON Format
+
+To create an epJSON file from an EnergyPlus IDF file use ConvertInputFormat.exe that comes with EnergyPlus. 
+
+To convert files, at the command prompt type:
+
+```
+ ConvertInputFormat in.idf
+```
+
+Where in.idf is the name of the EnergyPlus input file with path in the IDF format. The utility will convert the file into a file with the same name
+but the extension .epJSON in the JSON format. 
+
+For additional help with ConvertInputFormat at the command prompt in the directory with the EnergyPlus application, type:
+
+```
+ ConvertInputFormat --help
+```
+
+## Required Input File Changes
 
 The EnergyPlus input file has some added requirements to be used with the createRulesetModelDescription utility.
 
- - many tabular output reports are used so the Output:Table:SummaryReports should be set to AllSummaryMonthly or AllSummaryMonthlyAndSizingPeriod:
+ - many tabular output reports are used so the Output:Table:SummaryReports should be set to AllSummary, AllSummaryMonthly, or AllSummaryMonthlyAndSizingPeriod:
 
 ``` 
   Output:Table:SummaryReports,
     AllSummaryMonthly;    !- Report 1 Name
 ``` 
+
+Additional warning messages may appear when including the monthly predefined reports.
 
  - the JSON output format is used so that should be enabled for both timeseries and tabular output:
 
@@ -54,6 +79,9 @@ The EnergyPlus input file has some added requirements to be used with the create
     No,                      !- Output CBOR
     No;                      !- Output MessagePack
 ```
+
+This will create filename_out.json files when EnergyPlus is run at the command line. If using EP-Launch this files may be found in the EPTEMP directory without the specific file name.
+
  - SI units should be used so
 
 ``` 
@@ -69,6 +97,19 @@ The EnergyPlus input file has some added requirements to be used with the create
     schedule value,
     hourly;
 ```
+
+This will create filenameout_hourly.json files when EnergyPlus is run at the command line. If using EP-Launch this files may be found in the EPTEMP directory without the specific file name.
+
+ - add output schedules reports
+ 
+```
+  Output:Schedules,
+    Hourly;
+```
+
+This produces a summary report in the EIO file and the Initialization Summary related to schedules. While it is not currently used by the script it probably will be used 
+in the future.
+
 
  - add space type tags by using the Space input object
 
@@ -92,9 +133,16 @@ The fields should be completed as described below:
 
 If you had not been using the Space input object before, set the numeric inputs to 'autocalculate'.
 
-It maybe easier to make these changes prior to converting the file into the epJSON format.
+It is usually easier to make these changes prior to converting the file into the epJSON format.
 
-The resulting file will be created in the same directory as the epJSON file with the same name and the file extension .rmd
+## Weather File
+
+When selecting the EPW weather file, make sure the STAT file is present in the same directory. This file is needed for the fully populate the Climatic Data Summary tabular 
+report which is used to identify the ASHRAE climate zone.
+
+## Output
+
+The resulting Ruleset Model Description file will be created in the same directory as the epJSON file with the same name and the file extension .rmd
 
 
 
