@@ -131,6 +131,10 @@ The fields should be completed as described below:
  - the Tag 1 field should be set to the the appropriate option for ventilations_space_type see VentilationSpaceOptions2019ASHRAE901 for the list of options.
  - the Tag 2 field should be set to the the appropriate option for service_water_heating_space_type see ServiceWaterHeatingSpaceOptions2019ASHRAE901 for the list of options.
 
+These enumerated lists are found here:
+
+https://github.com/open229/ruleset-model-description-schema/blob/master/docs229/Enumerations2019ASHRAE901.schema.md
+
 If you had not been using the Space input object before, set the numeric inputs to 'autocalculate'.
 
 It is usually easier to make these changes prior to converting the file into the epJSON format.
