@@ -10,12 +10,12 @@ class StatusReporter:
 
         # the extra schema file includes extra tags on fields related to appendix G and energyplus
         extra_schema_file = 'ASHRAE229_extra.schema.yaml'
-        extra_schema_path = Path(parent_dir).joinpath(extra_schema_file)
+        extra_schema_path = parent_dir / extra_schema_file
         if extra_schema_path.exists():
             with open(extra_schema_path) as schema_f:
                 self.extra_schema = safe_load(schema_f)
         report_file = 'energyplus_implementation_report.txt'
-        self.report_file_path = Path(parent_dir).joinpath(report_file)
+        self.report_file_path = parent_dir/ report_file
 
     def generate(self, rmd_dict):
         if self.extra_schema:  # if the YAML schema file is not present then don't generate report

@@ -18,11 +18,11 @@ class Validator:
         enum_t24_file = 'Enumerations2019T24.schema.json'
         output_901_file = 'Output2019ASHRAE901.schema.json'
 
-        main_schema_path = Path(parent_dir).joinpath(main_schema_file)
-        enum_901_path = Path(parent_dir).joinpath(enum_901_file)
-        enum_resnet_path = Path(parent_dir).joinpath(enum_resnet_file)
-        enum_t24_path = Path(parent_dir).joinpath(enum_t24_file)
-        output_901_path = Path(parent_dir).joinpath(output_901_file)
+        main_schema_path = parent_dir / main_schema_file
+        enum_901_path = parent_dir / enum_901_file
+        enum_resnet_path = parent_dir / enum_resnet_file
+        enum_t24_path = parent_dir / enum_t24_file
+        output_901_path = parent_dir / output_901_file
 
         self.main_shema = {}
         self.enum_901 = {}
