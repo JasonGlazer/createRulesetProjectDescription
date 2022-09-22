@@ -11,17 +11,17 @@ class Translator:
     """This class reads in the input files and does the heavy lifting to write output files"""
 
     def __init__(self, epjson_file_path: Path):
-        print(f"Reading epJSON input file at {str(epjson_file_path)}")
+        print(f"Reading epJSON input file at {epjson_file_path}")
         self.input_file = InputFile(epjson_file_path)
         self.epjson_object = self.input_file.epjson_object
         self.json_results_object = self.input_file.json_results_object
-        print(f"Reading EnergyPlus results JSON file: {str(self.input_file.json_results_input_path)}")
+        print(f"Reading EnergyPlus results JSON file: {self.input_file.json_results_input_path}")
         self.json_hourly_results_object = self.input_file.json_hourly_results_object
-        print(f"Reading EnergyPlus hourly results JSON file: {str(self.input_file.json_hourly_results_input_path)}")
+        print(f"Reading EnergyPlus hourly results JSON file: {self.input_file.json_hourly_results_input_path}")
 
         self.output_file = OutputFile(epjson_file_path)
         self.rmd_file_path = self.output_file.rmd_file_path
-        print(f"Writing output file to {str(self.rmd_file_path)}")
+        print(f"Writing output file to {self.rmd_file_path}")
 
         self.validator = Validator()
         self.status_reporter = StatusReporter()

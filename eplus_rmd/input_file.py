@@ -6,7 +6,7 @@ class InputFile:
 
     def __init__(self, epjson_file_path: Path):
         if not epjson_file_path.exists():
-            raise Exception(f"Could not find input file at path: {str(epjson_file_path)}")
+            raise Exception(f"Could not find input file at path: {epjson_file_path}")
         try:
             epjson_contents = epjson_file_path.read_text()
             self.epjson_object = loads(epjson_contents)
