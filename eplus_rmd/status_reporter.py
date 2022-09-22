@@ -9,6 +9,8 @@ class StatusReporter:
         parent_dir = Path(__file__).parent
 
         # the extra schema file includes extra tags on fields related to appendix G and energyplus
+        # these extra tags are just for internal tracking of what has been fully or partially
+        # implemented and is unlikely to useful to end users.
         extra_schema_file = 'ASHRAE229_extra.schema.yaml'
         extra_schema_path = parent_dir / extra_schema_file
         if extra_schema_path.exists():
@@ -18,7 +20,11 @@ class StatusReporter:
         self.report_file_path = parent_dir/ report_file
 
     def generate(self, rmd_dict):
-        if self.extra_schema:  # if the YAML schema file is not present then don't generate report
+        if self.extra_schema:
+            # if the YAML schema file is not present then don't generate report
+            # since the report is just for internal tracking of development
+            # it fails gracefully when the file is not present which would only
+            # be present for the developer.
             with open(self.report_file_path, 'w') as f:
                 print('============= Generated Report ==============', file=f)
                 print(f'Updated at: {datetime.now()} \n', file=f)
