@@ -62,7 +62,6 @@ class Validator:
             return {"passed": False, "error": "invalid: " + err.message}
 
     def is_in_901_enumeration(self, enumeration_list_name, search_string):
-        is_in = False
         if self.enum_901:
             if 'definitions' in self.enum_901:
                 dict_of_enumerations = self.enum_901['definitions']
@@ -71,5 +70,5 @@ class Validator:
                     if 'enum' in enumeration_holder:
                         enumerations = enumeration_holder['enum']
                         if search_string in enumerations:
-                            is_in = True
-        return is_in
+                            return True
+        return False
