@@ -17,7 +17,7 @@ class StatusReporter:
             with open(extra_schema_path) as schema_f:
                 self.extra_schema = safe_load(schema_f)
         report_file = 'energyplus_implementation_report.txt'
-        self.report_file_path = parent_dir/ report_file
+        self.report_file_path = parent_dir / report_file
 
     def generate(self, rmd_dict):
         if self.extra_schema:
