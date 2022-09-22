@@ -20,19 +20,19 @@ class StatusReporter:
     def generate(self, rmd_dict):
         if self.extra_schema:  # if the YAML schema file is not present then don't generate report
             with open(self.report_file_path, 'w') as f:
-                f.write('============= Generated Report ==============\n')
-                f.write(f'Updated at: {datetime.now()} \n\n')
+                print('============= Generated Report ==============', file=f)
+                print(f'Updated at: {datetime.now()} \n', file=f)
                 for data_group_name, node in self.extra_schema.items():
                     if 'Object Type' in node:
                         if node['Object Type'] == 'Data Group':
-                            f.write(data_group_name)
+                            print(data_group_name, file=f, end='')
                         if 'Data Elements' in node:
                             data_elements = node['Data Elements']
                             counter = {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 0}
                             status_count = {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0,
                                             'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0,
                                             'NotRequired': 0, 'NotStarted': 0}
-                            f.write(f'  #elements: {len(data_elements)}  \n')
+                            print(f'  #elements: {len(data_elements)}', file=f)
                             for data_element in data_elements:
                                 fields = data_elements[data_element]
                                 type = self.type_of_ep_field(fields)
@@ -40,9 +40,9 @@ class StatusReporter:
                                 if 'EPstatus' in fields:
                                     status = fields['EPstatus']
                                     status_count[status] = status_count[status] + 1
-                                f.write('  ' + type + '  ' + status.ljust(25, ' ') + data_element + '\n')
+                                print('  ' + type + '  ' + status.ljust(25, ' ') + data_element, file=f)
                                 counter[type] = counter[type] + 1
-                            f.write(f'  counts:  {counter} {status_count} \n\n')
+                            print(f'  counts:  {counter} {status_count} \n', file=f)
 
     def type_of_ep_field(self, fields):
         plus_in = False
