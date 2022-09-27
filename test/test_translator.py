@@ -1356,3 +1356,54 @@ class TestTranslator(TestCase):
         self.assertEqual(added_hvac_systems, expected_hvac)
 
         self.assertEqual(added_terminals_by_zone, expected_terminals)
+
+    def test_replace_serial_number(self):
+        t = self.set_minimal_files()
+
+        # first time should cause no change
+        id = 'unique-id'
+        self.assertEqual(id, t.replace_serial_number(id))
+
+        # second time should add a serial number
+        self.assertEqual(id + '~~~00000001', t.replace_serial_number(id))
+
+        # third time should increment the serial number
+        self.assertEqual(id + '~~~00000002', t.replace_serial_number(id))
+
+        id = 'another_id'
+        self.assertEqual(id, t.replace_serial_number(id))
+        self.assertEqual(id + '~~~00000003', t.replace_serial_number(id))
+        self.assertEqual(id + '~~~00000004', t.replace_serial_number(id))
+
+    def test_add_serial_number_nested(self):
+        t = self.set_minimal_files()
+
+        in_dict = {0: {'id': 'a'},
+                   1: {'id': 'a'}}
+
+        out_dict = {0: {'id': 'a'},
+                    1: {'id': 'a~~~00000001'}}
+
+        t.add_serial_number_nested(in_dict, 'id')
+        self.assertEqual(in_dict, out_dict)
+
+        in_dict = {0: [{'id': 'b'},
+                       {'id': 'b'}]}
+
+        out_dict = {0: [{'id': 'b'},
+                        {'id': 'b~~~00000002'}]}
+
+        t.add_serial_number_nested(in_dict, 'id')
+        self.assertEqual(in_dict, out_dict)
+
+    def test_ensure_all_id_unique(self):
+        t = self.set_minimal_files()
+
+        t.rmd = {0: {'id': 'a'},
+                 1: {'id': 'a'}}
+
+        out_dict = {0: {'id': 'a'},
+                    1: {'id': 'a~~~00000001'}}
+
+        t.ensure_all_id_unique()
+        self.assertEqual(t.rmd, out_dict)
