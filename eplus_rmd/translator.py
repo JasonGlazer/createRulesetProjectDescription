@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import Dict
+from copy import deepcopy
 
 from eplus_rmd.input_file import InputFile
 from eplus_rmd.output_file import OutputFile
@@ -33,6 +34,8 @@ class Translator:
         self.surfaces_by_zone = {}
         self.schedules_used_names = []
         self.terminals_by_zone = {}
+        self.serial_number = 0
+        self.id_used = set()
 
     @staticmethod
     def validate_input_contents(input_json: Dict):
@@ -87,19 +90,19 @@ class Translator:
                         'density': material_in['density'],
                         'specific_heat': material_in['specific_heat']
                     }
-                    materials.append(material)
+                    materials.append(deepcopy(material))
                 elif material_name in materials_no_mass_in:
                     material_no_mass_in = materials_no_mass_in[material_name]
                     material = {
                         'id': material_name,
                         'r_value': material_no_mass_in['thermal_resistance']
                     }
-                    materials.append(material)
+                    materials.append(deepcopy(material))
             construction = {'id': construction_name,
                             'surface_construction_input_option': 'LAYERS',
                             'primary_layers': materials
                             }
-            constructions[construction_name.upper()] = construction
+            constructions[construction_name.upper()] = deepcopy(construction)
         return constructions
 
     def gather_thermostat_setpoint_schedules(self):
@@ -637,7 +640,7 @@ class Translator:
                                 surface['subsurfaces'] = subsurface_by_surface[surface_name]
                             surfaces[surface_name] = surface
                             if construction_name in constructions:
-                                surface['construction'] = constructions[construction_name]
+                                surface['construction'] = deepcopy(constructions[construction_name])
                                 if u_factor_with_film_string:
                                     surface['construction']['u_factor'] = u_factor_with_film
         # print(surfaces)
@@ -810,6 +813,38 @@ class Translator:
         # print(self.terminals_by_zone)
         return hvac_systems, self.terminals_by_zone
 
+    def ensure_all_id_unique(self):
+        self.add_serial_number_nested(self.rmd, 'id')
+
+    def add_serial_number_nested(self, in_dict, key):
+        for k, v in in_dict.items():
+            if key == k:
+                in_dict[k] = self.replace_serial_number(v)
+            elif isinstance(v, dict):
+                self.add_serial_number_nested(v, key)
+            elif isinstance(v, list):
+                for o in v:
+                    if isinstance(o, dict):
+                        self.add_serial_number_nested(o, key)
+
+    def replace_serial_number(self, original_id):
+        index = original_id.rfind('~~~')
+        if index == -1:
+            if original_id in self.id_used:
+                self.serial_number += 1
+                new_id = original_id + '~~~' + str(self.serial_number).zfill(8)
+                self.id_used.add(new_id)
+                return new_id
+            else:
+                self.id_used.add(original_id)
+                return original_id
+        else:
+            self.serial_number += 1
+            root_id = original_id[:index]
+            new_id = root_id + '~~~' + str(self.serial_number).zfill(8)
+            self.id_used.add(new_id)
+            return new_id
+
     def process(self):
         epjson = self.epjson_object
         Translator.validate_input_contents(epjson)
@@ -822,6 +857,7 @@ class Translator:
         self.add_spaces()
         self.add_exterior_lighting()
         self.add_schedules()
+        self.ensure_all_id_unique()
         check_validity = self.validator.validate_rmd(self.rmd)
         if not check_validity['passed']:
             print(check_validity['error'])
