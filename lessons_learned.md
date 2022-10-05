@@ -212,8 +212,9 @@ IDF or epJSON files that could be used with those editors to complete them. In m
 selections from a list of enumerations, something that the IDF Editor does well.
 
 For the current initial script, some compliance parameters were implemented for lighting space type, ventilation space
-type, and service water heating space type since the new EnergyPlus Space input object has three fields for entering
-such information (Space Type, Tag 1, and Tag 2).
+type, and service water heating space type since the new EnergyPlus Space input object has fields for entering such 
+information (Space Type, Tag 1, Tag 2, etc.). Only three compliance parameters in the Space data group were implemented
+using these fields but more could be implemented in the future.
 
 ## Summary
 
