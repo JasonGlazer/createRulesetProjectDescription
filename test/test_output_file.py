@@ -6,12 +6,12 @@ from unittest import TestCase
 from eplus_rmd.output_file import OutputFile
 
 
-class TestInputFile(TestCase):
+class TestOutputFile(TestCase):
     def setUp(self) -> None:
         self.run_dir_path = Path(mkdtemp())
 
     def test_valid_path_has_json(self):
-        out_file = self.run_dir_path / 'output.json'
+        out_file = self.run_dir_path / 'output.rmd'
         output_dict = {'message': 'We are all good here'}
         o = OutputFile(out_file)
         o.write(output_dict)

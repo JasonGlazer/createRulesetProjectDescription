@@ -26,8 +26,20 @@ class TestInputFile(TestCase):
                 }
             }
         ))
+        result_file = self.run_dir_path / 'realout.json'
+        result_file.write_text(dumps(
+            {
+                "out": 7
+            }
+        ))
+        hourly_result_file = self.run_dir_path / 'realout_hourly.json'
+        hourly_result_file.write_text(dumps(
+            {
+                "Cols": []
+            }
+        ))
         i = InputFile(real_file)
-        self.assertIn('Version', i.input_file_json)
+        self.assertIn('Version', i.epjson_object)
 
     def test_valid_path_but_bad_contents(self):
         real_file = self.run_dir_path / 'real.epJSON'

@@ -2,6 +2,7 @@
 coveralls==2.1.2
 flake8==3.8.4
 nose==1.3.7
+jsonschema==3.2.0
 
 # to generate documentation
 # Sphinx==3.2.1
@@ -10,3 +11,6 @@ nose==1.3.7
 # for packaging
 # pyinstaller
 # wheel
+
+setuptools~=47.1.0
+PyYAML~=5.3.1
