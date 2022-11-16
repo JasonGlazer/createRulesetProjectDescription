@@ -1,6 +1,6 @@
 # user-facing requirements, these need to be declared in setup.py install_requires
 jsonschema
-PyYAML
+pyyaml
 
 # developer requirements for running tests
 coveralls

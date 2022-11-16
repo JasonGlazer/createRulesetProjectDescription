@@ -10,7 +10,7 @@ class StatusReporter:
 
         # the extra schema file includes extra tags on fields related to appendix G and energyplus
         # these extra tags are just for internal tracking of what has been fully or partially
-        # implemented and is unlikely to useful to end users.
+        # implemented and is unlikely to be useful to end users.
         extra_schema_file = 'ASHRAE229_extra.schema.yaml'
         extra_schema_path = parent_dir / extra_schema_file
         if extra_schema_path.exists():
@@ -19,7 +19,7 @@ class StatusReporter:
         report_file = 'energyplus_implementation_report.txt'
         self.report_file_path = parent_dir / report_file
 
-    def generate(self, rmd_dict):
+    def generate(self):  # , rmd_dict):
         if self.extra_schema:
             # if the YAML schema file is not present then don't generate report
             # since the report is just for internal tracking of development
@@ -41,16 +41,17 @@ class StatusReporter:
                             print(f'  #elements: {len(data_elements)}', file=f)
                             for data_element in data_elements:
                                 fields = data_elements[data_element]
-                                type = self.type_of_ep_field(fields)
+                                _type = self.type_of_ep_field(fields)
                                 status = ''
                                 if 'EPstatus' in fields:
                                     status = fields['EPstatus']
-                                    status_count[status] = status_count[status] + 1
-                                print('  ' + type + '  ' + status.ljust(25, ' ') + data_element, file=f)
-                                counter[type] = counter[type] + 1
+                                    status_count[status] += 1
+                                print('  ' + _type + '  ' + status.ljust(25, ' ') + data_element, file=f)
+                                counter[_type] = counter[_type] + 1
                             print(f'  counts:  {counter} {status_count} \n', file=f)
 
-    def type_of_ep_field(self, fields):
+    @staticmethod
+    def type_of_ep_field(fields):
         plus_in = False
         plus_out = False
         plus_note = False

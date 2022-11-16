@@ -24,7 +24,7 @@ class Validator:
         enum_t24_path = parent_dir / enum_t24_file
         output_901_path = parent_dir / output_901_file
 
-        self.main_shema = {}
+        self.main_schema = {}
         self.enum_901 = {}
         self.enum_resnet = {}
         self.enum_t24 = {}
@@ -51,8 +51,8 @@ class Validator:
 
         resolver = jsonschema.RefResolver.from_schema(self.main_schema, store=schema_store)
 
-        Validator = jsonschema.validators.validator_for(self.main_schema)
-        self.validator = Validator(self.main_schema, resolver=resolver)
+        validator_class_type = jsonschema.validators.validator_for(self.main_schema)
+        self.validator = validator_class_type(self.main_schema, resolver=resolver)
 
     def validate_rmd(self, rmd_dict):
         try:

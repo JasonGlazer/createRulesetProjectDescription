@@ -481,14 +481,14 @@ class Translator:
                         rows = table['Rows']
                         row_keys = list(rows.keys())
                         cols = table['Cols']
-                        equipmnet_name_column = cols.index('Name')
+                        equipment_name_column = cols.index('Name')
                         zone_name_column = cols.index('Zone Name')
                         power_density_column = cols.index('Equipment/Floor Area {W/m2}')
                         schedule_name_column = cols.index('Schedule Name')
                         latent_column = cols.index('Fraction Latent')
                         lost_column = cols.index('Fraction Lost')
                         for row_key in row_keys:
-                            equipment_name = rows[row_key][equipmnet_name_column]
+                            equipment_name = rows[row_key][equipment_name_column]
                             zone_name = rows[row_key][zone_name_column]
                             power_density = float(rows[row_key][power_density_column])
                             schedule_name = rows[row_key][schedule_name_column]
@@ -664,13 +664,13 @@ class Translator:
                         for row_key in row_keys:
                             infiltration_name = rows[row_key][infiltration_name_column]
                             zone_name = rows[row_key][zone_name_column]
-                            design_volumn_flow_rate = float(rows[row_key][design_volume_flow_rate_column])
+                            design_volume_flow_rate = float(rows[row_key][design_volume_flow_rate_column])
                             schedule_name = rows[row_key][schedule_name_column]
                             infiltration = {
                                 'id': infiltration_name,
                                 'modeling_method': 'WEATHER_DRIVEN',
                                 'algorithm_name': 'ZoneInfiltration',
-                                'infiltration_flow_rate': design_volumn_flow_rate,
+                                'infiltration_flow_rate': design_volume_flow_rate,
                                 'multiplier_schedule': schedule_name
                             }
                             self.schedules_used_names.append(schedule_name)
@@ -713,7 +713,7 @@ class Translator:
 
     def is_site_shaded(self):
         tabular_reports = self.json_results_object['TabularReports']
-        total_detatched = 0  # assume no shading surfaces
+        total_detached = 0  # assume no shading surfaces
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'ObjectCountSummary':
                 tables = tabular_report['Tables']
@@ -725,10 +725,10 @@ class Translator:
                         building_detached = rows['Building Detached Shading'][total_column]
                         fixed_detached = rows['Fixed Detached Shading'][total_column]
                         try:
-                            total_detatched = float(building_detached) + float(fixed_detached)
+                            total_detached = float(building_detached) + float(fixed_detached)
                         except ValueError:
                             print('non-numeric value found in ObjectCountSummary:Surfaces by Class:* Detached Shading')
-        return total_detatched > 0
+        return total_detached > 0
 
     def are_shadows_cast_from_surfaces(self):
         tabular_reports = self.json_results_object['TabularReports']
@@ -742,7 +742,7 @@ class Translator:
                         cols = table['Cols']
                         solar_distribution_column = cols.index('Solar Distribution')
                         solar_distribution = rows['1'][solar_distribution_column]
-                        # shadows are alwoys cast unless Solar Distribution is set to MinimalShadowing
+                        # shadows are always cast unless Solar Distribution is set to MinimalShadowing
                         shadows_cast = solar_distribution != 'MinimalShadowing'
         return shadows_cast
 
@@ -764,7 +764,7 @@ class Translator:
                         zone_names_column = cols.index('Zone Name(s)')
                         total_capacity_column = cols.index('Coil Final Gross Total Capacity [W]')
                         sensible_capacity_column = cols.index('Coil Final Gross Sensible Capacity [W]')
-                        terminal_capacity_by_zone = {}
+                        terminal_capacity_by_zone = dict()
                         for row_key in row_keys:
                             hvac_type = rows[row_key][hvac_type_column]
                             zone_name = rows[row_key][zone_names_column]
@@ -862,4 +862,4 @@ class Translator:
         if not check_validity['passed']:
             print(check_validity['error'])
         self.output_file.write(self.rmd)
-        self.status_reporter.generate(self.rmd)
+        self.status_reporter.generate()  # self.rmd)
