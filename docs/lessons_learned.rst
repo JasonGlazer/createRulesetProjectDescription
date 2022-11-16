@@ -1,4 +1,5 @@
-# Lessons Learned During createRulesetModelDescription Development
+Lessons Learned During createRulesetModelDescription Development
+================================================================
 
 An initial effort to implement an RMD generation script for EnergyPlus took place from March through September 2022. The
 NFP is here:
@@ -52,7 +53,8 @@ https://github.com/JasonGlazer/createRulesetModelDescription/blob/initial_develo
 The 'counts' at the bottom of each data group summarize the implementation for that data group. This file is regenerated
 each time the script is run if the ASHRAE229_extra.schema.yaml is in the folder with the script.
 
-## Goals
+Goals
+-----
 
 The development of the createRulesetModelDescription.py script for EnergyPlus always has multiple goals:
 
@@ -61,9 +63,10 @@ The development of the createRulesetModelDescription.py script for EnergyPlus al
  - Show feasibility of implementation
  - Implement as many stable data groups as possible
 
-As part of this plan, we decided to skip complicated data elements and “Compliance Parameters” (explained below)
+As part of this plan, we decided to skip complicated data elements and ï¿½Compliance Parametersï¿½ (explained below)
 
-## Separate Python Utility Focused on Output
+Separate Python Utility Focused on Output
+-----------------------------------------
 
 The original expectation for how to implement the functionality of creating an RMD file was to include it directly in
 the EnergyPlus C++ engine as an additional report option. After a presentation of this original plan, the EnergyPlus
@@ -79,7 +82,8 @@ use input files if absolutely necessary. The reasons for this were:
  - adding additional output tables also benefits users in debugging files and understanding their simulations 
  - if no input is used, then no synchronization is needed between reading input and output files, and whether the output files are stale 
 
-## All JSON Approach 
+All JSON Approach
+-----------------
 
 To simplify the script and include fewer libraries, we decided leverage to JSON files whenever possible. The RMD file is
 already in JSON format, and EnergyPlus has a JSON formatted input file called epJSON that is equivalent to an IDF file.
@@ -100,7 +104,8 @@ https://github.com/NREL/EnergyPlus/issues/9419
 Resolving this issue was important to this effort, and it was fixed during the time of development so that additional
 data from the Initialization Summary could be utilized.
 
-## New Input Requirements
+New Input Requirements
+----------------------
 
 In order to create all the outputs required by the script, several additional inputs are needed in the EnergyPlus input file
 to trigger the production of certain reports or files. These are described in the README.MD file and include:
@@ -117,7 +122,8 @@ appearing first in version 9.6.0, released in September 2021, and many users do 
 object needs to be added for each Zone for files that do not have them and this could greatly reduce the adoption of
 this script.
 
-## Version Nightmares
+Version Nightmares
+------------------
 
 Many separate software pieces were going through simultaneous development during this effort, including EnergyPlus, the
 RMD Schema, the PNNL RCT tool and the version of the RMD Schema it was using, and OpenStudio Standards and the version
@@ -126,19 +132,22 @@ that has its own priorities and deadlines and is nothing new. Hopefully, as the 
 Standard 229, it will undergo no changes or at least fewer changes, and that will allow all other software components to
 be integrated without as much concern for versions.
 
-## Validation
+Validation
+----------
 
 The initial version of the script did not validate the RMD files that were being produced, but this oversight was quickly
 changed, and now the Python package jsonschema is used to validate the RMD file being produced by the script. It adds very
 little overhead and has caught numerous problems.
 
-## Unit Testing
+Unit Testing
+------------
 
 The current line coverage for unit testing is at 91% which is good but not 100%. The development of unit tests provided
 the developer confidence while making changes and updates that they were not breaking other code and were critical to the
 development of the script.
 
-## IDs
+IDs
+---
 
 The schema file has the following note:
 
@@ -151,26 +160,30 @@ approach of using a combination of the names of the input object and the name of
 addition, since many Python dictionaries are used and re-used in the schema, additional uses "deepcopy" need to be added
 to make sure separate subdictionary elements are named uniquely.
 
-## Level
+Level
+-----
 
 The inherent hierarchy of EnergyPlus and the inherent hierarchy of the RMD schema do not always match, and this can be a
 challenge. For example, modeling plug loads in EnergyPlus is done with ElectricEquipment, which most commonly references
 the Zone, but in the RMD schema, the MiscellaneousEquipment data group is a child of the Space data group, which is a child
 of Zone. This disconnect in the level of the hierarchy can be difficult to properly map and allocate.
 
-## Schedules
+Schedules
+---------
 
 A very large portion of RMD files ends up being the schedules since they are represented in the schema as 8760 hourly
 values. This makes them almost impossible to debug if they are being done correctly. Since we were echoing the values
 from an hourly output from EnergyPlus, no debugging was performed other than to see that they were the same.
 
-## Data Groups for each Parent
+Data Groups for each Parent
+---------------------------
 
 The methodology used throughout the script was to create data groups for each row of the appropriate table found in the
 EnergyPlus output. This was identified as not as expected for the Infiltration data group, which wanted the data group to
 exist even for zones with no infiltration defined.
 
-## New Output Reports
+New Output Reports
+------------------
 
 An early decision by the EnergyPlus development team is to favor the use of output reports for the source of data for
 the data elements. While a good approach, it does mean that the addition of many new reports are probably required in
@@ -183,7 +196,8 @@ output reports to reduce the need to depend directly on the input file (epJSON i
 elements used input, see data elements with the EPstatus of DoneUsingInput or PartialUsingInput. Do not underestimate
 the effort to create new tabular reports, especially those related to HVAC topology.
 
-## Topology of HVAC
+Topology of HVAC
+----------------
 
 EnergyPlus does not have any output reports that directly represent the topology of the HVAC system. A graphical
 representation is available using the HVAC-Diagram utility that reads the BND file (essentially a list of different types
@@ -193,7 +207,8 @@ into loops would be necessary. These types of reports may not be strictly tabula
 and tabular layouts, which is currently not being used in EnergyPlus. Creating the proper reporting may be a challenge for
 any simulation program with loosely connected components used to define HVAC systems.
 
-## Compliance Parameters
+Compliance Parameters
+---------------------
 
 Many data elements are not reflected in an EnergyPlus input or output files, and many of them are related to
 categorization used in compliance. In general, these data elements were not implemented, but some system to facilitate
@@ -216,7 +231,8 @@ type, and service water heating space type since the new EnergyPlus Space input 
 information (Space Type, Tag 1, Tag 2, etc.). Only three compliance parameters in the Space data group were implemented
 using these fields but more could be implemented in the future.
 
-## Summary
+Summary
+-------
 
 The most important considerations for completing the createRulesetModelDescription are:
 
@@ -224,8 +240,3 @@ The most important considerations for completing the createRulesetModelDescripti
 - adding necessary output reports in EnergyPlus
 - improving the generation of unique but consistent IDs
 - develop a strategy for handling compliance parameters
-
-
-
-
-

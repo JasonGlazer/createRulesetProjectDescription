@@ -1,4 +1,6 @@
+[run]
+source = eplus_rmd
+
 [report]
-show_missing = True
 omit =
   eplus_rmd/runner.py

@@ -1,16 +1,14 @@
-# for running tests
-coveralls==2.1.2
-flake8==3.8.4
-nose==1.3.7
-jsonschema==3.2.0
+# user-facing requirements, these need to be declared in setup.py install_requires
+jsonschema
+PyYAML
 
-# to generate documentation
-# Sphinx==3.2.1
-# docutils==0.16   # pinning this because it breaks at 0.18
+# developer requirements for running tests
+coveralls
+flake8
+nose
 
-# for packaging
-# pyinstaller
-# wheel
+# developer requirements to generate documentation
+sphinx
 
-setuptools~=47.1.0
-PyYAML~=5.3.1
+# for building wheels to post on pypi
+wheel

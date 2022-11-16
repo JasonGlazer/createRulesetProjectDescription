@@ -1,33 +1,30 @@
-import codecs
-import os
-from setuptools import setup, find_packages
+from pathlib import Path
+from setuptools import setup
 
 from eplus_rmd import VERSION
 
-this_dir = os.path.abspath(os.path.dirname(__file__))
-with codecs.open(os.path.join(this_dir, 'README.md'), encoding='utf-8') as i_file:
-    long_description = i_file.read()
+readme_file = Path(__file__).parent.resolve() / 'README.md'
+readme_contents = readme_file.read_text()
 
 setup(
     name='createRulesetModelDescription',
     version=VERSION,
-    packages=find_packages(exclude=['test', 'tests', 'test.*']),
+    packages=['eplus_rmd'],
     url='https://github.com/JasonGlazer/createRulesetModelDescription',
     license='',
     author='Jason Glazer',
     author_email='',
     description='A Python tool for generating RMDs.',
-    long_description=long_description,
-    long_description_content_type='text/markdown',
-    test_suite='nose.collector',
-    tests_require=['nose'],
-    keywords='energyplus',
+    package_data={"eplus_rmd": ["example/*"]},
     include_package_data=True,
+    long_description=readme_contents,
+    long_description_content_type='text/markdown',
+    keywords='energyplus',
     install_requires=[],
     entry_points={
         'console_scripts': [
             'create_rmd=eplus_rmd.runner:run',
         ],
     },
-    python_requires='>=3.5',
+    python_requires='>=3.7',
 )

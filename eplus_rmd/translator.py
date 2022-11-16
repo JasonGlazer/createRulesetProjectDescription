@@ -726,7 +726,7 @@ class Translator:
                         fixed_detached = rows['Fixed Detached Shading'][total_column]
                         try:
                             total_detatched = float(building_detached) + float(fixed_detached)
-                        except:
+                        except ValueError:
                             print('non-numeric value found in ObjectCountSummary:Surfaces by Class:* Detached Shading')
         return total_detatched > 0
 
