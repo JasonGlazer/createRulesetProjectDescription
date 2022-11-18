@@ -7,7 +7,7 @@ readme_file = Path(__file__).parent.resolve() / 'README.md'
 readme_contents = readme_file.read_text()
 
 setup(
-    name='eplus_rmd',
+    name='energyplus_ruleset_model',
     version=VERSION,
     packages=['eplus_rmd'],
     url='https://github.com/JasonGlazer/createRulesetModelDescription',
@@ -30,7 +30,7 @@ setup(
     install_requires=['jsonschema', 'pyyaml'],
     entry_points={
         'console_scripts': [
-            'create_rmd=eplus_rmd.runner:run',
+            'ep_create_rmd=eplus_rmd.runner:run',
         ],
     },
     python_requires='>=3.7',
