@@ -229,95 +229,115 @@ class TestTranslator(TestCase):
 
     def test_gather_infiltration(self):
         t = self.set_minimal_files()
-        t.json_results_object['TabularReports'] = \
-            [
-                {'For': 'Entire Facility', 'ReportName': 'InitializationSummary',
-                 'Tables': [
-                     {'Cols':
-                          ['Name',
-                           'Schedule Name',
-                           'Zone Name',
-                           'Zone Floor Area {m2}',
-                           '# Zone Occupants',
-                           'Design Volume Flow Rate {m3/s}'],
-                      'Rows':
-                          {'1':
-                               ['ATTIC_INFILTRATION',
-                                'ALWAYS_ON',
-                                'ATTIC',
-                                '567.98',
-                                '0.0',
-                                '0.200'
-                                ],
-                           '3':
-                               ['PERIMETER_ZN_1_INFILTRATION',
-                                'INFIL_QUARTER_ON_SCH',
-                                'PERIMETER_ZN_1',
-                                '113.45',
-                                '6.8',
-                                '4.805E-002'
-                                ],
-                           '4':
-                               ['PERIMETER_ZN_2_INFILTRATION',
-                                'INFIL_QUARTER_ON_SCH',
-                                'PERIMETER_ZN_2',
-                                '67.30',
-                                '4.1',
-                                '3.203E-002'
-                                ],
-                           '5':
-                               ['PERIMETER_ZN_3_INFILTRATION',
-                                'INFIL_QUARTER_ON_SCH',
-                                'PERIMETER_ZN_3',
-                                '113.45',
-                                '6.8',
-                                '4.805E-002'
-                                ],
-                           '6':
-                               ['PERIMETER_ZN_4_INFILTRATION',
-                                'INFIL_QUARTER_ON_SCH',
-                                'PERIMETER_ZN_4',
-                                '67.30',
-                                '4.1',
-                                '3.203E-002'
-                                ]
-                           },
-                      'TableName': 'ZoneInfiltration Airflow Stats Nominal'},
-                 ],
-                 }
-            ]
+        t.json_results_object['TabularReports'] = [
+            {
+                'For': 'Entire Facility', 'ReportName': 'InitializationSummary',
+                'Tables': [
+                    {
+                        'Cols':
+                            [
+                                'Name',
+                                'Schedule Name',
+                                'Zone Name',
+                                'Zone Floor Area {m2}',
+                                '# Zone Occupants',
+                                'Design Volume Flow Rate {m3/s}'
+                            ],
+                        'Rows':
+                            {
+                                '1':
+                                    [
+                                        'ATTIC_INFILTRATION',
+                                        'ALWAYS_ON',
+                                        'ATTIC',
+                                        '567.98',
+                                        '0.0',
+                                        '0.200'
+                                    ],
+                                '3':
+                                    [
+                                        'PERIMETER_ZN_1_INFILTRATION',
+                                        'INFIL_QUARTER_ON_SCH',
+                                        'PERIMETER_ZN_1',
+                                        '113.45',
+                                        '6.8',
+                                        '4.805E-002'
+                                    ],
+                                '4':
+                                    [
+                                        'PERIMETER_ZN_2_INFILTRATION',
+                                        'INFIL_QUARTER_ON_SCH',
+                                        'PERIMETER_ZN_2',
+                                        '67.30',
+                                        '4.1',
+                                        '3.203E-002'
+                                    ],
+                                '5':
+                                    [
+                                        'PERIMETER_ZN_3_INFILTRATION',
+                                        'INFIL_QUARTER_ON_SCH',
+                                        'PERIMETER_ZN_3',
+                                        '113.45',
+                                        '6.8',
+                                        '4.805E-002'
+                                    ],
+                                '6':
+                                    [
+                                        'PERIMETER_ZN_4_INFILTRATION',
+                                        'INFIL_QUARTER_ON_SCH',
+                                        'PERIMETER_ZN_4',
+                                        '67.30',
+                                        '4.1',
+                                        '3.203E-002'
+                                    ]
+                            },
+                        'TableName': 'ZoneInfiltration Airflow Stats Nominal'
+                    },
+                ],
+            }
+        ]
         gathered_infiltration = t.gather_infiltration()
-        expected = {'ATTIC':
-                        {'id': 'ATTIC_INFILTRATION',
-                         'modeling_method': 'WEATHER_DRIVEN',
-                         'algorithm_name': 'ZoneInfiltration',
-                         'infiltration_flow_rate': 0.2,
-                         'multiplier_schedule': 'ALWAYS_ON'},
-                    'PERIMETER_ZN_1':
-                        {'id': 'PERIMETER_ZN_1_INFILTRATION',
-                         'modeling_method': 'WEATHER_DRIVEN',
-                         'algorithm_name': 'ZoneInfiltration',
-                         'infiltration_flow_rate': 0.04805,
-                         'multiplier_schedule': 'INFIL_QUARTER_ON_SCH'},
-                    'PERIMETER_ZN_2':
-                        {'id': 'PERIMETER_ZN_2_INFILTRATION',
-                         'modeling_method': 'WEATHER_DRIVEN',
-                         'algorithm_name': 'ZoneInfiltration',
-                         'infiltration_flow_rate': 0.03203,
-                         'multiplier_schedule': 'INFIL_QUARTER_ON_SCH'},
-                    'PERIMETER_ZN_3':
-                        {'id': 'PERIMETER_ZN_3_INFILTRATION',
-                         'modeling_method': 'WEATHER_DRIVEN',
-                         'algorithm_name': 'ZoneInfiltration',
-                         'infiltration_flow_rate': 0.04805,
-                         'multiplier_schedule': 'INFIL_QUARTER_ON_SCH'},
-                    'PERIMETER_ZN_4':
-                        {'id': 'PERIMETER_ZN_4_INFILTRATION',
-                         'modeling_method': 'WEATHER_DRIVEN',
-                         'algorithm_name': 'ZoneInfiltration',
-                         'infiltration_flow_rate': 0.03203,
-                         'multiplier_schedule': 'INFIL_QUARTER_ON_SCH'}
-                    }
+        expected = {
+            'ATTIC': {
+                'id': 'ATTIC_INFILTRATION',
+                'modeling_method': 'WEATHER_DRIVEN',
+                'algorithm_name': 'ZoneInfiltration',
+                'infiltration_flow_rate': 0.2,
+                'multiplier_schedule': 'ALWAYS_ON'
+            },
+            'PERIMETER_ZN_1':
+                {
+                    'id': 'PERIMETER_ZN_1_INFILTRATION',
+                    'modeling_method': 'WEATHER_DRIVEN',
+                    'algorithm_name': 'ZoneInfiltration',
+                    'infiltration_flow_rate': 0.04805,
+                    'multiplier_schedule': 'INFIL_QUARTER_ON_SCH'
+                },
+            'PERIMETER_ZN_2':
+                {
+                    'id': 'PERIMETER_ZN_2_INFILTRATION',
+                    'modeling_method': 'WEATHER_DRIVEN',
+                    'algorithm_name': 'ZoneInfiltration',
+                    'infiltration_flow_rate': 0.03203,
+                    'multiplier_schedule': 'INFIL_QUARTER_ON_SCH'
+                },
+            'PERIMETER_ZN_3':
+                {
+                    'id': 'PERIMETER_ZN_3_INFILTRATION',
+                    'modeling_method': 'WEATHER_DRIVEN',
+                    'algorithm_name': 'ZoneInfiltration',
+                    'infiltration_flow_rate': 0.04805,
+                    'multiplier_schedule': 'INFIL_QUARTER_ON_SCH'
+                },
+            'PERIMETER_ZN_4':
+                {
+                    'id': 'PERIMETER_ZN_4_INFILTRATION',
+                    'modeling_method': 'WEATHER_DRIVEN',
+                    'algorithm_name': 'ZoneInfiltration',
+                    'infiltration_flow_rate': 0.03203,
+                    'multiplier_schedule': 'INFIL_QUARTER_ON_SCH'
+                }
+        }
 
         self.assertEqual(gathered_infiltration, expected)
 
@@ -509,92 +529,102 @@ class TestTranslator(TestCase):
 
         gathered_subsurface_by_surface = t.gather_subsurface()
 
-        expected = \
-            {'PERIMETER_ZN_2_WALL_EAST':
+        expected = {
+            'PERIMETER_ZN_2_WALL_EAST':
                 [
-                    {'id': 'PERIMETER_ZN_2_WALL_EAST_WINDOW_1',
-                     'classification': 'WINDOW',
-                     'glazed_area': 2.79,
-                     'opaque_area': 0.0,
-                     'u_factor': 2.045,
-                     'solar_heat_gain_coefficient': 0.381,
-                     'visible_transmittance': 0.42,
-                     'has_automatic_shades': False},
-                    {'id': 'PERIMETER_ZN_2_WALL_EAST_WINDOW_2',
-                     'classification': 'WINDOW',
-                     'glazed_area': 2.79,
-                     'opaque_area': 0.0,
-                     'u_factor': 2.045,
-                     'solar_heat_gain_coefficient': 0.381,
-                     'visible_transmittance': 0.42,
-                     'has_automatic_shades': False},
-                    {'id': 'PERIMETER_ZN_2_WALL_EAST_WINDOW_3',
-                     'classification': 'WINDOW',
-                     'glazed_area': 2.79,
-                     'opaque_area': 0.0,
-                     'u_factor': 2.045,
-                     'solar_heat_gain_coefficient': 0.381,
-                     'visible_transmittance': 0.42,
-                     'has_automatic_shades': False},
-                    {'id': 'PERIMETER_ZN_2_WALL_EAST_WINDOW_4',
-                     'classification': 'WINDOW',
-                     'glazed_area': 2.79,
-                     'opaque_area': 0.0,
-                     'u_factor': 2.045,
-                     'solar_heat_gain_coefficient': 0.381,
-                     'visible_transmittance': 0.42,
-                     'has_automatic_shades': False}
+                    {
+                        'id': 'PERIMETER_ZN_2_WALL_EAST_WINDOW_1',
+                        'classification': 'WINDOW',
+                        'glazed_area': 2.79,
+                        'opaque_area': 0.0,
+                        'u_factor': 2.045,
+                        'solar_heat_gain_coefficient': 0.381,
+                        'visible_transmittance': 0.42,
+                        'has_automatic_shades': False
+                    },
+                    {
+                        'id': 'PERIMETER_ZN_2_WALL_EAST_WINDOW_2',
+                        'classification': 'WINDOW',
+                        'glazed_area': 2.79,
+                        'opaque_area': 0.0,
+                        'u_factor': 2.045,
+                        'solar_heat_gain_coefficient': 0.381,
+                        'visible_transmittance': 0.42,
+                        'has_automatic_shades': False
+                    },
+                    {
+                        'id': 'PERIMETER_ZN_2_WALL_EAST_WINDOW_3',
+                        'classification': 'WINDOW',
+                        'glazed_area': 2.79,
+                        'opaque_area': 0.0,
+                        'u_factor': 2.045,
+                        'solar_heat_gain_coefficient': 0.381,
+                        'visible_transmittance': 0.42,
+                        'has_automatic_shades': False
+                    },
+                    {
+                        'id': 'PERIMETER_ZN_2_WALL_EAST_WINDOW_4',
+                        'classification': 'WINDOW',
+                        'glazed_area': 2.79,
+                        'opaque_area': 0.0,
+                        'u_factor': 2.045,
+                        'solar_heat_gain_coefficient': 0.381,
+                        'visible_transmittance': 0.42,
+                        'has_automatic_shades': False
+                    }
                 ]
-            }
+        }
 
         self.assertEqual(gathered_subsurface_by_surface, expected)
 
     def test_gather_surfaces(self):
         t = self.set_minimal_files()
 
-        t.json_results_object['TabularReports'] = [
-            {'For': 'Entire Facility',
-             'ReportName': 'EnvelopeSummary',
-             'Tables': [
-                 {'Cols':
-                      ['Construction',
-                       'Reflectance',
-                       'U-Factor with Film [W/m2-K]',
-                       'U-Factor no Film [W/m2-K]',
-                       'Gross Area [m2]',
-                       'Net Area [m2]',
-                       'Azimuth [deg]',
-                       'Tilt [deg]',
-                       'Cardinal Direction'],
-                  'Rows': {
-                      'PERIMETER_ZN_4_WALL_WEST':
-                          ['NONRES_EXT_WALL',
-                           '0.30',
-                           '0.290',
-                           '0.303',
-                           '56.30',
-                           '45.15',
-                           '270.00',
-                           '90.00',
-                           'W']},
-                  'TableName': 'Opaque Exterior'}
-             ]
-             }
-
-        ]
+        t.json_results_object['TabularReports'] = [{
+            'For': 'Entire Facility',
+            'ReportName': 'EnvelopeSummary',
+            'Tables': [{
+                'Cols': [
+                    'Construction',
+                    'Reflectance',
+                    'U-Factor with Film [W/m2-K]',
+                    'U-Factor no Film [W/m2-K]',
+                    'Gross Area [m2]',
+                    'Net Area [m2]',
+                    'Azimuth [deg]',
+                    'Tilt [deg]',
+                    'Cardinal Direction'
+                ],
+                'Rows': {
+                    'PERIMETER_ZN_4_WALL_WEST': [
+                        'NONRES_EXT_WALL',
+                        '0.30',
+                        '0.290',
+                        '0.303',
+                        '56.30',
+                        '45.15',
+                        '270.00',
+                        '90.00',
+                        'W'
+                    ]
+                },
+                'TableName': 'Opaque Exterior'
+            }]
+        }]
 
         gathered_surfaces = t.gather_surfaces()
 
-        expected = {'PERIMETER_ZN_4_WALL_WEST':
-                        {'id': 'PERIMETER_ZN_4_WALL_WEST',
-                         'classification': 'WALL',
-                         'area': 56.3,
-                         'tilt': 90.0,
-                         'azimuth': 270.0,
-                         'adjacent_to': 'EXTERIOR',
-                         'does_cast_shade': True,
-                         }
-                    }
+        expected = {
+            'PERIMETER_ZN_4_WALL_WEST': {
+                'id': 'PERIMETER_ZN_4_WALL_WEST',
+                'classification': 'WALL',
+                'area': 56.3,
+                'tilt': 90.0,
+                'azimuth': 270.0,
+                'adjacent_to': 'EXTERIOR',
+                'does_cast_shade': True,
+            }
+        }
 
         self.assertEqual(gathered_surfaces, expected)
 
@@ -602,135 +632,149 @@ class TestTranslator(TestCase):
         t = self.set_minimal_files()
 
         t.json_results_object['TabularReports'] = [
-            {'For': 'Entire Facility',
-             'ReportName': 'LightingSummary',
-             'Tables': [
-                 {'Cols':
-                      ['Zone Name',
-                       'Space Name',
-                       'Space Type',
-                       'Lighting Power Density [W/m2]',
-                       'Space Area [m2]',
-                       'Total Power [W]',
-                       'End Use Subcategory',
-                       'Schedule Name',
-                       'Scheduled Hours/Week [hr]',
-                       'Hours/Week > 1% [hr]',
-                       'Full Load Hours/Week [hr]',
-                       'Return Air Fraction',
-                       'Conditioned (Y/N)',
-                       'Consumption [GJ]'],
-                  'Rows': {
-                      'PERIMETER_ZN_1_LIGHTS':
-                          ['PERIMETER_ZN_1',
-                           'PERIMETER_ZN_1',
-                           'GENERAL',
-                           '6.8889',
-                           '113.45',
-                           '781.55',
-                           'LightsWired',
-                           'BLDG_LIGHT_SCH',
-                           '57.72',
-                           '168.00',
-                           '35.49',
-                           '0.0000',
-                           'Y',
-                           '5.21']},
-                  'TableName': 'Interior Lighting'},
-                 {
-                     'Cols':
-                         ['Zone',
-                          'Control Name',
-                          'Daylighting Method',
-                          'Control Type',
-                          'Fraction Controlled',
-                          'Lighting Installed in Zone [W]',
-                          'Lighting Controlled [W]'],
-                     'Rows': {
-                         'PERIMETER_ZN_1_DAYLREFPT1':
-                             ['PERIMETER_ZN_1',
-                              'PERIMETER_ZN_1_DAYLCTRL',
-                              'SplitFlux',
-                              'Continuous/Off',
-                              '0.24',
-                              '781.55',
-                              '187.49'],
-                         'PERIMETER_ZN_1_DAYLREFPT2':
-                             ['PERIMETER_ZN_1',
-                              'PERIMETER_ZN_1_DAYLCTRL',
-                              'SplitFlux',
-                              'Continuous/Off',
-                              '0.03',
-                              '781.55',
-                              '23.60']
-                     },
-                     'TableName': 'Daylighting'
-                 }
-             ]
-             }
+            {
+                'For': 'Entire Facility',
+                'ReportName': 'LightingSummary',
+                'Tables': [
+                    {
+                        'Cols': [
+                            'Zone Name',
+                            'Space Name',
+                            'Space Type',
+                            'Lighting Power Density [W/m2]',
+                            'Space Area [m2]',
+                            'Total Power [W]',
+                            'End Use Subcategory',
+                            'Schedule Name',
+                            'Scheduled Hours/Week [hr]',
+                            'Hours/Week > 1% [hr]',
+                            'Full Load Hours/Week [hr]',
+                            'Return Air Fraction',
+                            'Conditioned (Y/N)',
+                            'Consumption [GJ]'
+                        ],
+                        'Rows': {
+                            'PERIMETER_ZN_1_LIGHTS': [
+                                'PERIMETER_ZN_1',
+                                'PERIMETER_ZN_1',
+                                'GENERAL',
+                                '6.8889',
+                                '113.45',
+                                '781.55',
+                                'LightsWired',
+                                'BLDG_LIGHT_SCH',
+                                '57.72',
+                                '168.00',
+                                '35.49',
+                                '0.0000',
+                                'Y',
+                                '5.21'
+                            ]
+                        },
+                        'TableName': 'Interior Lighting'
+                    },
+                    {
+                        'Cols': [
+                            'Zone',
+                            'Control Name',
+                            'Daylighting Method',
+                            'Control Type',
+                            'Fraction Controlled',
+                            'Lighting Installed in Zone [W]',
+                            'Lighting Controlled [W]'
+                        ],
+                        'Rows': {
+                            'PERIMETER_ZN_1_DAYLREFPT1': [
+                                'PERIMETER_ZN_1',
+                                'PERIMETER_ZN_1_DAYLCTRL',
+                                'SplitFlux',
+                                'Continuous/Off',
+                                '0.24',
+                                '781.55',
+                                '187.49'
+                            ],
+                            'PERIMETER_ZN_1_DAYLREFPT2': [
+                                'PERIMETER_ZN_1',
+                                'PERIMETER_ZN_1_DAYLCTRL',
+                                'SplitFlux',
+                                'Continuous/Off',
+                                '0.03',
+                                '781.55',
+                                '23.60'
+                            ]
+                        },
+                        'TableName': 'Daylighting'
+                    }
+                ]
+            }
         ]
 
         gathered_lights = t.gather_interior_lighting()
 
-        expected = {'PERIMETER_ZN_1':
-                        [{'id': 'PERIMETER_ZN_1_LIGHTS',
-                          'power_per_area': 6.8889,
-                          'lighting_multiplier_schedule': 'BLDG_LIGHT_SCH',
-                          'daylighting_control_type': 'CONTINUOUS_DIMMING',
-                          'are_schedules_used_for_modeling_occupancy_control': True,
-                          'are_schedules_used_for_modeling_daylighting_control': False}]
-                    }
+        expected = {
+            'PERIMETER_ZN_1': [{
+                'id': 'PERIMETER_ZN_1_LIGHTS',
+                'power_per_area': 6.8889,
+                'lighting_multiplier_schedule': 'BLDG_LIGHT_SCH',
+                'daylighting_control_type': 'CONTINUOUS_DIMMING',
+                'are_schedules_used_for_modeling_occupancy_control': True,
+                'are_schedules_used_for_modeling_daylighting_control': False
+            }]
+        }
 
         self.assertEqual(gathered_lights, expected)
 
     def test_add_spaces(self):
         t = self.set_minimal_files()
 
-        t.json_results_object['TabularReports'] = [
-            {'For': 'Entire Facility',
-             'ReportName': 'InputVerificationandResultsSummary',
-             'Tables': [
-                 {
-                     'Cols':
-                         ['Area [m2]',
-                          'Conditioned (Y/N)',
-                          'Part of Total Floor Area (Y/N)',
-                          'Multipliers',
-                          'Zone Name',
-                          'Space Type',
-                          'Radiant/Solar Enclosure Name',
-                          'Lighting [W/m2]',
-                          'People [m2 per person]',
-                          'Plug and Process [W/m2]',
-                          'Tags'],
-                     'Rows': {
-                         'PERIMETER_ZN_1':
-                             ['113.45',
-                              'Yes',
-                              'Yes',
-                              '1.00',
-                              'PERIMETER_ZN_1',
-                              'COPY_PRINT_ROOM',
-                              'PERIMETER_ZN_1',
-                              '6.8889',
-                              '16.59',
-                              '6.7800',
-                              '']
-                     },
-                     'TableName': 'Space Summary'}
-             ]
-             }
-        ]
+        t.json_results_object['TabularReports'] = [{
+            'For': 'Entire Facility',
+            'ReportName': 'InputVerificationandResultsSummary',
+            'Tables': [{
+                'Cols': [
+                    'Area [m2]',
+                    'Conditioned (Y/N)',
+                    'Part of Total Floor Area (Y/N)',
+                    'Multipliers',
+                    'Zone Name',
+                    'Space Type',
+                    'Radiant/Solar Enclosure Name',
+                    'Lighting [W/m2]',
+                    'People [m2 per person]',
+                    'Plug and Process [W/m2]',
+                    'Tags'
+                ],
+                'Rows': {
+                    'PERIMETER_ZN_1': [
+                        '113.45',
+                        'Yes',
+                        'Yes',
+                        '1.00',
+                        'PERIMETER_ZN_1',
+                        'COPY_PRINT_ROOM',
+                        'PERIMETER_ZN_1',
+                        '6.8889',
+                        '16.59',
+                        '6.7800',
+                        ''
+                    ]
+                },
+                'TableName': 'Space Summary'
+            }]
+        }]
 
         t.building_segment['zones'] = [{'id': 'PERIMETER_ZN_1'}]
 
         added_spaces = t.add_spaces()
 
-        expected = {'PERIMETER_ZN_1':
-                        {'id': 'PERIMETER_ZN_1', 'floor_area': 113.45, 'number_of_occupants': 6.84,
-                         'lighting_space_type': 'COPY_PRINT_ROOM'
-                         }
-                    }
+        expected = {
+            'PERIMETER_ZN_1': {
+                'id': 'PERIMETER_ZN_1',
+                'floor_area': 113.45,
+                'number_of_occupants': 6.84,
+                'lighting_space_type': 'COPY_PRINT_ROOM'
+            }
+        }
 
         self.assertEqual(added_spaces, expected)
 
@@ -833,26 +877,25 @@ class TestTranslator(TestCase):
 
     def test_gather_people_schedule_by_zone(self):
         t = self.set_minimal_files()
-        t.json_results_object['TabularReports'] = \
-            [
-                {'For': 'Entire Facility', 'ReportName': 'InitializationSummary',
-                 'Tables': [
-                     {'Cols':
-                          ['Name',
-                           'Schedule Name',
-                           'Zone Name',
-                           ],
-                      'Rows': {
-                          '1': ['CORE_ZN', 'BLDG_OCC_SCH_WO_SB', 'CORE_ZN'],
-                          '2': ['PERIMETER_ZN_1', 'BLDG_OCC_SCH_WO_SB', 'PERIMETER_ZN_1'],
-                          '3': ['PERIMETER_ZN_2', 'BLDG_OCC_SCH_W_SB', 'PERIMETER_ZN_2'],
-                          '4': ['PERIMETER_ZN_3', 'BLDG_OCC_SCH_WO_SB', 'PERIMETER_ZN_3'],
-                          '5': ['PERIMETER_ZN_4', 'BLDG_OCC_SCH_WO_SB', 'PERIMETER_ZN_4']
-                      },
-                      'TableName': 'People Internal Gains Nominal'}
-                 ]
-                 }
-            ]
+        t.json_results_object['TabularReports'] = [{
+            'For': 'Entire Facility',
+            'ReportName': 'InitializationSummary',
+            'Tables': [{
+                'Cols': [
+                    'Name',
+                    'Schedule Name',
+                    'Zone Name',
+                ],
+                'Rows': {
+                    '1': ['CORE_ZN', 'BLDG_OCC_SCH_WO_SB', 'CORE_ZN'],
+                    '2': ['PERIMETER_ZN_1', 'BLDG_OCC_SCH_WO_SB', 'PERIMETER_ZN_1'],
+                    '3': ['PERIMETER_ZN_2', 'BLDG_OCC_SCH_W_SB', 'PERIMETER_ZN_2'],
+                    '4': ['PERIMETER_ZN_3', 'BLDG_OCC_SCH_WO_SB', 'PERIMETER_ZN_3'],
+                    '5': ['PERIMETER_ZN_4', 'BLDG_OCC_SCH_WO_SB', 'PERIMETER_ZN_4']
+                },
+                'TableName': 'People Internal Gains Nominal'
+            }]
+        }]
         gathered_people_schedule_by_zone = t.gather_people_schedule_by_zone()
         expected = {
             'CORE_ZN': 'BLDG_OCC_SCH_WO_SB', 'PERIMETER_ZN_1': 'BLDG_OCC_SCH_WO_SB',
@@ -906,26 +949,29 @@ class TestTranslator(TestCase):
 
     def test_add_exterior_lighting(self):
         t = self.set_minimal_files()
-        t.json_results_object['TabularReports'] = \
-            [
-                {'For': 'Entire Facility', 'ReportName': 'LightingSummary',
-                 'Tables': [
-                     {'Cols':
-                          ['Total Watts',
-                           'Astronomical Clock/Schedule',
-                           'Schedule Name',
-                           'Scheduled Hours/Week [hr]',
-                           'Hours/Week > 1% [hr]',
-                           'Full Load Hours/Week [hr]',
-                           'Consumption [GJ]'],
-                      'Rows': {'EXTERIOR_LIGHTS_A': ['50.70', 'AstronomicalClock', '-', '', '42.26', '42.26', '0.40'],
-                               'EXTERIOR_LIGHTS_B': ['115.10', 'AstronomicalClock', '-', '', '83.67', '62.97', '1.36'],
-                               'EXTERIOR_LIGHTS_C': ['445.50', 'AstronomicalClock', '-', '', '83.67', '46.88', '3.92'],
-                               'Exterior Lighting Total': ['611.30', '', '', '', '', '', '5.68']},
-                      'TableName': 'Exterior Lighting'}
-                 ]
-                 }
-            ]
+        t.json_results_object['TabularReports'] = [{
+            'For': 'Entire Facility',
+            'ReportName': 'LightingSummary',
+            'Tables': [{
+                'Cols':
+                    [
+                        'Total Watts',
+                        'Astronomical Clock/Schedule',
+                        'Schedule Name',
+                        'Scheduled Hours/Week [hr]',
+                        'Hours/Week > 1% [hr]',
+                        'Full Load Hours/Week [hr]',
+                        'Consumption [GJ]'
+                    ],
+                'Rows': {
+                    'EXTERIOR_LIGHTS_A': ['50.70', 'AstronomicalClock', '-', '', '42.26', '42.26', '0.40'],
+                    'EXTERIOR_LIGHTS_B': ['115.10', 'AstronomicalClock', '-', '', '83.67', '62.97', '1.36'],
+                    'EXTERIOR_LIGHTS_C': ['445.50', 'AstronomicalClock', '-', '', '83.67', '46.88', '3.92'],
+                    'Exterior Lighting Total': ['611.30', '', '', '', '', '', '5.68'
+                                                ]},
+                'TableName': 'Exterior Lighting'
+            }]
+        }]
         added_exterior_lighting = t.add_exterior_lighting()
 
         expected = [
@@ -1330,28 +1376,26 @@ class TestTranslator(TestCase):
 
         added_hvac_systems, added_terminals_by_zone = t.add_simple_hvac()
 
-        expected_hvac = [
-            {'id': '5 ZONE PVAV 1',
-             'cooling_system':
-                 {'id': '5 ZONE PVAV 1-cooling', 'design_total_cool_capacity': 98149.824,
-                  'design_sensible_cool_capacity': 78534.22
-                  }
-             }
-        ]
+        expected_hvac = [{
+            'id': '5 ZONE PVAV 1',
+            'cooling_system': {
+                'id': '5 ZONE PVAV 1-cooling',
+                'design_total_cool_capacity': 98149.824,
+                'design_sensible_cool_capacity': 78534.22
+            }
+        }]
 
-        expected_terminals = \
-            {'PERIMETER_MID_ZN_1 ZN':
-                 [{'id': 'PERIMETER_MID_ZN_1 ZN-terminal',
-                   'served_by_heating_ventilation_air_conditioning_system': '5 ZONE PVAV 1',
-                   'heating_capacity': 11828.176
-                   }
-                  ],
-             'PERIMETER_MID_ZN_2 ZN':
-                 [{'id': 'PERIMETER_MID_ZN_2 ZN-terminal',
-                   'served_by_heating_ventilation_air_conditioning_system': '5 ZONE PVAV 1'
-                   }
-                  ],
-             }
+        expected_terminals = {
+            'PERIMETER_MID_ZN_1 ZN': [{
+                'id': 'PERIMETER_MID_ZN_1 ZN-terminal',
+                'served_by_heating_ventilation_air_conditioning_system': '5 ZONE PVAV 1',
+                'heating_capacity': 11828.176
+            }],
+            'PERIMETER_MID_ZN_2 ZN': [{
+                'id': 'PERIMETER_MID_ZN_2 ZN-terminal',
+                'served_by_heating_ventilation_air_conditioning_system': '5 ZONE PVAV 1'
+            }],
+        }
 
         self.assertEqual(added_hvac_systems, expected_hvac)
 
@@ -1361,19 +1405,19 @@ class TestTranslator(TestCase):
         t = self.set_minimal_files()
 
         # first time should cause no change
-        id = 'unique-id'
-        self.assertEqual(id, t.replace_serial_number(id))
+        _id = 'unique-id'
+        self.assertEqual(_id, t.replace_serial_number(_id))
 
         # second time should add a serial number
-        self.assertEqual(id + '~~~00000001', t.replace_serial_number(id))
+        self.assertEqual(_id + '~~~00000001', t.replace_serial_number(_id))
 
         # third time should increment the serial number
-        self.assertEqual(id + '~~~00000002', t.replace_serial_number(id))
+        self.assertEqual(_id + '~~~00000002', t.replace_serial_number(_id))
 
-        id = 'another_id'
-        self.assertEqual(id, t.replace_serial_number(id))
-        self.assertEqual(id + '~~~00000003', t.replace_serial_number(id))
-        self.assertEqual(id + '~~~00000004', t.replace_serial_number(id))
+        _id = 'another_id'
+        self.assertEqual(_id, t.replace_serial_number(_id))
+        self.assertEqual(_id + '~~~00000003', t.replace_serial_number(_id))
+        self.assertEqual(_id + '~~~00000004', t.replace_serial_number(_id))
 
     def test_add_serial_number_nested(self):
         t = self.set_minimal_files()
