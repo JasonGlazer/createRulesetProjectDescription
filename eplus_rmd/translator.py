@@ -812,12 +812,12 @@ class Translator:
                                 for zone in zone_name_list:
                                     terminal = {
                                         'id': zone + '-terminal',
-                                        'served_by_heating_ventilation_air_conditioning_system': hvac_name
+                                        'served_by_heating_ventilating_air_conditioning_system': hvac_name
                                     }
                                     if zone in terminal_capacity_by_zone:
                                         terminal['heating_capacity'] = terminal_capacity_by_zone[zone]
                                     self.terminals_by_zone[zone.upper()] = [terminal, ]
-        self.building_segment['heating_ventilation_air_conditioning_systems'] = hvac_systems
+        self.building_segment['heating_ventilating_air_conditioning_systems'] = hvac_systems
         # print(self.terminals_by_zone)
         return hvac_systems, self.terminals_by_zone
 
