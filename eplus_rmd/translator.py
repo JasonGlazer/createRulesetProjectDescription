@@ -803,12 +803,11 @@ class Translator:
                                     hvac_system = hvac_system_list[0]
                                 else:
                                     hvac_system = {'id': hvac_name}
+                                    hvac_systems.append(hvac_system)
                                 if heating_system:
                                     hvac_system['heating_system'] = heating_system
                                 if cooling_system:
                                     hvac_system['cooling_system'] = cooling_system
-                                # print(hvac_system)
-                                hvac_systems.append(hvac_system)
                                 for zone in zone_name_list:
                                     terminal = {
                                         'id': zone + '-terminal',
