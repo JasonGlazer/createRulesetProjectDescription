@@ -11,16 +11,28 @@ from eplus_rmd.status_reporter import StatusReporter
 class Translator:
     """This class reads in the input files and does the heavy lifting to write output files"""
 
+<<<<<<< HEAD
     def __init__(self, epjson_file_path: Path):
         print(f"Reading epJSON input file at {epjson_file_path}")
+=======
+    def __init__(self, epjson_file_path: Path, rmd_name=None):
+        print(f"Reading epJSON input file at {str(epjson_file_path)}")
+>>>>>>> osstd_eplus_rct_demo
         self.input_file = InputFile(epjson_file_path)
         self.epjson_object = self.input_file.epjson_object
         self.json_results_object = self.input_file.json_results_object
         print(f"Reading EnergyPlus results JSON file: {self.input_file.json_results_input_path}")
         self.json_hourly_results_object = self.input_file.json_hourly_results_object
+<<<<<<< HEAD
         print(f"Reading EnergyPlus hourly results JSON file: {self.input_file.json_hourly_results_input_path}")
 
         self.output_file = OutputFile(epjson_file_path)
+=======
+        print(f"Reading EnergyPlus hourly results JSON file: {str(self.input_file.json_hourly_results_input_path)}")
+        # Modify export name - to avoid long execution line set by windows
+        output_path = Path(str(epjson_file_path.parent.absolute()) + "\\" + rmd_name) if rmd_name else epjson_file_path
+        self.output_file = OutputFile(output_path)
+>>>>>>> osstd_eplus_rct_demo
         self.rmd_file_path = self.output_file.rmd_file_path
         print(f"Writing output file to {self.rmd_file_path}")
 
@@ -71,6 +83,8 @@ class Translator:
         constructions_in = {}
         if 'Construction' in self.epjson_object:
             constructions_in = self.epjson_object['Construction']
+        if 'Construction:FfactorGroundFloor' in self.epjson_object:
+            constructions_in.update(self.epjson_object['Construction:FfactorGroundFloor'])
         materials_in = {}
         if 'Material' in self.epjson_object:
             materials_in = self.epjson_object['Material']
@@ -794,7 +808,11 @@ class Translator:
                                     cooling_system['id'] = hvac_name + '-cooling'
                                     cooling_system['design_total_cool_capacity'] = total_capacity
                                     cooling_system['design_sensible_cool_capacity'] = sensible_capacity
-                                hvac_system = {'id': hvac_name}
+                                hvac_system_list = list(filter(lambda x: (x['id'] == hvac_name), hvac_systems))
+                                if hvac_system_list:
+                                    hvac_system = hvac_system_list[0]
+                                else:
+                                    hvac_system = {'id': hvac_name}
                                 if heating_system:
                                     hvac_system['heating_system'] = heating_system
                                 if cooling_system:
