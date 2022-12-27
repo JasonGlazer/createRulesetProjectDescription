@@ -11,28 +11,18 @@ from eplus_rmd.status_reporter import StatusReporter
 class Translator:
     """This class reads in the input files and does the heavy lifting to write output files"""
 
-<<<<<<< HEAD
-    def __init__(self, epjson_file_path: Path):
-        print(f"Reading epJSON input file at {epjson_file_path}")
-=======
     def __init__(self, epjson_file_path: Path, rmd_name=None):
-        print(f"Reading epJSON input file at {str(epjson_file_path)}")
->>>>>>> osstd_eplus_rct_demo
+        print(f"Reading epJSON input file at {epjson_file_path}")
         self.input_file = InputFile(epjson_file_path)
         self.epjson_object = self.input_file.epjson_object
         self.json_results_object = self.input_file.json_results_object
         print(f"Reading EnergyPlus results JSON file: {self.input_file.json_results_input_path}")
         self.json_hourly_results_object = self.input_file.json_hourly_results_object
-<<<<<<< HEAD
         print(f"Reading EnergyPlus hourly results JSON file: {self.input_file.json_hourly_results_input_path}")
 
-        self.output_file = OutputFile(epjson_file_path)
-=======
-        print(f"Reading EnergyPlus hourly results JSON file: {str(self.input_file.json_hourly_results_input_path)}")
         # Modify export name - to avoid long execution line set by windows
         output_path = Path(str(epjson_file_path.parent.absolute()) + "\\" + rmd_name) if rmd_name else epjson_file_path
         self.output_file = OutputFile(output_path)
->>>>>>> osstd_eplus_rct_demo
         self.rmd_file_path = self.output_file.rmd_file_path
         print(f"Writing output file to {self.rmd_file_path}")
 
@@ -822,12 +812,12 @@ class Translator:
                                 for zone in zone_name_list:
                                     terminal = {
                                         'id': zone + '-terminal',
-                                        'served_by_heating_ventilation_air_conditioning_system': hvac_name
+                                        'served_by_heating_ventilating_air_conditioning_system': hvac_name
                                     }
                                     if zone in terminal_capacity_by_zone:
                                         terminal['heating_capacity'] = terminal_capacity_by_zone[zone]
                                     self.terminals_by_zone[zone.upper()] = [terminal, ]
-        self.building_segment['heating_ventilation_air_conditioning_systems'] = hvac_systems
+        self.building_segment['heating_ventilating_air_conditioning_systems'] = hvac_systems
         # print(self.terminals_by_zone)
         return hvac_systems, self.terminals_by_zone
 
