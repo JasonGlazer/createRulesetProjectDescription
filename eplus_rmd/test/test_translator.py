@@ -1388,12 +1388,12 @@ class TestTranslator(TestCase):
         expected_terminals = {
             'PERIMETER_MID_ZN_1 ZN': [{
                 'id': 'PERIMETER_MID_ZN_1 ZN-terminal',
-                'served_by_heating_ventilation_air_conditioning_system': '5 ZONE PVAV 1',
+                'served_by_heating_ventilating_air_conditioning_system': '5 ZONE PVAV 1',
                 'heating_capacity': 11828.176
             }],
             'PERIMETER_MID_ZN_2 ZN': [{
                 'id': 'PERIMETER_MID_ZN_2 ZN-terminal',
-                'served_by_heating_ventilation_air_conditioning_system': '5 ZONE PVAV 1'
+                'served_by_heating_ventilating_air_conditioning_system': '5 ZONE PVAV 1'
             }],
         }
 
