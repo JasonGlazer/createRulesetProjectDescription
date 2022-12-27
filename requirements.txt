@@ -12,3 +12,5 @@ sphinx
 
 # for building wheels to post on pypi
 wheel
+
+setuptools>=65.5.1
