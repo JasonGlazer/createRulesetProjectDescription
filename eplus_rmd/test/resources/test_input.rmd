@@ -15,7 +15,7 @@
           "building_segments": [
             {
               "id": "segment 1",
-              "heating_ventilation_air_conditioning_systems": [],
+              "heating_ventilating_air_conditioning_systems": [],
               "zones": []
             }
           ],
