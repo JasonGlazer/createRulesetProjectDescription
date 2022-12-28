@@ -1,6 +1,6 @@
 # createRulesetModelDescription
 
-[![Test/Package Status](https://img.shields.io/github/workflow/status/JasonGlazer/createRulesetModelDescription/Flake8/main?label=flake8)](https://github.com/JasonGlazer/createRulesetModelDescription/actions/workflows/flake8.yml)
+[![Test/Package Status](https://github.com/Myoldmopar/EnergyPlusTransitionTools/actions/workflows/flake8.yml/badge.svg](https://github.com/JasonGlazer/createRulesetModelDescription/actions/workflows/flake8.yml)
 [![Build Package and Run Tests](https://github.com/JasonGlazer/createRulesetModelDescription/actions/workflows/build_and_test.yml/badge.svg?branch=main)](https://github.com/JasonGlazer/createRulesetModelDescription/actions/workflows/build_and_test.yml)
 
 An EnergyPlus utility that creates an Ruleset Model Description (RMD) file based on output (and some input) from a simulation. 
