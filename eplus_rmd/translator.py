@@ -157,7 +157,7 @@ class Translator:
 
         self.building = {'id': self.get_building_name(),
                          'notes': 'this file contains only a single building',
-                         'building_open_schedule': 'always_1',
+                         'building_open_schedule': 'ALWAYS ON DISCRETE',
                          'has_site_shading': self.is_site_shaded(),
                          'building_segments': [self.building_segment, ]}
 
