@@ -31,12 +31,12 @@ https://github.com/open229/ruleset-model-description-schema
 The utility is intended to be used at a command line prompt:
 
 ```
-  createRulesetModelDescription in.epJSON
+  energyplus_create_rmd in.epJSON
 ```
 
 where in.epJSON is the name of the EnergyPlus input file with path in the epJSON format. 
 
-EnergyPlus version 22.2.0 or newer is requried to use the utility.
+EnergyPlus version 22.2.0 or newer is required to use the utility.
 
 ## epJSON Format
 

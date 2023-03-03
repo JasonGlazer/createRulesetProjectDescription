@@ -3,7 +3,7 @@ from pathlib import Path
 from tempfile import mkdtemp
 from unittest import TestCase
 
-from eplus_rmd.translator import Translator
+from energyplus_rmd.translator import Translator
 
 
 class TestTranslator(TestCase):

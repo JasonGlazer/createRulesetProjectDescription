@@ -2,10 +2,10 @@ from pathlib import Path
 from typing import Dict
 from copy import deepcopy
 
-from eplus_rmd.input_file import InputFile
-from eplus_rmd.output_file import OutputFile
-from eplus_rmd.validator import Validator
-from eplus_rmd.status_reporter import StatusReporter
+from energyplus_rmd.input_file import InputFile
+from energyplus_rmd.output_file import OutputFile
+from energyplus_rmd.validator import Validator
+from energyplus_rmd.status_reporter import StatusReporter
 
 
 class Translator:
@@ -866,8 +866,8 @@ class Translator:
         self.add_exterior_lighting()
         self.add_schedules()
         self.ensure_all_id_unique()
-        check_validity = self.validator.validate_rmd(self.rmd)
-        if not check_validity['passed']:
-            print(check_validity['error'])
+        passed, message = self.validator.validate_rmd(self.rmd)
+        if not passed:
+            print(message)
         self.output_file.write(self.rmd)
-        self.status_reporter.generate()  # self.rmd)
+        self.status_reporter.generate()
