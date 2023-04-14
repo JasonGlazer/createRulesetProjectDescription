@@ -11,9 +11,8 @@ setup(
     version=VERSION,
     packages=['energyplus_rmd'],
     url='https://github.com/JasonGlazer/createRulesetModelDescription',
-    license='',
+    license='ModifiedBSD',
     author='Jason Glazer',
-    author_email='',
     description='A Python tool for generating RMDs.',
     package_data={
         "eplus_rmd": [
