@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from eplus_rmd.validator import Validator
+from energyplus_rmd.validator import Validator
 
 
 class TestValidator(TestCase):
@@ -8,15 +8,15 @@ class TestValidator(TestCase):
     def test_valid_dict(self):
         test1 = {"id": "0001"}
         v = Validator()
-        check_validity = v.validate_rmd(test1)
-        self.assertTrue(check_validity['passed'])
+        passed, _ = v.validate_rmd(test1)
+        self.assertTrue(passed)
 
     def test_invalid_dict(self):
         test2 = {"junk": 0.0}
         v = Validator()
-        check_validity = v.validate_rmd(test2)
-        self.assertFalse(check_validity['passed'])
-        self.assertEqual(check_validity['error'], "invalid: 'id' is a required property")
+        passed, message = v.validate_rmd(test2)
+        self.assertFalse(passed)
+        self.assertEqual(message, "invalid: 'id' is a required property")
 
     def test_is_in_901_enumeration(self):
         v = Validator()

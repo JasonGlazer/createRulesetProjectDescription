@@ -1,6 +1,6 @@
 [run]
-source = eplus_rmd
+source = energyplus_rmd
 
 [report]
 omit =
-  eplus_rmd/runner.py
+  energyplus_rmd/runner.py
