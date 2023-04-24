@@ -46,7 +46,12 @@ class StatusReporter:
                                 if 'EPstatus' in fields:
                                     status = fields['EPstatus']
                                     status_count[status] += 1
-                                print('  ' + _type + '  ' + status.ljust(25, ' ') + data_element, file=f)
+                                if 'Used by RCT Test' in fields:
+                                    usedByRCTtest = fields['Used by RCT Test']
+                                neededButNotStarted = ' '
+                                if usedByRCTtest and status == 'NotStarted':
+                                    neededButNotStarted = '*'
+                                print('  ' + _type + '  ' + status.ljust(25, ' ') + str(usedByRCTtest).ljust(10,' ') + neededButNotStarted + data_element, file=f)
                                 counter[_type] = counter[_type] + 1
                             print(f'  counts:  {counter} {status_count} \n', file=f)
 
