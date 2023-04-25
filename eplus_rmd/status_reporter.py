@@ -51,7 +51,8 @@ class StatusReporter:
                                 neededButNotStarted = ' '
                                 if usedByRCTtest and status == 'NotStarted':
                                     neededButNotStarted = '*'
-                                print('  ' + _type + '  ' + status.ljust(25, ' ') + str(usedByRCTtest).ljust(10,' ') + neededButNotStarted + data_element, file=f)
+                                print('  ' + _type + '  ' + status.ljust(25, ' ') + str(usedByRCTtest).ljust(10, ' ')
+                                      + neededButNotStarted + data_element, file=f)
                                 counter[_type] = counter[_type] + 1
                             print(f'  counts:  {counter} {status_count} \n', file=f)
 
