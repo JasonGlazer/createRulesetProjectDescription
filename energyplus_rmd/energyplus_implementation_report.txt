@@ -1,23 +1,24 @@
 ============= Generated Report ==============
-Updated at: 2023-11-03 07:37:20.170359 
+Updated at: 2023-11-03 09:48:58.102267 
 
-ASHRAE229  #elements: 9
+RulesetProjectDescription  #elements: 10
   null                             id
   null                             reporting_name
   null                             notes
-  null                             ruleset_model_instances
+  null                             data_timestamp
+  null                             data_version
+  null                             ruleset_model_descriptions
   null                             calendar
   null                             weather
   null                             compliance_path
   null                             output_format_type
-  null                             feature_present_checklist
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 9} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 10} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
 
-RulesetModelInstance  #elements: 19
+RulesetModelDescription  #elements: 19
   null                             id
   null                             reporting_name
   null                             notes
-  null                             ruleset_model_type
+  null                             type
   null                             transformers
   null                             buildings
   null                             schedules
@@ -30,34 +31,24 @@ RulesetModelInstance  #elements: 19
   null                             boilers
   null                             chillers
   null                             heat_rejections
-  null                             external_fluid_source
+  null                             external_fluid_sources
   null                             site_zone_type
   null                             output
   counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 19} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
 
-FeaturePresentChecklist  #elements: 9
-  null                             id
-  null                             reporting_name
-  null                             notes
-  null                             is_infiltration_present
-  null                             are_chillers_present
-  null                             are_interior_shades_present
-  null                             are_transformers_present
-  null                             are_opaque_surface_material_properties_present
-  null                             are_fans_present
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 9} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
-
-Building  #elements: 9
+Building  #elements: 11
   null                             id
   null                             reporting_name
   null                             notes
   null                             building_segments
   null                             elevators
   null                             exterior_lighting
-  null                             refrigerated_casess
+  null                             refrigerated_cases
   null                             building_open_schedule
   null                             has_site_shading
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 9} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  null                             number_of_floors_above_grade
+  null                             number_of_floors_below_grade
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 11} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
 
 BuildingSegment  #elements: 11
   null                             id
@@ -102,7 +93,7 @@ Zone  #elements: 26
   null                             aggregation_factor
   counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 26} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
 
-Space  #elements: 15
+Space  #elements: 17
   null                             id
   null                             reporting_name
   null                             notes
@@ -112,13 +103,15 @@ Space  #elements: 15
   null                             number_of_occupants
   null                             occupant_multiplier_schedule
   null                             occupant_sensible_heat_gain
+  null                             occupant_latent_heat_gain
   null                             status_type
-  null                             space_function
+  null                             function
+  null                             envelope_space_type
   null                             lighting_space_type
   null                             ventilation_space_type
   null                             service_water_heating_space_type
   null                             service_water_heating_uses
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 15} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 17} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
 
 Infiltration  #elements: 8
   null                             id
@@ -127,7 +120,7 @@ Infiltration  #elements: 8
   null                             modeling_method
   null                             algorithm_name
   null                             measured_air_leakage_rate
-  null                             infiltration_flow_rate
+  null                             flow_rate
   null                             multiplier_schedule
   counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 8} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
 
@@ -144,26 +137,27 @@ Surface  #elements: 14
   null                             adjacent_zone
   null                             does_cast_shade
   null                             construction
-  null                             surface_optical_properties
+  null                             optical_properties
   null                             status_type
   counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 14} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
 
-Construction  #elements: 14
+Construction  #elements: 15
   null                             id
   null                             reporting_name
   null                             notes
+  null                             classification
   null                             surface_construction_input_option
   null                             fraction_framing
   null                             primary_layers
   null                             framing_layers
-  null                             insulation_location
+  null                             insulation_locations
   null                             u_factor
   null                             c_factor
   null                             f_factor
-  null                             r_value
+  null                             r_values
   null                             has_radiant_heating
   null                             has_radiant_cooling
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 14} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 15} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
 
 Material  #elements: 8
   null                             id
@@ -239,7 +233,7 @@ MiscellaneousEquipment  #elements: 12
   null                             latent_fraction
   null                             remaining_fraction_to_loop
   null                             energy_from_loop
-  null                             miscellaneous_equipment_type
+  null                             type
   null                             has_automatic_control
   counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 12} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
 
@@ -254,19 +248,25 @@ Transformer  #elements: 8
   null                             peak_load
   counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 8} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
 
-Schedule  #elements: 11
+Schedule  #elements: 17
   null                             id
   null                             reporting_name
   null                             notes
   null                             purpose
-  null                             schedule_sequence_type
+  null                             sequence_type
   null                             hourly_values
+  null                             hourly_heating_design_day
+  null                             hourly_cooling_design_day
   null                             event_times
   null                             event_values
+  null                             event_times_heating_design_day
+  null                             event_values_heating_design_day
+  null                             event_times_cooling_design_day
+  null                             event_values_cooling_design_day
   null                             type
-  null                             prescribed_schedule
-  null                             is_schedule_modified_for_workaround
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 11} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  null                             prescribed_type
+  null                             is_modified_for_workaround
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 17} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
 
 Calendar  #elements: 4
   null                             notes
@@ -278,7 +278,7 @@ Calendar  #elements: 4
 Weather  #elements: 7
   null                             notes
   null                             ground_temperature_schedule
-  null                             weather_file_name
+  null                             file_name
   null                             data_source_type
   null                             climate_zone
   null                             cooling_design_day_type
@@ -298,7 +298,7 @@ Elevator  #elements: 21
   null                             motor_power
   null                             cab_counterweight
   null                             cab_weight
-  null                             design_elevator_load
+  null                             design_load
   null                             speed
   null                             cab_area
   null                             cab_lighting_power
@@ -324,7 +324,7 @@ HeatingSystem  #elements: 18
   null                             id
   null                             reporting_name
   null                             notes
-  null                             heating_system_type
+  null                             type
   null                             energy_source_type
   null                             hot_water_loop
   null                             water_source_heat_pump_loop
@@ -345,7 +345,7 @@ CoolingSystem  #elements: 16
   null                             id
   null                             reporting_name
   null                             notes
-  null                             cooling_system_type
+  null                             type
   null                             design_total_cool_capacity
   null                             design_sensible_cool_capacity
   null                             rated_total_cool_capacity
@@ -360,7 +360,7 @@ CoolingSystem  #elements: 16
   null                             cooling_turndown_ratio
   counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 16} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
 
-FanSystem  #elements: 27
+FanSystem  #elements: 26
   null                             id
   null                             reporting_name
   null                             notes
@@ -375,7 +375,6 @@ FanSystem  #elements: 27
   null                             operation_during_unoccupied
   null                             has_lock_out_central_heat_during_unoccupied
   null                             fan_control
-  null                             supply_air_setpoint_temperature
   null                             reset_differential_temperature
   null                             supply_air_temperature_reset_load_fraction
   null                             supply_air_temperature_reset_schedule
@@ -388,7 +387,7 @@ FanSystem  #elements: 27
   null                             air_filter_merv_rating
   null                             has_fully_ducted_return
   null                             demand_control_ventilation_control
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 27} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 26} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
 
 AirEconomizer  #elements: 5
   null                             id
@@ -398,28 +397,31 @@ AirEconomizer  #elements: 5
   null                             high_limit_shutoff_temperature
   counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 5} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
 
-AirEnergyRecovery  #elements: 9
+AirEnergyRecovery  #elements: 11
   null                             id
   null                             reporting_name
   null                             notes
-  null                             energy_recovery_type
+  null                             type
   null                             enthalpy_recovery_ratio
   null                             energy_recovery_operation
   null                             energy_recovery_supply_air_temperature_control
   null                             design_sensible_effectiveness
   null                             design_latent_effectiveness
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 9} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  null                             outdoor_airflow
+  null                             exhaust_airflow
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 11} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
 
-Fan  #elements: 16
+Fan  #elements: 17
   null                             id
   null                             reporting_name
   null                             notes
   null                             design_airflow
+  null                             is_airflow_autosized
   null                             specification_method
   null                             design_electric_power
   null                             design_pressure_rise
-  null                             nameplate_power
-  null                             input_power
+  null                             motor_nameplate_power
+  null                             shaft_power
   null                             total_efficiency
   null                             motor_efficiency
   null                             motor_heat_to_airflow_fraction
@@ -427,14 +429,14 @@ Fan  #elements: 16
   null                             motor_location_zone
   null                             status_type
   null                             output_validation_points
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 16} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 17} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
 
 FanOutputValidationPoint  #elements: 2
   null                             airflow
   null                             result
   counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
 
-Terminal  #elements: 22
+Terminal  #elements: 24
   null                             id
   null                             reporting_name
   null                             notes
@@ -448,7 +450,9 @@ Terminal  #elements: 22
   null                             fan_configuration
   null                             primary_airflow
   null                             secondary_airflow
-  null                             supply_setpoint_temperature
+  null                             max_heating_airflow
+  null                             supply_design_heating_setpoint_temperature
+  null                             supply_design_cooling_setpoint_temperature
   null                             temperature_control
   null                             minimum_airflow
   null                             minimum_outdoor_airflow
@@ -457,7 +461,7 @@ Terminal  #elements: 22
   null                             cooling_capacity
   null                             is_supply_ducted
   null                             has_demand_control_ventilation
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 22} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 24} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
 
 FluidLoop  #elements: 8
   null                             id
@@ -572,7 +576,7 @@ ChillerPowerValidationPoint  #elements: 5
   null                             result
   counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 5} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
 
-HeatRejection  #elements: 16
+HeatRejection  #elements: 17
   null                             id
   null                             reporting_name
   null                             notes
@@ -582,14 +586,15 @@ HeatRejection  #elements: 16
   null                             fluid
   null                             range
   null                             approach
-  null                             fan_electric_input_power
-  null                             fan_nameplate_power
+  null                             fan_shaft_power
+  null                             fan_motor_efficiency
+  null                             fan_motor_nameplate_power
   null                             fan_speed_control
   null                             design_wetbulb_temperature
   null                             design_water_flowrate
   null                             rated_water_flowrate
   null                             leaving_water_setpoint_temperature
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 16} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 17} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
 
 ExternalFluidSource  #elements: 6
   null                             id
@@ -630,7 +635,7 @@ ServiceWaterPiping  #elements: 10
   null                             location_zone
   null                             length
   null                             diameter
-  null                             child_service_water_piping
+  null                             child
   counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 10} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
 
 SolarThermal  #elements: 9
@@ -650,7 +655,7 @@ ServiceWaterHeatingEquipment  #elements: 29
   null                             reporting_name
   null                             notes
   null                             heater_fuel_type
-  null                             service_water_heating_distribution_system
+  null                             distribution_system
   null                             energy_factor
   null                             thermal_efficiency
   null                             standby_loss_fraction
@@ -752,8 +757,8 @@ RefrigeratedCase  #elements: 14
   null                             power_multiplier_schedule
   null                             sensible_fraction
   null                             heat_gain_fraction
-  null                             case_volume
+  null                             volume
   null                             total_display_area
-  null                             case_zone
+  null                             zone
   counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 14} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
 
