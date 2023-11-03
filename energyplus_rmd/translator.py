@@ -713,7 +713,7 @@ class Translator:
                       f'Only {len(hourly)} values found')
             schedule = {
                 'id': schedule_name,
-                'schedule_sequence_type': 'HOURLY',
+                'sequence_type': 'HOURLY',
                 'hourly_values': hourly
             }
             schedules.append(schedule)
