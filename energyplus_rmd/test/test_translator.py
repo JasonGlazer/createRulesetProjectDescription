@@ -151,15 +151,15 @@ class TestTranslator(TestCase):
                 ]
             }
         )
-        instance = [
+        model_description = [
             {
                 'id': 'ONLY-SCHEDULE',
-                'schedule_sequence_type': 'HOURLY',
+                'sequence_type': 'HOURLY',
                 'hourly_values': [1]
             }
         ]
         t.add_schedules()
-        self.assertEqual(t.instance['schedules'], instance)
+        self.assertEqual(t.model_description['schedules'], model_description)
 
     def test_add_schedules_5(self):
         t = self.set_minimal_files()
@@ -178,15 +178,15 @@ class TestTranslator(TestCase):
                 ]
             }
         )
-        instance = [
+        model_description = [
             {
                 'id': 'ONLY-SCHEDULE',
-                'schedule_sequence_type': 'HOURLY',
+                'sequence_type': 'HOURLY',
                 'hourly_values': [1, 2, 3, 4, 5]
             }
         ]
         t.add_schedules()
-        self.assertEqual(t.instance['schedules'], instance)
+        self.assertEqual(t.model_description['schedules'], model_description)
 
     def test_add_schedules_3_5(self):
         t = self.set_minimal_files()
@@ -207,25 +207,25 @@ class TestTranslator(TestCase):
                 ]
             }
         )
-        instance = [
+        model_description = [
             {
                 'id': 'ONE-SCHEDULE',
-                'schedule_sequence_type': 'HOURLY',
+                'sequence_type': 'HOURLY',
                 'hourly_values': [1, 2, 3, 4, 5]
             },
             {
                 'id': 'TWO-SCHEDULE',
-                'schedule_sequence_type': 'HOURLY',
+                'sequence_type': 'HOURLY',
                 'hourly_values': [11, 12, 13, 14, 15]
             },
             {
                 'id': 'THREE-SCHEDULE',
-                'schedule_sequence_type': 'HOURLY',
+                'sequence_type': 'HOURLY',
                 'hourly_values': [21, 22, 23, 24, 25]
             }
         ]
         t.add_schedules()
-        self.assertEqual(t.instance['schedules'], instance)
+        self.assertEqual(t.model_description['schedules'], model_description)
 
     def test_gather_infiltration(self):
         t = self.set_minimal_files()
@@ -941,7 +941,7 @@ class TestTranslator(TestCase):
             ]
         added_weather = t.add_weather()
         expected = {
-            'weather_file_name': 'Denver-Aurora-Buckley AFB CO USA TMY3 WMO#=724695', 'data_source_type': 'OTHER',
+            'file_name': 'Denver-Aurora-Buckley AFB CO USA TMY3 WMO#=724695', 'data_source_type': 'OTHER',
             'climate_zone': 'CZ5B', 'cooling_design_day_type': 'COOLING_0_4',
             'heating_design_day_type': 'HEATING_99_6'}
 
