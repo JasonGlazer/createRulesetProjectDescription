@@ -302,7 +302,7 @@ class TestTranslator(TestCase):
                 'id': 'ATTIC_INFILTRATION',
                 'modeling_method': 'WEATHER_DRIVEN',
                 'algorithm_name': 'ZoneInfiltration',
-                'infiltration_flow_rate': 0.2,
+                'flow_rate': 0.2,
                 'multiplier_schedule': 'ALWAYS_ON'
             },
             'PERIMETER_ZN_1':
@@ -310,7 +310,7 @@ class TestTranslator(TestCase):
                     'id': 'PERIMETER_ZN_1_INFILTRATION',
                     'modeling_method': 'WEATHER_DRIVEN',
                     'algorithm_name': 'ZoneInfiltration',
-                    'infiltration_flow_rate': 0.04805,
+                    'flow_rate': 0.04805,
                     'multiplier_schedule': 'INFIL_QUARTER_ON_SCH'
                 },
             'PERIMETER_ZN_2':
@@ -318,7 +318,7 @@ class TestTranslator(TestCase):
                     'id': 'PERIMETER_ZN_2_INFILTRATION',
                     'modeling_method': 'WEATHER_DRIVEN',
                     'algorithm_name': 'ZoneInfiltration',
-                    'infiltration_flow_rate': 0.03203,
+                    'flow_rate': 0.03203,
                     'multiplier_schedule': 'INFIL_QUARTER_ON_SCH'
                 },
             'PERIMETER_ZN_3':
@@ -326,7 +326,7 @@ class TestTranslator(TestCase):
                     'id': 'PERIMETER_ZN_3_INFILTRATION',
                     'modeling_method': 'WEATHER_DRIVEN',
                     'algorithm_name': 'ZoneInfiltration',
-                    'infiltration_flow_rate': 0.04805,
+                    'flow_rate': 0.04805,
                     'multiplier_schedule': 'INFIL_QUARTER_ON_SCH'
                 },
             'PERIMETER_ZN_4':
@@ -334,7 +334,7 @@ class TestTranslator(TestCase):
                     'id': 'PERIMETER_ZN_4_INFILTRATION',
                     'modeling_method': 'WEATHER_DRIVEN',
                     'algorithm_name': 'ZoneInfiltration',
-                    'infiltration_flow_rate': 0.03203,
+                    'flow_rate': 0.03203,
                     'multiplier_schedule': 'INFIL_QUARTER_ON_SCH'
                 }
         }
