@@ -826,7 +826,7 @@ class Translator:
         return hvac_systems, self.terminals_by_zone
 
     def ensure_all_id_unique(self):
-        self.add_serial_number_nested(self.project_description, 'id')
+        self.add_serial_number_nested(self.model_description, 'id')
 
     def add_serial_number_nested(self, in_dict, key):
         for k, v in in_dict.items():

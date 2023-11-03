@@ -1443,11 +1443,11 @@ class TestTranslator(TestCase):
     def test_ensure_all_id_unique(self):
         t = self.set_minimal_files()
 
-        t.rmd = {0: {'id': 'a'},
+        t.model_description = {0: {'id': 'a'},
                  1: {'id': 'a'}}
 
         out_dict = {0: {'id': 'a'},
                     1: {'id': 'a~~~00000001'}}
 
         t.ensure_all_id_unique()
-        self.assertEqual(t.rmd, out_dict)
+        self.assertEqual(t.model_description, out_dict)

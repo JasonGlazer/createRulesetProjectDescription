@@ -6,7 +6,8 @@ from energyplus_rmd.validator import Validator
 class TestValidator(TestCase):
 
     def test_valid_dict(self):
-        test1 = {"id": "0001"}
+        test1 = {"id": "0001",
+                 "data_timestamp": "2016-06-29T14:35Z"}
         v = Validator()
         passed, _ = v.validate_rmd(test1)
         self.assertTrue(passed)
