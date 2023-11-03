@@ -1444,7 +1444,7 @@ class TestTranslator(TestCase):
         t = self.set_minimal_files()
 
         t.model_description = {0: {'id': 'a'},
-                 1: {'id': 'a'}}
+                               1: {'id': 'a'}}
 
         out_dict = {0: {'id': 'a'},
                     1: {'id': 'a~~~00000001'}}
