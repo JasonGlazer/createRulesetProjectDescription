@@ -45,7 +45,10 @@ class StatusReporter:
                                 status = ''
                                 if 'EPstatus' in fields:
                                     status = fields['EPstatus']
-                                    status_count[status] += 1
+                                    if status in status_count:
+                                        status_count[status] += 1
+                                    else:
+                                        print(f'EPstatus of "{status}" is invalid in data element "{data_element}" in data group "{data_group_name}"')
                                 print('  ' + _type + '  ' + status.ljust(25, ' ') + data_element, file=f)
                                 counter[_type] = counter[_type] + 1
                             print(f'  counts:  {counter} {status_count} \n', file=f)

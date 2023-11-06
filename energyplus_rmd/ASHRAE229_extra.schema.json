@@ -2153,7 +2153,7 @@
                 "Efficiency at 8.3C/47F dry bulb and 6.1C/43F wet bulb not including fan",
                 "Efficiency at -8.3C/17F dry bulb and -9.4C/15F wet bulb not including fan",
                 "Et - thermal efficiency",
-                "Ec - combustion` efficiency",
+                "Ec - combustion efficiency",
                 "AFUE - annual fuel utilization efficiency",
                 "HSPF - heating seasonal perfomrance factor",
                 "HSPF2 - heating seasonal perfomrance factor 2",
@@ -2477,7 +2477,7 @@
                 "fan_volume_reset_fraction": {
                     "description": "Fan volume reset load fraction",
                     "type": "number",
-                    "notes": "When fan_volume_reset_type is DESIGN_LOAD_RESET this is the fraction of the design load that corresponds to minimum air flow. When fan_volume_reset_type is OPERATING_CAPACITY_RESET this is the fraction of the instanteous operating capacity that corresponds to minimum air flow."
+                    "notes": "When fan_volume_reset_type is DESIGN_LOAD_RESET this is the fraction of the design load that corresponds to minimum air flow. When fan_volume_reset_type is OPERATING_CAPACITY_RESET this is the fraction of the instantaneous operating capacity that corresponds to minimum air flow."
                 },
                 "operating_schedule": {
                     "description": "Operating schedule name",
@@ -2820,7 +2820,7 @@
                     "description": "fan shaft power",
                     "type": "number",
                     "units": "W",
-                    "notes": "Power delivered to the fan\u00c2\u2019s shaft and does not include the mechanical drive losses. Equivalent to fan brake horsepower for inch-pound units. Only used when specification_method is set to Detailed."
+                    "notes": "Power delivered to the fans shaft and does not include the mechanical drive losses. Equivalent to fan brake horsepower for inch-pound units. Only used when specification_method is set to Detailed."
                 },
                 "total_efficiency": {
                     "description": "Total fan efficiency",
@@ -3839,14 +3839,12 @@
                 "fan_motor_efficiency": {
                     "description": "Efficiency of the fan motor at rating conditions",
                     "type": "number",
-                    "units": "W",
-                    "notes": "From CBECC-Com."
+                    "units": "W"
                 },
                 "fan_motor_nameplate_power": {
                     "description": "Fan Motor Nameplate Power",
                     "type": "number",
-                    "units": "W",
-                    "notes": "The nameplate power at rating conditions. In inch-pound units is the fan motor horsepower.From CBECC-Com."
+                    "units": "W"
                 },
                 "fan_speed_control": {
                     "description": "Fan Speed Control Type",
