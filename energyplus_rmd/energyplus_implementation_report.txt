@@ -1,5 +1,5 @@
 ============= Generated Report ==============
-Updated at: 2023-11-07 09:11:59.862116 
+Updated at: 2023-11-07 09:24:10.335189 
 
 RulesetProjectDescription  #elements: 10
   note    DoneUsingConstant        id
@@ -46,9 +46,9 @@ Building  #elements: 11
   note    NotStarted               refrigerated_cases
   note    PartialUsingConstant     building_open_schedule
   inout   DoneUsingOutput          has_site_shading
-  null                             number_of_floors_above_grade
-  null                             number_of_floors_below_grade
-  counts:  {'inout ': 3, 'input ': 0, 'output': 0, 'note  ': 4, 'null  ': 4} {'DoneUsingInput': 1, 'DoneUsingOutput': 1, 'DoneUsingConstant': 3, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 1, 'NotRequired': 1, 'NotStarted': 2, 'ToDo': 0} 
+  note    NotStarted               number_of_floors_above_grade
+  note    NotStarted               number_of_floors_below_grade
+  counts:  {'inout ': 3, 'input ': 0, 'output': 0, 'note  ': 6, 'null  ': 2} {'DoneUsingInput': 1, 'DoneUsingOutput': 1, 'DoneUsingConstant': 3, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 1, 'NotRequired': 1, 'NotStarted': 4, 'ToDo': 0} 
 
 BuildingSegment  #elements: 11
   note    DoneUsingConstant        id
@@ -58,11 +58,11 @@ BuildingSegment  #elements: 11
   note    NotStarted               number_of_floors_below_grade
   note    NotStarted               is_all_new
   inout   DoneUsingConstant        zones
-  note    NotStarted               heating_ventilating_air_conditioning_systems
+  note    ToDo                     heating_ventilating_air_conditioning_systems
   note    NotStarted               area_type_vertical_fenestration
   note    NotStarted               lighting_building_area_type
   note    NotStarted               area_type_heating_ventilating_air_conditioning_system
-  counts:  {'inout ': 1, 'input ': 0, 'output': 0, 'note  ': 8, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 2, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 7, 'ToDo': 0} 
+  counts:  {'inout ': 1, 'input ': 0, 'output': 0, 'note  ': 8, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 2, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 6, 'ToDo': 1} 
 
 Zone  #elements: 26
   inout   DoneUsingOutput          id

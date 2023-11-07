@@ -954,7 +954,7 @@ BuildingSegment:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "Only need this input after supporting this data group"
     area_type_vertical_fenestration:
       Description: "Building area classification used for vertical fenestration"
