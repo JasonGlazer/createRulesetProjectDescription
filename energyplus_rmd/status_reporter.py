@@ -37,7 +37,7 @@ class StatusReporter:
                             counter = {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 0}
                             status_count = {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0,
                                             'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0,
-                                            'NotRequired': 0, 'NotStarted': 0}
+                                            'NotRequired': 0, 'NotStarted': 0, 'ToDo': 0}
                             print(f'  #elements: {len(data_elements)}', file=f)
                             for data_element in data_elements:
                                 fields = data_elements[data_element]

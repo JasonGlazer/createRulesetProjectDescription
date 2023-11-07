@@ -446,7 +446,7 @@ RulesetModelDescription:
       EPout Report: "Component Sizing Summary"
       EPout Table: "PlantLoop"
       EPout Column: "Name"
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "Only need this input after supporting this data group"
     service_water_heating_distribution_systems:
       Description: "Service water heating systems on the site"
@@ -499,7 +499,7 @@ RulesetModelDescription:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "Only need this input after supporting this data group"
     boilers:
       Description: "Boilers used on the site"
@@ -516,7 +516,7 @@ RulesetModelDescription:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "Only need this input after supporting this data group"
     chillers:
       Description: "Chillers used on the site"
@@ -533,7 +533,7 @@ RulesetModelDescription:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "Only need this input after supporting this data group"
     heat_rejections:
       Description: "HeatRejections used on the site"
@@ -550,7 +550,7 @@ RulesetModelDescription:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "Only need this input after supporting this data group"
     external_fluid_sources:
       Description: "ExternalFluidSources used on the site"
