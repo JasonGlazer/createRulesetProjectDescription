@@ -1,18 +1,18 @@
 ============= Generated Report ==============
-Updated at: 2023-11-06 16:31:25.212765 
+Updated at: 2023-11-07 09:02:27.818605 
 
 RulesetProjectDescription  #elements: 10
   note    DoneUsingConstant        id
   note    NotRequired              reporting_name
   null    DoneUsingConstant        notes
-  null    NotStarted               data_timestamp
-  null    NotStarted               data_version
+  note    DoneUsingOutput          data_timestamp
+  note    DoneUsingConstant        data_version
   note    DoneUsingConstant        ruleset_model_descriptions
-  note    NotStarted               calendar
+  note    DoneUsingConstant        calendar
   note    DoneUsingConstant        weather
   note    NotStarted               compliance_path
   note    DoneUsingConstant        output_format_type
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 7, 'null  ': 3} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 5, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 1, 'NotStarted': 4} 
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 9, 'null  ': 1} {'DoneUsingInput': 0, 'DoneUsingOutput': 1, 'DoneUsingConstant': 7, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 1, 'NotStarted': 1} 
 
 RulesetModelDescription  #elements: 19
   note    DoneUsingConstant        id

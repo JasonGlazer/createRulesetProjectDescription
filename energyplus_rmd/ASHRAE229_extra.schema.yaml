@@ -157,8 +157,8 @@ RulesetProjectDescription:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: ""
+      EPstatus: "DoneUsingOutput"
+      EP Notes: "Created in the createRMD script"
     data_version:
       Description: "Integer version identifier for the data"
       Data Type: "Integer"
@@ -176,8 +176,8 @@ RulesetProjectDescription:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: ""
+      EPstatus: "DoneUsingConstant"
+      EP Notes: "Always set to 1 presuming that users that update the file will change to higher version numbers"
     ruleset_model_descriptions:  
       Description: "A list of the ruleset model descriptions within the project each with a unique ruleset_model_type."
       Data Type: "[{RulesetModelDescription}]"
@@ -210,8 +210,8 @@ RulesetProjectDescription:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Reference to a generic ID for Calendar"
+      EPstatus: "DoneUsingConstant"
+      EP Notes: "Nest the Calendar data group"
     weather:
       Description: "Information on the local weather conditions used with the simulation."
       Data Type: "{Weather}"
@@ -228,7 +228,7 @@ RulesetProjectDescription:
       EPout Table: ""
       EPout Column: ""
       EPstatus: "DoneUsingConstant"
-      EP Notes: "Reference to a generic ID for Weather"
+      EP Notes: "Nest the Calendar data group"
     compliance_path:
       Description: "Indicates the chosen compliance path if the ruleset has multiple compliance paths such as 90.1 Appendix G has code compliance and beyond code"
       Data Type: "<CompliancePathOptions2019ASHRAE901>"
