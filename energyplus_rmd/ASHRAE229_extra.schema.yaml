@@ -779,6 +779,15 @@ Building:
       AppG P_RMD Equals U_RMD: True
       AppG B_RMD Equals P_RMD: True
       AppG B_RMDs Same: "unknown"
+      Used by RCT Test: "unknown"
+      EPin Object: ""
+      EPin Field: ""
+      EPout File: ""
+      EPout Report: ""
+      EPout Table: ""
+      EPout Column: ""
+      EPstatus: "NotStarted"
+      EP Notes: "Difficult to estimate but possible."
     number_of_floors_below_grade:
       Description: "Number of floors below grade"
       Data Type: "Numeric"
@@ -789,6 +798,15 @@ Building:
       AppG P_RMD Equals U_RMD: True
       AppG B_RMD Equals P_RMD: True
       AppG B_RMDs Same: "unknown"
+      Used by RCT Test: "unknown"
+      EPin Object: ""
+      EPin Field: ""
+      EPout File: ""
+      EPout Report: ""
+      EPout Table: ""
+      EPout Column: ""
+      EPstatus: "NotStarted"
+      EP Notes: "Difficult to estimate but possible."
 
 BuildingSegment:
   Object Type: "Data Group"
