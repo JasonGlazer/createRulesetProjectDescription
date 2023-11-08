@@ -709,9 +709,9 @@ class Translator:
                 timestamp = list(row.keys())[0]
                 values_at_time_step = row[timestamp]
                 hourly.append(values_at_time_step[count])
-            if len(hourly) != 8760:
-                print(f'The hourly schedule: {schedule_name} does not have 8760 values as expected. '
-                      f'Only {len(hourly)} values found')
+            if len(hourly) < 8760:
+                print(f'The hourly schedule: {schedule_name} has less than the 8760 values expected. '
+                      f'{len(hourly)} values found')
             schedule = {
                 'id': schedule_name,
                 'sequence_type': 'HOURLY',
