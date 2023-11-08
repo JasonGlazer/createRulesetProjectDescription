@@ -793,6 +793,8 @@ class Translator:
                             # print(zone_name_list)
                             total_capacity = float(rows[row_key][total_capacity_column])
                             sensible_capacity = float(rows[row_key][sensible_capacity_column])
+                            if sensible_capacity == -999:
+                                sensible_capacity = 0 # removes error but not sure if this makes sense
                             heating_system = {}
                             cooling_system = {}
                             if hvac_type == 'AirLoopHVAC':
@@ -825,6 +827,60 @@ class Translator:
         self.building_segment['heating_ventilating_air_conditioning_systems'] = hvac_systems
         # print(self.terminals_by_zone)
         return hvac_systems, self.terminals_by_zone
+
+    def add_chillers(self):
+        chillers = []
+        tabular_reports = self.json_results_object['TabularReports']
+        for tabular_report in tabular_reports:
+            if tabular_report['ReportName'] == 'EquipmentSummary':
+                tables = tabular_report['Tables']
+                for table in tables:
+                    if table['TableName'] == 'Chillers':
+                        rows = table['Rows']
+                        chiller_names = list(rows.keys())
+                        cols = table['Cols']
+                        plant_loop_name_column = cols.index('Plantloop Name')
+                        condenser_loop_name_column = cols.index('Condenser Loop Name')
+                        fuel_type_column = cols.index('Fuel Type')
+                        reference_capacity_column = cols.index('Reference Capacity[W]')
+                        rated_capacity_column = cols.index('Rated Capacity [W]')
+                        rated_enter_temp_column = cols.index('Rated Entering Condenser Temperature [C]')
+                        rated_leave_temp_column = cols.index('Rated Leaving Evaporator Temperature [C]')
+                        min_plr_column = cols.index('Minimum Part Load Ratio')
+                        chilled_water_rate_column = cols.index('Design Size Reference Chilled Water Flow Rate [kg/s]')
+                        condenser_water_rate_column = cols.index('Design Size Reference Condenser Fluid Flow Rate [kg/s]')
+                        ref_enter_temp_column = cols.index('Reference Entering Condenser Temperature [C]')
+                        ref_leave_temp_column = cols.index('Reference Leaving Evaporator Temperature [C]')
+                        rated_efficiency_column = cols.index('Rated Efficiency [W/W]')
+                        part_load_efficiency_column = cols.index('IPLV in SI Units [W/W]')
+                        heat_recovery_loop_name_column = cols.index('Heat Recovery Plantloop Name')
+                        heat_recovery_fraction_column = cols.index('Recovery Relative Capacity Fraction')
+                        for chiller_name in chiller_names:
+                            fuel_type = rows[chiller_name][fuel_type_column].upper().replace(' ', '_')
+                            chiller = {
+                                'id': chiller_name,
+                                'cooling_loop': rows[chiller_name][plant_loop_name_column],
+                                'condensing_loop': rows[chiller_name][condenser_loop_name_column],
+                                'energy_source_type': fuel_type,
+                                'design_capacity': rows[chiller_name][reference_capacity_column],
+                                'rated_capacity': rows[chiller_name][rated_capacity_column],
+                                'rated_entering_condenser_temperature': rows[chiller_name][rated_enter_temp_column],
+                                'rated_leaving_evaporator_temperature': rows[chiller_name][rated_leave_temp_column],
+                                'minimum_load_ratio': rows[chiller_name][min_plr_column],
+                                'design_flow_evaporator': rows[chiller_name][chilled_water_rate_column],
+                                'design_flow_condenser': rows[chiller_name][condenser_water_rate_column],
+                                'design_entering_condenser_temperature': rows[chiller_name][ref_enter_temp_column],
+                                'design_leaving_evaporator_temperature': rows[chiller_name][ref_leave_temp_column],
+                                'full_load_efficiency': rows[chiller_name][rated_efficiency_column],
+                                'part_load_efficiency': rows[chiller_name][part_load_efficiency_column],
+                                'part_load_efficiency_metric': 'INTEGRATED_PART_LOAD_VALUE',
+                            }
+                            if rows[chiller_name][heat_recovery_loop_name_column] != 'N/A':
+                                chiller['heat_recovery_loop'] = rows[chiller_name][heat_recovery_loop_name_column]
+                                chiller['heat_recovery_fraction'] = rows[chiller_name][heat_recovery_fraction_column]
+                            chillers.append(chiller)
+        self.model_description['chillers'] = chillers
+        return chillers
 
     def ensure_all_id_unique(self):
         self.add_serial_number_nested(self.model_description, 'id')
@@ -866,6 +922,7 @@ class Translator:
         self.add_calendar()
         self.surfaces_by_zone = self.get_zone_for_each_surface()
         self.add_simple_hvac()
+        self.add_chillers()
         self.add_zones()
         self.add_spaces()
         self.add_exterior_lighting()

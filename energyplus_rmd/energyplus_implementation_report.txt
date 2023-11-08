@@ -1,5 +1,5 @@
 ============= Generated Report ==============
-Updated at: 2023-11-08 09:02:54.517217 
+Updated at: 2023-11-08 16:14:12.479047 
 
 RulesetProjectDescription  #elements: 10
   note    DoneUsingConstant        id
@@ -535,32 +535,32 @@ BoilerOutputValidationPoint  #elements: 3
   counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 3} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 3, 'ToDo': 0} 
 
 Chiller  #elements: 25
-  inout   NotStarted               id
+  inout   DoneUsingOutput          id
   null    NotRequired              reporting_name
   null    NotRequired              notes
-  input   NotStarted               cooling_loop
-  input   NotStarted               condensing_loop
+  inout   DoneUsingOutput          cooling_loop
+  inout   DoneUsingOutput          condensing_loop
   note    NotStarted               compressor_type
-  input   NotStarted               energy_source_type
-  inout   NotStarted               design_capacity
-  output  NotStarted               rated_capacity
-  note    NotStarted               rated_entering_condenser_temperature
-  note    NotStarted               rated_leaving_evaporator_temperature
-  input   NotStarted               minimum_load_ratio
-  inout   NotStarted               design_flow_evaporator
-  inout   NotStarted               design_flow_condenser
-  input   NotStarted               design_entering_condenser_temperature
-  input   NotStarted               design_leaving_evaporator_temperature
-  inout   NotStarted               full_load_efficiency
-  output  NotStarted               part_load_efficiency
-  note    NotStarted               part_load_efficiency_metric
+  inout   NotStarted               energy_source_type
+  inout   DoneUsingOutput          design_capacity
+  output  DoneUsingOutput          rated_capacity
+  output  DoneUsingOutput          rated_entering_condenser_temperature
+  output  DoneUsingOutput          rated_leaving_evaporator_temperature
+  inout   DoneUsingOutput          minimum_load_ratio
+  inout   DoneUsingOutput          design_flow_evaporator
+  inout   DoneUsingOutput          design_flow_condenser
+  inout   DoneUsingOutput          design_entering_condenser_temperature
+  inout   DoneUsingOutput          design_leaving_evaporator_temperature
+  inout   DoneUsingOutput          full_load_efficiency
+  output  DoneUsingOutput          part_load_efficiency
+  note    DoneUsingConstant        part_load_efficiency_metric
   input   NotStarted               capacity_validation_points
   input   NotStarted               power_validation_points
   input   NotStarted               is_chilled_water_pump_interlocked
   input   NotStarted               is_condenser_water_pump_interlocked
-  input   NotStarted               heat_recovery_loop
-  input   NotStarted               heat_recovery_fraction
-  counts:  {'inout ': 5, 'input ': 12, 'output': 2, 'note  ': 4, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 23, 'ToDo': 0} 
+  inout   DoneUsingOutput          heat_recovery_loop
+  inout   DoneUsingOutput          heat_recovery_fraction
+  counts:  {'inout ': 13, 'input ': 4, 'output': 4, 'note  ': 2, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 16, 'DoneUsingConstant': 1, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 6, 'ToDo': 0} 
 
 ChillerCapacityValidationPoint  #elements: 3
   null    NotStarted               chilled_water_supply_temperature
