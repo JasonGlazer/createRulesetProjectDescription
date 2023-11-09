@@ -863,22 +863,27 @@ class Translator:
                                 'cooling_loop': rows[chiller_name][plant_loop_name_column],
                                 'condensing_loop': rows[chiller_name][condenser_loop_name_column],
                                 'energy_source_type': fuel_type,
-                                'design_capacity': rows[chiller_name][reference_capacity_column],
-                                'rated_capacity': rows[chiller_name][rated_capacity_column],
-                                'rated_entering_condenser_temperature': rows[chiller_name][rated_enter_temp_column],
-                                'rated_leaving_evaporator_temperature': rows[chiller_name][rated_leave_temp_column],
-                                'minimum_load_ratio': rows[chiller_name][min_plr_column],
-                                'design_flow_evaporator': rows[chiller_name][chilled_water_rate_column],
-                                'design_flow_condenser': rows[chiller_name][condenser_water_rate_column],
-                                'design_entering_condenser_temperature': rows[chiller_name][ref_enter_temp_column],
-                                'design_leaving_evaporator_temperature': rows[chiller_name][ref_leave_temp_column],
-                                'full_load_efficiency': rows[chiller_name][rated_efficiency_column],
-                                'part_load_efficiency': rows[chiller_name][part_load_efficiency_column],
+                                'design_capacity': float(rows[chiller_name][reference_capacity_column]),
+                                'rated_capacity': float(rows[chiller_name][rated_capacity_column]),
+                                'rated_entering_condenser_temperature':
+                                    float(rows[chiller_name][rated_enter_temp_column]),
+                                'rated_leaving_evaporator_temperature':
+                                    float(rows[chiller_name][rated_leave_temp_column]),
+                                'minimum_load_ratio': float(rows[chiller_name][min_plr_column]),
+                                'design_flow_evaporator': float(rows[chiller_name][chilled_water_rate_column]),
+                                'design_flow_condenser': float(rows[chiller_name][condenser_water_rate_column]),
+                                'design_entering_condenser_temperature':
+                                    float(rows[chiller_name][ref_enter_temp_column]),
+                                'design_leaving_evaporator_temperature':
+                                    float(rows[chiller_name][ref_leave_temp_column]),
+                                'full_load_efficiency': float(rows[chiller_name][rated_efficiency_column]),
+                                'part_load_efficiency': float(rows[chiller_name][part_load_efficiency_column]),
                                 'part_load_efficiency_metric': 'INTEGRATED_PART_LOAD_VALUE',
                             }
                             if rows[chiller_name][heat_recovery_loop_name_column] != 'N/A':
                                 chiller['heat_recovery_loop'] = rows[chiller_name][heat_recovery_loop_name_column]
-                                chiller['heat_recovery_fraction'] = rows[chiller_name][heat_recovery_fraction_column]
+                                chiller['heat_recovery_fraction'] = (
+                                    float(rows[chiller_name][heat_recovery_fraction_column]))
                             chillers.append(chiller)
         self.model_description['chillers'] = chillers
         return chillers
@@ -906,17 +911,53 @@ class Translator:
                             boiler = {
                                 'id': boiler_name,
                                 'loop': rows[boiler_name][plant_loop_name_column],
-                                'design_capacity': rows[boiler_name][reference_capacity_column],
-                                'rated_capacity': rows[boiler_name][rated_capacity_column],
-                                'minimum_load_ratio': rows[boiler_name][min_plr_column],
+                                'design_capacity': float(rows[boiler_name][reference_capacity_column]),
+                                'rated_capacity': float(rows[boiler_name][rated_capacity_column]),
+                                'minimum_load_ratio': float(rows[boiler_name][min_plr_column]),
                                 'energy_source_type': fuel_type,
                                 'efficiency_metric': 'THERMAL',
-                                'efficiency': rows[boiler_name][reference_efficiency_column],
-                                'auxiliary_power': rows[boiler_name][parasitic_load_column],
+                                'efficiency': float(rows[boiler_name][reference_efficiency_column]),
+                                'auxiliary_power': float(rows[boiler_name][parasitic_load_column]),
                             }
                             boilers.append(boiler)
         self.model_description['boilers'] = boilers
         return boilers
+
+    def add_heat_rejection(self):
+        heat_rejections = []
+        tabular_reports = self.json_results_object['TabularReports']
+        for tabular_report in tabular_reports:
+            if tabular_report['ReportName'] == 'EquipmentSummary':
+                tables = tabular_report['Tables']
+                for table in tables:
+                    if table['TableName'] == 'Cooling Towers and Fluid Coolers':
+                        rows = table['Rows']
+                        heat_rejection_names = list(rows.keys())
+                        cols = table['Cols']
+                        loop_name_column = cols.index('Condenser Loop Name')
+                        range_column = cols.index('Range [C]')
+                        approach_column = cols.index('Approach [C]')
+                        fan_power_column = cols.index('Design Fan Power [W]')
+                        wet_bulb_column = cols.index('Design Inlet Air Wet-Bulb Temperature [C]')
+                        flow_rate_column = cols.index('Design Water Flow Rate [m3/s]')
+                        leaving_setpoint_column = cols.index('Leaving Water Setpoint Temperature [C]')
+                        for heat_rejection_name in heat_rejection_names:
+                            heat_rejection = {
+                                'id': heat_rejection_name,
+                                'loop': rows[heat_rejection_name][loop_name_column],
+                                'range': float(rows[heat_rejection_name][range_column]),
+                                'fan_motor_nameplate_power': float(rows[heat_rejection_name][fan_power_column]),
+                                'design_wetbulb_temperature': float(rows[heat_rejection_name][wet_bulb_column]),
+                                'design_water_flowrate': float(rows[heat_rejection_name][flow_rate_column]) * 1000,
+                                'leaving_water_setpoint_temperature':
+                                    float(rows[heat_rejection_name][leaving_setpoint_column]),
+                            }
+                            approach_str = rows[heat_rejection_name][approach_column]
+                            if approach_str:
+                                heat_rejection['approach'] = float(approach_str)
+                            heat_rejections.append(heat_rejection)
+        self.model_description['heat_rejections'] = heat_rejections
+        return heat_rejections
 
     def ensure_all_id_unique(self):
         self.add_serial_number_nested(self.model_description, 'id')
@@ -960,6 +1001,7 @@ class Translator:
         self.add_simple_hvac()
         self.add_chillers()
         self.add_boilers()
+        self.add_heat_rejection()
         self.add_zones()
         self.add_spaces()
         self.add_exterior_lighting()

@@ -1,5 +1,5 @@
 ============= Generated Report ==============
-Updated at: 2023-11-09 11:50:46.162618 
+Updated at: 2023-11-09 15:50:40.812182 
 
 RulesetProjectDescription  #elements: 10
   note    DoneUsingConstant        id
@@ -577,24 +577,24 @@ ChillerPowerValidationPoint  #elements: 5
   counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 5} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 5, 'ToDo': 0} 
 
 HeatRejection  #elements: 17
-  inout   NotStarted               id
+  inout   DoneUsingOutput          id
   null    NotRequired              reporting_name
   null    NotRequired              notes
-  input   NotStarted               loop
+  inout   DoneUsingOutput          loop
   input   NotStarted               type
   note    NotStarted               fan_type
   input   NotStarted               fluid
-  input   NotStarted               range
-  input   NotStarted               approach
+  inout   DoneUsingOutput          range
+  inout   DoneUsingOutput          approach
   note    NotStarted               fan_shaft_power
   note    NotStarted               fan_motor_efficiency
-  input   NotStarted               fan_motor_nameplate_power
+  inout   DoneUsingOutput          fan_motor_nameplate_power
   inout   NotStarted               fan_speed_control
-  input   NotStarted               design_wetbulb_temperature
-  inout   NotStarted               design_water_flowrate
+  inout   DoneUsingOutput          design_wetbulb_temperature
+  inout   DoneUsingOutput          design_water_flowrate
   note    NotStarted               rated_water_flowrate
   input   NotStarted               leaving_water_setpoint_temperature
-  counts:  {'inout ': 3, 'input ': 8, 'output': 0, 'note  ': 4, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 15, 'ToDo': 0} 
+  counts:  {'inout ': 8, 'input ': 3, 'output': 0, 'note  ': 4, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 7, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 8, 'ToDo': 0} 
 
 ExternalFluidSource  #elements: 6
   null    NotStarted               id
