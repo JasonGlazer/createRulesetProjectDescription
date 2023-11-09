@@ -942,22 +942,65 @@ class Translator:
                         flow_rate_column = cols.index('Design Water Flow Rate [m3/s]')
                         leaving_setpoint_column = cols.index('Leaving Water Setpoint Temperature [C]')
                         for heat_rejection_name in heat_rejection_names:
-                            heat_rejection = {
-                                'id': heat_rejection_name,
-                                'loop': rows[heat_rejection_name][loop_name_column],
-                                'range': float(rows[heat_rejection_name][range_column]),
-                                'fan_motor_nameplate_power': float(rows[heat_rejection_name][fan_power_column]),
-                                'design_wetbulb_temperature': float(rows[heat_rejection_name][wet_bulb_column]),
-                                'design_water_flowrate': float(rows[heat_rejection_name][flow_rate_column]) * 1000,
-                                'leaving_water_setpoint_temperature':
-                                    float(rows[heat_rejection_name][leaving_setpoint_column]),
-                            }
-                            approach_str = rows[heat_rejection_name][approach_column]
-                            if approach_str:
-                                heat_rejection['approach'] = float(approach_str)
-                            heat_rejections.append(heat_rejection)
+                            if heat_rejection_name != 'None':
+                                heat_rejection = {
+                                    'id': heat_rejection_name,
+                                    'loop': rows[heat_rejection_name][loop_name_column],
+                                    'range': float(rows[heat_rejection_name][range_column]),
+                                    'fan_motor_nameplate_power': float(rows[heat_rejection_name][fan_power_column]),
+                                    'design_wetbulb_temperature': float(rows[heat_rejection_name][wet_bulb_column]),
+                                    'design_water_flowrate': float(rows[heat_rejection_name][flow_rate_column]) * 1000,
+                                    'leaving_water_setpoint_temperature':
+                                        float(rows[heat_rejection_name][leaving_setpoint_column]),
+                                }
+                                approach_str = rows[heat_rejection_name][approach_column]
+                                if approach_str:
+                                    heat_rejection['approach'] = float(approach_str)
+                                heat_rejections.append(heat_rejection)
         self.model_description['heat_rejections'] = heat_rejections
         return heat_rejections
+
+    def add_pumps(self):
+        pumps = []
+        tabular_reports = self.json_results_object['TabularReports']
+        for tabular_report in tabular_reports:
+            if tabular_report['ReportName'] == 'EquipmentSummary':
+                tables = tabular_report['Tables']
+                for table in tables:
+                    if table['TableName'] == 'Pumps':
+                        rows = table['Rows']
+                        pump_names = list(rows.keys())
+                        cols = table['Cols']
+                        plant_loop_name_column = cols.index('Plantloop Name')
+                        electricity_column = cols.index('Electricity Rate [W]')
+                        head_column = cols.index('Head [pa]')
+                        motor_efficiency_column = cols.index('Motor Efficiency [W/W]')
+                        type_column = cols.index('Type')
+                        water_flow_column = cols.index('Water Flow [m3/s]')
+                        is_autosized_column = cols.index('Is Autosized')
+                        for pump_name in pump_names:
+                            type_str = rows[pump_name][type_column]
+                            speed_control = 'FIXED_SPEED'
+                            if 'vari' in type_str:
+                                speed_control = 'VARIABLE_SPEED'
+                            is_autosized = 'False'
+                            if 'Y' in rows[pump_name][is_autosized_column]:
+                                is_autosized = 'True'
+                            pump = {
+                                'id': pump_name,
+                                'loop': rows[pump_name][plant_loop_name_column],
+                                'specification_method': 'SIMPLE',
+                                'design_electric_power': float(rows[pump_name][electricity_column]),
+                                'design_head': float(rows[pump_name][head_column]),
+                                'motor_efficiency': float(rows[pump_name][motor_efficiency_column]),
+                                'speed_control': speed_control,
+                                'design_flow': float(rows[pump_name][water_flow_column]) * 1000,
+                                'is_flow_autosized': is_autosized
+                            }
+                            pumps.append(pump)
+        self.model_description['pumps'] = pumps
+        return pumps
+
 
     def ensure_all_id_unique(self):
         self.add_serial_number_nested(self.model_description, 'id')
@@ -1002,6 +1045,7 @@ class Translator:
         self.add_chillers()
         self.add_boilers()
         self.add_heat_rejection()
+        self.add_pumps()
         self.add_zones()
         self.add_spaces()
         self.add_exterior_lighting()

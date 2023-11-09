@@ -1,5 +1,5 @@
 ============= Generated Report ==============
-Updated at: 2023-11-09 15:50:40.812182 
+Updated at: 2023-11-09 16:26:14.001770 
 
 RulesetProjectDescription  #elements: 10
   note    DoneUsingConstant        id
@@ -495,20 +495,20 @@ FluidLoopDesignAndControl  #elements: 17
   counts:  {'inout ': 2, 'input ': 11, 'output': 0, 'note  ': 2, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 15, 'ToDo': 0} 
 
 Pump  #elements: 13
-  inout   NotStarted               id
+  inout                            id
   null    NotRequired              reporting_name
   null    NotRequired              notes
-  input   NotStarted               loop_or_piping
-  note    NotStarted               specification_method
-  inout   NotStarted               design_electric_power
+  inout                            loop_or_piping
+  note                             specification_method
+  inout                            design_electric_power
   note    NotStarted               motor_nameplate_power
-  inout   NotStarted               design_head
+  inout                            design_head
   note    NotStarted               impeller_efficiency
-  inout   NotStarted               motor_efficiency
-  inout   NotStarted               speed_control
-  inout   NotStarted               design_flow
+  inout                            motor_efficiency
+  inout                            speed_control
+  inout                            design_flow
   input   NotStarted               is_flow_autosized
-  counts:  {'inout ': 6, 'input ': 2, 'output': 0, 'note  ': 3, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 11, 'ToDo': 0} 
+  counts:  {'inout ': 7, 'input ': 1, 'output': 0, 'note  ': 3, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 3, 'ToDo': 0} 
 
 Boiler  #elements: 15
   inout   DoneUsingOutput          id

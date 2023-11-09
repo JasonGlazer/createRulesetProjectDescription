@@ -8131,7 +8131,7 @@ Pump:
       EPout Report: "Equipment Summary"
       EPout Table: "Pumps"
       EPout Column: "first column"
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     reporting_name:
       Description: "Descriptive name used in RCT reports if id is not already a descriptive name"
@@ -8181,11 +8181,11 @@ Pump:
       Used by RCT Test: True
       EPin Object: "Pump:VariableSpeed, Pump:ConstantSpeed, HeaderedPumps:ConstantSpeed, HeaderedPumps:VariableSpeed"
       EPin Field: "Inlet Node Name, Outlet Node Name"
-      EPout File: ""
-      EPout Report: ""
-      EPout Table: ""
-      EPout Column: ""
-      EPstatus: "NotStarted"
+      EPout File: "table.html"
+      EPout Report: "Equipment Summary"
+      EPout Table: "Pumps"
+      EPout Column: "DoneUsingOutput"
+      EPstatus: ""
       EP Notes: "Can find the branch based on node names. Part of topology report."
     specification_method:
       Description: "Options for how the pump is specified"
@@ -8202,7 +8202,7 @@ Pump:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingConstant"
       EP Notes: "Set to constant of SIMPLE"
     design_electric_power:
       Description: "Pump design electric power"
@@ -8221,7 +8221,7 @@ Pump:
       EPout Report: "Equipment Summary"
       EPout Table: "Pumps"
       EPout Column: "Electricity Rate"
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingConstant"
       EP Notes: ""
     motor_nameplate_power:
       Description: "Pump motor nameplate power"
@@ -8259,7 +8259,7 @@ Pump:
       EPout Report: "Equipment Summary"
       EPout Table: "Pumps"
       EPout Column: "Head"
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     impeller_efficiency:
       Description: "Full load efficiency of the impeller"
@@ -8297,7 +8297,7 @@ Pump:
       EPout Report: "Equipment Summary"
       EPout Table: "Pumps"
       EPout Column: "Motor Efficiency"
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     speed_control:
       Description: "Options for pump speed control"
@@ -8314,7 +8314,7 @@ Pump:
       EPout Report: "Equipment Summary"
       EPout Table: "Pumps"
       EPout Column: "Type"
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "based on type of input object"
     design_flow:
       Description: "Design Pump Flowrate"
@@ -8333,8 +8333,8 @@ Pump:
       EPout Report: "Equipment Summary"
       EPout Table: "Pumps"
       EPout Column: "Water Flow"
-      EPstatus: "NotStarted"
-      EP Notes: ""
+      EPstatus: "DoneUsingOutput"
+      EP Notes: "convert from m3/s to l/s"
     is_flow_autosized:
       Description: "True if the design_flow is autosized"
       Data Type: "Boolean"
@@ -8346,11 +8346,11 @@ Pump:
       Used by RCT Test: False
       EPin Object: "Pump:VariableSpeed, Pump:ConstantSpeed, HeaderedPumps:ConstantSpeed, HeaderedPumps:VariableSpeed"
       EPin Field: "Design Maximum Flow Rate"
-      EPout File: ""
-      EPout Report: ""
-      EPout Table: ""
-      EPout Column: ""
-      EPstatus: "NotStarted"
+      EPout File: "table.html"
+      EPout Report: "Equipment Summary"
+      EPout Table: "Pumps"
+      EPout Column: "Is Autosized"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "if field is set to Autosize. Added to Equipment Summary - Pumps table"
 
 PumpSpeedControlOptions:
