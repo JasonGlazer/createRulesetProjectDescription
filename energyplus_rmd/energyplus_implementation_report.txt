@@ -1,5 +1,5 @@
 ============= Generated Report ==============
-Updated at: 2023-11-08 16:14:12.479047 
+Updated at: 2023-11-09 11:50:46.162618 
 
 RulesetProjectDescription  #elements: 10
   note    DoneUsingConstant        id
@@ -511,22 +511,22 @@ Pump  #elements: 13
   counts:  {'inout ': 6, 'input ': 2, 'output': 0, 'note  ': 3, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 11, 'ToDo': 0} 
 
 Boiler  #elements: 15
-  inout   NotStarted               id
+  inout   DoneUsingOutput          id
   null    NotRequired              reporting_name
   null    NotRequired              notes
-  input   NotStarted               loop
-  inout   NotStarted               design_capacity
-  output  NotStarted               rated_capacity
-  input   NotStarted               minimum_load_ratio
+  inout   DoneUsingOutput          loop
+  inout   DoneUsingOutput          design_capacity
+  output  DoneUsingOutput          rated_capacity
+  inout   DoneUsingOutput          minimum_load_ratio
   note    NotStarted               draft_type
-  input   NotStarted               energy_source_type
-  note    NotStarted               efficiency_metric
-  inout   NotStarted               efficiency
+  inout   DoneUsingOutput          energy_source_type
+  note    DoneUsingConstant        efficiency_metric
+  inout   DoneUsingOutput          efficiency
   input   NotStarted               output_validation_points
-  input   NotStarted               auxiliary_power
+  inout   DoneUsingOutput          auxiliary_power
   input   NotStarted               operation_lower_limit
   input   NotStarted               operation_upper_limit
-  counts:  {'inout ': 3, 'input ': 7, 'output': 1, 'note  ': 2, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 13, 'ToDo': 0} 
+  counts:  {'inout ': 7, 'input ': 3, 'output': 1, 'note  ': 2, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 8, 'DoneUsingConstant': 1, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 4, 'ToDo': 0} 
 
 BoilerOutputValidationPoint  #elements: 3
   null    NotStarted               load

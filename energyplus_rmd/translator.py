@@ -794,7 +794,7 @@ class Translator:
                             total_capacity = float(rows[row_key][total_capacity_column])
                             sensible_capacity = float(rows[row_key][sensible_capacity_column])
                             if sensible_capacity == -999:
-                                sensible_capacity = 0 # removes error but not sure if this makes sense
+                                sensible_capacity = 0  # removes error but not sure if this makes sense
                             heating_system = {}
                             cooling_system = {}
                             if hvac_type == 'AirLoopHVAC':
@@ -848,7 +848,8 @@ class Translator:
                         rated_leave_temp_column = cols.index('Rated Leaving Evaporator Temperature [C]')
                         min_plr_column = cols.index('Minimum Part Load Ratio')
                         chilled_water_rate_column = cols.index('Design Size Reference Chilled Water Flow Rate [kg/s]')
-                        condenser_water_rate_column = cols.index('Design Size Reference Condenser Fluid Flow Rate [kg/s]')
+                        condenser_water_rate_column = cols.index(
+                            'Design Size Reference Condenser Fluid Flow Rate [kg/s]')
                         ref_enter_temp_column = cols.index('Reference Entering Condenser Temperature [C]')
                         ref_leave_temp_column = cols.index('Reference Leaving Evaporator Temperature [C]')
                         rated_efficiency_column = cols.index('Rated Efficiency [W/W]')
@@ -881,6 +882,41 @@ class Translator:
                             chillers.append(chiller)
         self.model_description['chillers'] = chillers
         return chillers
+
+    def add_boilers(self):
+        boilers = []
+        tabular_reports = self.json_results_object['TabularReports']
+        for tabular_report in tabular_reports:
+            if tabular_report['ReportName'] == 'EquipmentSummary':
+                tables = tabular_report['Tables']
+                for table in tables:
+                    if table['TableName'] == 'Boilers':
+                        rows = table['Rows']
+                        boiler_names = list(rows.keys())
+                        cols = table['Cols']
+                        plant_loop_name_column = cols.index('Plantloop Name')
+                        reference_capacity_column = cols.index('Reference Capacity [W]')
+                        rated_capacity_column = cols.index('Rated Capacity [W]')
+                        min_plr_column = cols.index('Minimum Part Load Ratio')
+                        fuel_type_column = cols.index('Fuel Type')
+                        reference_efficiency_column = cols.index('Reference Efficiency[W/W]')
+                        parasitic_load_column = cols.index('Parasitic Electric Load [W]')
+                        for boiler_name in boiler_names:
+                            fuel_type = rows[boiler_name][fuel_type_column].upper().replace(' ', '_')
+                            boiler = {
+                                'id': boiler_name,
+                                'loop': rows[boiler_name][plant_loop_name_column],
+                                'design_capacity': rows[boiler_name][reference_capacity_column],
+                                'rated_capacity': rows[boiler_name][rated_capacity_column],
+                                'minimum_load_ratio': rows[boiler_name][min_plr_column],
+                                'energy_source_type': fuel_type,
+                                'efficiency_metric': 'THERMAL',
+                                'efficiency': rows[boiler_name][reference_efficiency_column],
+                                'auxiliary_power': rows[boiler_name][parasitic_load_column],
+                            }
+                            boilers.append(boiler)
+        self.model_description['boilers'] = boilers
+        return boilers
 
     def ensure_all_id_unique(self):
         self.add_serial_number_nested(self.model_description, 'id')
@@ -923,6 +959,7 @@ class Translator:
         self.surfaces_by_zone = self.get_zone_for_each_surface()
         self.add_simple_hvac()
         self.add_chillers()
+        self.add_boilers()
         self.add_zones()
         self.add_spaces()
         self.add_exterior_lighting()
