@@ -5159,7 +5159,7 @@ HeatingSystem:
       EPout Report: "Coil Sizing Details"
       EPout Table: "Coils"
       EPout Column: "Coil Type"
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "based on the type of coil"
     energy_source_type:
       Description: "Source of energy for the heating system"
@@ -5176,7 +5176,7 @@ HeatingSystem:
       EPout Report: "Coil Sizing Details"
       EPout Table: "Coils"
       EPout Column: "Coil Type"
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "based on the type of coil"
     hot_water_loop:
       Description: "Referenced to the hot water fluid loop"

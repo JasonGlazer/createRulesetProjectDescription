@@ -24,6 +24,25 @@ def energy_source_convert(energy_name_input):
     energy_type = energy_name_input.upper().replace(' ', '_')
     return energy_source_map[energy_type]
 
+def heating_type_convert(coil_type):
+    coil_map = {'COIL:HEATING:WATER': 'FLUID_LOOP',
+               'COIL:HEATING:STEAM': 'FLUID_LOOP',
+               'COIL:HEATING:ELECTRIC': 'ELECTRIC_RESISTANCE',
+               'COIL:HEATING:ELECTRIC:MULTISTAGE': 'ELECTRIC_RESISTANCE',
+               'COIL:HEATING:FUEL': 'FURNACE',
+               'COIL:HEATING:GAS:MULTISTAGE': 'FURNACE',
+               'COIL:HEATING:DX:SINGLESPEED': 'HEAT_PUMP',
+               'COIL:HEATING:DX:MULTISPEED': 'HEAT_PUMP',
+               'COIL:HEATING:DX:VARIABLESPEED': 'HEAT_PUMP'}
+    return coil_map[coil_type.upper()]
+
+def source_from_coil(coil_type):
+    source = 'OTHER'
+    if 'ELECTRIC' in coil_type.upper() or 'DX' in coil_type.upper():
+        source = 'ELECTRICITY'
+    elif 'GAS' in coil_type.upper() or 'FUEL' in coil_type.upper():
+        source = 'NATURAL_GAS'
+    return source
 
 class Translator:
     """This class reads in the input files and does the heavy lifting to write output files"""
@@ -770,78 +789,103 @@ class Translator:
                         shadows_cast = solar_distribution != 'MinimalShadowing'
         return shadows_cast
 
-    def add_simple_hvac(self):
+    def add_heating_ventilation_system(self):
         # only handles adding the heating and cooling capacities for the small office and medium office DOE prototypes
         hvac_systems = []
-        tabular_reports = self.json_results_object['TabularReports']
-        for tabular_report in tabular_reports:
-            if tabular_report['ReportName'] == 'CoilSizingDetails':
-                tables = tabular_report['Tables']
-                for table in tables:
-                    if table['TableName'] == 'Coils':
-                        rows = table['Rows']
-                        row_keys = list(rows.keys())
-                        cols = table['Cols']
-                        coil_type_column = cols.index('Coil Type')
-                        hvac_type_column = cols.index('HVAC Type')
-                        hvac_name_column = cols.index('HVAC Name')
-                        zone_names_column = cols.index('Zone Name(s)')
-                        total_capacity_column = cols.index('Coil Final Gross Total Capacity [W]')
-                        sensible_capacity_column = cols.index('Coil Final Gross Sensible Capacity [W]')
-                        terminal_capacity_by_zone = dict()
-                        for row_key in row_keys:
-                            hvac_type = rows[row_key][hvac_type_column]
-                            zone_name = rows[row_key][zone_names_column]
-                            total_capacity = float(rows[row_key][total_capacity_column])
-                            if hvac_type == 'ZONEHVAC:AIRDISTRIBUTIONUNIT':
-                                terminal_capacity_by_zone[zone_name] = total_capacity
-                        for row_key in row_keys:
-                            coil_type = rows[row_key][coil_type_column]
-                            hvac_type = rows[row_key][hvac_type_column]
-                            hvac_name = rows[row_key][hvac_name_column]
-                            zone_names = rows[row_key][zone_names_column]
-                            if ';' in zone_names:
-                                zone_name_list = zone_names.split(';')
-                            else:
-                                zone_name_list = [zone_names, ]
-                            zone_name_list = [name.strip() for name in zone_name_list if name]
-                            # print(zone_name_list)
-                            total_capacity = float(rows[row_key][total_capacity_column])
-                            sensible_capacity = float(rows[row_key][sensible_capacity_column])
-                            if sensible_capacity == -999:
-                                sensible_capacity = 0  # removes error but not sure if this makes sense
-                            heating_system = {}
-                            cooling_system = {}
-                            if hvac_type == 'AirLoopHVAC':
-                                if 'HEATING' in coil_type.upper():
-                                    heating_system['id'] = hvac_name + '-heating'
-                                    heating_system['design_capacity'] = total_capacity
-                                elif 'COOLING' in coil_type.upper():
-                                    cooling_system['id'] = hvac_name + '-cooling'
-                                    cooling_system['design_total_cool_capacity'] = total_capacity
-                                    cooling_system['design_sensible_cool_capacity'] = sensible_capacity
-                                hvac_system_list = list(filter(lambda x: (x['id'] == hvac_name), hvac_systems))
-                                if hvac_system_list:
-                                    hvac_system = hvac_system_list[0]
-                                else:
-                                    hvac_system = {'id': hvac_name}
-                                if heating_system:
-                                    hvac_system['heating_system'] = heating_system
-                                if cooling_system:
-                                    hvac_system['cooling_system'] = cooling_system
-                                # print(hvac_system)
-                                hvac_systems.append(hvac_system)
-                                for zone in zone_name_list:
-                                    terminal = {
-                                        'id': zone + '-terminal',
-                                        'served_by_heating_ventilating_air_conditioning_system': hvac_name
-                                    }
-                                    if zone in terminal_capacity_by_zone:
-                                        terminal['heating_capacity'] = terminal_capacity_by_zone[zone]
-                                    self.terminals_by_zone[zone.upper()] = [terminal, ]
+        coil_connections = self.gather_coil_connections()
+        coils_table = self.get_table('CoilSizingDetails', 'Coils')
+        rows = coils_table['Rows']
+        row_keys = list(rows.keys())
+        cols = coils_table['Cols']
+        coil_type_column = cols.index('Coil Type')
+        hvac_type_column = cols.index('HVAC Type')
+        hvac_name_column = cols.index('HVAC Name')
+        zone_names_column = cols.index('Zone Name(s)')
+        total_capacity_column = cols.index('Coil Final Gross Total Capacity [W]')
+        sensible_capacity_column = cols.index('Coil Final Gross Sensible Capacity [W]')
+        terminal_capacity_by_zone = dict()
+        for row_key in row_keys:
+            hvac_type = rows[row_key][hvac_type_column]
+            zone_name = rows[row_key][zone_names_column]
+            total_capacity = float(rows[row_key][total_capacity_column])
+            if hvac_type == 'ZONEHVAC:AIRDISTRIBUTIONUNIT':
+                terminal_capacity_by_zone[zone_name] = total_capacity
+        for row_key in row_keys:
+            coil_type = rows[row_key][coil_type_column]
+            hvac_type = rows[row_key][hvac_type_column]
+            hvac_name = rows[row_key][hvac_name_column]
+            zone_names = rows[row_key][zone_names_column]
+            if ';' in zone_names:
+                zone_name_list = zone_names.split(';')
+            else:
+                zone_name_list = [zone_names, ]
+            zone_name_list = [name.strip() for name in zone_name_list if name]
+            # print(zone_name_list)
+            total_capacity = float(rows[row_key][total_capacity_column])
+            sensible_capacity = float(rows[row_key][sensible_capacity_column])
+            if sensible_capacity == -999:
+                sensible_capacity = 0  # removes error but not sure if this makes sense
+            heating_system = {}
+            cooling_system = {}
+            if hvac_type == 'AirLoopHVAC':
+                if 'HEATING' in coil_type.upper():
+                    heating_system['id'] = hvac_name + '-heating'
+                    heating_system['design_capacity'] = total_capacity
+                    heating_system['type'] = heating_type_convert(coil_type)
+                    heating_system['energy_source_type'] = source_from_coil(coil_type)
+                    if 'WATER' in coil_type.upper():
+                        skip
+                elif 'COOLING' in coil_type.upper():
+                    cooling_system['id'] = hvac_name + '-cooling'
+                    cooling_system['design_total_cool_capacity'] = total_capacity
+                    cooling_system['design_sensible_cool_capacity'] = sensible_capacity
+
+                hvac_system_list = list(filter(lambda x: (x['id'] == hvac_name), hvac_systems))
+                if hvac_system_list:
+                    hvac_system = hvac_system_list[0]
+                else:
+                    hvac_system = {'id': hvac_name}
+                if heating_system:
+                    hvac_system['heating_system'] = heating_system
+                if cooling_system:
+                    hvac_system['cooling_system'] = cooling_system
+                # print(hvac_system)
+                hvac_systems.append(hvac_system)
+                for zone in zone_name_list:
+                    terminal = {
+                        'id': zone + '-terminal',
+                        'served_by_heating_ventilating_air_conditioning_system': hvac_name
+                    }
+                    if zone in terminal_capacity_by_zone:
+                        terminal['heating_capacity'] = terminal_capacity_by_zone[zone]
+                    self.terminals_by_zone[zone.upper()] = [terminal, ]
         self.building_segment['heating_ventilating_air_conditioning_systems'] = hvac_systems
         # print(self.terminals_by_zone)
         return hvac_systems, self.terminals_by_zone
+
+    def get_table(self, report_name, table_name):
+        tabular_reports = self.json_results_object['TabularReports']
+        for tabular_report in tabular_reports:
+            if tabular_report['ReportName'] == report_name:
+                tables = tabular_report['Tables']
+                for table in tables:
+                    if table['TableName'] == table_name:
+                        return table
+        return []
+
+    def gather_coil_connections(self):
+        connection_by_coil = {}
+        table = self.get_table('CoilSizingDetails', 'Coil Connections')
+        rows = table['Rows']
+        row_keys = list(rows.keys())
+        cols = table['Cols']
+        plant_loop_name_column = cols.index('Plant Loop Name')
+        for row_key in row_keys:
+            plant_loop_name = rows[row_key][plant_loop_name_column]
+            connection = {'plant_loop_name': plant_loop_name}
+            connection_by_coil[row_key] = connection
+        print(connection_by_coil)
+        return connection_by_coil
 
     def add_chillers(self):
         chillers = []
@@ -1057,7 +1101,8 @@ class Translator:
         self.add_weather()
         self.add_calendar()
         self.surfaces_by_zone = self.get_zone_for_each_surface()
-        self.add_simple_hvac()
+        self.gather_coil_connections()
+        self.add_heating_ventilation_system()
         self.add_chillers()
         self.add_boilers()
         self.add_heat_rejection()
