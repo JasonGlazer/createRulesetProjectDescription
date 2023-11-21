@@ -8184,8 +8184,8 @@ Pump:
       EPout File: "table.html"
       EPout Report: "Equipment Summary"
       EPout Table: "Pumps"
-      EPout Column: "DoneUsingOutput"
-      EPstatus: ""
+      EPout Column: "Plantloop Name"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Can find the branch based on node names. Part of topology report."
     specification_method:
       Description: "Options for how the pump is specified"

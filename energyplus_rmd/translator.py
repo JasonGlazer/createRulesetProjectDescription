@@ -857,34 +857,35 @@ class Translator:
                         heat_recovery_loop_name_column = cols.index('Heat Recovery Plantloop Name')
                         heat_recovery_fraction_column = cols.index('Recovery Relative Capacity Fraction')
                         for chiller_name in chiller_names:
-                            fuel_type = rows[chiller_name][fuel_type_column].upper().replace(' ', '_')
-                            chiller = {
-                                'id': chiller_name,
-                                'cooling_loop': rows[chiller_name][plant_loop_name_column],
-                                'condensing_loop': rows[chiller_name][condenser_loop_name_column],
-                                'energy_source_type': fuel_type,
-                                'design_capacity': float(rows[chiller_name][reference_capacity_column]),
-                                'rated_capacity': float(rows[chiller_name][rated_capacity_column]),
-                                'rated_entering_condenser_temperature':
-                                    float(rows[chiller_name][rated_enter_temp_column]),
-                                'rated_leaving_evaporator_temperature':
-                                    float(rows[chiller_name][rated_leave_temp_column]),
-                                'minimum_load_ratio': float(rows[chiller_name][min_plr_column]),
-                                'design_flow_evaporator': float(rows[chiller_name][chilled_water_rate_column]),
-                                'design_flow_condenser': float(rows[chiller_name][condenser_water_rate_column]),
-                                'design_entering_condenser_temperature':
-                                    float(rows[chiller_name][ref_enter_temp_column]),
-                                'design_leaving_evaporator_temperature':
-                                    float(rows[chiller_name][ref_leave_temp_column]),
-                                'full_load_efficiency': float(rows[chiller_name][rated_efficiency_column]),
-                                'part_load_efficiency': float(rows[chiller_name][part_load_efficiency_column]),
-                                'part_load_efficiency_metric': 'INTEGRATED_PART_LOAD_VALUE',
-                            }
-                            if rows[chiller_name][heat_recovery_loop_name_column] != 'N/A':
-                                chiller['heat_recovery_loop'] = rows[chiller_name][heat_recovery_loop_name_column]
-                                chiller['heat_recovery_fraction'] = (
-                                    float(rows[chiller_name][heat_recovery_fraction_column]))
-                            chillers.append(chiller)
+                            if chiller_name != 'None':
+                                fuel_type = rows[chiller_name][fuel_type_column].upper().replace(' ', '_')
+                                chiller = {
+                                    'id': chiller_name,
+                                    'cooling_loop': rows[chiller_name][plant_loop_name_column],
+                                    'condensing_loop': rows[chiller_name][condenser_loop_name_column],
+                                    'energy_source_type': fuel_type,
+                                    'design_capacity': float(rows[chiller_name][reference_capacity_column]),
+                                    'rated_capacity': float(rows[chiller_name][rated_capacity_column]),
+                                    'rated_entering_condenser_temperature':
+                                        float(rows[chiller_name][rated_enter_temp_column]),
+                                    'rated_leaving_evaporator_temperature':
+                                        float(rows[chiller_name][rated_leave_temp_column]),
+                                    'minimum_load_ratio': float(rows[chiller_name][min_plr_column]),
+                                    'design_flow_evaporator': float(rows[chiller_name][chilled_water_rate_column]),
+                                    'design_flow_condenser': float(rows[chiller_name][condenser_water_rate_column]),
+                                    'design_entering_condenser_temperature':
+                                        float(rows[chiller_name][ref_enter_temp_column]),
+                                    'design_leaving_evaporator_temperature':
+                                        float(rows[chiller_name][ref_leave_temp_column]),
+                                    'full_load_efficiency': float(rows[chiller_name][rated_efficiency_column]),
+                                    'part_load_efficiency': float(rows[chiller_name][part_load_efficiency_column]),
+                                    'part_load_efficiency_metric': 'INTEGRATED_PART_LOAD_VALUE',
+                                }
+                                if rows[chiller_name][heat_recovery_loop_name_column] != 'N/A':
+                                    chiller['heat_recovery_loop'] = rows[chiller_name][heat_recovery_loop_name_column]
+                                    chiller['heat_recovery_fraction'] = (
+                                        float(rows[chiller_name][heat_recovery_fraction_column]))
+                                chillers.append(chiller)
         self.model_description['chillers'] = chillers
         return chillers
 
@@ -907,19 +908,20 @@ class Translator:
                         reference_efficiency_column = cols.index('Reference Efficiency[W/W]')
                         parasitic_load_column = cols.index('Parasitic Electric Load [W]')
                         for boiler_name in boiler_names:
-                            fuel_type = rows[boiler_name][fuel_type_column].upper().replace(' ', '_')
-                            boiler = {
-                                'id': boiler_name,
-                                'loop': rows[boiler_name][plant_loop_name_column],
-                                'design_capacity': float(rows[boiler_name][reference_capacity_column]),
-                                'rated_capacity': float(rows[boiler_name][rated_capacity_column]),
-                                'minimum_load_ratio': float(rows[boiler_name][min_plr_column]),
-                                'energy_source_type': fuel_type,
-                                'efficiency_metric': 'THERMAL',
-                                'efficiency': float(rows[boiler_name][reference_efficiency_column]),
-                                'auxiliary_power': float(rows[boiler_name][parasitic_load_column]),
-                            }
-                            boilers.append(boiler)
+                            if boiler_name != 'None':
+                                fuel_type = rows[boiler_name][fuel_type_column].upper().replace(' ', '_')
+                                boiler = {
+                                    'id': boiler_name,
+                                    'loop': rows[boiler_name][plant_loop_name_column],
+                                    'design_capacity': float(rows[boiler_name][reference_capacity_column]),
+                                    'rated_capacity': float(rows[boiler_name][rated_capacity_column]),
+                                    'minimum_load_ratio': float(rows[boiler_name][min_plr_column]),
+                                    'energy_source_type': fuel_type,
+                                    'efficiency_metric': 'THERMAL',
+                                    'efficiency': float(rows[boiler_name][reference_efficiency_column]),
+                                    'auxiliary_power': float(rows[boiler_name][parasitic_load_column]),
+                                }
+                                boilers.append(boiler)
         self.model_description['boilers'] = boilers
         return boilers
 
@@ -983,12 +985,12 @@ class Translator:
                             speed_control = 'FIXED_SPEED'
                             if 'vari' in type_str:
                                 speed_control = 'VARIABLE_SPEED'
-                            is_autosized = 'False'
+                            is_autosized = False
                             if 'Y' in rows[pump_name][is_autosized_column]:
-                                is_autosized = 'True'
+                                is_autosized = True
                             pump = {
                                 'id': pump_name,
-                                'loop': rows[pump_name][plant_loop_name_column],
+                                'loop_or_piping': rows[pump_name][plant_loop_name_column],
                                 'specification_method': 'SIMPLE',
                                 'design_electric_power': float(rows[pump_name][electricity_column]),
                                 'design_head': float(rows[pump_name][head_column]),
@@ -1000,7 +1002,6 @@ class Translator:
                             pumps.append(pump)
         self.model_description['pumps'] = pumps
         return pumps
-
 
     def ensure_all_id_unique(self):
         self.add_serial_number_nested(self.model_description, 'id')
