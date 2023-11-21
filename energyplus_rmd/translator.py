@@ -10,6 +10,21 @@ from energyplus_rmd.validator import Validator
 from energyplus_rmd.status_reporter import StatusReporter
 
 
+def energy_source_convert(energy_name_input):
+    energy_source_map = {'ELECTRICITY': 'ELECTRICITY',
+                         'NATURALGAS': 'NATURAL_GAS',
+                         'PROPANE': 'PROPANE',
+                         'FUELOIL1': 'FUEL_OIL',
+                         'FUELOIL2': 'FUEL_OIL',
+                         'DIESEL': 'OTHER',
+                         'GASOLINE': 'OTHER',
+                         'COAL': 'OTHER',
+                         'OTHERFUEL1': 'OTHER',
+                         'OTHERFUEL2': 'OTHER'}
+    energy_type = energy_name_input.upper().replace(' ', '_')
+    return energy_source_map[energy_type]
+
+
 class Translator:
     """This class reads in the input files and does the heavy lifting to write output files"""
 
@@ -909,7 +924,7 @@ class Translator:
                         parasitic_load_column = cols.index('Parasitic Electric Load [W]')
                         for boiler_name in boiler_names:
                             if boiler_name != 'None':
-                                fuel_type = rows[boiler_name][fuel_type_column].upper().replace(' ', '_')
+                                fuel_type = energy_source_convert(rows[boiler_name][fuel_type_column])
                                 boiler = {
                                     'id': boiler_name,
                                     'loop': rows[boiler_name][plant_loop_name_column],
