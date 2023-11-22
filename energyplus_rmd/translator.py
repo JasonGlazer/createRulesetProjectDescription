@@ -24,17 +24,19 @@ def energy_source_convert(energy_name_input):
     energy_type = energy_name_input.upper().replace(' ', '_')
     return energy_source_map[energy_type]
 
+
 def heating_type_convert(coil_type):
     coil_map = {'COIL:HEATING:WATER': 'FLUID_LOOP',
-               'COIL:HEATING:STEAM': 'FLUID_LOOP',
-               'COIL:HEATING:ELECTRIC': 'ELECTRIC_RESISTANCE',
-               'COIL:HEATING:ELECTRIC:MULTISTAGE': 'ELECTRIC_RESISTANCE',
-               'COIL:HEATING:FUEL': 'FURNACE',
-               'COIL:HEATING:GAS:MULTISTAGE': 'FURNACE',
-               'COIL:HEATING:DX:SINGLESPEED': 'HEAT_PUMP',
-               'COIL:HEATING:DX:MULTISPEED': 'HEAT_PUMP',
-               'COIL:HEATING:DX:VARIABLESPEED': 'HEAT_PUMP'}
+                'COIL:HEATING:STEAM': 'FLUID_LOOP',
+                'COIL:HEATING:ELECTRIC': 'ELECTRIC_RESISTANCE',
+                'COIL:HEATING:ELECTRIC:MULTISTAGE': 'ELECTRIC_RESISTANCE',
+                'COIL:HEATING:FUEL': 'FURNACE',
+                'COIL:HEATING:GAS:MULTISTAGE': 'FURNACE',
+                'COIL:HEATING:DX:SINGLESPEED': 'HEAT_PUMP',
+                'COIL:HEATING:DX:MULTISPEED': 'HEAT_PUMP',
+                'COIL:HEATING:DX:VARIABLESPEED': 'HEAT_PUMP'}
     return coil_map[coil_type.upper()]
+
 
 def source_from_coil(coil_type):
     source = 'OTHER'
@@ -43,6 +45,7 @@ def source_from_coil(coil_type):
     elif 'GAS' in coil_type.upper() or 'FUEL' in coil_type.upper():
         source = 'NATURAL_GAS'
     return source
+
 
 class Translator:
     """This class reads in the input files and does the heavy lifting to write output files"""
@@ -803,6 +806,10 @@ class Translator:
         zone_names_column = cols.index('Zone Name(s)')
         total_capacity_column = cols.index('Coil Final Gross Total Capacity [W]')
         sensible_capacity_column = cols.index('Coil Final Gross Sensible Capacity [W]')
+        rated_capacity_column = cols.index('Coil Total Capacity at Rating Conditions [W]')
+        ideal_load_peak_column = cols.index('Coil Total Capacity at Ideal Loads Peak [W]')
+        is_autosized_coil_column = cols.index('Autosized Coil Capacity?')
+        leaving_drybulb_column = cols.index('Coil Leaving Air Drybulb at Rating Conditions [C]')
         terminal_capacity_by_zone = dict()
         for row_key in row_keys:
             hvac_type = rows[row_key][hvac_type_column]
@@ -823,8 +830,15 @@ class Translator:
             # print(zone_name_list)
             total_capacity = float(rows[row_key][total_capacity_column])
             sensible_capacity = float(rows[row_key][sensible_capacity_column])
+            rated_capacity = float(rows[row_key][rated_capacity_column])
+            ideal_load_peak = float(rows[row_key][ideal_load_peak_column])
+            is_autosized_coil = rows[row_key][is_autosized_coil_column]
+            leaving_drybulb = float(rows[row_key][leaving_drybulb_column])
             if sensible_capacity == -999:
                 sensible_capacity = 0  # removes error but not sure if this makes sense
+            oversize_ratio = 1.
+            if ideal_load_peak != -999:
+                oversize_ratio = total_capacity / ideal_load_peak
             heating_system = {}
             cooling_system = {}
             if hvac_type == 'AirLoopHVAC':
@@ -834,12 +848,17 @@ class Translator:
                     heating_system['type'] = heating_type_convert(coil_type)
                     heating_system['energy_source_type'] = source_from_coil(coil_type)
                     if 'WATER' in coil_type.upper():
-                        skip
+                        heating_system['hot_water_loop'] = coil_connections[row_key]['plant_loop_name']
+                    if rated_capacity != -999:
+                        heating_system['rated_capacity'] = rated_capacity
+                    heating_system['oversizing_factor'] = oversize_ratio
+                    heating_system['is_autosized'] = is_autosized_coil == 'Yes'
+                    if leaving_drybulb != -999:
+                        heating_system['heating_coil_setpoint'] = leaving_drybulb
                 elif 'COOLING' in coil_type.upper():
                     cooling_system['id'] = hvac_name + '-cooling'
                     cooling_system['design_total_cool_capacity'] = total_capacity
                     cooling_system['design_sensible_cool_capacity'] = sensible_capacity
-
                 hvac_system_list = list(filter(lambda x: (x['id'] == hvac_name), hvac_systems))
                 if hvac_system_list:
                     hvac_system = hvac_system_list[0]
@@ -884,8 +903,31 @@ class Translator:
             plant_loop_name = rows[row_key][plant_loop_name_column]
             connection = {'plant_loop_name': plant_loop_name}
             connection_by_coil[row_key] = connection
-        print(connection_by_coil)
+        # print(connection_by_coil)
         return connection_by_coil
+
+    def gather_coil_efficiencies(self):
+        coil_efficiencies = {}
+        cooling_coils_table = self.get_table('EquipmentSummary', 'Cooling Coils')
+        cooling_coils_rows = cooling_coils_table['Rows']
+        row_keys = list(cooling_coils_table.keys())
+        cooling_coils_cols = cooling_coils_table['Cols']
+        type_column = cooling_coils_cols.index('Type')
+        nominal_efficiency_column = cooling_coils_cols.index('Nominal Efficiency [W/W]')
+
+        dx_2017_table = self.get_table('EquipmentSummary', 'DX Cooling Coil Standard Ratings 2017')
+        dx_2017_rows = dx_2017_table['Rows']
+        dx_2017_row_keys = list(dx_2017_table.keys())
+        assert dx_2017_row_keys == row_keys
+        dx_2017_cols = dx_2017_table['Cols']
+        net_cop_2017_column = dx_2017_cols.index('Standard Rated Net COP [W/W] #2')
+
+        for row_key in row_keys:
+            coil_type = cooling_coils_rows[row_key][type_column]
+            nominal_efficiency = float(cooling_coils_rows[row_key][nominal_efficiency_column])
+            coil_efficiency = {'type': coil_type,
+                               'nominal_eff': nominal_efficiency}
+            coil_efficiencies[row_key] = coil_efficiency
 
     def add_chillers(self):
         chillers = []

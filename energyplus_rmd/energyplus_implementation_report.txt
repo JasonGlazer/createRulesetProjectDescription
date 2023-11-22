@@ -1,5 +1,5 @@
 ============= Generated Report ==============
-Updated at: 2023-11-21 16:34:15.552570 
+Updated at: 2023-11-22 11:48:17.314179 
 
 RulesetProjectDescription  #elements: 10
   note    DoneUsingConstant        id
@@ -326,20 +326,20 @@ HeatingSystem  #elements: 18
   null    NotRequired              notes
   inout   DoneUsingOutput          type
   inout   DoneUsingOutput          energy_source_type
-  input   NotStarted               hot_water_loop
+  inout   DoneUsingOutput          hot_water_loop
   input   NotStarted               water_source_heat_pump_loop
-  inout   NotStarted               design_capacity
-  output  NotStarted               rated_capacity
-  output  NotStarted               oversizing_factor
-  inout   NotStarted               is_autosized
-  output  NotStarted               heating_coil_setpoint
+  inout   DoneUsingOutput          design_capacity
+  output  DoneUsingOutput          rated_capacity
+  output  DoneUsingOutput          oversizing_factor
+  inout   DoneUsingOutput          is_autosized
+  output  DoneUsingOutput          heating_coil_setpoint
   output  NotStarted               efficiency_metric_values
   output  NotStarted               efficiency_metric_types
   input   NotStarted               heatpump_auxilliary_heat_type
   input   NotStarted               heatpump_auxilliary_heat_high_shutoff_temperature
   input   NotStarted               heatpump_low_shutoff_temperature
   note    NotStarted               humidification_type
-  counts:  {'inout ': 5, 'input ': 5, 'output': 5, 'note  ': 1, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 2, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 14, 'ToDo': 0} 
+  counts:  {'inout ': 6, 'input ': 4, 'output': 5, 'note  ': 1, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 8, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 8, 'ToDo': 0} 
 
 CoolingSystem  #elements: 16
   inout   NotStarted               id

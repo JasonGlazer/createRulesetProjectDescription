@@ -5190,12 +5190,12 @@ HeatingSystem:
       Used by RCT Test: True
       EPin Object: "Coil:Heating:Water, Coil:Heating:Steam"
       EPin Field: "Water Inlet Node Name, Water Outlet Node Name"
-      EPout File: ""
-      EPout Report: ""
-      EPout Table: ""
-      EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "find loop based on nodes, should be covered by new topology report"
+      EPout File: "table.html"
+      EPout Report: "Coil Sizing Details"
+      EPout Table: "Coil Connections"
+      EPout Column: "Plant Loop Name"
+      EPstatus: "DoneUsingOutput"
+      EP Notes: ""
     water_source_heat_pump_loop:
       Description: "Referenced to the water fluid loop to support water source heat pumps"
       Data Type: "Reference"
@@ -5213,7 +5213,7 @@ HeatingSystem:
       EPout Table: ""
       EPout Column: ""
       EPstatus: "NotStarted"
-      EP Notes: "find loop based on nodes, should be covered by new topology report"
+      EP Notes: "Should be part of new coil connection report but is not showing"
     design_capacity:
       Description: "Design heating capacity"
       Data Type: "Numeric"
@@ -5232,7 +5232,7 @@ HeatingSystem:
       EPout Report: "Coil Sizing Details"
       EPout Table: "Coils"
       EPout Column: "Coil Final Gross Total Capacity"
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Find maximum capacity for all coils serving the HVAC Name with System Sizing Method Capacity being HeatingDesignCapacity"
     rated_capacity:
       Description: "Rated heating capacity"
@@ -5252,7 +5252,7 @@ HeatingSystem:
       EPout Report: "Coil Sizing Details"
       EPout Table: "Coils"
       EPout Column: "Coil Total Capacity at Rating Conditions"
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     oversizing_factor:
       Description: "The oversizing factor applied to the peak load that results in the heat capacity. Zero indicates no oversizing."
@@ -5271,7 +5271,7 @@ HeatingSystem:
       EPout Report: "Coil Sizing Details"
       EPout Table: "Coils"
       EPout Column: "Coil Total Capacity at Ideal Loads Peak and Coil Final Gross Total Capacity"
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "compute the sizing factor"
     is_autosized:
       Description: "True if the component is automatically sized by the simulation software"
@@ -5288,8 +5288,8 @@ HeatingSystem:
       EPout Report: "Coil Sizing Details"
       EPout Table: "Coils"
       EPout Column: "Autosized Coil Capacity?"
-      EPstatus: "NotStarted"
-      EP Notes: "Indicated in input by Autosize"
+      EPstatus: "DoneUsingOutput"
+      EP Notes: ""
     heating_coil_setpoint:
       Description: "Setpoint of the air leaving the heating coil"
       Data Type: "Numeric"
@@ -5307,7 +5307,7 @@ HeatingSystem:
       EPout Report: "Coil Sizing Details"
       EPout Table: "Coils"
       EPout Column: "Coil Leaving Air Drybulb at Rating Conditions"
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     efficiency_metric_values:
       Description: "List of efficiency metric values that correspond to the descriptors in efficiency_metric_types list"
