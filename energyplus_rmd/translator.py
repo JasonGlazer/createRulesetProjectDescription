@@ -796,6 +796,8 @@ class Translator:
         # only handles adding the heating and cooling capacities for the small office and medium office DOE prototypes
         hvac_systems = []
         coil_connections = self.gather_coil_connections()
+        cooling_coil_efficiencies = self.gather_cooling_coil_efficiencies()
+        heating_coil_efficiencies = self.gather_heating_coil_efficiencies()
         coils_table = self.get_table('CoilSizingDetails', 'Coils')
         rows = coils_table['Rows']
         row_keys = list(rows.keys())
@@ -855,15 +857,21 @@ class Translator:
                     heating_system['is_autosized'] = is_autosized_coil == 'Yes'
                     if leaving_drybulb != -999:
                         heating_system['heating_coil_setpoint'] = leaving_drybulb
+                    metric_types, metric_values = self.process_heating_metrics(row_key, heating_coil_efficiencies)
+                    heating_system['efficiency_metric_values'] = metric_values
+                    heating_system['efficiency_metric_types'] = metric_types
                 elif 'COOLING' in coil_type.upper():
                     cooling_system['id'] = hvac_name + '-cooling'
                     cooling_system['design_total_cool_capacity'] = total_capacity
                     cooling_system['design_sensible_cool_capacity'] = sensible_capacity
-                hvac_system_list = list(filter(lambda x: (x['id'] == hvac_name), hvac_systems))
-                if hvac_system_list:
-                    hvac_system = hvac_system_list[0]
-                else:
-                    hvac_system = {'id': hvac_name}
+#                hvac_system_list = list(filter(lambda x: (x['id'] == hvac_name), hvac_systems))
+#                if hvac_system_list:
+#                    hvac_system = hvac_system_list[0]
+#                else:
+#                    hvac_system = {'id': hvac_name}
+
+                hvac_system = {'id': hvac_name}
+
                 if heating_system:
                     hvac_system['heating_system'] = heating_system
                 if cooling_system:
@@ -906,29 +914,106 @@ class Translator:
         # print(connection_by_coil)
         return connection_by_coil
 
-    def gather_coil_efficiencies(self):
+    def gather_cooling_coil_efficiencies(self):
         coil_efficiencies = {}
         cooling_coils_table = self.get_table('EquipmentSummary', 'Cooling Coils')
         cooling_coils_rows = cooling_coils_table['Rows']
-        row_keys = list(cooling_coils_table.keys())
+        row_keys = list(cooling_coils_rows.keys())
         cooling_coils_cols = cooling_coils_table['Cols']
         type_column = cooling_coils_cols.index('Type')
         nominal_efficiency_column = cooling_coils_cols.index('Nominal Efficiency [W/W]')
-
-        dx_2017_table = self.get_table('EquipmentSummary', 'DX Cooling Coil Standard Ratings 2017')
-        dx_2017_rows = dx_2017_table['Rows']
-        dx_2017_row_keys = list(dx_2017_table.keys())
-        assert dx_2017_row_keys == row_keys
-        dx_2017_cols = dx_2017_table['Cols']
-        net_cop_2017_column = dx_2017_cols.index('Standard Rated Net COP [W/W] #2')
-
         for row_key in row_keys:
             coil_type = cooling_coils_rows[row_key][type_column]
             nominal_efficiency = float(cooling_coils_rows[row_key][nominal_efficiency_column])
             coil_efficiency = {'type': coil_type,
                                'nominal_eff': nominal_efficiency}
             coil_efficiencies[row_key] = coil_efficiency
+        dx_2017_table = self.get_table('EquipmentSummary', 'DX Cooling Coil Standard Ratings 2017')
+        dx_2017_rows = dx_2017_table['Rows']
+        dx_2017_row_keys = list(dx_2017_rows.keys())
+        assert dx_2017_row_keys == row_keys
+        dx_2017_cols = dx_2017_table['Cols']
+        net_cop_2017_column = dx_2017_cols.index('Standard Rated Net COP [W/W] #2')
+        eer_2017_column = dx_2017_cols.index('EER [Btu/W-h] #2')
+        seer_2017_column = dx_2017_cols.index('SEER Standard [Btu/W-h] #2,3')
+        ieer_2017_column = dx_2017_cols.index('IEER [Btu/W-h] #2')
+        for row_key in row_keys:
+            coil_efficiencies[row_key]['StandardRatedNetCOP2017'] = float(dx_2017_rows[row_key][net_cop_2017_column])
+            coil_efficiencies[row_key]['EER2017'] = float(dx_2017_rows[row_key][eer_2017_column])
+            coil_efficiencies[row_key]['SEER2017'] = float(dx_2017_rows[row_key][seer_2017_column])
+            coil_efficiencies[row_key]['IEER2017'] = float(dx_2017_rows[row_key][ieer_2017_column])
+        dx_2023_table = self.get_table('EquipmentSummary', 'DX Cooling Coil Standard Ratings 2023')
+        dx_2023_rows = dx_2023_table['Rows']
+        dx_2023_row_keys = list(dx_2023_rows.keys())
+        assert dx_2023_row_keys == row_keys
+        dx_2023_cols = dx_2023_table['Cols']
+        net_cop_2023_column = dx_2023_cols.index('Standard Rated Net COP [W/W] #2,4')
+        eer_2023_column = dx_2023_cols.index('EER [Btu/W-h] #2,4')
+        seer_2023_column = dx_2023_cols.index('SEER Standard [Btu/W-h] #2,3')
+        ieer_2023_column = dx_2023_cols.index('IEER [Btu/W-h] #2')
+        for row_key in row_keys:
+            coil_efficiencies[row_key]['StandardRatedNetCOP2023'] = float(dx_2023_rows[row_key][net_cop_2023_column])
+            coil_efficiencies[row_key]['EER2023'] = float(dx_2023_rows[row_key][eer_2023_column])
+            coil_efficiencies[row_key]['SEER2023'] = float(dx_2023_rows[row_key][seer_2023_column])
+            coil_efficiencies[row_key]['IEER2023'] = float(dx_2023_rows[row_key][ieer_2023_column])
+        return coil_efficiencies
 
+    def gather_heating_coil_efficiencies(self):
+        coil_efficiencies = {}
+        heating_coils_table = self.get_table('EquipmentSummary', 'Heating Coils')
+        heating_coils_rows = heating_coils_table['Rows']
+        coil_row_keys = list(heating_coils_rows.keys())
+        heating_coils_cols = heating_coils_table['Cols']
+        type_column = heating_coils_cols.index('Type')
+        nominal_efficiency_column = heating_coils_cols.index('Nominal Efficiency [W/W]')
+        used_as_sup_heat_column = heating_coils_cols.index('Used as Supplementary Heat')
+        for row_key in coil_row_keys:
+            coil_type = heating_coils_rows[row_key][type_column]
+            nominal_efficiency = float(heating_coils_rows[row_key][nominal_efficiency_column])
+            used_as_sup_heat = 'Y' in heating_coils_rows[row_key][used_as_sup_heat_column]
+            coil_efficiency = {'type': coil_type,
+                               'nominal_eff': nominal_efficiency,
+                               'used_as_sup_heat': used_as_sup_heat}
+            coil_efficiencies[row_key] = coil_efficiency
+        dx_table = self.get_table('EquipmentSummary', 'DX Heating Coils')
+        dx_rows = dx_table['Rows']
+        dx_row_keys = list(dx_rows.keys())
+        dx_cols = dx_table['Cols']
+        hspf_column = dx_cols.index('HSPF [Btu/W-h]')
+        hspf_region_column = dx_cols.index('Region Number')
+        for row_key in dx_row_keys:
+            if row_key in coil_row_keys:
+                coil_efficiencies[row_key]['HSPF'] = float(dx_rows[row_key][hspf_column])
+                coil_efficiencies[row_key]['HSPF_region'] = dx_rows[row_key][hspf_region_column]
+        dx2_table = self.get_table('EquipmentSummary', 'DX Heating Coils [ HSPF2 ]')
+        dx2_rows = dx2_table['Rows']
+        dx2_row_keys = list(dx2_rows.keys())
+        dx2_cols = dx2_table['Cols']
+        hspf2_column = dx2_cols.index('HSPF2 [Btu/W-h]')
+        hspf2_region_column = dx2_cols.index('Region Number')
+        for row_key in dx2_row_keys:
+            if row_key in coil_row_keys:
+                coil_efficiencies[row_key]['HSPF2'] = float(dx2_rows[row_key][hspf2_column])
+                coil_efficiencies[row_key]['HSPF2_region'] = dx2_rows[row_key][hspf2_region_column]
+        return coil_efficiencies
+
+    def process_heating_metrics(self, coil_name, coil_efficiencies):
+        metric_types = []
+        metric_values = []
+        if coil_name in coil_efficiencies:
+            coil_efficiency = coil_efficiencies[coil_name]
+            if 'HSPF' in coil_efficiency:
+                metric_types.append('HEATING_SEASONAL_PERFORMANCE_FACTOR')
+                metric_values.append(coil_efficiency['HSPF'])
+            if 'HSPF2' in coil_efficiency:
+                metric_types.append('HEATING_SEASONAL_PERFORMANCE_FACTOR_2')
+                metric_values.append(coil_efficiency['HSPF2'])
+            if 'type' in coil_efficiency:
+                if coil_efficiency['type'] == 'Coil:Heating:Fuel':
+                    metric_types.append('THERMAL_EFFICIENCY')
+                    metric_values.append(coil_efficiency['nominal_eff'])
+
+        return  metric_types, metric_values
     def add_chillers(self):
         chillers = []
         tabular_reports = self.json_results_object['TabularReports']
