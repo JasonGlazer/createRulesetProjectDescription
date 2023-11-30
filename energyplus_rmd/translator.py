@@ -38,6 +38,26 @@ def heating_type_convert(coil_type):
     return coil_map[coil_type.upper()]
 
 
+def cooling_type_convert(coil_type):
+    coil_map = {'COIL:COOLING:WATER': 'FLUID_LOOP',
+                'COIL:COOLING:WATER:DETAILEDGEOMETRY': 'FLUID_LOOP',
+                'COILSYSTEM:COOLING:WATER': 'FLUID_LOOP',
+                'COILSYSTEM:COOLING:WATER:HEATEXCHANGERASSISTED': 'FLUID_LOOP',
+                'COIL:COOLING:DX': 'DIRECT_EXPANSION',
+                'COIL:COOLING:DX:SINGLESPEED': 'DIRECT_EXPANSION',
+                'COIL:COOLING:DX:TWOSPEED': 'DIRECT_EXPANSION',
+                'COIL:COOLING:DX:MULTISPEED': 'DIRECT_EXPANSION',
+                'COIL:COOLING:DX:VARIABLESPEED': 'DIRECT_EXPANSION',
+                'COIL:COOLING:DX:TWOSTAGEWITHHUMIDITYCONTROLMODE': 'DIRECT_EXPANSION',
+                'COIL:COOLING:DX:VARIABLEREFRIGERANTFLOW': 'DIRECT_EXPANSION',
+                'COIL:COOLING:WATERTOAIRHEATPUMP:PARAMETERESTIMATION': 'DIRECT_EXPANSION',
+                'COIL:COOLING:WATERTOAIRHEATPUMP:EQUATIONFIT': 'DIRECT_EXPANSION',
+                'COIL:COOLING:WATERTOAIRHEATPUMP:VARIABLESPEEDEQUATIONFIT': 'DIRECT_EXPANSION',
+                'COILSYSTEM:COOLING:DX:HEATEXCHANGERASSISTED': 'DIRECT_EXPANSION',
+                'COIL:COOLING:DX:SINGLESPEED:THERMALSTORAGE': 'DIRECT_EXPANSION'}
+    return coil_map[coil_type.upper()]
+
+
 def source_from_coil(coil_type):
     source = 'OTHER'
     if 'ELECTRIC' in coil_type.upper() or 'DX' in coil_type.upper():
@@ -809,6 +829,7 @@ class Translator:
         total_capacity_column = cols.index('Coil Final Gross Total Capacity [W]')
         sensible_capacity_column = cols.index('Coil Final Gross Sensible Capacity [W]')
         rated_capacity_column = cols.index('Coil Total Capacity at Rating Conditions [W]')
+        rated_sensible_capacity_column = cols.index('Coil Sensible Capacity at Rating Conditions [W]')
         ideal_load_peak_column = cols.index('Coil Total Capacity at Ideal Loads Peak [W]')
         is_autosized_coil_column = cols.index('Autosized Coil Capacity?')
         leaving_drybulb_column = cols.index('Coil Leaving Air Drybulb at Rating Conditions [C]')
@@ -833,6 +854,7 @@ class Translator:
             total_capacity = float(rows[row_key][total_capacity_column])
             sensible_capacity = float(rows[row_key][sensible_capacity_column])
             rated_capacity = float(rows[row_key][rated_capacity_column])
+            rated_sensible_capacity = float(rows[row_key][rated_sensible_capacity_column])
             ideal_load_peak = float(rows[row_key][ideal_load_peak_column])
             is_autosized_coil = rows[row_key][is_autosized_coil_column]
             leaving_drybulb = float(rows[row_key][leaving_drybulb_column])
@@ -867,6 +889,19 @@ class Translator:
                     cooling_system['id'] = hvac_name + '-cooling'
                     cooling_system['design_total_cool_capacity'] = total_capacity
                     cooling_system['design_sensible_cool_capacity'] = sensible_capacity
+                    cooling_system['type'] = cooling_type_convert(coil_type)
+                    if rated_capacity != -999:
+                        cooling_system['rated_total_cool_capacity'] = rated_capacity
+                    if rated_sensible_capacity != -999:
+                        cooling_system['rated_sensible_cool_capacity '] = rated_sensible_capacity
+                    cooling_system['oversizing_factor'] = oversize_ratio
+                    cooling_system['is_autosized'] = is_autosized_coil == 'Yes'
+                    if 'WATER' in coil_type.upper():
+                        cooling_system['chilled_water_loop'] = coil_connections[row_key]['plant_loop_name']
+                    metric_types, metric_values = self.process_cooling_metrics(row_key, cooling_coil_efficiencies)
+                    cooling_system['efficiency_metric_values'] = metric_values
+                    cooling_system['efficiency_metric_types'] = metric_types
+
                 hvac_system_list = list(filter(lambda x: (x['id'] == hvac_name), hvac_systems))
                 if hvac_system_list:
                     hvac_system = hvac_system_list[0]
@@ -959,6 +994,25 @@ class Translator:
             coil_efficiencies[row_key]['IEER2023'] = float(dx_2023_rows[row_key][ieer_2023_column])
         return coil_efficiencies
 
+    def process_cooling_metrics(self, coil_name, coil_efficiencies):
+        metric_types = []
+        metric_values = []
+        if coil_name in coil_efficiencies:
+            coil_efficiency = coil_efficiencies[coil_name]
+            if 'StandardRatedNetCOP2017' in coil_efficiency:
+                metric_types.append('FULL_LOAD_COEFFICIENT_OF_PERFORMANCE')
+                metric_values.append(coil_efficiency['StandardRatedNetCOP2017'])
+            if 'EER2017' in coil_efficiency:
+                metric_types.append('ENERGY_EFFICIENCY_RATIO')
+                metric_values.append(coil_efficiency['EER2017'])
+            if 'SEER2017' in coil_efficiency:
+                metric_types.append('SEASONAL_ENERGY_EFFICIENCY_RATIO')
+                metric_values.append(coil_efficiency['SEER2017'])
+            if 'IEER2023' in coil_efficiency:
+                metric_types.append('INTEGRATED_ENERGY_EFFICIENCY_RATIO')
+                metric_values.append(coil_efficiency['IEER2023'])
+        return metric_types, metric_values
+
     def gather_heating_coil_efficiencies(self):
         coil_efficiencies = {}
         heating_coils_table = self.get_table('EquipmentSummary', 'Heating Coils')
@@ -1016,7 +1070,6 @@ class Translator:
                 if coil_efficiency['type'] == 'Coil:Heating:Fuel':
                     metric_types.append('THERMAL_EFFICIENCY')
                     metric_values.append(coil_efficiency['nominal_eff'])
-
         return metric_types, metric_values
 
     def add_chillers(self):

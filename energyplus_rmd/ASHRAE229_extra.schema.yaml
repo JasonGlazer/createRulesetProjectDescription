@@ -5568,7 +5568,7 @@ CoolingSystem:
       EPout Report: "Coil Sizing Details"
       EPout Table: "Coils"
       EPout Column: "Coil Type"
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "based on the type of coil "
     design_total_cool_capacity:
       Description: "Design total cooling capacity"
@@ -5588,7 +5588,7 @@ CoolingSystem:
       EPout Report: "Coil Sizing Details"
       EPout Table: "Coils"
       EPout Column: "Coil Final Gross Total Capacity [W]"
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     design_sensible_cool_capacity:
       Description: "Design sensible cooling capacity"
@@ -5608,7 +5608,7 @@ CoolingSystem:
       EPout Report: "Coil Sizing Details"
       EPout Table: "Coils"
       EPout Column: "Coil Final Gross Sensible Capacity [W]"
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Multiply ratio by total gross total capacity in last data element"
     rated_total_cool_capacity:
       Description: "Rated total cooling capacity"
@@ -5628,7 +5628,7 @@ CoolingSystem:
       EPout Report: "Coil Sizing Details"
       EPout Table: "Coils"
       EPout Column: "Coil Total Capacity at Rating Conditions"
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     rated_sensible_cool_capacity:
       Description: "Rated sensible cooling capacity"
@@ -5648,7 +5648,7 @@ CoolingSystem:
       EPout Report: "Coil Sizing Details"
       EPout Table: "Coils"
       EPout Column: "Coil Sensible Capacity at Rating Conditions"
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     oversizing_factor:
       Description: "The oversizing factor applied to the peak load that results in the heat capacity. Zero indicates no oversizing."
@@ -5666,7 +5666,7 @@ CoolingSystem:
       EPout Report: "Coil Sizing Details"
       EPout Table: "Coils"
       EPout Column: "Coil Total Capacity at Ideal Loads Peak and Coil Final Gross Total Capacity"
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "compute the sizing factor"
     is_autosized:
       Description: "True if the component is automatically sized by the simulation software"
@@ -5683,7 +5683,7 @@ CoolingSystem:
       EPout Report: "Coil Sizing Details"
       EPout Table: "Coils"
       EPout Column: "Autosized Coil Capacity?"
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Indicated in input by Autosize"
     chilled_water_loop:
       Description: "Referenced to the Chilled water fluid loop"
@@ -5697,12 +5697,12 @@ CoolingSystem:
       Used by RCT Test: True
       EPin Object: "Coil:Cooling:Water, Coil:Cooling:Water:DetailedGeometry"
       EPin Field: "Water Inlet Node Name, Water Outlet Node Name"
-      EPout File: ""
-      EPout Report: ""
-      EPout Table: ""
-      EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "should be covered by new topology report"
+      EPout File: "table.html"
+      EPout Report: "Coil Sizing Details"
+      EPout Table: "Coil Connections"
+      EPout Column: "Plant Loop Name"
+      EPstatus: "DoneUsingOutput"
+      EP Notes: ""
     condenser_water_loop:
       Description: "Referenced to the Condenser water fluid loop"
       Data Type: "Reference"
@@ -5738,7 +5738,7 @@ CoolingSystem:
       EPout Report: "Equipment Summary"
       EPout Table: "DX Cooling Coils, DX Cooling Coils [ SEER2 ]"
       EPout Column: "SEER Standard, IEER, EER2, SEER2 Standard, IEER2  "
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     efficiency_metric_types:
       Description: "List of efficiency metrics that correspond to the values in efficiency_metric_values list"
@@ -5756,7 +5756,7 @@ CoolingSystem:
       EPout Report: "Equipment Summary"
       EPout Table: "DX Cooling Coils, DX Cooling Coils [ SEER2 ]"
       EPout Column: "SEER Standard, IEER, EER2, SEER2 Standard, IEER2  "
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Use the various types reported"
     dehumidification_type:
       Description: "Dehumidification type"

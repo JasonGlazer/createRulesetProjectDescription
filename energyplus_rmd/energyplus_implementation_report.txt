@@ -1,5 +1,5 @@
 ============= Generated Report ==============
-Updated at: 2023-11-30 10:18:54.443982 
+Updated at: 2023-11-30 14:57:47.271787 
 
 RulesetProjectDescription  #elements: 10
   note    DoneUsingConstant        id
@@ -337,28 +337,28 @@ HeatingSystem  #elements: 18
   output  PartialUsingOutput       efficiency_metric_types
   input   NotStarted               heatpump_auxilliary_heat_type
   input   NotStarted               heatpump_auxilliary_heat_high_shutoff_temperature
-  input   NotStarted               heatpump_low_shutoff_temperature
+  inout   DoneUsingOutput          heatpump_low_shutoff_temperature
   note    NotStarted               humidification_type
-  counts:  {'inout ': 6, 'input ': 4, 'output': 5, 'note  ': 1, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 8, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 2, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 6, 'ToDo': 0} 
+  counts:  {'inout ': 7, 'input ': 3, 'output': 5, 'note  ': 1, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 9, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 2, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 5, 'ToDo': 0} 
 
 CoolingSystem  #elements: 16
   inout   NotStarted               id
   null    NotRequired              reporting_name
   null    NotRequired              notes
-  inout   NotStarted               type
-  inout   NotStarted               design_total_cool_capacity
-  inout   NotStarted               design_sensible_cool_capacity
-  output  NotStarted               rated_total_cool_capacity
-  output  NotStarted               rated_sensible_cool_capacity
-  output  NotStarted               oversizing_factor
-  inout   NotStarted               is_autosized
-  input   NotStarted               chilled_water_loop
+  inout   DoneUsingOutput          type
+  inout   DoneUsingOutput          design_total_cool_capacity
+  inout   DoneUsingOutput          design_sensible_cool_capacity
+  output  DoneUsingOutput          rated_total_cool_capacity
+  output  DoneUsingOutput          rated_sensible_cool_capacity
+  output  DoneUsingOutput          oversizing_factor
+  inout   DoneUsingOutput          is_autosized
+  inout   DoneUsingOutput          chilled_water_loop
   input   NotStarted               condenser_water_loop
   output  NotStarted               efficiency_metric_values
   output  NotStarted               efficiency_metric_types
   input   NotStarted               dehumidification_type
   inout   NotStarted               cooling_turndown_ratio
-  counts:  {'inout ': 6, 'input ': 3, 'output': 5, 'note  ': 0, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 14, 'ToDo': 0} 
+  counts:  {'inout ': 7, 'input ': 2, 'output': 5, 'note  ': 0, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 8, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 6, 'ToDo': 0} 
 
 FanSystem  #elements: 26
   inout   NotStarted               id
