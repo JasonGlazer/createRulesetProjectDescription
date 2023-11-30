@@ -818,6 +818,7 @@ class Translator:
         coil_connections = self.gather_coil_connections()
         cooling_coil_efficiencies = self.gather_cooling_coil_efficiencies()
         heating_coil_efficiencies = self.gather_heating_coil_efficiencies()
+        equipment_fans = self.gather_equipment_fans()
         coils_table = self.get_table('CoilSizingDetails', 'Coils')
         rows = coils_table['Rows']
         row_keys = list(rows.keys())
@@ -1071,6 +1072,53 @@ class Translator:
                     metric_types.append('THERMAL_EFFICIENCY')
                     metric_values.append(coil_efficiency['nominal_eff'])
         return metric_types, metric_values
+
+    def gather_equipment_fans(self):
+        equipment_fans = {}
+        table = self.get_table('EquipmentSummary', 'Fans')
+        rows = table['Rows']
+        coil_row_keys = list(rows.keys())
+        cols = table['Cols']
+        type_column = cols.index('Type')
+        total_efficiency_column = cols.index('Total Efficiency [W/W]')
+        delta_pressure_column = cols.index('Delta Pressure [pa]')
+        max_air_flow_rate_column = cols.index('Max Air Flow Rate [m3/s]')
+        rated_electricity_rate_column = cols.index('Rated Electricity Rate [W]')
+        motor_heat_in_air_column = cols.index('Motor Heat In Air Fraction')
+        fan_energy_index_column = cols.index('Fan Energy Index')
+        purpose_column = cols.index('Purpose')
+        is_autosized_column = cols.index('Is Autosized')
+        motor_eff_column = cols.index('Motor Efficiency')
+        motor_heat_to_zone_column = cols.index('Motor Heat to Zone Fraction')
+        airloop_name_column = cols.index('Airloop Name')
+        for row_key in coil_row_keys:
+            max_air_flow_rate = float(rows[row_key][max_air_flow_rate_column])
+            is_autosized = 'Y' in rows[row_key][is_autosized_column]
+            rated_electricity_rate = float(rows[row_key][rated_electricity_rate_column])
+            delta_pressure = float(rows[row_key][delta_pressure_column])
+            total_efficiency = float(rows[row_key][total_efficiency_column])
+            motor_eff = float(rows[row_key][motor_eff_column])
+            motor_heat_in_air = float(rows[row_key][motor_heat_in_air_column])
+            motor_heat_to_zone = float(rows[row_key][motor_heat_to_zone_column])
+            # extra columns of data not necessarily used now
+            type = rows[row_key][type_column]
+            fan_energy_index = float(rows[row_key][fan_energy_index_column])
+            purpose = rows[row_key][purpose_column]
+            airloop_name = rows[row_key][airloop_name_column]
+            equipment_fan = {'design_airflow': max_air_flow_rate,
+                             'is_airflow_autosized': is_autosized,
+                             'design_electric_power': rated_electricity_rate,
+                             'design_pressure_rise': delta_pressure,
+                             'total_efficiency': total_efficiency,
+                             'motor_efficiency': motor_eff,
+                             'motor_heat_to_airflow_fraction': motor_heat_in_air,
+                             'motor_heat_to_zone_fraction': motor_heat_to_zone,
+                             'extra_type': type,
+                             'extra_fan_energy_index': fan_energy_index,
+                             'extra_purpose': purpose,
+                             'extra_airloop_name': airloop_name}
+            equipment_fans[row_key] = equipment_fan
+        return equipment_fans
 
     def add_chillers(self):
         chillers = []

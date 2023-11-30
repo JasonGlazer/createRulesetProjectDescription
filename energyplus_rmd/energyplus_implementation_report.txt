@@ -1,5 +1,5 @@
 ============= Generated Report ==============
-Updated at: 2023-11-30 14:57:47.271787 
+Updated at: 2023-11-30 15:08:04.370039 
 
 RulesetProjectDescription  #elements: 10
   note    DoneUsingConstant        id
@@ -314,11 +314,11 @@ HeatingVentilatingAirConditioningSystem  #elements: 8
   null    NotRequired              reporting_name
   null    NotRequired              notes
   inout   NotStarted               fan_system
-  inout   NotStarted               heating_system
-  inout   NotStarted               cooling_system
+  inout   DoneUsingOutput          heating_system
+  inout   DoneUsingOutput          cooling_system
   inout   NotStarted               preheat_system
   note    NotStarted               status_type
-  counts:  {'inout ': 4, 'input ': 0, 'output': 0, 'note  ': 2, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 6, 'ToDo': 0} 
+  counts:  {'inout ': 4, 'input ': 0, 'output': 0, 'note  ': 2, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 2, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 4, 'ToDo': 0} 
 
 HeatingSystem  #elements: 18
   inout   NotStarted               id
@@ -354,11 +354,11 @@ CoolingSystem  #elements: 16
   inout   DoneUsingOutput          is_autosized
   inout   DoneUsingOutput          chilled_water_loop
   input   NotStarted               condenser_water_loop
-  output  NotStarted               efficiency_metric_values
-  output  NotStarted               efficiency_metric_types
+  output  DoneUsingOutput          efficiency_metric_values
+  output  DoneUsingOutput          efficiency_metric_types
   input   NotStarted               dehumidification_type
   inout   NotStarted               cooling_turndown_ratio
-  counts:  {'inout ': 7, 'input ': 2, 'output': 5, 'note  ': 0, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 8, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 6, 'ToDo': 0} 
+  counts:  {'inout ': 7, 'input ': 2, 'output': 5, 'note  ': 0, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 10, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 4, 'ToDo': 0} 
 
 FanSystem  #elements: 26
   inout   NotStarted               id

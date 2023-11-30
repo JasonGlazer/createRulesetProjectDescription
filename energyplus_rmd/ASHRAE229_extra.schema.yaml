@@ -4960,7 +4960,7 @@ HeatingVentilatingAirConditioningSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "create name based on combining fansystem, heatingsystem, coolingsystem names"
     reporting_name:
       Description: "Descriptive name used in RCT reports if id is not already a descriptive name"
@@ -5031,7 +5031,7 @@ HeatingVentilatingAirConditioningSystem:
       EPout Report: "Coil Sizing Details"
       EPout Table: "Coils"
       EPout Column: "first column"
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     cooling_system:
       Description: "Cooling system"
@@ -5049,7 +5049,7 @@ HeatingVentilatingAirConditioningSystem:
       EPout Report: "Coil Sizing Details"
       EPout Table: "Coils"
       EPout Column: "first column"
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Only for CoilType=Coil:Cooling:*"
     preheat_system:
       Description: "Pre-heating system"
@@ -5106,7 +5106,7 @@ HeatingSystem:
       EPout Report: "Coil Sizing Details"
       EPout Table: "Coils"
       EPout Column: "first column"
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     reporting_name:
       Description: "Descriptive name used in RCT reports if id is not already a descriptive name"
@@ -5515,7 +5515,7 @@ CoolingSystem:
       EPout Report: "Coil Sizing Details"
       EPout Table: "Coils"
       EPout Column: "first column"
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Only for CoilType=Coil:Cooling:*"
     reporting_name:
       Description: "Descriptive name used in RCT reports if id is not already a descriptive name"
