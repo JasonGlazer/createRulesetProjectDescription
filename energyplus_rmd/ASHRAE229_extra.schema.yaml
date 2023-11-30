@@ -5327,7 +5327,7 @@ HeatingSystem:
       EPout Table: "DX Heating Coils, DX Heating Coils [ HSPF2 ], Heating Coils"
       EPout Column: "HSPF, HSPF2, Nominal Efficiency   "
       EPstatus: "PartialUsingOutput"
-      EP Notes: ""
+      EP Notes: "Does not completely work with heat pumps with backup coils since only one coil gets populated"
     efficiency_metric_types:
       Description: "List of efficiency metrics that correspond to the values in efficiency_metric_values list"
       Data Type: "[<HeatingMetricOptions>]"
@@ -5393,12 +5393,12 @@ HeatingSystem:
       Used by RCT Test: False
       EPin Object: "Coil:Heating:DX:*"
       EPin Field: "Minimum Outdoor Dry-Bulb Temperature for Compressor Operation"
-      EPout File: ""
-      EPout Report: ""
-      EPout Table: ""
-      EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Add column to DX Heating Coils table in Equipment Summary."
+      EPout File: "table.html"
+      EPout Report: "Equipment Summary"
+      EPout Table: "DX Heating Coils"
+      EPout Column: "Minimum Outdoor Dry-Bulb Temperature for Compressor Operation"
+      EPstatus: "DoneUsingOutput"
+      EP Notes: ""
     humidification_type:
       Description: "Humidification type"
       Data Type: "<HumidificationOptions>"

@@ -860,6 +860,9 @@ class Translator:
                     metric_types, metric_values = self.process_heating_metrics(row_key, heating_coil_efficiencies)
                     heating_system['efficiency_metric_values'] = metric_values
                     heating_system['efficiency_metric_types'] = metric_types
+                    if 'minimum_temperature_compressor' in heating_coil_efficiencies[row_key]:
+                        heating_system['heatpump_low_shutoff_temperature'] = heating_coil_efficiencies[row_key][
+                            'minimum_temperature_compressor']
                 elif 'COOLING' in coil_type.upper():
                     cooling_system['id'] = hvac_name + '-cooling'
                     cooling_system['design_total_cool_capacity'] = total_capacity
@@ -979,10 +982,13 @@ class Translator:
         dx_cols = dx_table['Cols']
         hspf_column = dx_cols.index('HSPF [Btu/W-h]')
         hspf_region_column = dx_cols.index('Region Number')
+        minimum_temperature_column = dx_cols.index('Minimum Outdoor Dry-Bulb Temperature for Compressor Operation')
         for row_key in dx_row_keys:
             if row_key in coil_row_keys:
                 coil_efficiencies[row_key]['HSPF'] = float(dx_rows[row_key][hspf_column])
                 coil_efficiencies[row_key]['HSPF_region'] = dx_rows[row_key][hspf_region_column]
+                coil_efficiencies[row_key]['minimum_temperature_compressor'] = float(
+                    dx_rows[row_key][minimum_temperature_column])
         dx2_table = self.get_table('EquipmentSummary', 'DX Heating Coils [ HSPF2 ]')
         dx2_rows = dx2_table['Rows']
         dx2_row_keys = list(dx2_rows.keys())
