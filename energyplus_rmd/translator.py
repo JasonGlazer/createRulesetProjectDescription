@@ -864,14 +864,12 @@ class Translator:
                     cooling_system['id'] = hvac_name + '-cooling'
                     cooling_system['design_total_cool_capacity'] = total_capacity
                     cooling_system['design_sensible_cool_capacity'] = sensible_capacity
-#                hvac_system_list = list(filter(lambda x: (x['id'] == hvac_name), hvac_systems))
-#                if hvac_system_list:
-#                    hvac_system = hvac_system_list[0]
-#                else:
-#                    hvac_system = {'id': hvac_name}
-
-                hvac_system = {'id': hvac_name}
-
+                hvac_system_list = list(filter(lambda x: (x['id'] == hvac_name), hvac_systems))
+                if hvac_system_list:
+                    hvac_system = hvac_system_list[0]
+                else:
+                    hvac_system = {'id': hvac_name}
+#                hvac_system = {'id': hvac_name}
                 if heating_system:
                     hvac_system['heating_system'] = heating_system
                 if cooling_system:
@@ -1013,7 +1011,8 @@ class Translator:
                     metric_types.append('THERMAL_EFFICIENCY')
                     metric_values.append(coil_efficiency['nominal_eff'])
 
-        return  metric_types, metric_values
+        return metric_types, metric_values
+
     def add_chillers(self):
         chillers = []
         tabular_reports = self.json_results_object['TabularReports']
