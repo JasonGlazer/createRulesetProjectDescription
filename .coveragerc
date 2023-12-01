@@ -2,5 +2,6 @@
 source = energyplus_rmd
 
 [report]
+show_missing = True
 omit =
   energyplus_rmd/runner.py
