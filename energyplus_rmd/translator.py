@@ -821,6 +821,8 @@ class Translator:
         heating_coil_efficiencies = self.gather_heating_coil_efficiencies()
         equipment_fans = self.gather_equipment_fans()
         coils_table = self.get_table('CoilSizingDetails', 'Coils')
+        if not coils_table:
+            return hvac_systems
         rows = coils_table['Rows']
         row_keys = list(rows.keys())
         cols = coils_table['Cols']
@@ -960,6 +962,8 @@ class Translator:
     def gather_coil_connections(self):
         connection_by_coil = {}
         table = self.get_table('CoilSizingDetails', 'Coil Connections')
+        if not table:
+            return connection_by_coil
         rows = table['Rows']
         row_keys = list(rows.keys())
         cols = table['Cols']
@@ -974,6 +978,8 @@ class Translator:
     def gather_cooling_coil_efficiencies(self):
         coil_efficiencies = {}
         cooling_coils_table = self.get_table('EquipmentSummary', 'Cooling Coils')
+        if not cooling_coils_table:
+            return coil_efficiencies
         cooling_coils_rows = cooling_coils_table['Rows']
         row_keys = list(cooling_coils_rows.keys())
         cooling_coils_cols = cooling_coils_table['Cols']
@@ -1041,6 +1047,8 @@ class Translator:
     def gather_heating_coil_efficiencies(self):
         coil_efficiencies = {}
         heating_coils_table = self.get_table('EquipmentSummary', 'Heating Coils')
+        if not heating_coils_table:
+            return coil_efficiencies
         heating_coils_rows = heating_coils_table['Rows']
         coil_row_keys = list(heating_coils_rows.keys())
         heating_coils_cols = heating_coils_table['Cols']
@@ -1102,6 +1110,8 @@ class Translator:
     def gather_equipment_fans(self):
         equipment_fans = {}
         table = self.get_table('EquipmentSummary', 'Fans')
+        if not table:
+            return equipment_fans
         rows = table['Rows']
         coil_row_keys = list(rows.keys())
         cols = table['Cols']

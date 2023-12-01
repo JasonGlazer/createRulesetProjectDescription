@@ -17,7 +17,7 @@ class TestValidator(TestCase):
         v = Validator()
         passed, message = v.validate_rmd(test2)
         self.assertFalse(passed)
-        self.assertEqual(message, "invalid: 'id' is a required property")
+        self.assertEqual(message, "invalid: 'id' is a required property at $")
 
     def test_is_in_901_enumeration(self):
         v = Validator()

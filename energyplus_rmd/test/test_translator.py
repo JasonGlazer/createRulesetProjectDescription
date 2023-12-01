@@ -1310,7 +1310,7 @@ class TestTranslator(TestCase):
 
         self.assertFalse(t.are_shadows_cast_from_surfaces())
 
-    def test_add_simple_hvac(self):
+    def test_add_heating_ventilation_system(self):
         t = self.set_minimal_files()
 
         t.json_results_object['TabularReports'] = [
@@ -1332,7 +1332,14 @@ class TestTranslator(TestCase):
                              "Autosized Coil Water Flow?",
                              "OA Pretreated prior to coil inlet?",
                              "Coil Final Gross Total Capacity [W]",
-                             "Coil Final Gross Sensible Capacity [W]"
+                             "Coil Final Gross Sensible Capacity [W]",
+
+                             "Coil Total Capacity at Rating Conditions [W]",
+                             "Coil Sensible Capacity at Rating Conditions [W]",
+                             "Coil Total Capacity at Ideal Loads Peak [W]",
+                             "Autosized Coil Capacity?",
+                             "Coil Leaving Air Drybulb at Rating Conditions [C]",
+                             "Supply Fan Name for Coil",
                          ],
                          "Rows": {
                              "5 ZONE PVAV 1 2SPD DX CLG COIL 320KBTU/HR 9.8EER": [
@@ -1350,6 +1357,12 @@ class TestTranslator(TestCase):
                                  "No",
                                  "98149.824",
                                  "78534.220",
+                                 "12345.67",
+                                 "12345.67",
+                                 "12345.67",
+                                 "Yes",
+                                 "25.0",
+                                 "Fan1"
                              ],
                              "PERIMETER_MID_ZN_1 ZN ELECTRIC REHEAT COIL": [
                                  "Coil:Heating:Electric",
@@ -1366,6 +1379,12 @@ class TestTranslator(TestCase):
                                  "No",
                                  "11828.176",
                                  "11828.176",
+                                 "12345.67",
+                                 "12345.67",
+                                 "12345.67",
+                                 "Yes",
+                                 "25.0",
+                                 "Fan1",
                              ]
                          },
                          "TableName": "Coils"
@@ -1374,14 +1393,19 @@ class TestTranslator(TestCase):
              }
         ]
 
-        added_hvac_systems, added_terminals_by_zone = t.add_simple_hvac()
+        added_hvac_systems, added_terminals_by_zone = t.add_heating_ventilation_system()
 
         expected_hvac = [{
             'id': '5 ZONE PVAV 1',
             'cooling_system': {
                 'id': '5 ZONE PVAV 1-cooling',
+                'is_autosized': True,
+                'oversizing_factor': 7.950141547603329,
                 'design_total_cool_capacity': 98149.824,
-                'design_sensible_cool_capacity': 78534.22
+                'design_sensible_cool_capacity': 78534.22,
+                'rated_sensible_cool_capacity': 12345.67,
+                'rated_total_cool_capacity': 12345.67,
+                'type': 'DIRECT_EXPANSION',
             }
         }]
 
