@@ -5012,8 +5012,8 @@ HeatingVentilatingAirConditioningSystem:
       EPout File: "table.html"
       EPout Report: "Coil Sizing Details"
       EPout Table: "Coils"
-      EPout Column: "HVAC Name"
-      EPstatus: "NotStarted"
+      EPout Column: "Supply Fan Name for Coil"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     heating_system:
       Description: "Heating system"
@@ -7131,7 +7131,7 @@ Terminal:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "New report Equipment Summary - AirTerminals"
     reporting_name:
       Description: "Descriptive name used in RCT reports if id is not already a descriptive name"

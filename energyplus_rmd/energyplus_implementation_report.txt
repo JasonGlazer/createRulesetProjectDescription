@@ -1,5 +1,5 @@
 ============= Generated Report ==============
-Updated at: 2023-12-01 09:57:27.745946 
+Updated at: 2023-12-01 10:26:33.212276 
 
 RulesetProjectDescription  #elements: 10
   note    DoneUsingConstant        id
@@ -313,12 +313,12 @@ HeatingVentilatingAirConditioningSystem  #elements: 8
   note    DoneUsingOutput          id
   null    NotRequired              reporting_name
   null    NotRequired              notes
-  inout   NotStarted               fan_system
+  inout   DoneUsingOutput          fan_system
   inout   DoneUsingOutput          heating_system
   inout   DoneUsingOutput          cooling_system
   inout   NotStarted               preheat_system
   note    NotStarted               status_type
-  counts:  {'inout ': 4, 'input ': 0, 'output': 0, 'note  ': 2, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 3, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 3, 'ToDo': 0} 
+  counts:  {'inout ': 4, 'input ': 0, 'output': 0, 'note  ': 2, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 4, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 2, 'ToDo': 0} 
 
 HeatingSystem  #elements: 18
   inout   DoneUsingOutput          id
@@ -437,7 +437,7 @@ FanOutputValidationPoint  #elements: 2
   counts:  {'inout ': 0, 'input ': 2, 'output': 0, 'note  ': 0, 'null  ': 0} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 2, 'ToDo': 0} 
 
 Terminal  #elements: 24
-  input   NotStarted               id
+  input   DoneUsingOutput          id
   null    NotRequired              reporting_name
   null    NotRequired              notes
   input   NotStarted               type
@@ -461,7 +461,7 @@ Terminal  #elements: 24
   inout   NotStarted               cooling_capacity
   note    NotStarted               is_supply_ducted
   inout   NotStarted               has_demand_control_ventilation
-  counts:  {'inout ': 3, 'input ': 15, 'output': 1, 'note  ': 3, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 22, 'ToDo': 0} 
+  counts:  {'inout ': 3, 'input ': 15, 'output': 1, 'note  ': 3, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 1, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 21, 'ToDo': 0} 
 
 FluidLoop  #elements: 8
   inout   NotStarted               id
