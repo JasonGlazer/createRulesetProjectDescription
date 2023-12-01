@@ -34,7 +34,8 @@ def heating_type_convert(coil_type):
                 'COIL:HEATING:GAS:MULTISTAGE': 'FURNACE',
                 'COIL:HEATING:DX:SINGLESPEED': 'HEAT_PUMP',
                 'COIL:HEATING:DX:MULTISPEED': 'HEAT_PUMP',
-                'COIL:HEATING:DX:VARIABLESPEED': 'HEAT_PUMP'}
+                'COIL:HEATING:DX:VARIABLESPEED': 'HEAT_PUMP',
+                'COIL:HEATING:WATERTOAIRHEATPUMP:EQUATIONFIT': 'FLUID_LOOP'}
     return coil_map[coil_type.upper()]
 
 
@@ -881,8 +882,9 @@ class Translator:
                     if leaving_drybulb != -999:
                         heating_system['heating_coil_setpoint'] = leaving_drybulb
                     metric_types, metric_values = self.process_heating_metrics(row_key, heating_coil_efficiencies)
-                    heating_system['efficiency_metric_values'] = metric_values
-                    heating_system['efficiency_metric_types'] = metric_types
+                    if metric_values:
+                        heating_system['efficiency_metric_values'] = metric_values
+                        heating_system['efficiency_metric_types'] = metric_types
                     if 'minimum_temperature_compressor' in heating_coil_efficiencies[row_key]:
                         heating_system['heatpump_low_shutoff_temperature'] = heating_coil_efficiencies[row_key][
                             'minimum_temperature_compressor']
@@ -894,15 +896,15 @@ class Translator:
                     if rated_capacity != -999:
                         cooling_system['rated_total_cool_capacity'] = rated_capacity
                     if rated_sensible_capacity != -999:
-                        cooling_system['rated_sensible_cool_capacity '] = rated_sensible_capacity
+                        cooling_system['rated_sensible_cool_capacity'] = rated_sensible_capacity
                     cooling_system['oversizing_factor'] = oversize_ratio
                     cooling_system['is_autosized'] = is_autosized_coil == 'Yes'
                     if 'WATER' in coil_type.upper():
                         cooling_system['chilled_water_loop'] = coil_connections[row_key]['plant_loop_name']
                     metric_types, metric_values = self.process_cooling_metrics(row_key, cooling_coil_efficiencies)
-                    cooling_system['efficiency_metric_values'] = metric_values
-                    cooling_system['efficiency_metric_types'] = metric_types
-
+                    if metric_values:
+                        cooling_system['efficiency_metric_values'] = metric_values
+                        cooling_system['efficiency_metric_types'] = metric_types
                 hvac_system_list = list(filter(lambda x: (x['id'] == hvac_name), hvac_systems))
                 if hvac_system_list:
                     hvac_system = hvac_system_list[0]
@@ -961,38 +963,42 @@ class Translator:
         nominal_efficiency_column = cooling_coils_cols.index('Nominal Efficiency [W/W]')
         for row_key in row_keys:
             coil_type = cooling_coils_rows[row_key][type_column]
-            nominal_efficiency = float(cooling_coils_rows[row_key][nominal_efficiency_column])
-            coil_efficiency = {'type': coil_type,
-                               'nominal_eff': nominal_efficiency}
+            coil_efficiency = {'type': coil_type}
+            nominal_efficiency_string = cooling_coils_rows[row_key][nominal_efficiency_column]
+            if nominal_efficiency_string.isnumeric():
+                nominal_efficiency = float(nominal_efficiency_string)
+                coil_efficiency[row_key]['nominal_eff'] = nominal_efficiency
             coil_efficiencies[row_key] = coil_efficiency
         dx_2017_table = self.get_table('EquipmentSummary', 'DX Cooling Coil Standard Ratings 2017')
         dx_2017_rows = dx_2017_table['Rows']
         dx_2017_row_keys = list(dx_2017_rows.keys())
-        assert dx_2017_row_keys == row_keys
         dx_2017_cols = dx_2017_table['Cols']
         net_cop_2017_column = dx_2017_cols.index('Standard Rated Net COP [W/W] #2')
         eer_2017_column = dx_2017_cols.index('EER [Btu/W-h] #2')
         seer_2017_column = dx_2017_cols.index('SEER Standard [Btu/W-h] #2,3')
         ieer_2017_column = dx_2017_cols.index('IEER [Btu/W-h] #2')
         for row_key in row_keys:
-            coil_efficiencies[row_key]['StandardRatedNetCOP2017'] = float(dx_2017_rows[row_key][net_cop_2017_column])
-            coil_efficiencies[row_key]['EER2017'] = float(dx_2017_rows[row_key][eer_2017_column])
-            coil_efficiencies[row_key]['SEER2017'] = float(dx_2017_rows[row_key][seer_2017_column])
-            coil_efficiencies[row_key]['IEER2017'] = float(dx_2017_rows[row_key][ieer_2017_column])
+            if row_key in dx_2017_row_keys:
+                coil_efficiencies[row_key]['StandardRatedNetCOP2017'] = float(
+                    dx_2017_rows[row_key][net_cop_2017_column])
+                coil_efficiencies[row_key]['EER2017'] = float(dx_2017_rows[row_key][eer_2017_column])
+                coil_efficiencies[row_key]['SEER2017'] = float(dx_2017_rows[row_key][seer_2017_column])
+                coil_efficiencies[row_key]['IEER2017'] = float(dx_2017_rows[row_key][ieer_2017_column])
         dx_2023_table = self.get_table('EquipmentSummary', 'DX Cooling Coil Standard Ratings 2023')
         dx_2023_rows = dx_2023_table['Rows']
         dx_2023_row_keys = list(dx_2023_rows.keys())
-        assert dx_2023_row_keys == row_keys
         dx_2023_cols = dx_2023_table['Cols']
         net_cop_2023_column = dx_2023_cols.index('Standard Rated Net COP [W/W] #2,4')
         eer_2023_column = dx_2023_cols.index('EER [Btu/W-h] #2,4')
         seer_2023_column = dx_2023_cols.index('SEER Standard [Btu/W-h] #2,3')
         ieer_2023_column = dx_2023_cols.index('IEER [Btu/W-h] #2')
         for row_key in row_keys:
-            coil_efficiencies[row_key]['StandardRatedNetCOP2023'] = float(dx_2023_rows[row_key][net_cop_2023_column])
-            coil_efficiencies[row_key]['EER2023'] = float(dx_2023_rows[row_key][eer_2023_column])
-            coil_efficiencies[row_key]['SEER2023'] = float(dx_2023_rows[row_key][seer_2023_column])
-            coil_efficiencies[row_key]['IEER2023'] = float(dx_2023_rows[row_key][ieer_2023_column])
+            if row_key in dx_2023_row_keys:
+                coil_efficiencies[row_key]['StandardRatedNetCOP2023'] = float(
+                    dx_2023_rows[row_key][net_cop_2023_column])
+                coil_efficiencies[row_key]['EER2023'] = float(dx_2023_rows[row_key][eer_2023_column])
+                coil_efficiencies[row_key]['SEER2023'] = float(dx_2023_rows[row_key][seer_2023_column])
+                coil_efficiencies[row_key]['IEER2023'] = float(dx_2023_rows[row_key][ieer_2023_column])
         return coil_efficiencies
 
     def process_cooling_metrics(self, coil_name, coil_efficiencies):
@@ -1025,11 +1031,13 @@ class Translator:
         used_as_sup_heat_column = heating_coils_cols.index('Used as Supplementary Heat')
         for row_key in coil_row_keys:
             coil_type = heating_coils_rows[row_key][type_column]
-            nominal_efficiency = float(heating_coils_rows[row_key][nominal_efficiency_column])
             used_as_sup_heat = 'Y' in heating_coils_rows[row_key][used_as_sup_heat_column]
             coil_efficiency = {'type': coil_type,
-                               'nominal_eff': nominal_efficiency,
                                'used_as_sup_heat': used_as_sup_heat}
+            nominal_efficiency_string = heating_coils_rows[row_key][nominal_efficiency_column]
+            if nominal_efficiency_string.isnumeric():
+                nominal_efficiency = float(nominal_efficiency_string)
+                coil_efficiency[row_key]['nominal_eff'] = nominal_efficiency
             coil_efficiencies[row_key] = coil_efficiency
         dx_table = self.get_table('EquipmentSummary', 'DX Heating Coils')
         dx_rows = dx_table['Rows']
