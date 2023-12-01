@@ -835,6 +835,7 @@ class Translator:
         ideal_load_peak_column = cols.index('Coil Total Capacity at Ideal Loads Peak [W]')
         is_autosized_coil_column = cols.index('Autosized Coil Capacity?')
         leaving_drybulb_column = cols.index('Coil Leaving Air Drybulb at Rating Conditions [C]')
+        supply_fan_name_for_coil_column = cols.index('Supply Fan Name for Coil')
         terminal_capacity_by_zone = dict()
         for row_key in row_keys:
             hvac_type = rows[row_key][hvac_type_column]
@@ -860,6 +861,7 @@ class Translator:
             ideal_load_peak = float(rows[row_key][ideal_load_peak_column])
             is_autosized_coil = rows[row_key][is_autosized_coil_column]
             leaving_drybulb = float(rows[row_key][leaving_drybulb_column])
+            supply_fan_name_for_coil = rows[row_key][supply_fan_name_for_coil_column]
             if sensible_capacity == -999:
                 sensible_capacity = 0  # removes error but not sure if this makes sense
             oversize_ratio = 1.
@@ -915,6 +917,22 @@ class Translator:
                     hvac_system['heating_system'] = heating_system
                 if cooling_system:
                     hvac_system['cooling_system'] = cooling_system
+                # add the fansystem
+                if supply_fan_name_for_coil != 'unknown':
+                    if supply_fan_name_for_coil in equipment_fans:
+                        fan = {'id': supply_fan_name_for_coil}
+                        equipment_fan, equipment_fan_extra = equipment_fans[supply_fan_name_for_coil]
+                        fan.update(equipment_fan)
+                        fan['specification_method'] = 'SIMPLE'
+                        fans = [fan, ]
+                        fan_system = {'id': supply_fan_name_for_coil + '-fansystem',
+                                      'supply_fans': fans}
+                        # note cannot differentiate between different types of variables flow fan (INLET_VANE,
+                        # DISCHARGE_DAMPER, or VARIABLE_SPEED_DRIVE) so can only see if constant or not
+                        if 'type' in equipment_fan_extra:
+                            if 'variable' not in equipment_fan_extra['type'].lower():
+                                fan_system['fan_control'] = 'CONSTANT'
+                        hvac_system['fan_system'] = fan_system
                 # print(hvac_system)
                 hvac_systems.append(hvac_system)
                 for zone in zone_name_list:
@@ -1120,12 +1138,12 @@ class Translator:
                              'total_efficiency': total_efficiency,
                              'motor_efficiency': motor_eff,
                              'motor_heat_to_airflow_fraction': motor_heat_in_air,
-                             'motor_heat_to_zone_fraction': motor_heat_to_zone,
-                             'extra_type': type,
-                             'extra_fan_energy_index': fan_energy_index,
-                             'extra_purpose': purpose,
-                             'extra_airloop_name': airloop_name}
-            equipment_fans[row_key] = equipment_fan
+                             'motor_heat_to_zone_fraction': motor_heat_to_zone}
+            fan_extra = {'type': type,
+                         'fan_energy_index': fan_energy_index,
+                         'purpose': purpose,
+                         'airloop_name': airloop_name}
+            equipment_fans[row_key] = (equipment_fan, fan_extra)
         return equipment_fans
 
     def add_chillers(self):

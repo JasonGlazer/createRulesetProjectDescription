@@ -1,5 +1,5 @@
 ============= Generated Report ==============
-Updated at: 2023-12-01 06:34:00.723267 
+Updated at: 2023-12-01 09:57:27.745946 
 
 RulesetProjectDescription  #elements: 10
   note    DoneUsingConstant        id
@@ -361,10 +361,10 @@ CoolingSystem  #elements: 16
   counts:  {'inout ': 7, 'input ': 2, 'output': 5, 'note  ': 0, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 11, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 3, 'ToDo': 0} 
 
 FanSystem  #elements: 26
-  inout   NotStarted               id
+  inout   DoneUsingOutput          id
   null    NotRequired              reporting_name
   null    NotRequired              notes
-  inout   NotStarted               supply_fans
+  inout   DoneUsingOutput          supply_fans
   input   NotStarted               return_fans
   inout   NotStarted               exhaust_fans
   input   NotStarted               relief_fans
@@ -374,7 +374,7 @@ FanSystem  #elements: 26
   note    NotStarted               operation_during_occupied
   note    NotStarted               operation_during_unoccupied
   note    NotStarted               has_lock_out_central_heat_during_unoccupied
-  inout   NotStarted               fan_control
+  inout   PartialUsingOutput       fan_control
   input   NotStarted               reset_differential_temperature
   input   NotStarted               supply_air_temperature_reset_load_fraction
   input   NotStarted               supply_air_temperature_reset_schedule
@@ -387,7 +387,7 @@ FanSystem  #elements: 26
   note    NotStarted               air_filter_merv_rating
   note    NotStarted               has_fully_ducted_return
   inout   NotStarted               demand_control_ventilation_control
-  counts:  {'inout ': 7, 'input ': 7, 'output': 3, 'note  ': 7, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 24, 'ToDo': 0} 
+  counts:  {'inout ': 7, 'input ': 7, 'output': 3, 'note  ': 7, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 2, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 1, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 21, 'ToDo': 0} 
 
 AirEconomizer  #elements: 5
   inout   NotStarted               id
@@ -412,24 +412,24 @@ AirEnergyRecovery  #elements: 11
   counts:  {'inout ': 4, 'input ': 4, 'output': 0, 'note  ': 1, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 9, 'ToDo': 0} 
 
 Fan  #elements: 17
-  inout   NotStarted               id
+  inout   DoneUsingOutput          id
   null    NotRequired              reporting_name
   null    NotRequired              notes
-  inout   NotStarted               design_airflow
-  input   NotStarted               is_airflow_autosized
-  note    NotStarted               specification_method
-  inout   NotStarted               design_electric_power
-  inout   NotStarted               design_pressure_rise
+  inout   DoneUsingOutput          design_airflow
+  inout   DoneUsingOutput          is_airflow_autosized
+  note    DoneUsingOutput          specification_method
+  inout   DoneUsingOutput          design_electric_power
+  inout   DoneUsingOutput          design_pressure_rise
   note    NotStarted               motor_nameplate_power
   note    NotStarted               shaft_power
-  inout   NotStarted               total_efficiency
-  input   NotStarted               motor_efficiency
-  inout   NotStarted               motor_heat_to_airflow_fraction
-  input   NotStarted               motor_heat_to_zone_fraction
+  inout   DoneUsingOutput          total_efficiency
+  inout   DoneUsingOutput          motor_efficiency
+  inout   DoneUsingOutput          motor_heat_to_airflow_fraction
+  inout   DoneUsingOutput          motor_heat_to_zone_fraction
   input   NotStarted               motor_location_zone
   note    NotStarted               status_type
   input   NotStarted               output_validation_points
-  counts:  {'inout ': 6, 'input ': 5, 'output': 0, 'note  ': 4, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 15, 'ToDo': 0} 
+  counts:  {'inout ': 9, 'input ': 2, 'output': 0, 'note  ': 4, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 10, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 5, 'ToDo': 0} 
 
 FanOutputValidationPoint  #elements: 2
   input   NotStarted               airflow
