@@ -704,17 +704,26 @@ class Translator:
         schedules = []
         for schedule_name, count in selected_names.items():
             hourly = []
+            design_heating_hourly = []
+            design_cooling_hourly = []
             for row in rows:
                 timestamp = list(row.keys())[0]
                 values_at_time_step = row[timestamp]
                 hourly.append(values_at_time_step[count])
-            if len(hourly) != 8760:
-                print(f'The hourly schedule: {schedule_name} does not have 8760 values as expected. '
-                      f'Only {len(hourly)} values found')
+            if len(hourly) < 8760:
+                print(f'The hourly schedule: {schedule_name} has less than the 8760 values expected. '
+                      f'{len(hourly)} values found')
+            if len(hourly) == 8808:
+                # In this scenario, we have two sizing day data in the schedule. Take them out.
+                design_cooling_hourly = hourly[:24]
+                design_heating_hourly = hourly[24:48]
+                hourly = hourly[48:]
             schedule = {
                 'id': schedule_name,
                 'sequence_type': 'HOURLY',
-                'hourly_values': hourly
+                'hourly_values': hourly,
+                'hourly_heating_design_day': design_heating_hourly,
+                'hourly_cooling_design_day': design_cooling_hourly,
             }
             schedules.append(schedule)
         self.model_description['schedules'] = schedules
