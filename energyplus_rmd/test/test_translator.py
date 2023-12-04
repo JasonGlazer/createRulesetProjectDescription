@@ -1443,6 +1443,9 @@ class TestTranslator(TestCase):
         self.assertEqual(_id + '~~~00000003', t.replace_serial_number(_id))
         self.assertEqual(_id + '~~~00000004', t.replace_serial_number(_id))
 
+        self.assertEqual(_id + '~~~00000005', t.replace_serial_number(_id + '~~~00000004'))
+
+
     def test_add_serial_number_nested(self):
         t = self.set_minimal_files()
 
