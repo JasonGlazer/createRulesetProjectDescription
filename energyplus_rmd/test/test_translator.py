@@ -1646,3 +1646,69 @@ class TestTranslator(TestCase):
                      'design_water_flowrate': 20.0, 'leaving_water_setpoint_temperature': 0.0, 'approach': 12.0}]
 
         self.assertEqual(added_heat_rejection, expected)
+
+    def test_add_boilers(self):
+        t = self.set_minimal_files()
+
+        t.json_results_object['TabularReports'] = [
+            {
+                "For": "Entire Facility",
+                "ReportName": "EquipmentSummary",
+                "Tables": [
+                    {
+                        "Cols": [
+                            "Type",
+                            "Reference Capacity [W]",
+                            "Reference Efficiency[W/W]",
+                            "Rated Capacity [W]",
+                            "Rated Efficiency [W/W]",
+                            "Minimum Part Load Ratio",
+                            "Fuel Type",
+                            "Parasitic Electric Load [W]",
+                            "Plantloop Name",
+                            "Plantloop Branch Name"
+                        ],
+                        "Rows": {
+                            "BOILER 5939KBTU/HR 0.75 THERMAL EFF": [
+                                "Boiler:HotWater",
+                                "1891644.33",
+                                "0.75",
+                                "1891644.33",
+                                "0.75",
+                                "0.00",
+                                "NaturalGas",
+                                "0.00",
+                                "HOT WATER LOOP",
+                                "HOT WATER LOOP SUPPLY BRANCH 1"
+                            ],
+                            "HEAT PUMP LOOP SUPPLEMENTAL BOILER 2669KBTU/HR 0.75 THERMAL EFF": [
+                                "Boiler:HotWater",
+                                "715840.29",
+                                "0.75",
+                                "715840.29",
+                                "0.75",
+                                "0.00",
+                                "NaturalGas",
+                                "0.00",
+                                "HEAT PUMP LOOP",
+                                "HEAT PUMP LOOP SUPPLY BRANCH 2"
+                            ]
+                        },
+                        "TableName": "Boilers"
+                    }
+                ]
+            },
+        ]
+
+        added_boilers = t.add_boilers()
+
+        expected = [
+            {'id': 'BOILER 5939KBTU/HR 0.75 THERMAL EFF', 'loop': 'HOT WATER LOOP', 'design_capacity': 1891644.33,
+             'rated_capacity': 1891644.33, 'minimum_load_ratio': 0.0, 'energy_source_type': 'NATURAL_GAS',
+             'efficiency_metric': 'THERMAL', 'efficiency': 0.75, 'auxiliary_power': 0.0},
+            {'id': 'HEAT PUMP LOOP SUPPLEMENTAL BOILER 2669KBTU/HR 0.75 THERMAL EFF', 'loop': 'HEAT PUMP LOOP',
+             'design_capacity': 715840.29, 'rated_capacity': 715840.29, 'minimum_load_ratio': 0.0,
+             'energy_source_type': 'NATURAL_GAS', 'efficiency_metric': 'THERMAL', 'efficiency': 0.75,
+             'auxiliary_power': 0.0}]
+
+        self.assertEqual(added_boilers, expected)
