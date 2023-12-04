@@ -1478,3 +1478,124 @@ class TestTranslator(TestCase):
 
         t.ensure_all_id_unique()
         self.assertEqual(t.model_description, out_dict)
+
+
+    def test_add_pumps(self):
+        t = self.set_minimal_files()
+
+        t.json_results_object['TabularReports'] = [
+            {
+                "For": "Entire Facility",
+                "ReportName": "EquipmentSummary",
+                "Tables": [
+                    {
+                        "Cols": [
+                            "Type",
+                            "Control",
+                            "Head [pa]",
+                            "Water Flow [m3/s]",
+                            "Electricity Rate [W]",
+                            "Power Per Water Flow Rate [W-s/m3]",
+                            "Motor Efficiency [W/W]",
+                            "End Use Subcategory",
+                            "Is Autosized",
+                            "Plantloop Name",
+                            "Plantloop Branch Name"
+                        ],
+                        "Rows": {
+                            "90.1-PRM-2019 WATERCOOLED  ROTARY SCREW CHILLER 0 1 PRIMARY PUMP": [
+                                "Pump:ConstantSpeed",
+                                "Intermittent",
+                                "21635.69",
+                                "0.066094",
+                                "2095.21",
+                                "31700.65",
+                                "0.88",
+                                "General",
+                                "Yes",
+                                "CHILLED WATER LOOP_PRIMARY",
+                                "CHILLED WATER LOOP_PRIMARY SUPPLY BRANCH 3"
+                            ],
+                            "90.1-PRM-2019 WATERCOOLED  ROTARY SCREW CHILLER 0 PRIMARY PUMP": [
+                                "Pump:ConstantSpeed",
+                                "Intermittent",
+                                "44260.44",
+                                "0.066094",
+                                "4190.42",
+                                "63401.29",
+                                "0.90",
+                                "General",
+                                "Yes",
+                                "CHILLED WATER LOOP_PRIMARY",
+                                "CHILLED WATER LOOP_PRIMARY SUPPLY BRANCH 1"
+                            ],
+                            "CHILLED WATER LOOP PUMP": [
+                                "Pump:VariableSpeed",
+                                "Intermittent",
+                                "134508.01",
+                                "0.018160",
+                                "3479.58",
+                                "191606.85",
+                                "0.90",
+                                "General",
+                                "Yes",
+                                "CHILLED WATER LOOP",
+                                "CHILLED WATER LOOP DEMAND INLET BRANCH"
+                            ],
+                            "CONDENSER WATER LOOP CONSTANT PUMP BANK OF 2": [
+                                "HeaderedPumps:ConstantSpeed",
+                                "Intermittent",
+                                "219868.07",
+                                "0.210916",
+                                "63518.60",
+                                "301156.14",
+                                "0.94",
+                                "General",
+                                "Yes",
+                                "CONDENSER WATER LOOP",
+                                "CONDENSER WATER LOOP SUPPLY INLET BRANCH"
+                            ],
+                            "MAIN SERVICE WATER LOOP CIRCULATOR PUMP": [
+                                "Pump:ConstantSpeed",
+                                "Intermittent",
+                                "29891.00",
+                                "0.000439",
+                                "20.40",
+                                "46450.66",
+                                "0.82",
+                                "General",
+                                "Yes",
+                                "SERVICE WATER HEATING LOOP",
+                                "SERVICE WATER HEATING LOOP SUPPLY INLET BRANCH"
+                            ]
+                        },
+                        "TableName": "Pumps"
+                    },
+                ]
+            },
+        ]
+
+        added_pumps = t.add_pumps()
+
+        expected = [{'id': '90.1-PRM-2019 WATERCOOLED  ROTARY SCREW CHILLER 0 1 PRIMARY PUMP',
+                     'loop_or_piping': 'CHILLED WATER LOOP_PRIMARY', 'specification_method': 'SIMPLE',
+                     'design_electric_power': 2095.21, 'design_head': 21635.69, 'motor_efficiency': 0.88,
+                     'speed_control': 'FIXED_SPEED', 'design_flow': 66.094, 'is_flow_autosized': True},
+                    {'id': '90.1-PRM-2019 WATERCOOLED  ROTARY SCREW CHILLER 0 PRIMARY PUMP',
+                     'loop_or_piping': 'CHILLED WATER LOOP_PRIMARY', 'specification_method': 'SIMPLE',
+                     'design_electric_power': 4190.42, 'design_head': 44260.44, 'motor_efficiency': 0.9,
+                     'speed_control': 'FIXED_SPEED', 'design_flow': 66.094, 'is_flow_autosized': True},
+                    {'id': 'CHILLED WATER LOOP PUMP', 'loop_or_piping': 'CHILLED WATER LOOP',
+                     'specification_method': 'SIMPLE', 'design_electric_power': 3479.58, 'design_head': 134508.01,
+                     'motor_efficiency': 0.9, 'speed_control': 'FIXED_SPEED', 'design_flow': 18.16,
+                     'is_flow_autosized': True},
+                    {'id': 'CONDENSER WATER LOOP CONSTANT PUMP BANK OF 2', 'loop_or_piping': 'CONDENSER WATER LOOP',
+                     'specification_method': 'SIMPLE', 'design_electric_power': 63518.6, 'design_head': 219868.07,
+                     'motor_efficiency': 0.94, 'speed_control': 'FIXED_SPEED', 'design_flow': 210.916,
+                     'is_flow_autosized': True},
+                    {'id': 'MAIN SERVICE WATER LOOP CIRCULATOR PUMP', 'loop_or_piping': 'SERVICE WATER HEATING LOOP',
+                     'specification_method': 'SIMPLE', 'design_electric_power': 20.4, 'design_head': 29891.0,
+                     'motor_efficiency': 0.82, 'speed_control': 'FIXED_SPEED', 'design_flow': 0.439,
+                     'is_flow_autosized': True}]
+
+        self.assertEqual(added_pumps, expected)
