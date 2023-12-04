@@ -67,6 +67,12 @@ def source_from_coil(coil_type):
         source = 'NATURAL_GAS'
     return source
 
+def is_float(string):
+    try:
+        float(string)
+        return True
+    except ValueError:
+        return False
 
 class Translator:
     """This class reads in the input files and does the heavy lifting to write output files"""
@@ -989,9 +995,9 @@ class Translator:
             coil_type = cooling_coils_rows[row_key][type_column]
             coil_efficiency = {'type': coil_type}
             nominal_efficiency_string = cooling_coils_rows[row_key][nominal_efficiency_column]
-            if nominal_efficiency_string.isnumeric():
+            if is_float(nominal_efficiency_string):
                 nominal_efficiency = float(nominal_efficiency_string)
-                coil_efficiency[row_key]['nominal_eff'] = nominal_efficiency
+                coil_efficiency['nominal_eff'] = nominal_efficiency
             coil_efficiencies[row_key] = coil_efficiency
         dx_2017_table = self.get_table('EquipmentSummary', 'DX Cooling Coil Standard Ratings 2017')
         dx_2017_rows = dx_2017_table['Rows']
@@ -1061,9 +1067,9 @@ class Translator:
             coil_efficiency = {'type': coil_type,
                                'used_as_sup_heat': used_as_sup_heat}
             nominal_efficiency_string = heating_coils_rows[row_key][nominal_efficiency_column]
-            if nominal_efficiency_string.isnumeric():
+            if is_float(nominal_efficiency_string):
                 nominal_efficiency = float(nominal_efficiency_string)
-                coil_efficiency[row_key]['nominal_eff'] = nominal_efficiency
+                coil_efficiency['nominal_eff'] = nominal_efficiency
             coil_efficiencies[row_key] = coil_efficiency
         dx_table = self.get_table('EquipmentSummary', 'DX Heating Coils')
         dx_rows = dx_table['Rows']
