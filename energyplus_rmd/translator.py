@@ -67,12 +67,14 @@ def source_from_coil(coil_type):
         source = 'NATURAL_GAS'
     return source
 
+
 def is_float(string):
     try:
         float(string)
         return True
     except ValueError:
         return False
+
 
 class Translator:
     """This class reads in the input files and does the heavy lifting to write output files"""
@@ -873,7 +875,7 @@ class Translator:
             if sensible_capacity == -999:
                 sensible_capacity = 0  # removes error but not sure if this makes sense
             oversize_ratio = 1.
-            if ideal_load_peak != -999:
+            if ideal_load_peak != -999 and ideal_load_peak != 0.:
                 oversize_ratio = total_capacity / ideal_load_peak
             heating_system = {}
             cooling_system = {}
@@ -1012,7 +1014,9 @@ class Translator:
                 coil_efficiencies[row_key]['StandardRatedNetCOP2017'] = float(
                     dx_2017_rows[row_key][net_cop_2017_column])
                 coil_efficiencies[row_key]['EER2017'] = float(dx_2017_rows[row_key][eer_2017_column])
-                coil_efficiencies[row_key]['SEER2017'] = float(dx_2017_rows[row_key][seer_2017_column])
+                seer2017_string = dx_2017_rows[row_key][seer_2017_column]
+                if seer2017_string != 'N/A':
+                    coil_efficiencies[row_key]['SEER2017'] = float(seer2017_string)
                 coil_efficiencies[row_key]['IEER2017'] = float(dx_2017_rows[row_key][ieer_2017_column])
         dx_2023_table = self.get_table('EquipmentSummary', 'DX Cooling Coil Standard Ratings 2023')
         dx_2023_rows = dx_2023_table['Rows']
@@ -1027,7 +1031,9 @@ class Translator:
                 coil_efficiencies[row_key]['StandardRatedNetCOP2023'] = float(
                     dx_2023_rows[row_key][net_cop_2023_column])
                 coil_efficiencies[row_key]['EER2023'] = float(dx_2023_rows[row_key][eer_2023_column])
-                coil_efficiencies[row_key]['SEER2023'] = float(dx_2023_rows[row_key][seer_2023_column])
+                seer2023_string = dx_2023_rows[row_key][seer_2023_column]
+                if seer2023_string != 'N/A':
+                    coil_efficiencies[row_key]['SEER2023'] = float(seer2023_string)
                 coil_efficiencies[row_key]['IEER2023'] = float(dx_2023_rows[row_key][ieer_2023_column])
         return coil_efficiencies
 
