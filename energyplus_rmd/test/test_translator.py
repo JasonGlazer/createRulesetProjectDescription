@@ -1712,3 +1712,113 @@ class TestTranslator(TestCase):
              'auxiliary_power': 0.0}]
 
         self.assertEqual(added_boilers, expected)
+
+    def test_add_chillers(self):
+        t = self.set_minimal_files()
+
+        t.json_results_object['TabularReports'] = [
+            {
+                "For": "Entire Facility",
+                "ReportName": "EquipmentSummary",
+                "Tables": [
+                    {
+                        "Cols": [
+                            "Type",
+                            "Reference Capacity[W]",
+                            "TypeReference Efficiency [W/W]",
+                            "Rated Capacity [W]",
+                            "Rated Efficiency [W/W]",
+                            "IPLV in SI Units [W/W]",
+                            "IPLV in IP Units [Btu/W-h]",
+                            "Minimum Part Load Ratio",
+                            "Fuel Type",
+                            "Rated Entering Condenser Temperature [C]",
+                            "Rated Leaving Evaporator Temperature [C]",
+                            "Reference Entering Condenser Temperature [C]",
+                            "Reference Leaving Evaporator Temperature [C]",
+                            "Design Size Reference Chilled Water Flow Rate [kg/s]",
+                            "Design Size Reference Condenser Fluid Flow Rate [kg/s]",
+                            "Plantloop Name",
+                            "Plantloop Branch Name",
+                            "Condenser Loop Name",
+                            "Condenser Loop Branch Name",
+                            "Heat Recovery Plantloop Name",
+                            "Heat Recovery Plantloop Branch Name",
+                            "Recovery Relative Capacity Fraction"
+                        ],
+                        "Rows": {
+                            "90.1-2004 WATERCOOLED  CENTRIFUGAL CHILLER 0 416TONS 0.6KW/TON": [
+                                "Chiller:Electric:EIR",
+                                "1762283.32",
+                                "6.10",
+                                "1762283.32",
+                                "6.10",
+                                "6.88",
+                                "6.92",
+                                "0.00",
+                                "Electricity",
+                                "35.00",
+                                "6.67",
+                                "35.00",
+                                "6.67",
+                                "74.82",
+                                "87.82",
+                                "CHILLED WATER LOOP",
+                                "CHILLED WATER LOOP SUPPLY BRANCH 1",
+                                "CONDENSER WATER LOOP",
+                                "CONDENSER WATER LOOP DEMAND BRANCH 2",
+                                "N/A",
+                                "N/A",
+                                "0.00"
+                            ],
+                            "90.1-2004 WATERCOOLED  CENTRIFUGAL CHILLER 1 416TONS 0.6KW/TON": [
+                                "Chiller:Electric:EIR",
+                                "1762283.32",
+                                "6.10",
+                                "1762283.32",
+                                "6.10",
+                                "6.88",
+                                "6.92",
+                                "0.00",
+                                "Electricity",
+                                "35.00",
+                                "6.67",
+                                "35.00",
+                                "6.67",
+                                "74.82",
+                                "87.82",
+                                "CHILLED WATER LOOP",
+                                "CHILLED WATER LOOP SUPPLY BRANCH 2",
+                                "CONDENSER WATER LOOP",
+                                "CONDENSER WATER LOOP DEMAND BRANCH 3",
+                                "N/A",
+                                "N/A",
+                                "0.00"
+                            ]
+                        },
+                        "TableName": "Chillers"
+                    },
+                ]
+            },
+        ]
+
+        added_chillers = t.add_chillers()
+
+        expected = [{'id': '90.1-2004 WATERCOOLED  CENTRIFUGAL CHILLER 0 416TONS 0.6KW/TON',
+                     'cooling_loop': 'CHILLED WATER LOOP', 'condensing_loop': 'CONDENSER WATER LOOP',
+                     'energy_source_type': 'ELECTRICITY', 'design_capacity': 1762283.32, 'rated_capacity': 1762283.32,
+                     'rated_entering_condenser_temperature': 35.0, 'rated_leaving_evaporator_temperature': 6.67,
+                     'minimum_load_ratio': 0.0, 'design_flow_evaporator': 74.82, 'design_flow_condenser': 87.82,
+                     'design_entering_condenser_temperature': 35.0, 'design_leaving_evaporator_temperature': 6.67,
+                     'full_load_efficiency': 6.1, 'part_load_efficiency': 6.88,
+                     'part_load_efficiency_metric': 'INTEGRATED_PART_LOAD_VALUE'},
+                    {'id': '90.1-2004 WATERCOOLED  CENTRIFUGAL CHILLER 1 416TONS 0.6KW/TON',
+                     'cooling_loop': 'CHILLED WATER LOOP', 'condensing_loop': 'CONDENSER WATER LOOP',
+                     'energy_source_type': 'ELECTRICITY', 'design_capacity': 1762283.32, 'rated_capacity': 1762283.32,
+                     'rated_entering_condenser_temperature': 35.0, 'rated_leaving_evaporator_temperature': 6.67,
+                     'minimum_load_ratio': 0.0, 'design_flow_evaporator': 74.82, 'design_flow_condenser': 87.82,
+                     'design_entering_condenser_temperature': 35.0, 'design_leaving_evaporator_temperature': 6.67,
+                     'full_load_efficiency': 6.1, 'part_load_efficiency': 6.88,
+                     'part_load_efficiency_metric': 'INTEGRATED_PART_LOAD_VALUE'}]
+
+        self.assertEqual(added_chillers, expected)
