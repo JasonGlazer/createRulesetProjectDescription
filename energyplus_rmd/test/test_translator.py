@@ -1445,7 +1445,6 @@ class TestTranslator(TestCase):
 
         self.assertEqual(_id + '~~~00000005', t.replace_serial_number(_id + '~~~00000004'))
 
-
     def test_add_serial_number_nested(self):
         t = self.set_minimal_files()
 
@@ -1478,7 +1477,6 @@ class TestTranslator(TestCase):
 
         t.ensure_all_id_unique()
         self.assertEqual(t.model_description, out_dict)
-
 
     def test_add_pumps(self):
         t = self.set_minimal_files()
@@ -1543,7 +1541,7 @@ class TestTranslator(TestCase):
                                 "CHILLED WATER LOOP DEMAND INLET BRANCH"
                             ],
                             "CONDENSER WATER LOOP CONSTANT PUMP BANK OF 2": [
-                                "HeaderedPumps:ConstantSpeed",
+                                "HeaderedPumps:VariableSpeed",
                                 "Intermittent",
                                 "219868.07",
                                 "0.210916",
@@ -1587,11 +1585,11 @@ class TestTranslator(TestCase):
                      'speed_control': 'FIXED_SPEED', 'design_flow': 66.094, 'is_flow_autosized': True},
                     {'id': 'CHILLED WATER LOOP PUMP', 'loop_or_piping': 'CHILLED WATER LOOP',
                      'specification_method': 'SIMPLE', 'design_electric_power': 3479.58, 'design_head': 134508.01,
-                     'motor_efficiency': 0.9, 'speed_control': 'FIXED_SPEED', 'design_flow': 18.16,
+                     'motor_efficiency': 0.9, 'speed_control': 'VARIABLE_SPEED', 'design_flow': 18.16,
                      'is_flow_autosized': True},
                     {'id': 'CONDENSER WATER LOOP CONSTANT PUMP BANK OF 2', 'loop_or_piping': 'CONDENSER WATER LOOP',
                      'specification_method': 'SIMPLE', 'design_electric_power': 63518.6, 'design_head': 219868.07,
-                     'motor_efficiency': 0.94, 'speed_control': 'FIXED_SPEED', 'design_flow': 210.916,
+                     'motor_efficiency': 0.94, 'speed_control': 'VARIABLE_SPEED', 'design_flow': 210.916,
                      'is_flow_autosized': True},
                     {'id': 'MAIN SERVICE WATER LOOP CIRCULATOR PUMP', 'loop_or_piping': 'SERVICE WATER HEATING LOOP',
                      'specification_method': 'SIMPLE', 'design_electric_power': 20.4, 'design_head': 29891.0,
@@ -1599,3 +1597,52 @@ class TestTranslator(TestCase):
                      'is_flow_autosized': True}]
 
         self.assertEqual(added_pumps, expected)
+
+    def test_add_heat_rejection(self):
+        t = self.set_minimal_files()
+
+        t.json_results_object['TabularReports'] = [
+            {
+                "For": "Entire Facility",
+                "ReportName": "EquipmentSummary",
+                "Tables": [
+                    {
+                        "Cols": [
+                            "Type",
+                            "Fluid Type",
+                            "Range [C]",
+                            "Approach [C]",
+                            "Design Fan Power [W]",
+                            "Design Inlet Air Wet-Bulb Temperature [C]",
+                            "Design Water Flow Rate [m3/s]",
+                            "Leaving Water Setpoint Temperature [C]",
+                            "Condenser Loop Name",
+                            "Condenser Loop Branch Name"
+                        ],
+                        "Rows": {
+                            "HEAT PUMP LOOP FLUIDCOOLERTWOSPEED 4.0 GPM/HP": [
+                                "FluidCooler:TwoSpeed",
+                                "ETHYLENEGLYCOL_40",
+                                "26.07",
+                                "12.0",
+                                "53675.71",
+                                "25.60",
+                                "0.02",
+                                "0.00",
+                                "HEAT PUMP LOOP",
+                                "HEAT PUMP LOOP SUPPLY BRANCH 1"
+                            ]
+                        },
+                        "TableName": "Cooling Towers and Fluid Coolers"
+                    },
+                ]
+            },
+        ]
+
+        added_heat_rejection = t.add_heat_rejection()
+
+        expected = [{'id': 'HEAT PUMP LOOP FLUIDCOOLERTWOSPEED 4.0 GPM/HP', 'loop': 'HEAT PUMP LOOP', 'range': 26.07,
+                     'fan_motor_nameplate_power': 53675.71, 'design_wetbulb_temperature': 25.6,
+                     'design_water_flowrate': 20.0, 'leaving_water_setpoint_temperature': 0.0, 'approach': 12.0}]
+
+        self.assertEqual(added_heat_rejection, expected)

@@ -1323,7 +1323,7 @@ class Translator:
                         for pump_name in pump_names:
                             type_str = rows[pump_name][type_column]
                             speed_control = 'FIXED_SPEED'
-                            if 'vari' in type_str:
+                            if 'vari' in type_str.lower():
                                 speed_control = 'VARIABLE_SPEED'
                             is_autosized = False
                             if 'Y' in rows[pump_name][is_autosized_column]:
