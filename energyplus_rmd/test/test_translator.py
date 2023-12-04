@@ -1791,9 +1791,9 @@ class TestTranslator(TestCase):
                                 "CHILLED WATER LOOP SUPPLY BRANCH 2",
                                 "CONDENSER WATER LOOP",
                                 "CONDENSER WATER LOOP DEMAND BRANCH 3",
-                                "N/A",
-                                "N/A",
-                                "0.00"
+                                "HeatRecoveryLoop1",
+                                "SomeBranch",
+                                "0.67"
                             ]
                         },
                         "TableName": "Chillers"
@@ -1819,6 +1819,7 @@ class TestTranslator(TestCase):
                      'minimum_load_ratio': 0.0, 'design_flow_evaporator': 74.82, 'design_flow_condenser': 87.82,
                      'design_entering_condenser_temperature': 35.0, 'design_leaving_evaporator_temperature': 6.67,
                      'full_load_efficiency': 6.1, 'part_load_efficiency': 6.88,
-                     'part_load_efficiency_metric': 'INTEGRATED_PART_LOAD_VALUE'}]
+                     'part_load_efficiency_metric': 'INTEGRATED_PART_LOAD_VALUE',
+                     'heat_recovery_loop': 'HeatRecoveryLoop1', 'heat_recovery_fraction': 0.67}]
 
         self.assertEqual(added_chillers, expected)
