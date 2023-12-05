@@ -36,7 +36,7 @@ The utility is intended to be used at a command line prompt:
 
 where in.epJSON is the name of the EnergyPlus input file with path in the epJSON format. 
 
-EnergyPlus version 22.2.0 or newer is required to use the utility.
+EnergyPlus version 23.2.0 or newer is required to use the utility.
 
 ## epJSON Format
 
@@ -151,6 +151,65 @@ report which is used to identify the ASHRAE climate zone.
 
 The resulting Ruleset Model Description file will be created in the same directory as the epJSON file with the same name and the file extension .rmd
 
+The Ruleset Model Description file is not complete but can be used to test many aspects of the building model transformation due to the ruleset. 
+The data groups that are partially populated, include:
+
+ - RulesetProjectDescription
+ - RulesetModelDescription
+ - Building
+ - BuildingSegment
+ - Zone
+ - Space
+ - Infiltration
+ - Surface
+ - Construction
+ - Material
+ - Subsurface
+ - InteriorLighting
+ - MiscellaneousEquipment
+ - Schedule
+ - Calendar
+ - Weather
+ - HeatingVentilatingAirConditioningSystem
+ - HeatingSystem
+ - CoolingSystem
+ - FanSystem
+ - Fan
+ - Terminal
+ - Pump
+ - Boiler
+ - Chiller
+ - HeatRejection
+ - ExteriorLighting
 
 
+Please note, that all data groups listed above still have some data elements that are not implemented and in many cases many data elements that are not implemented. The ones that 
+were implemented often was because they were easy to implement and not based on the need for the data element. 
+
+Data groups that have not started to be implemented are:
+
+ - SurfaceOpticalProperties
+ - Transformer
+ - Elevator
+ - AirEconomizer
+ - AirEnergyRecovery
+ - FanOutputValidationPoint
+ - FluidLoop
+ - FluidLoopDesignAndControl
+ - BoilerOutputValidationPoint
+ - ChillerCapacityValidationPoint
+ - ChillerPowerValidationPoint
+ - ExternalFluidSource
+ - ServiceWaterHeatingDistributionSystem
+ - ServiceWaterPiping
+ - SolarThermal
+ - ServiceWaterHeatingEquipment
+ - ServiceWaterHeaterValidationPoint
+ - HeatPumpWaterHeaterCapacityValidationPoint
+ - HeatPumpWaterHeaterPowerValidationPoint
+ - Tank
+ - ServiceWaterHeatingUse
+ - RefrigeratedCase
+
+The [energyplus_implementatio_report.txt](https://github.com/JasonGlazer/createRulesetModelDescription/blob/main/energyplus_rmd/energyplus_implementation_report.txt) provides additional details. 
 
