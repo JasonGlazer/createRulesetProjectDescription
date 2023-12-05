@@ -1823,3 +1823,187 @@ class TestTranslator(TestCase):
                      'heat_recovery_loop': 'HeatRecoveryLoop1', 'heat_recovery_fraction': 0.67}]
 
         self.assertEqual(added_chillers, expected)
+
+    def test_gather_equipment_fans(self):
+        t = self.set_minimal_files()
+
+        t.json_results_object['TabularReports'] = [
+            {
+                "For": "Entire Facility",
+                "ReportName": "EquipmentSummary",
+                "Tables": [
+                    {
+                        "Cols": [
+                            "Type",
+                            "Total Efficiency [W/W]",
+                            "Delta Pressure [pa]",
+                            "Max Air Flow Rate [m3/s]",
+                            "Rated Electricity Rate [W]",
+                            "Rated Power Per Max Air Flow Rate [W-s/m3]",
+                            "Motor Heat In Air Fraction",
+                            "Fan Energy Index",
+                            "End Use Subcategory",
+                            "Design Day Name for Fan Sizing Peak",
+                            "Date/Time for Fan Sizing Peak",
+                            "Purpose",
+                            "Is Autosized",
+                            "Motor Efficiency",
+                            "Motor Heat to Zone Fraction",
+                            "Airloop Name"
+                        ],
+                        "Rows": {
+                            "BASEMENT STORY 0 VAV_PFP_BOXES (SYS8) FAN": [
+                                "Fan:VariableVolume",
+                                "0.64",
+                                "1363.04",
+                                "7.69",
+                                "16476.83",
+                                "2141.35",
+                                "1.00",
+                                "1.18",
+                                "VAV System Fans",
+                                "TAMPA-MACDILL.AFB_FL_USA ANN CLG .4% CONDNS DB=>MWB",
+                                "8/21 08:20:00",
+                                "N/A",
+                                "Yes",
+                                "0.92",
+                                "1.00",
+                                "N/A"
+                            ],
+                            "BASEMENT ZN PFP TERM FAN": [
+                                "Fan:ConstantVolume",
+                                "0.49",
+                                "365.09",
+                                "7.67",
+                                "5688.72",
+                                "741.68",
+                                "1.00",
+                                "1.11",
+                                "General",
+                                "TAMPA-MACDILL.AFB_FL_USA ANN CLG .4% CONDNS DB=>MWB",
+                                "8/21 08:00:00",
+                                "N/A",
+                                "Yes",
+                                "0.90",
+                                "1.00",
+                                "N/A"
+                            ],
+                            "CORE_BOTTOM ZN PFP TERM FAN": [
+                                "Fan:ConstantVolume",
+                                "0.49",
+                                "365.09",
+                                "7.94",
+                                "5888.97",
+                                "741.68",
+                                "1.00",
+                                "1.11",
+                                "General",
+                                "TAMPA-MACDILL.AFB_FL_USA ANN CLG .4% CONDNS DB=>MWB",
+                                "8/21 08:00:00",
+                                "N/A",
+                                "Yes",
+                                "0.90",
+                                "1.00",
+                                "N/A"
+                            ],
+                            "DATACENTER_BASEMENT_ZN_6 ZN PSZ-VAV FAN": [
+                                "Fan:VariableVolume",
+                                "0.57",
+                                "0.00",
+                                "30.36",
+                                "0.00",
+                                "0.00",
+                                "1.00",
+                                "0.00",
+                                "VAV System Fans",
+                                "TAMPA-MACDILL.AFB_FL_USA ANN CLG .4% CONDNS DB=>MWB",
+                                "8/21 06:00:00",
+                                "N/A",
+                                "Yes",
+                                "0.94",
+                                "1.00",
+                                "N/A"
+                            ],
+                            "PERIMETER_BOT_ZN_2 ZN PFP TERM FAN": [
+                                "Fan:ConstantVolume",
+                                "0.46",
+                                "342.66",
+                                "1.53",
+                                "1137.67",
+                                "741.68",
+                                "1.00",
+                                "1.23",
+                                "General",
+                                "TAMPA-MACDILL.AFB_FL_USA ANN CLG .4% CONDNS DB=>MWB",
+                                "8/21 09:40:00",
+                                "N/A",
+                                "Yes",
+                                "0.84",
+                                "1.00",
+                                "N/A"
+                            ],
+                        },
+                        "TableName": "Fans"
+                    },
+                ]
+            },
+        ]
+
+        gathered_equipment_fans = t.gather_equipment_fans()
+
+        expected = {'BASEMENT STORY 0 VAV_PFP_BOXES (SYS8) FAN': (
+            {'design_airflow': 7.69, 'is_airflow_autosized': True, 'design_electric_power': 16476.83,
+             'design_pressure_rise': 1363.04, 'total_efficiency': 0.64, 'motor_efficiency': 0.92,
+             'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 1.0},
+            {'type': 'Fan:VariableVolume', 'fan_energy_index': 1.18, 'purpose': 'N/A', 'airloop_name': 'N/A'}),
+            'BASEMENT ZN PFP TERM FAN': (
+                {'design_airflow': 7.67, 'is_airflow_autosized': True, 'design_electric_power': 5688.72,
+                 'design_pressure_rise': 365.09, 'total_efficiency': 0.49, 'motor_efficiency': 0.9,
+                 'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 1.0},
+                {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.11, 'purpose': 'N/A', 'airloop_name': 'N/A'}),
+            'CORE_BOTTOM ZN PFP TERM FAN': (
+                {'design_airflow': 7.94, 'is_airflow_autosized': True, 'design_electric_power': 5888.97,
+                 'design_pressure_rise': 365.09, 'total_efficiency': 0.49, 'motor_efficiency': 0.9,
+                 'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 1.0},
+                {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.11, 'purpose': 'N/A', 'airloop_name': 'N/A'}),
+            'DATACENTER_BASEMENT_ZN_6 ZN PSZ-VAV FAN': (
+                {'design_airflow': 30.36, 'is_airflow_autosized': True, 'design_electric_power': 0.0,
+                 'design_pressure_rise': 0.0, 'total_efficiency': 0.57, 'motor_efficiency': 0.94,
+                 'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 1.0},
+                {'type': 'Fan:VariableVolume', 'fan_energy_index': 0.0, 'purpose': 'N/A', 'airloop_name': 'N/A'}),
+            'PERIMETER_BOT_ZN_2 ZN PFP TERM FAN': (
+                {'design_airflow': 1.53, 'is_airflow_autosized': True, 'design_electric_power': 1137.67,
+                 'design_pressure_rise': 342.66, 'total_efficiency': 0.46, 'motor_efficiency': 0.84,
+                 'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 1.0},
+                {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.23, 'purpose': 'N/A', 'airloop_name': 'N/A'})}
+
+        self.assertEqual(gathered_equipment_fans, expected)
+
+    def test_process_heating_metrics(self):
+        t = self.set_minimal_files()
+        coil_name = 'PSZ-AC:1 HEAT PUMP DX HEATING COIL'
+        coil_efficiencies = {
+            'PSZ-AC:1 HEAT PUMP DX HEATING COIL': {'type': 'Coil:Heating:DX:SingleSpeed', 'used_as_sup_heat': False,
+                                                   'nominal_eff': 3.36, 'HSPF': 7.33, 'HSPF_region': '4',
+                                                   'minimum_temperature_compressor': -12.2, 'HSPF2': 6.63,
+                                                   'HSPF2_region': '4'},
+            'PSZ-AC:1 HEAT PUMP DX SUPP HEATING COIL': {'type': 'Coil:Heating:Fuel', 'used_as_sup_heat': True,
+                                                        'nominal_eff': 0.81}, }
+
+        processed_metric_types, processed_metric_values = t.process_heating_metrics(coil_name, coil_efficiencies)
+
+        expected_metric_types = ['HEATING_SEASONAL_PERFORMANCE_FACTOR', 'HEATING_SEASONAL_PERFORMANCE_FACTOR_2']
+        expected_metric_values = [7.33, 6.63]
+
+        self.assertEqual(processed_metric_types, expected_metric_types)
+        self.assertEqual(processed_metric_values, expected_metric_values)
+
+        coil_name = 'PSZ-AC:1 HEAT PUMP DX SUPP HEATING COIL'
+
+        processed_metric_types, processed_metric_values = t.process_heating_metrics(coil_name, coil_efficiencies)
+
+        expected_metric_types = ['THERMAL_EFFICIENCY']
+        expected_metric_values = [0.81]
+
+        self.assertEqual(processed_metric_types, expected_metric_types)
+        self.assertEqual(processed_metric_values, expected_metric_values)
