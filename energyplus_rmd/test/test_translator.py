@@ -2542,3 +2542,560 @@ class TestTranslator(TestCase):
                                                                                   'EER2023': 11.7, 'SEER2023': 11.93,
                                                                                   'IEER2023': 11.7}}
         self.assertEqual(gathered_cooling_coil_efficiencies, expected)
+
+    def test_gather_coil_connections(self):
+        t = self.set_minimal_files()
+
+        t.json_results_object['TabularReports'] = [
+            {
+                "For": "Entire Facility",
+                "ReportName": "CoilSizingDetails",
+                "Tables": [
+                    {
+                        "Cols": [
+                            "Coil Name",
+                            "Coil Type",
+                            "Coil Location",
+                            "HVAC Type",
+                            "HVAC Name",
+                            "Zone Name(s)",
+                            "Supply Fan Name for HVAC",
+                            "Supply Fan Type for HVAC",
+                            "Airloop Name",
+                            "Plant Name for Coil",
+                            "Plant Loop Name"
+                        ],
+                        "Rows": {
+                            "BASEMENT ZN REHEAT COIL": [
+                                "BASEMENT ZN REHEAT COIL",
+                                "COIL:HEATING:WATER",
+                                "Zone Equipment",
+                                "ZONEHVAC:AIRDISTRIBUTIONUNIT",
+                                "ADU BASEMENT ZN VAV TERMINAL",
+                                "BASEMENT ZN",
+                                "unknown",
+                                "unknown",
+                                "N/A",
+                                "HOT WATER LOOP",
+                                "HOT WATER LOOP"
+                            ],
+                            "CAV_BAS CLG COIL": [
+                                "CAV_BAS CLG COIL",
+                                "Coil:Cooling:Water",
+                                "AirLoop",
+                                "AirLoopHVAC",
+                                "CAV_BAS",
+                                "BASEMENT ZN",
+                                "CAV_BAS FAN",
+                                "Fan:ConstantVolume",
+                                "CAV_BAS",
+                                "CHILLED WATER LOOP",
+                                "CHILLED WATER LOOP"
+                            ],
+                            "CAV_BAS MAIN HTG COIL": [
+                                "CAV_BAS MAIN HTG COIL",
+                                "Coil:Heating:Water",
+                                "AirLoop",
+                                "AirLoopHVAC",
+                                "CAV_BAS",
+                                "BASEMENT ZN",
+                                "CAV_BAS FAN",
+                                "Fan:ConstantVolume",
+                                "CAV_BAS",
+                                "HOT WATER LOOP",
+                                "HOT WATER LOOP"
+                            ],
+                            "CORE_BOTTOM ZN REHEAT COIL": [
+                                "CORE_BOTTOM ZN REHEAT COIL",
+                                "COIL:HEATING:WATER",
+                                "Zone Equipment",
+                                "ZONEHVAC:AIRDISTRIBUTIONUNIT",
+                                "ADU CORE_BOTTOM ZN VAV TERMINAL",
+                                "CORE_BOTTOM ZN",
+                                "unknown",
+                                "unknown",
+                                "N/A",
+                                "HOT WATER LOOP",
+                                "HOT WATER LOOP"
+                            ],
+                            "CORE_MID ZN REHEAT COIL": [
+                                "CORE_MID ZN REHEAT COIL",
+                                "COIL:HEATING:WATER",
+                                "Zone Equipment",
+                                "ZONEHVAC:AIRDISTRIBUTIONUNIT",
+                                "ADU CORE_MID ZN VAV TERMINAL",
+                                "CORE_MID ZN",
+                                "unknown",
+                                "unknown",
+                                "N/A",
+                                "HOT WATER LOOP",
+                                "HOT WATER LOOP"
+                            ],
+                            "CORE_TOP ZN REHEAT COIL": [
+                                "CORE_TOP ZN REHEAT COIL",
+                                "COIL:HEATING:WATER",
+                                "Zone Equipment",
+                                "ZONEHVAC:AIRDISTRIBUTIONUNIT",
+                                "ADU CORE_TOP ZN VAV TERMINAL",
+                                "CORE_TOP ZN",
+                                "unknown",
+                                "unknown",
+                                "N/A",
+                                "HOT WATER LOOP",
+                                "HOT WATER LOOP"
+                            ],
+                            "DATACENTER_BASEMENT_ZN_6 ZN PSZ-AC ELECTRIC BACKUP HTG COIL": [
+                                "DATACENTER_BASEMENT_ZN_6 ZN PSZ-AC ELECTRIC BACKUP HTG COIL",
+                                "COIL:HEATING:ELECTRIC",
+                                "AirLoop",
+                                "AirLoopHVAC",
+                                "DATACENTER_BASEMENT_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "DATACENTER_BASEMENT_ZN_6 ZN",
+                                "DATACENTER_BASEMENT_ZN_6 ZN PSZ-AC FAN",
+                                "Fan:OnOff",
+                                "DATACENTER_BASEMENT_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "unknown",
+                                "unknown"
+                            ],
+                            "DATACENTER_BASEMENT_ZN_6 ZN PSZ-AC WATER-TO-AIR HP CLG COIL": [
+                                "DATACENTER_BASEMENT_ZN_6 ZN PSZ-AC WATER-TO-AIR HP CLG COIL",
+                                "COIL:COOLING:WATERTOAIRHEATPUMP:EQUATIONFIT",
+                                "AirLoop",
+                                "AirLoopHVAC",
+                                "DATACENTER_BASEMENT_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "DATACENTER_BASEMENT_ZN_6 ZN",
+                                "DATACENTER_BASEMENT_ZN_6 ZN PSZ-AC FAN",
+                                "Fan:OnOff",
+                                "DATACENTER_BASEMENT_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "unknown",
+                                "unknown"
+                            ],
+                            "DATACENTER_BASEMENT_ZN_6 ZN PSZ-AC WATER-TO-AIR HP HTG COIL 2215 CLG KBTU/HR 4.2COPH": [
+                                "DATACENTER_BASEMENT_ZN_6 ZN PSZ-AC WATER-TO-AIR HP HTG COIL 2215 CLG KBTU/HR 4.2COPH",
+                                "COIL:HEATING:WATERTOAIRHEATPUMP:EQUATIONFIT",
+                                "AirLoop",
+                                "AirLoopHVAC",
+                                "DATACENTER_BASEMENT_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "DATACENTER_BASEMENT_ZN_6 ZN",
+                                "DATACENTER_BASEMENT_ZN_6 ZN PSZ-AC FAN",
+                                "Fan:OnOff",
+                                "DATACENTER_BASEMENT_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "unknown",
+                                "unknown"
+                            ],
+                            "DATACENTER_BOT_ZN_6 ZN PSZ-AC ELECTRIC BACKUP HTG COIL": [
+                                "DATACENTER_BOT_ZN_6 ZN PSZ-AC ELECTRIC BACKUP HTG COIL",
+                                "COIL:HEATING:ELECTRIC",
+                                "AirLoop",
+                                "AirLoopHVAC",
+                                "DATACENTER_BOT_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "DATACENTER_BOT_ZN_6 ZN",
+                                "DATACENTER_BOT_ZN_6 ZN PSZ-AC FAN",
+                                "Fan:OnOff",
+                                "DATACENTER_BOT_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "unknown",
+                                "unknown"
+                            ],
+                            "DATACENTER_BOT_ZN_6 ZN PSZ-AC WATER-TO-AIR HP CLG COIL 52KBTU/HR 12.0EER": [
+                                "DATACENTER_BOT_ZN_6 ZN PSZ-AC WATER-TO-AIR HP CLG COIL 52KBTU/HR 12.0EER",
+                                "COIL:COOLING:WATERTOAIRHEATPUMP:EQUATIONFIT",
+                                "AirLoop",
+                                "AirLoopHVAC",
+                                "DATACENTER_BOT_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "DATACENTER_BOT_ZN_6 ZN",
+                                "DATACENTER_BOT_ZN_6 ZN PSZ-AC FAN",
+                                "Fan:OnOff",
+                                "DATACENTER_BOT_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "unknown",
+                                "unknown"
+                            ],
+                            "DATACENTER_BOT_ZN_6 ZN PSZ-AC WATER-TO-AIR HP HTG COIL 52 CLG KBTU/HR 4.2COPH": [
+                                "DATACENTER_BOT_ZN_6 ZN PSZ-AC WATER-TO-AIR HP HTG COIL 52 CLG KBTU/HR 4.2COPH",
+                                "COIL:HEATING:WATERTOAIRHEATPUMP:EQUATIONFIT",
+                                "AirLoop",
+                                "AirLoopHVAC",
+                                "DATACENTER_BOT_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "DATACENTER_BOT_ZN_6 ZN",
+                                "DATACENTER_BOT_ZN_6 ZN PSZ-AC FAN",
+                                "Fan:OnOff",
+                                "DATACENTER_BOT_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "unknown",
+                                "unknown"
+                            ],
+                            "DATACENTER_MID_ZN_6 ZN PSZ-AC ELECTRIC BACKUP HTG COIL": [
+                                "DATACENTER_MID_ZN_6 ZN PSZ-AC ELECTRIC BACKUP HTG COIL",
+                                "COIL:HEATING:ELECTRIC",
+                                "AirLoop",
+                                "AirLoopHVAC",
+                                "DATACENTER_MID_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "DATACENTER_MID_ZN_6 ZN",
+                                "DATACENTER_MID_ZN_6 ZN PSZ-AC FAN",
+                                "Fan:OnOff",
+                                "DATACENTER_MID_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "unknown",
+                                "unknown"
+                            ],
+                            "DATACENTER_MID_ZN_6 ZN PSZ-AC WATER-TO-AIR HP CLG COIL": [
+                                "DATACENTER_MID_ZN_6 ZN PSZ-AC WATER-TO-AIR HP CLG COIL",
+                                "COIL:COOLING:WATERTOAIRHEATPUMP:EQUATIONFIT",
+                                "AirLoop",
+                                "AirLoopHVAC",
+                                "DATACENTER_MID_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "DATACENTER_MID_ZN_6 ZN",
+                                "DATACENTER_MID_ZN_6 ZN PSZ-AC FAN",
+                                "Fan:OnOff",
+                                "DATACENTER_MID_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "unknown",
+                                "unknown"
+                            ],
+                            "DATACENTER_MID_ZN_6 ZN PSZ-AC WATER-TO-AIR HP HTG COIL 454 CLG KBTU/HR 4.2COPH": [
+                                "DATACENTER_MID_ZN_6 ZN PSZ-AC WATER-TO-AIR HP HTG COIL 454 CLG KBTU/HR 4.2COPH",
+                                "COIL:HEATING:WATERTOAIRHEATPUMP:EQUATIONFIT",
+                                "AirLoop",
+                                "AirLoopHVAC",
+                                "DATACENTER_MID_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "DATACENTER_MID_ZN_6 ZN",
+                                "DATACENTER_MID_ZN_6 ZN PSZ-AC FAN",
+                                "Fan:OnOff",
+                                "DATACENTER_MID_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "unknown",
+                                "unknown"
+                            ],
+                            "DATACENTER_TOP_ZN_6 ZN PSZ-AC ELECTRIC BACKUP HTG COIL": [
+                                "DATACENTER_TOP_ZN_6 ZN PSZ-AC ELECTRIC BACKUP HTG COIL",
+                                "COIL:HEATING:ELECTRIC",
+                                "AirLoop",
+                                "AirLoopHVAC",
+                                "DATACENTER_TOP_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "DATACENTER_TOP_ZN_6 ZN",
+                                "DATACENTER_TOP_ZN_6 ZN PSZ-AC FAN",
+                                "Fan:OnOff",
+                                "DATACENTER_TOP_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "unknown",
+                                "unknown"
+                            ],
+                            "DATACENTER_TOP_ZN_6 ZN PSZ-AC WATER-TO-AIR HP CLG COIL 47KBTU/HR 12.0EER": [
+                                "DATACENTER_TOP_ZN_6 ZN PSZ-AC WATER-TO-AIR HP CLG COIL 47KBTU/HR 12.0EER",
+                                "COIL:COOLING:WATERTOAIRHEATPUMP:EQUATIONFIT",
+                                "AirLoop",
+                                "AirLoopHVAC",
+                                "DATACENTER_TOP_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "DATACENTER_TOP_ZN_6 ZN",
+                                "DATACENTER_TOP_ZN_6 ZN PSZ-AC FAN",
+                                "Fan:OnOff",
+                                "DATACENTER_TOP_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "unknown",
+                                "unknown"
+                            ],
+                            "DATACENTER_TOP_ZN_6 ZN PSZ-AC WATER-TO-AIR HP HTG COIL 47 CLG KBTU/HR 4.2COPH": [
+                                "DATACENTER_TOP_ZN_6 ZN PSZ-AC WATER-TO-AIR HP HTG COIL 47 CLG KBTU/HR 4.2COPH",
+                                "COIL:HEATING:WATERTOAIRHEATPUMP:EQUATIONFIT",
+                                "AirLoop",
+                                "AirLoopHVAC",
+                                "DATACENTER_TOP_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "DATACENTER_TOP_ZN_6 ZN",
+                                "DATACENTER_TOP_ZN_6 ZN PSZ-AC FAN",
+                                "Fan:OnOff",
+                                "DATACENTER_TOP_ZN_6 ZN PSZ-AC DATA CENTER",
+                                "unknown",
+                                "unknown"
+                            ],
+                            "PERIMETER_BOT_ZN_1 ZN REHEAT COIL": [
+                                "PERIMETER_BOT_ZN_1 ZN REHEAT COIL",
+                                "COIL:HEATING:WATER",
+                                "Zone Equipment",
+                                "ZONEHVAC:AIRDISTRIBUTIONUNIT",
+                                "ADU PERIMETER_BOT_ZN_1 ZN VAV TERMINAL",
+                                "PERIMETER_BOT_ZN_1 ZN",
+                                "unknown",
+                                "unknown",
+                                "N/A",
+                                "HOT WATER LOOP",
+                                "HOT WATER LOOP"
+                            ],
+                            "PERIMETER_BOT_ZN_2 ZN REHEAT COIL": [
+                                "PERIMETER_BOT_ZN_2 ZN REHEAT COIL",
+                                "COIL:HEATING:WATER",
+                                "Zone Equipment",
+                                "ZONEHVAC:AIRDISTRIBUTIONUNIT",
+                                "ADU PERIMETER_BOT_ZN_2 ZN VAV TERMINAL",
+                                "PERIMETER_BOT_ZN_2 ZN",
+                                "unknown",
+                                "unknown",
+                                "N/A",
+                                "HOT WATER LOOP",
+                                "HOT WATER LOOP"
+                            ],
+                            "PERIMETER_BOT_ZN_3 ZN REHEAT COIL": [
+                                "PERIMETER_BOT_ZN_3 ZN REHEAT COIL",
+                                "COIL:HEATING:WATER",
+                                "Zone Equipment",
+                                "ZONEHVAC:AIRDISTRIBUTIONUNIT",
+                                "ADU PERIMETER_BOT_ZN_3 ZN VAV TERMINAL",
+                                "PERIMETER_BOT_ZN_3 ZN",
+                                "unknown",
+                                "unknown",
+                                "N/A",
+                                "HOT WATER LOOP",
+                                "HOT WATER LOOP"
+                            ],
+                            "PERIMETER_BOT_ZN_4 ZN REHEAT COIL": [
+                                "PERIMETER_BOT_ZN_4 ZN REHEAT COIL",
+                                "COIL:HEATING:WATER",
+                                "Zone Equipment",
+                                "ZONEHVAC:AIRDISTRIBUTIONUNIT",
+                                "ADU PERIMETER_BOT_ZN_4 ZN VAV TERMINAL",
+                                "PERIMETER_BOT_ZN_4 ZN",
+                                "unknown",
+                                "unknown",
+                                "N/A",
+                                "HOT WATER LOOP",
+                                "HOT WATER LOOP"
+                            ],
+                            "PERIMETER_MID_ZN_1 ZN REHEAT COIL": [
+                                "PERIMETER_MID_ZN_1 ZN REHEAT COIL",
+                                "COIL:HEATING:WATER",
+                                "Zone Equipment",
+                                "ZONEHVAC:AIRDISTRIBUTIONUNIT",
+                                "ADU PERIMETER_MID_ZN_1 ZN VAV TERMINAL",
+                                "PERIMETER_MID_ZN_1 ZN",
+                                "unknown",
+                                "unknown",
+                                "N/A",
+                                "HOT WATER LOOP",
+                                "HOT WATER LOOP"
+                            ],
+                            "PERIMETER_MID_ZN_2 ZN REHEAT COIL": [
+                                "PERIMETER_MID_ZN_2 ZN REHEAT COIL",
+                                "COIL:HEATING:WATER",
+                                "Zone Equipment",
+                                "ZONEHVAC:AIRDISTRIBUTIONUNIT",
+                                "ADU PERIMETER_MID_ZN_2 ZN VAV TERMINAL",
+                                "PERIMETER_MID_ZN_2 ZN",
+                                "unknown",
+                                "unknown",
+                                "N/A",
+                                "HOT WATER LOOP",
+                                "HOT WATER LOOP"
+                            ],
+                            "PERIMETER_MID_ZN_3 ZN REHEAT COIL": [
+                                "PERIMETER_MID_ZN_3 ZN REHEAT COIL",
+                                "COIL:HEATING:WATER",
+                                "Zone Equipment",
+                                "ZONEHVAC:AIRDISTRIBUTIONUNIT",
+                                "ADU PERIMETER_MID_ZN_3 ZN VAV TERMINAL",
+                                "PERIMETER_MID_ZN_3 ZN",
+                                "unknown",
+                                "unknown",
+                                "N/A",
+                                "HOT WATER LOOP",
+                                "HOT WATER LOOP"
+                            ],
+                            "PERIMETER_MID_ZN_4 ZN REHEAT COIL": [
+                                "PERIMETER_MID_ZN_4 ZN REHEAT COIL",
+                                "COIL:HEATING:WATER",
+                                "Zone Equipment",
+                                "ZONEHVAC:AIRDISTRIBUTIONUNIT",
+                                "ADU PERIMETER_MID_ZN_4 ZN VAV TERMINAL",
+                                "PERIMETER_MID_ZN_4 ZN",
+                                "unknown",
+                                "unknown",
+                                "N/A",
+                                "HOT WATER LOOP",
+                                "HOT WATER LOOP"
+                            ],
+                            "PERIMETER_TOP_ZN_1 ZN REHEAT COIL": [
+                                "PERIMETER_TOP_ZN_1 ZN REHEAT COIL",
+                                "COIL:HEATING:WATER",
+                                "Zone Equipment",
+                                "ZONEHVAC:AIRDISTRIBUTIONUNIT",
+                                "ADU PERIMETER_TOP_ZN_1 ZN VAV TERMINAL",
+                                "PERIMETER_TOP_ZN_1 ZN",
+                                "unknown",
+                                "unknown",
+                                "N/A",
+                                "HOT WATER LOOP",
+                                "HOT WATER LOOP"
+                            ],
+                            "PERIMETER_TOP_ZN_2 ZN REHEAT COIL": [
+                                "PERIMETER_TOP_ZN_2 ZN REHEAT COIL",
+                                "COIL:HEATING:WATER",
+                                "Zone Equipment",
+                                "ZONEHVAC:AIRDISTRIBUTIONUNIT",
+                                "ADU PERIMETER_TOP_ZN_2 ZN VAV TERMINAL",
+                                "PERIMETER_TOP_ZN_2 ZN",
+                                "unknown",
+                                "unknown",
+                                "N/A",
+                                "HOT WATER LOOP",
+                                "HOT WATER LOOP"
+                            ],
+                            "PERIMETER_TOP_ZN_3 ZN REHEAT COIL": [
+                                "PERIMETER_TOP_ZN_3 ZN REHEAT COIL",
+                                "COIL:HEATING:WATER",
+                                "Zone Equipment",
+                                "ZONEHVAC:AIRDISTRIBUTIONUNIT",
+                                "ADU PERIMETER_TOP_ZN_3 ZN VAV TERMINAL",
+                                "PERIMETER_TOP_ZN_3 ZN",
+                                "unknown",
+                                "unknown",
+                                "N/A",
+                                "HOT WATER LOOP",
+                                "HOT WATER LOOP"
+                            ],
+                            "PERIMETER_TOP_ZN_4 ZN REHEAT COIL": [
+                                "PERIMETER_TOP_ZN_4 ZN REHEAT COIL",
+                                "COIL:HEATING:WATER",
+                                "Zone Equipment",
+                                "ZONEHVAC:AIRDISTRIBUTIONUNIT",
+                                "ADU PERIMETER_TOP_ZN_4 ZN VAV TERMINAL",
+                                "PERIMETER_TOP_ZN_4 ZN",
+                                "unknown",
+                                "unknown",
+                                "N/A",
+                                "HOT WATER LOOP",
+                                "HOT WATER LOOP"
+                            ],
+                            "VAV_BOT WITH REHEAT CLG COIL": [
+                                "VAV_BOT WITH REHEAT CLG COIL",
+                                "Coil:Cooling:Water",
+                                "AirLoop",
+                                "AirLoopHVAC",
+                                "VAV_BOT WITH REHEAT",
+                                "PERIMETER_BOT_ZN_1 ZN; PERIMETER_BOT_ZN_2 ZN; PERIMETER_BOT_ZN_3 ZN; "
+                                "PERIMETER_BOT_ZN_4 ZN; CORE_BOTTOM ZN;",
+                                "VAV_BOT WITH REHEAT FAN",
+                                "Fan:VariableVolume",
+                                "VAV_BOT WITH REHEAT",
+                                "CHILLED WATER LOOP",
+                                "CHILLED WATER LOOP"
+                            ],
+                            "VAV_BOT WITH REHEAT MAIN HTG COIL": [
+                                "VAV_BOT WITH REHEAT MAIN HTG COIL",
+                                "Coil:Heating:Water",
+                                "AirLoop",
+                                "AirLoopHVAC",
+                                "VAV_BOT WITH REHEAT",
+                                "PERIMETER_BOT_ZN_1 ZN; PERIMETER_BOT_ZN_2 ZN; PERIMETER_BOT_ZN_3 ZN; "
+                                "PERIMETER_BOT_ZN_4 ZN; CORE_BOTTOM ZN;",
+                                "VAV_BOT WITH REHEAT FAN",
+                                "Fan:VariableVolume",
+                                "VAV_BOT WITH REHEAT",
+                                "HOT WATER LOOP",
+                                "HOT WATER LOOP"
+                            ],
+                            "VAV_MID WITH REHEAT CLG COIL": [
+                                "VAV_MID WITH REHEAT CLG COIL",
+                                "Coil:Cooling:Water",
+                                "AirLoop",
+                                "AirLoopHVAC",
+                                "VAV_MID WITH REHEAT",
+                                "PERIMETER_MID_ZN_1 ZN; PERIMETER_MID_ZN_2 ZN; PERIMETER_MID_ZN_3 ZN; "
+                                "PERIMETER_MID_ZN_4 ZN; CORE_MID ZN;",
+                                "VAV_MID WITH REHEAT FAN",
+                                "Fan:VariableVolume",
+                                "VAV_MID WITH REHEAT",
+                                "CHILLED WATER LOOP",
+                                "CHILLED WATER LOOP"
+                            ],
+                            "VAV_MID WITH REHEAT MAIN HTG COIL": [
+                                "VAV_MID WITH REHEAT MAIN HTG COIL",
+                                "Coil:Heating:Water",
+                                "AirLoop",
+                                "AirLoopHVAC",
+                                "VAV_MID WITH REHEAT",
+                                "PERIMETER_MID_ZN_1 ZN; PERIMETER_MID_ZN_2 ZN; PERIMETER_MID_ZN_3 ZN; "
+                                "PERIMETER_MID_ZN_4 ZN; CORE_MID ZN;",
+                                "VAV_MID WITH REHEAT FAN",
+                                "Fan:VariableVolume",
+                                "VAV_MID WITH REHEAT",
+                                "HOT WATER LOOP",
+                                "HOT WATER LOOP"
+                            ],
+                            "VAV_TOP WITH REHEAT CLG COIL": [
+                                "VAV_TOP WITH REHEAT CLG COIL",
+                                "Coil:Cooling:Water",
+                                "AirLoop",
+                                "AirLoopHVAC",
+                                "VAV_TOP WITH REHEAT",
+                                "PERIMETER_TOP_ZN_1 ZN; PERIMETER_TOP_ZN_2 ZN; PERIMETER_TOP_ZN_3 ZN; "
+                                "PERIMETER_TOP_ZN_4 ZN; CORE_TOP ZN;",
+                                "VAV_TOP WITH REHEAT FAN",
+                                "Fan:VariableVolume",
+                                "VAV_TOP WITH REHEAT",
+                                "CHILLED WATER LOOP",
+                                "CHILLED WATER LOOP"
+                            ],
+                            "VAV_TOP WITH REHEAT MAIN HTG COIL": [
+                                "VAV_TOP WITH REHEAT MAIN HTG COIL",
+                                "Coil:Heating:Water",
+                                "AirLoop",
+                                "AirLoopHVAC",
+                                "VAV_TOP WITH REHEAT",
+                                "PERIMETER_TOP_ZN_1 ZN; PERIMETER_TOP_ZN_2 ZN; PERIMETER_TOP_ZN_3 ZN; "
+                                "PERIMETER_TOP_ZN_4 ZN; CORE_TOP ZN;",
+                                "VAV_TOP WITH REHEAT FAN",
+                                "Fan:VariableVolume",
+                                "VAV_TOP WITH REHEAT",
+                                "HOT WATER LOOP",
+                                "HOT WATER LOOP"
+                            ]
+                        },
+                        "TableName": "Coil Connections"
+                    }
+                ]
+            },
+        ]
+
+        gathered_coil_connections = t.gather_coil_connections()
+
+        expected = {'BASEMENT ZN REHEAT COIL': {'plant_loop_name': 'HOT WATER LOOP'},
+                    'CAV_BAS CLG COIL': {'plant_loop_name': 'CHILLED WATER LOOP'},
+                    'CAV_BAS MAIN HTG COIL': {'plant_loop_name': 'HOT WATER LOOP'},
+                    'CORE_BOTTOM ZN REHEAT COIL': {'plant_loop_name': 'HOT WATER LOOP'},
+                    'CORE_MID ZN REHEAT COIL': {'plant_loop_name': 'HOT WATER LOOP'},
+                    'CORE_TOP ZN REHEAT COIL': {'plant_loop_name': 'HOT WATER LOOP'},
+                    'DATACENTER_BASEMENT_ZN_6 ZN PSZ-AC ELECTRIC BACKUP HTG COIL': {
+                        'plant_loop_name': 'unknown'},
+                    'DATACENTER_BASEMENT_ZN_6 ZN PSZ-AC WATER-TO-AIR HP CLG COIL': {
+                        'plant_loop_name': 'unknown'},
+                    'DATACENTER_BASEMENT_ZN_6 ZN PSZ-AC WATER-TO-AIR HP HTG COIL 2215 CLG KBTU/HR 4.2COPH': {
+                        'plant_loop_name': 'unknown'},
+                    'DATACENTER_BOT_ZN_6 ZN PSZ-AC ELECTRIC BACKUP HTG COIL': {
+                        'plant_loop_name': 'unknown'},
+                    'DATACENTER_BOT_ZN_6 ZN PSZ-AC WATER-TO-AIR HP CLG COIL 52KBTU/HR 12.0EER': {
+                        'plant_loop_name': 'unknown'},
+                    'DATACENTER_BOT_ZN_6 ZN PSZ-AC WATER-TO-AIR HP HTG COIL 52 CLG KBTU/HR 4.2COPH': {
+                        'plant_loop_name': 'unknown'},
+                    'DATACENTER_MID_ZN_6 ZN PSZ-AC ELECTRIC BACKUP HTG COIL': {
+                        'plant_loop_name': 'unknown'},
+                    'DATACENTER_MID_ZN_6 ZN PSZ-AC WATER-TO-AIR HP CLG COIL': {
+                        'plant_loop_name': 'unknown'},
+                    'DATACENTER_MID_ZN_6 ZN PSZ-AC WATER-TO-AIR HP HTG COIL 454 CLG KBTU/HR 4.2COPH': {
+                        'plant_loop_name': 'unknown'},
+                    'DATACENTER_TOP_ZN_6 ZN PSZ-AC ELECTRIC BACKUP HTG COIL': {
+                        'plant_loop_name': 'unknown'},
+                    'DATACENTER_TOP_ZN_6 ZN PSZ-AC WATER-TO-AIR HP CLG COIL 47KBTU/HR 12.0EER': {
+                        'plant_loop_name': 'unknown'},
+                    'DATACENTER_TOP_ZN_6 ZN PSZ-AC WATER-TO-AIR HP HTG COIL 47 CLG KBTU/HR 4.2COPH': {
+                        'plant_loop_name': 'unknown'},
+                    'PERIMETER_BOT_ZN_1 ZN REHEAT COIL': {'plant_loop_name': 'HOT WATER LOOP'},
+                    'PERIMETER_BOT_ZN_2 ZN REHEAT COIL': {'plant_loop_name': 'HOT WATER LOOP'},
+                    'PERIMETER_BOT_ZN_3 ZN REHEAT COIL': {'plant_loop_name': 'HOT WATER LOOP'},
+                    'PERIMETER_BOT_ZN_4 ZN REHEAT COIL': {'plant_loop_name': 'HOT WATER LOOP'},
+                    'PERIMETER_MID_ZN_1 ZN REHEAT COIL': {'plant_loop_name': 'HOT WATER LOOP'},
+                    'PERIMETER_MID_ZN_2 ZN REHEAT COIL': {'plant_loop_name': 'HOT WATER LOOP'},
+                    'PERIMETER_MID_ZN_3 ZN REHEAT COIL': {'plant_loop_name': 'HOT WATER LOOP'},
+                    'PERIMETER_MID_ZN_4 ZN REHEAT COIL': {'plant_loop_name': 'HOT WATER LOOP'},
+                    'PERIMETER_TOP_ZN_1 ZN REHEAT COIL': {'plant_loop_name': 'HOT WATER LOOP'},
+                    'PERIMETER_TOP_ZN_2 ZN REHEAT COIL': {'plant_loop_name': 'HOT WATER LOOP'},
+                    'PERIMETER_TOP_ZN_3 ZN REHEAT COIL': {'plant_loop_name': 'HOT WATER LOOP'},
+                    'PERIMETER_TOP_ZN_4 ZN REHEAT COIL': {'plant_loop_name': 'HOT WATER LOOP'},
+                    'VAV_BOT WITH REHEAT CLG COIL': {'plant_loop_name': 'CHILLED WATER LOOP'},
+                    'VAV_BOT WITH REHEAT MAIN HTG COIL': {'plant_loop_name': 'HOT WATER LOOP'},
+                    'VAV_MID WITH REHEAT CLG COIL': {'plant_loop_name': 'CHILLED WATER LOOP'},
+                    'VAV_MID WITH REHEAT MAIN HTG COIL': {'plant_loop_name': 'HOT WATER LOOP'},
+                    'VAV_TOP WITH REHEAT CLG COIL': {'plant_loop_name': 'CHILLED WATER LOOP'},
+                    'VAV_TOP WITH REHEAT MAIN HTG COIL': {'plant_loop_name': 'HOT WATER LOOP'}}
+
+        self.assertEqual(gathered_coil_connections, expected)
