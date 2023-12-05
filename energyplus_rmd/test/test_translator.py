@@ -2274,3 +2274,25 @@ class TestTranslator(TestCase):
                         'type': 'Coil:Heating:Fuel', 'used_as_sup_heat': True, 'nominal_eff': 0.8}}
 
         self.assertEqual(gathered_heating_coil_efficiencies, expected)
+
+    def test_process_cooling_metrics(self):
+        t = self.set_minimal_files()
+        coil_name = 'CORE_ZN ZN PSZ-AC-1 1SPD DX HP CLG COIL 31KBTU/HR 14.0SEER'
+        coil_efficiencies = {
+            'CORE_ZN ZN PSZ-AC-1 1SPD DX HP CLG COIL 31KBTU/HR 14.0SEER': {'type': 'Coil:Cooling:DX:SingleSpeed',
+                                                                           'nominal_eff': 4.12,
+                                                                           'StandardRatedNetCOP2017': 3.53,
+                                                                           'EER2017': 12.05, 'SEER2017': 11.97,
+                                                                           'IEER2017': 12.22,
+                                                                           'StandardRatedNetCOP2023': 3.43,
+                                                                           'EER2023': 11.7, 'SEER2023': 11.93,
+                                                                           'IEER2023': 11.7}}
+
+        processed_metric_types, processed_metric_values = t.process_cooling_metrics(coil_name, coil_efficiencies)
+
+        expected_metric_types = ['FULL_LOAD_COEFFICIENT_OF_PERFORMANCE', 'ENERGY_EFFICIENCY_RATIO',
+                                 'SEASONAL_ENERGY_EFFICIENCY_RATIO', 'INTEGRATED_ENERGY_EFFICIENCY_RATIO']
+        expected_metric_values = [3.53, 12.05, 11.97, 11.7]
+
+        self.assertEqual(processed_metric_types, expected_metric_types)
+        self.assertEqual(processed_metric_values, expected_metric_values)
