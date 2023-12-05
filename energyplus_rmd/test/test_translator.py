@@ -2296,3 +2296,249 @@ class TestTranslator(TestCase):
 
         self.assertEqual(processed_metric_types, expected_metric_types)
         self.assertEqual(processed_metric_values, expected_metric_values)
+
+    def test_gather_cooling_coil_efficiencies(self):
+        t = self.set_minimal_files()
+
+        t.json_results_object['TabularReports'] = [
+            {
+                "For": "Entire Facility",
+                "ReportName": "EquipmentSummary",
+                "Tables": [
+                    {
+                        "Cols": [
+                            "Type",
+                            "Design Coil Load [W]",
+                            "Nominal Total Capacity [W]",
+                            "Nominal Sensible Capacity [W]",
+                            "Nominal Latent Capacity [W]",
+                            "Nominal Sensible Heat Ratio",
+                            "Nominal Efficiency [W/W]",
+                            "Nominal Coil UA Value [W/C]",
+                            "Nominal Coil Surface Area [m2]"
+                        ],
+                        "Rows": {
+                            "CORE_ZN ZN PSZ-AC-1 1SPD DX HP CLG COIL 31KBTU/HR 14.0SEER": [
+                                "Coil:Cooling:DX:SingleSpeed",
+                                "",
+                                "9209.12",
+                                "6456.36",
+                                "2752.76",
+                                "0.70",
+                                "4.12",
+                                "",
+                                ""
+                            ],
+                            "PERIMETER_ZN_1 ZN PSZ-AC-2 1SPD DX HP CLG COIL 30KBTU/HR 14.0SEER": [
+                                "Coil:Cooling:DX:SingleSpeed",
+                                "",
+                                "8521.48",
+                                "5974.26",
+                                "2547.21",
+                                "0.70",
+                                "4.12",
+                                "",
+                                ""
+                            ],
+                            "PERIMETER_ZN_2 ZN PSZ-AC-3 1SPD DX HP CLG COIL 25KBTU/HR 14.0SEER": [
+                                "Coil:Cooling:DX:SingleSpeed",
+                                "",
+                                "7154.98",
+                                "5016.24",
+                                "2138.74",
+                                "0.70",
+                                "4.12",
+                                "",
+                                ""
+                            ],
+                            "PERIMETER_ZN_3 ZN PSZ-AC-4 1SPD DX HP CLG COIL 28KBTU/HR 14.0SEER": [
+                                "Coil:Cooling:DX:SingleSpeed",
+                                "",
+                                "7943.45",
+                                "5569.02",
+                                "2374.43",
+                                "0.70",
+                                "4.12",
+                                "",
+                                ""
+                            ],
+                            "PERIMETER_ZN_4 ZN PSZ-AC-5 1SPD DX HP CLG COIL 31KBTU/HR 14.0SEER": [
+                                "Coil:Cooling:DX:SingleSpeed",
+                                "",
+                                "8664.58",
+                                "6074.59",
+                                "2589.99",
+                                "0.70",
+                                "4.12",
+                                "",
+                                ""
+                            ]
+                        },
+                        "TableName": "Cooling Coils"
+                    },
+                    {
+                        "Cols": [
+                            "Cooling Coil Type #1",
+                            "Standard Rated Net Cooling Capacity [W] #2",
+                            "Standard Rated Net COP [W/W] #2",
+                            "EER [Btu/W-h] #2",
+                            "SEER User [Btu/W-h] #2,3",
+                            "SEER Standard [Btu/W-h] #2,3",
+                            "IEER [Btu/W-h] #2"
+                        ],
+                        "Rows": {
+                            "CORE_ZN ZN PSZ-AC-1 1SPD DX HP CLG COIL 31KBTU/HR 14.0SEER": [
+                                "",
+                                "8916.6",
+                                "3.53",
+                                "12.05",
+                                "11.97",
+                                "11.97",
+                                "12.22"
+                            ],
+                            "PERIMETER_ZN_1 ZN PSZ-AC-2 1SPD DX HP CLG COIL 30KBTU/HR 14.0SEER": [
+                                "",
+                                "8250.8",
+                                "3.53",
+                                "12.05",
+                                "11.97",
+                                "11.97",
+                                "12.22"
+                            ],
+                            "PERIMETER_ZN_2 ZN PSZ-AC-3 1SPD DX HP CLG COIL 25KBTU/HR 14.0SEER": [
+                                "",
+                                "6927.7",
+                                "3.53",
+                                "12.05",
+                                "11.97",
+                                "11.97",
+                                "12.22"
+                            ],
+                            "PERIMETER_ZN_3 ZN PSZ-AC-4 1SPD DX HP CLG COIL 28KBTU/HR 14.0SEER": [
+                                "",
+                                "7691.1",
+                                "3.53",
+                                "12.05",
+                                "11.97",
+                                "11.97",
+                                "12.22"
+                            ],
+                            "PERIMETER_ZN_4 ZN PSZ-AC-5 1SPD DX HP CLG COIL 31KBTU/HR 14.0SEER": [
+                                "",
+                                "8389.3",
+                                "3.53",
+                                "12.05",
+                                "11.97",
+                                "11.97",
+                                "12.22"
+                            ]
+                        },
+                        "TableName": "DX Cooling Coil Standard Ratings 2017"
+                    },
+                    {
+                        "Cols": [
+                            "Cooling Coil Type #1",
+                            "Standard Rated Net Cooling Capacity [W] #2",
+                            "Standard Rated Net COP [W/W] #2,4",
+                            "EER [Btu/W-h] #2,4",
+                            "SEER User [Btu/W-h] #2,3",
+                            "SEER Standard [Btu/W-h] #2,3",
+                            "IEER [Btu/W-h] #2"
+                        ],
+                        "Rows": {
+                            "CORE_ZN ZN PSZ-AC-1 1SPD DX HP CLG COIL 31KBTU/HR 14.0SEER": [
+                                "Coil:Cooling:DX:SingleSpeed",
+                                "8856.8",
+                                "3.43",
+                                "11.70",
+                                "11.59",
+                                "11.93",
+                                "11.7"
+                            ],
+                            "PERIMETER_ZN_1 ZN PSZ-AC-2 1SPD DX HP CLG COIL 30KBTU/HR 14.0SEER": [
+                                "Coil:Cooling:DX:SingleSpeed",
+                                "8195.5",
+                                "3.43",
+                                "11.70",
+                                "11.59",
+                                "11.93",
+                                "11.7"
+                            ],
+                            "PERIMETER_ZN_2 ZN PSZ-AC-3 1SPD DX HP CLG COIL 25KBTU/HR 14.0SEER": [
+                                "Coil:Cooling:DX:SingleSpeed",
+                                "6881.3",
+                                "3.43",
+                                "11.70",
+                                "11.59",
+                                "11.93",
+                                "11.7"
+                            ],
+                            "PERIMETER_ZN_3 ZN PSZ-AC-4 1SPD DX HP CLG COIL 28KBTU/HR 14.0SEER": [
+                                "Coil:Cooling:DX:SingleSpeed",
+                                "7639.6",
+                                "3.43",
+                                "11.70",
+                                "11.59",
+                                "11.93",
+                                "11.7"
+                            ],
+                            "PERIMETER_ZN_4 ZN PSZ-AC-5 1SPD DX HP CLG COIL 31KBTU/HR 14.0SEER": [
+                                "Coil:Cooling:DX:SingleSpeed",
+                                "8333.1",
+                                "3.43",
+                                "11.70",
+                                "11.59",
+                                "11.93",
+                                "11.7"
+                            ]
+                        },
+                        "TableName": "DX Cooling Coil Standard Ratings 2023"
+                    },
+                ]
+            },
+        ]
+
+        gathered_cooling_coil_efficiencies = t.gather_cooling_coil_efficiencies()
+
+        expected = {
+            'CORE_ZN ZN PSZ-AC-1 1SPD DX HP CLG COIL 31KBTU/HR 14.0SEER': {'type': 'Coil:Cooling:DX:SingleSpeed',
+                                                                           'nominal_eff': 4.12,
+                                                                           'StandardRatedNetCOP2017': 3.53,
+                                                                           'EER2017': 12.05, 'SEER2017': 11.97,
+                                                                           'IEER2017': 12.22,
+                                                                           'StandardRatedNetCOP2023': 3.43,
+                                                                           'EER2023': 11.7, 'SEER2023': 11.93,
+                                                                           'IEER2023': 11.7},
+            'PERIMETER_ZN_1 ZN PSZ-AC-2 1SPD DX HP CLG COIL 30KBTU/HR 14.0SEER': {'type': 'Coil:Cooling:DX:SingleSpeed',
+                                                                                  'nominal_eff': 4.12,
+                                                                                  'StandardRatedNetCOP2017': 3.53,
+                                                                                  'EER2017': 12.05, 'SEER2017': 11.97,
+                                                                                  'IEER2017': 12.22,
+                                                                                  'StandardRatedNetCOP2023': 3.43,
+                                                                                  'EER2023': 11.7, 'SEER2023': 11.93,
+                                                                                  'IEER2023': 11.7},
+            'PERIMETER_ZN_2 ZN PSZ-AC-3 1SPD DX HP CLG COIL 25KBTU/HR 14.0SEER': {'type': 'Coil:Cooling:DX:SingleSpeed',
+                                                                                  'nominal_eff': 4.12,
+                                                                                  'StandardRatedNetCOP2017': 3.53,
+                                                                                  'EER2017': 12.05, 'SEER2017': 11.97,
+                                                                                  'IEER2017': 12.22,
+                                                                                  'StandardRatedNetCOP2023': 3.43,
+                                                                                  'EER2023': 11.7, 'SEER2023': 11.93,
+                                                                                  'IEER2023': 11.7},
+            'PERIMETER_ZN_3 ZN PSZ-AC-4 1SPD DX HP CLG COIL 28KBTU/HR 14.0SEER': {'type': 'Coil:Cooling:DX:SingleSpeed',
+                                                                                  'nominal_eff': 4.12,
+                                                                                  'StandardRatedNetCOP2017': 3.53,
+                                                                                  'EER2017': 12.05, 'SEER2017': 11.97,
+                                                                                  'IEER2017': 12.22,
+                                                                                  'StandardRatedNetCOP2023': 3.43,
+                                                                                  'EER2023': 11.7, 'SEER2023': 11.93,
+                                                                                  'IEER2023': 11.7},
+            'PERIMETER_ZN_4 ZN PSZ-AC-5 1SPD DX HP CLG COIL 31KBTU/HR 14.0SEER': {'type': 'Coil:Cooling:DX:SingleSpeed',
+                                                                                  'nominal_eff': 4.12,
+                                                                                  'StandardRatedNetCOP2017': 3.53,
+                                                                                  'EER2017': 12.05, 'SEER2017': 11.97,
+                                                                                  'IEER2017': 12.22,
+                                                                                  'StandardRatedNetCOP2023': 3.43,
+                                                                                  'EER2023': 11.7, 'SEER2023': 11.93,
+                                                                                  'IEER2023': 11.7}}
+        self.assertEqual(gathered_cooling_coil_efficiencies, expected)
