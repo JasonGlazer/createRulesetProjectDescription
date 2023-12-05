@@ -2007,3 +2007,270 @@ class TestTranslator(TestCase):
 
         self.assertEqual(processed_metric_types, expected_metric_types)
         self.assertEqual(processed_metric_values, expected_metric_values)
+
+    def test_gather_heating_coil_efficiencies(self):
+        t = self.set_minimal_files()
+
+        t.json_results_object['TabularReports'] = [
+            {
+                "For": "Entire Facility",
+                "ReportName": "EquipmentSummary",
+                "Tables": [
+                    {
+                        "Cols": [
+                            "DX Heating Coil Type",
+                            "High Temperature Heating (net) Rating Capacity [W]",
+                            "Low Temperature Heating (net) Rating Capacity [W]",
+                            "HSPF [Btu/W-h]",
+                            "Region Number",
+                            "Minimum Outdoor Dry-Bulb Temperature for Compressor Operation",
+                            "Airloop Name"
+                        ],
+                        "Rows": {
+                            "CORE_ZN ZN HP HTG COIL 31 CLG KBTU/HR 8.0HSPF": [
+                                "Coil:Heating:DX:SingleSpeed",
+                                "9507.1",
+                                "5231.3",
+                                "7.53",
+                                "4",
+                                "-12.20",
+                                "N/A"
+                            ],
+                            "PERIMETER_ZN_1 ZN HP HTG COIL 30 CLG KBTU/HR 8.0HSPF": [
+                                "Coil:Heating:DX:SingleSpeed",
+                                "8797.2",
+                                "4840.7",
+                                "7.51",
+                                "4",
+                                "-12.20",
+                                "N/A"
+                            ],
+                            "PERIMETER_ZN_2 ZN HP HTG COIL 25 CLG KBTU/HR 8.0HSPF": [
+                                "Coil:Heating:DX:SingleSpeed",
+                                "7386.5",
+                                "4064.5",
+                                "7.51",
+                                "4",
+                                "-12.20",
+                                "N/A"
+                            ],
+                            "PERIMETER_ZN_3 ZN HP HTG COIL 28 CLG KBTU/HR 8.0HSPF": [
+                                "Coil:Heating:DX:SingleSpeed",
+                                "8200.4",
+                                "4512.3",
+                                "7.50",
+                                "4",
+                                "-12.20",
+                                "N/A"
+                            ],
+                            "PERIMETER_ZN_4 ZN HP HTG COIL 31 CLG KBTU/HR 8.0HSPF": [
+                                "Coil:Heating:DX:SingleSpeed",
+                                "8944.9",
+                                "4922.0",
+                                "7.52",
+                                "4",
+                                "-12.20",
+                                "N/A"
+                            ]
+                        },
+                        "TableName": "DX Heating Coils"
+                    },
+                    {
+                        "Cols": [
+                            "DX Heating Coil Type",
+                            "High Temperature Heating (net) Rating Capacity [W]",
+                            "Low Temperature Heating (net) Rating Capacity [W]",
+                            "HSPF2 [Btu/W-h]",
+                            "Region Number"
+                        ],
+                        "Rows": {
+                            "CORE_ZN ZN HP HTG COIL 31 CLG KBTU/HR 8.0HSPF": [
+                                "Coil:Heating:DX:SingleSpeed",
+                                "9507.1",
+                                "5231.3",
+                                "6.84",
+                                "4"
+                            ],
+                            "PERIMETER_ZN_1 ZN HP HTG COIL 30 CLG KBTU/HR 8.0HSPF": [
+                                "Coil:Heating:DX:SingleSpeed",
+                                "8797.2",
+                                "4840.7",
+                                "6.84",
+                                "4"
+                            ],
+                            "PERIMETER_ZN_2 ZN HP HTG COIL 25 CLG KBTU/HR 8.0HSPF": [
+                                "Coil:Heating:DX:SingleSpeed",
+                                "7386.5",
+                                "4064.5",
+                                "6.84",
+                                "4"
+                            ],
+                            "PERIMETER_ZN_3 ZN HP HTG COIL 28 CLG KBTU/HR 8.0HSPF": [
+                                "Coil:Heating:DX:SingleSpeed",
+                                "8200.4",
+                                "4512.3",
+                                "6.84",
+                                "4"
+                            ],
+                            "PERIMETER_ZN_4 ZN HP HTG COIL 31 CLG KBTU/HR 8.0HSPF": [
+                                "Coil:Heating:DX:SingleSpeed",
+                                "8944.9",
+                                "4922.0",
+                                "6.84",
+                                "4"
+                            ]
+                        },
+                        "TableName": "DX Heating Coils [ HSPF2 ]"
+                    },
+                    {
+                        "Cols": [
+                            "Type",
+                            "Design Coil Load [W]",
+                            "Nominal Total Capacity [W]",
+                            "Nominal Efficiency [W/W]",
+                            "Used as Supplementary Heat",
+                            "Airloop Name",
+                            "Plantloop Name"
+                        ],
+                        "Rows": {
+                            "CORE_ZN ZN HP HTG COIL 31 CLG KBTU/HR 8.0HSPF": [
+                                "Coil:Heating:DX:SingleSpeed",
+                                "",
+                                "9209.12",
+                                "3.36",
+                                "No",
+                                "CORE_ZN ZN PSZ-AC-1",
+                                "N/A"
+                            ],
+                            "CORE_ZN ZN PSZ-AC-1 GAS BACKUP HTG COIL 31KBTU/HR 0.8 THERMAL EFF": [
+                                "Coil:Heating:Fuel",
+                                "",
+                                "9209.12",
+                                "0.80",
+                                "Yes",
+                                "CORE_ZN ZN PSZ-AC-1",
+                                "N/A"
+                            ],
+                            "PERIMETER_ZN_1 ZN HP HTG COIL 30 CLG KBTU/HR 8.0HSPF": [
+                                "Coil:Heating:DX:SingleSpeed",
+                                "",
+                                "8521.48",
+                                "3.36",
+                                "No",
+                                "PERIMETER_ZN_1 ZN PSZ-AC-2",
+                                "N/A"
+                            ],
+                            "PERIMETER_ZN_1 ZN PSZ-AC-2 GAS BACKUP HTG COIL 30KBTU/HR 0.8 THERMAL EFF": [
+                                "Coil:Heating:Fuel",
+                                "",
+                                "8521.48",
+                                "0.80",
+                                "Yes",
+                                "PERIMETER_ZN_1 ZN PSZ-AC-2",
+                                "N/A"
+                            ],
+                            "PERIMETER_ZN_2 ZN HP HTG COIL 25 CLG KBTU/HR 8.0HSPF": [
+                                "Coil:Heating:DX:SingleSpeed",
+                                "",
+                                "7154.98",
+                                "3.36",
+                                "No",
+                                "PERIMETER_ZN_2 ZN PSZ-AC-3",
+                                "N/A"
+                            ],
+                            "PERIMETER_ZN_2 ZN PSZ-AC-3 GAS BACKUP HTG COIL 25KBTU/HR 0.8 THERMAL EFF": [
+                                "Coil:Heating:Fuel",
+                                "",
+                                "7154.98",
+                                "0.80",
+                                "Yes",
+                                "PERIMETER_ZN_2 ZN PSZ-AC-3",
+                                "N/A"
+                            ],
+                            "PERIMETER_ZN_3 ZN HP HTG COIL 28 CLG KBTU/HR 8.0HSPF": [
+                                "Coil:Heating:DX:SingleSpeed",
+                                "",
+                                "7943.45",
+                                "3.36",
+                                "No",
+                                "PERIMETER_ZN_3 ZN PSZ-AC-4",
+                                "N/A"
+                            ],
+                            "PERIMETER_ZN_3 ZN PSZ-AC-4 GAS BACKUP HTG COIL 28KBTU/HR 0.8 THERMAL EFF": [
+                                "Coil:Heating:Fuel",
+                                "",
+                                "7943.45",
+                                "0.80",
+                                "Yes",
+                                "PERIMETER_ZN_3 ZN PSZ-AC-4",
+                                "N/A"
+                            ],
+                            "PERIMETER_ZN_4 ZN HP HTG COIL 31 CLG KBTU/HR 8.0HSPF": [
+                                "Coil:Heating:DX:SingleSpeed",
+                                "",
+                                "8664.58",
+                                "3.36",
+                                "No",
+                                "PERIMETER_ZN_4 ZN PSZ-AC-5",
+                                "N/A"
+                            ],
+                            "PERIMETER_ZN_4 ZN PSZ-AC-5 GAS BACKUP HTG COIL 31KBTU/HR 0.8 THERMAL EFF": [
+                                "Coil:Heating:Fuel",
+                                "",
+                                "8664.58",
+                                "0.80",
+                                "Yes",
+                                "PERIMETER_ZN_4 ZN PSZ-AC-5",
+                                "N/A"
+                            ]
+                        },
+                        "TableName": "Heating Coils"
+                    },
+                ]
+            },
+        ]
+
+        gathered_heating_coil_efficiencies = t.gather_heating_coil_efficiencies()
+
+        expected = {'CORE_ZN ZN HP HTG COIL 31 CLG KBTU/HR 8.0HSPF': {'type': 'Coil:Heating:DX:SingleSpeed',
+                                                                      'used_as_sup_heat': False, 'nominal_eff': 3.36,
+                                                                      'HSPF': 7.53, 'HSPF_region': '4',
+                                                                      'minimum_temperature_compressor': -12.2,
+                                                                      'HSPF2': 6.84, 'HSPF2_region': '4'},
+                    'CORE_ZN ZN PSZ-AC-1 GAS BACKUP HTG COIL 31KBTU/HR 0.8 THERMAL EFF': {'type': 'Coil:Heating:Fuel',
+                                                                                          'used_as_sup_heat': True,
+                                                                                          'nominal_eff': 0.8},
+                    'PERIMETER_ZN_1 ZN HP HTG COIL 30 CLG KBTU/HR 8.0HSPF': {'type': 'Coil:Heating:DX:SingleSpeed',
+                                                                             'used_as_sup_heat': False,
+                                                                             'nominal_eff': 3.36, 'HSPF': 7.51,
+                                                                             'HSPF_region': '4',
+                                                                             'minimum_temperature_compressor': -12.2,
+                                                                             'HSPF2': 6.84, 'HSPF2_region': '4'},
+                    'PERIMETER_ZN_1 ZN PSZ-AC-2 GAS BACKUP HTG COIL 30KBTU/HR 0.8 THERMAL EFF': {
+                        'type': 'Coil:Heating:Fuel', 'used_as_sup_heat': True, 'nominal_eff': 0.8},
+                    'PERIMETER_ZN_2 ZN HP HTG COIL 25 CLG KBTU/HR 8.0HSPF': {'type': 'Coil:Heating:DX:SingleSpeed',
+                                                                             'used_as_sup_heat': False,
+                                                                             'nominal_eff': 3.36, 'HSPF': 7.51,
+                                                                             'HSPF_region': '4',
+                                                                             'minimum_temperature_compressor': -12.2,
+                                                                             'HSPF2': 6.84, 'HSPF2_region': '4'},
+                    'PERIMETER_ZN_2 ZN PSZ-AC-3 GAS BACKUP HTG COIL 25KBTU/HR 0.8 THERMAL EFF': {
+                        'type': 'Coil:Heating:Fuel', 'used_as_sup_heat': True, 'nominal_eff': 0.8},
+                    'PERIMETER_ZN_3 ZN HP HTG COIL 28 CLG KBTU/HR 8.0HSPF': {'type': 'Coil:Heating:DX:SingleSpeed',
+                                                                             'used_as_sup_heat': False,
+                                                                             'nominal_eff': 3.36, 'HSPF': 7.5,
+                                                                             'HSPF_region': '4',
+                                                                             'minimum_temperature_compressor': -12.2,
+                                                                             'HSPF2': 6.84, 'HSPF2_region': '4'},
+                    'PERIMETER_ZN_3 ZN PSZ-AC-4 GAS BACKUP HTG COIL 28KBTU/HR 0.8 THERMAL EFF': {
+                        'type': 'Coil:Heating:Fuel', 'used_as_sup_heat': True, 'nominal_eff': 0.8},
+                    'PERIMETER_ZN_4 ZN HP HTG COIL 31 CLG KBTU/HR 8.0HSPF': {'type': 'Coil:Heating:DX:SingleSpeed',
+                                                                             'used_as_sup_heat': False,
+                                                                             'nominal_eff': 3.36, 'HSPF': 7.52,
+                                                                             'HSPF_region': '4',
+                                                                             'minimum_temperature_compressor': -12.2,
+                                                                             'HSPF2': 6.84, 'HSPF2_region': '4'},
+                    'PERIMETER_ZN_4 ZN PSZ-AC-5 GAS BACKUP HTG COIL 31KBTU/HR 0.8 THERMAL EFF': {
+                        'type': 'Coil:Heating:Fuel', 'used_as_sup_heat': True, 'nominal_eff': 0.8}}
+
+        self.assertEqual(gathered_heating_coil_efficiencies, expected)
