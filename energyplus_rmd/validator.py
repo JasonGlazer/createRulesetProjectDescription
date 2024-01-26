@@ -42,7 +42,7 @@ class Validator:
             self.validator.validate(rmd_dict)
             return True, ''
         except jsonschema.exceptions.ValidationError as err:
-            return False, f"invalid: {err.message}"
+            return False, f"invalid: {err.message} at {err.json_path}"
 
     def is_in_901_enumeration(self, enumeration_list_name: str, search_string: str) -> bool:
         if self.enum_901:

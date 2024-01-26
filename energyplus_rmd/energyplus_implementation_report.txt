@@ -1,49 +1,54 @@
 ============= Generated Report ==============
-Updated at: 2022-12-27 13:10:09.252755 
+Updated at: 2023-12-05 09:24:27.187059 
 
-ASHRAE229  #elements: 8
+RulesetProjectDescription  #elements: 10
   note    DoneUsingConstant        id
   note    NotRequired              reporting_name
   null    DoneUsingConstant        notes
-  note    DoneUsingConstant        ruleset_model_instances
-  note    NotStarted               calendar
+  note    DoneUsingOutput          data_timestamp
+  note    DoneUsingConstant        data_version
+  note    DoneUsingConstant        ruleset_model_descriptions
+  note    DoneUsingConstant        calendar
   note    DoneUsingConstant        weather
   note    NotStarted               compliance_path
   note    DoneUsingConstant        output_format_type
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 7, 'null  ': 1} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 5, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 1, 'NotStarted': 2} 
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 9, 'null  ': 1} {'DoneUsingInput': 0, 'DoneUsingOutput': 1, 'DoneUsingConstant': 7, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 1, 'NotStarted': 1, 'ToDo': 0} 
 
-RulesetModelInstance  #elements: 18
+RulesetModelDescription  #elements: 19
   note    DoneUsingConstant        id
   note    NotRequired              reporting_name
   null    DoneUsingConstant        notes
-  note    NotStarted               ruleset_model_type
+  note    NotStarted               type
   input   NotStarted               transformers
   inout   DoneUsingConstant        buildings
   inout   DoneUsingConstant        schedules
   note    NotStarted               measured_infiltration_pressure_difference
   note    NotStarted               is_measured_infiltration_based_on_test
-  inout   NotStarted               fluid_loops
+  inout   ToDo                     fluid_loops
   note    NotStarted               service_water_heating_distribution_systems
   note    NotStarted               service_water_heating_equipment
-  note    NotStarted               pumps
-  note    NotStarted               boilers
-  note    NotStarted               chillers
-  note    NotStarted               heat_rejections
-  note    NotStarted               external_fluid_source
+  output  ToDo                     pumps
+  output  ToDo                     boilers
+  output  ToDo                     chillers
+  output  ToDo                     heat_rejections
+  note    NotStarted               external_fluid_sources
   note    NotStarted               site_zone_type
-  counts:  {'inout ': 3, 'input ': 1, 'output': 0, 'note  ': 13, 'null  ': 1} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 4, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 1, 'NotStarted': 13} 
+  null    NotStarted               output
+  counts:  {'inout ': 3, 'input ': 1, 'output': 4, 'note  ': 9, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 4, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 1, 'NotStarted': 9, 'ToDo': 5} 
 
-Building  #elements: 9
+Building  #elements: 11
   inout   DoneUsingInput           id
   null    NotRequired              reporting_name
   null    DoneUsingConstant        notes
   note    DoneUsingConstant        building_segments
   note    NotStarted               elevators
   inout   DoneUsingConstant        exterior_lighting
-  note    NotStarted               refrigerated_casess
+  note    NotStarted               refrigerated_cases
   note    PartialUsingConstant     building_open_schedule
   inout   DoneUsingOutput          has_site_shading
-  counts:  {'inout ': 3, 'input ': 0, 'output': 0, 'note  ': 4, 'null  ': 2} {'DoneUsingInput': 1, 'DoneUsingOutput': 1, 'DoneUsingConstant': 3, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 1, 'NotRequired': 1, 'NotStarted': 2} 
+  note    NotStarted               number_of_floors_above_grade
+  note    NotStarted               number_of_floors_below_grade
+  counts:  {'inout ': 3, 'input ': 0, 'output': 0, 'note  ': 6, 'null  ': 2} {'DoneUsingInput': 1, 'DoneUsingOutput': 1, 'DoneUsingConstant': 3, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 1, 'NotRequired': 1, 'NotStarted': 4, 'ToDo': 0} 
 
 BuildingSegment  #elements: 11
   note    DoneUsingConstant        id
@@ -53,13 +58,13 @@ BuildingSegment  #elements: 11
   note    NotStarted               number_of_floors_below_grade
   note    NotStarted               is_all_new
   inout   DoneUsingConstant        zones
-  note    NotStarted               heating_ventilation_air_conditioning_systems
+  output  ToDo                     heating_ventilating_air_conditioning_systems
   note    NotStarted               area_type_vertical_fenestration
   note    NotStarted               lighting_building_area_type
-  note    NotStarted               area_type_heating_ventilation_air_conditioning_system
-  counts:  {'inout ': 1, 'input ': 0, 'output': 0, 'note  ': 8, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 2, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 7} 
+  note    NotStarted               area_type_heating_ventilating_air_conditioning_system
+  counts:  {'inout ': 1, 'input ': 0, 'output': 1, 'note  ': 7, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 2, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 6, 'ToDo': 1} 
 
-Zone  #elements: 25
+Zone  #elements: 26
   inout   DoneUsingOutput          id
   null    NotRequired              reporting_name
   null    NotRequired              notes
@@ -75,9 +80,10 @@ Zone  #elements: 25
   input   DoneUsingOutput          thermostat_heating_setpoint_schedule
   input   NotStarted               minimum_humidity_setpoint_schedule
   input   NotStarted               maximum_humidity_setpoint_schedule
-  note    NotStarted               terminals
+  output  ToDo                     terminals
   note    NotStarted               served_by_service_water_heating_system
   null    NotStarted               transfer_airflow_rate
+  null    NotStarted               transfer_airflow_source_zone
   input   NotStarted               zonal_exhaust_fan
   input   NotStarted               exhaust_airflow_rate_multiplier_schedule
   null    NotStarted               makeup_airflow_rate
@@ -85,9 +91,9 @@ Zone  #elements: 25
   null    NotStarted               non_mechanical_cooling_fan_airflow
   input   NotStarted               air_distribution_effectiveness
   note    NotStarted               aggregation_factor
-  counts:  {'inout ': 3, 'input ': 10, 'output': 1, 'note  ': 6, 'null  ': 5} {'DoneUsingInput': 0, 'DoneUsingOutput': 4, 'DoneUsingConstant': 3, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 16} 
+  counts:  {'inout ': 3, 'input ': 10, 'output': 2, 'note  ': 5, 'null  ': 6} {'DoneUsingInput': 0, 'DoneUsingOutput': 4, 'DoneUsingConstant': 3, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 16, 'ToDo': 1} 
 
-Space  #elements: 15
+Space  #elements: 17
   inout   DoneUsingOutput          id
   inout   NotRequired              reporting_name
   null    NotRequired              notes
@@ -97,13 +103,15 @@ Space  #elements: 15
   inout   DoneUsingOutput          number_of_occupants
   inout   DoneUsingOutput          occupant_multiplier_schedule
   input   NotStarted               occupant_sensible_heat_gain
+  input   NotStarted               occupant_latent_heat_gain
   note    NotStarted               status_type
-  note    NotStarted               space_function
+  note    NotStarted               function
+  null    NotStarted               envelope_space_type
   note    DoneUsingOutput          lighting_space_type
   note    DoneUsingOutput          ventilation_space_type
   note    DoneUsingOutput          service_water_heating_space_type
   input   NotStarted               service_water_heating_uses
-  counts:  {'inout ': 6, 'input ': 2, 'output': 1, 'note  ': 5, 'null  ': 1} {'DoneUsingInput': 0, 'DoneUsingOutput': 7, 'DoneUsingConstant': 2, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 4} 
+  counts:  {'inout ': 6, 'input ': 3, 'output': 1, 'note  ': 5, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 7, 'DoneUsingConstant': 2, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 6, 'ToDo': 0} 
 
 Infiltration  #elements: 8
   inout   DoneUsingOutput          id
@@ -112,9 +120,9 @@ Infiltration  #elements: 8
   note    PartialUsingConstant     modeling_method
   note    PartialUsingConstant     algorithm_name
   note    NotStarted               measured_air_leakage_rate
-  inout   PartialUsingOutput       infiltration_flow_rate
+  inout   PartialUsingOutput       flow_rate
   inout   PartialUsingOutput       multiplier_schedule
-  counts:  {'inout ': 3, 'input ': 0, 'output': 0, 'note  ': 3, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 1, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 2, 'PartialUsingConstant': 2, 'NotRequired': 2, 'NotStarted': 1} 
+  counts:  {'inout ': 3, 'input ': 0, 'output': 0, 'note  ': 3, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 1, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 2, 'PartialUsingConstant': 2, 'NotRequired': 2, 'NotStarted': 1, 'ToDo': 0} 
 
 Surface  #elements: 14
   inout   DoneUsingOutput          id
@@ -129,26 +137,27 @@ Surface  #elements: 14
   inout   DoneUsingInput           adjacent_zone
   inout   DoneUsingOutput          does_cast_shade
   inout   DoneUsingConstant        construction
-  input   NotStarted               surface_optical_properties
+  input   NotStarted               optical_properties
   note    NotStarted               status_type
-  counts:  {'inout ': 8, 'input ': 1, 'output': 3, 'note  ': 1, 'null  ': 1} {'DoneUsingInput': 1, 'DoneUsingOutput': 6, 'DoneUsingConstant': 2, 'PartialUsingInput': 0, 'PartialUsingOutput': 1, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 2} 
+  counts:  {'inout ': 8, 'input ': 1, 'output': 3, 'note  ': 1, 'null  ': 1} {'DoneUsingInput': 1, 'DoneUsingOutput': 6, 'DoneUsingConstant': 2, 'PartialUsingInput': 0, 'PartialUsingOutput': 1, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 2, 'ToDo': 0} 
 
-Construction  #elements: 14
+Construction  #elements: 15
   inout   PartialUsingInput        id
   inout   NotRequired              reporting_name
   null    NotRequired              notes
+  note    NotStarted               classification
   note    DoneUsingConstant        surface_construction_input_option
   note    NotRequired              fraction_framing
   input   DoneUsingConstant        primary_layers
   note    NotRequired              framing_layers
-  note    NotRequired              insulation_location
+  note    NotRequired              insulation_locations
   output  DoneUsingOutput          u_factor
   note    NotStarted               c_factor
   note    NotStarted               f_factor
-  note    NotStarted               r_value
+  note    NotStarted               r_values
   input   NotStarted               has_radiant_heating
   input   NotStarted               has_radiant_cooling
-  counts:  {'inout ': 2, 'input ': 3, 'output': 1, 'note  ': 7, 'null  ': 1} {'DoneUsingInput': 0, 'DoneUsingOutput': 1, 'DoneUsingConstant': 2, 'PartialUsingInput': 1, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 5, 'NotStarted': 5} 
+  counts:  {'inout ': 2, 'input ': 3, 'output': 1, 'note  ': 8, 'null  ': 1} {'DoneUsingInput': 0, 'DoneUsingOutput': 1, 'DoneUsingConstant': 2, 'PartialUsingInput': 1, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 5, 'NotStarted': 6, 'ToDo': 0} 
 
 Material  #elements: 8
   inout   PartialUsingInput        id
@@ -159,7 +168,7 @@ Material  #elements: 8
   inout   PartialUsingInput        density
   inout   PartialUsingInput        specific_heat
   inout   PartialUsingInput        r_value
-  counts:  {'inout ': 7, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 1} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 6, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 0} 
+  counts:  {'inout ': 7, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 1} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 6, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 0, 'ToDo': 0} 
 
 SurfaceOpticalProperties  #elements: 9
   input   NotStarted               id
@@ -171,7 +180,7 @@ SurfaceOpticalProperties  #elements: 9
   input   NotStarted               absorptance_thermal_interior
   input   NotStarted               absorptance_solar_interior
   input   NotStarted               absorptance_visible_interior
-  counts:  {'inout ': 0, 'input ': 7, 'output': 0, 'note  ': 0, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 9} 
+  counts:  {'inout ': 0, 'input ': 7, 'output': 0, 'note  ': 0, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 9, 'ToDo': 0} 
 
 Subsurface  #elements: 24
   inout   PartialUsingOutput       id
@@ -198,7 +207,7 @@ Subsurface  #elements: 24
   note    NotStarted               solar_transmittance_multiplier_winter
   output  DoneUsingOutput          has_automatic_shades
   note    NotStarted               status_type
-  counts:  {'inout ': 2, 'input ': 4, 'output': 8, 'note  ': 8, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 3, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 5, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 14} 
+  counts:  {'inout ': 2, 'input ': 4, 'output': 8, 'note  ': 8, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 3, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 5, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 14, 'ToDo': 0} 
 
 InteriorLighting  #elements: 10
   inout   DoneUsingOutput          id
@@ -211,7 +220,7 @@ InteriorLighting  #elements: 10
   inout   DoneUsingOutput          daylighting_control_type
   note    DoneUsingConstant        are_schedules_used_for_modeling_occupancy_control
   note    DoneUsingConstant        are_schedules_used_for_modeling_daylighting_control
-  counts:  {'inout ': 5, 'input ': 0, 'output': 0, 'note  ': 4, 'null  ': 1} {'DoneUsingInput': 0, 'DoneUsingOutput': 4, 'DoneUsingConstant': 2, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 2} 
+  counts:  {'inout ': 5, 'input ': 0, 'output': 0, 'note  ': 4, 'null  ': 1} {'DoneUsingInput': 0, 'DoneUsingOutput': 4, 'DoneUsingConstant': 2, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 2, 'ToDo': 0} 
 
 MiscellaneousEquipment  #elements: 12
   inout   DoneUsingOutput          id
@@ -224,9 +233,9 @@ MiscellaneousEquipment  #elements: 12
   inout   DoneUsingOutput          latent_fraction
   input   NotStarted               remaining_fraction_to_loop
   null    NotStarted               energy_from_loop
-  note    NotStarted               miscellaneous_equipment_type
+  note    NotStarted               type
   note    NotStarted               has_automatic_control
-  counts:  {'inout ': 7, 'input ': 1, 'output': 0, 'note  ': 2, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 5, 'DoneUsingConstant': 1, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 4} 
+  counts:  {'inout ': 7, 'input ': 1, 'output': 0, 'note  ': 2, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 5, 'DoneUsingConstant': 1, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 4, 'ToDo': 0} 
 
 Transformer  #elements: 8
   input   NotStarted               id
@@ -237,38 +246,44 @@ Transformer  #elements: 8
   input   NotStarted               efficiency
   input   NotStarted               capacity
   input   NotStarted               peak_load
-  counts:  {'inout ': 0, 'input ': 5, 'output': 0, 'note  ': 1, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 6} 
+  counts:  {'inout ': 0, 'input ': 5, 'output': 0, 'note  ': 1, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 6, 'ToDo': 0} 
 
-Schedule  #elements: 11
+Schedule  #elements: 17
   output  DoneUsingOutput          id
   null    NotRequired              reporting_name
   null    NotRequired              notes
   note    NotStarted               purpose
-  note    DoneUsingConstant        schedule_sequence_type
+  note    DoneUsingConstant        sequence_type
   output  DoneUsingOutput          hourly_values
+  null    NotStarted               hourly_heating_design_day
+  null    NotStarted               hourly_cooling_design_day
   null    NotRequired              event_times
   null    NotRequired              event_values
+  null    NotRequired              event_times_heating_design_day
+  null    NotRequired              event_values_heating_design_day
+  null    NotRequired              event_times_cooling_design_day
+  null    NotRequired              event_values_cooling_design_day
   output  NotStarted               type
-  note    NotStarted               prescribed_schedule
-  note    NotStarted               is_schedule_modified_for_workaround
-  counts:  {'inout ': 0, 'input ': 0, 'output': 3, 'note  ': 4, 'null  ': 4} {'DoneUsingInput': 0, 'DoneUsingOutput': 2, 'DoneUsingConstant': 1, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 4, 'NotStarted': 4} 
+  note    NotStarted               prescribed_type
+  note    NotStarted               is_modified_for_workaround
+  counts:  {'inout ': 0, 'input ': 0, 'output': 3, 'note  ': 4, 'null  ': 10} {'DoneUsingInput': 0, 'DoneUsingOutput': 2, 'DoneUsingConstant': 1, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 8, 'NotStarted': 6, 'ToDo': 0} 
 
 Calendar  #elements: 4
   output  DoneUsingOutput          notes
   inout   DoneUsingOutput          day_of_week_for_january_1
   output  DoneUsingOutput          is_leap_year
   inout   DoneUsingOutput          has_daylight_saving_time
-  counts:  {'inout ': 2, 'input ': 0, 'output': 2, 'note  ': 0, 'null  ': 0} {'DoneUsingInput': 0, 'DoneUsingOutput': 4, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  counts:  {'inout ': 2, 'input ': 0, 'output': 2, 'note  ': 0, 'null  ': 0} {'DoneUsingInput': 0, 'DoneUsingOutput': 4, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0, 'ToDo': 0} 
 
 Weather  #elements: 7
   null    NotRequired              notes
   input   NotStarted               ground_temperature_schedule
-  output  DoneUsingOutput          weather_file_name
+  output  DoneUsingOutput          file_name
   note    DoneUsingConstant        data_source_type
   output  DoneUsingOutput          climate_zone
   input   PartialUsingOutput       cooling_design_day_type
   input   PartialUsingOutput       heating_design_day_type
-  counts:  {'inout ': 0, 'input ': 3, 'output': 2, 'note  ': 1, 'null  ': 1} {'DoneUsingInput': 0, 'DoneUsingOutput': 2, 'DoneUsingConstant': 1, 'PartialUsingInput': 0, 'PartialUsingOutput': 2, 'PartialUsingConstant': 0, 'NotRequired': 1, 'NotStarted': 1} 
+  counts:  {'inout ': 0, 'input ': 3, 'output': 2, 'note  ': 1, 'null  ': 1} {'DoneUsingInput': 0, 'DoneUsingOutput': 2, 'DoneUsingConstant': 1, 'PartialUsingInput': 0, 'PartialUsingOutput': 2, 'PartialUsingConstant': 0, 'NotRequired': 1, 'NotStarted': 1, 'ToDo': 0} 
 
 Elevator  #elements: 21
   null    NotStarted               id
@@ -283,7 +298,7 @@ Elevator  #elements: 21
   null    NotStarted               motor_power
   null    NotStarted               cab_counterweight
   null    NotStarted               cab_weight
-  null    NotStarted               design_elevator_load
+  null    NotStarted               design_load
   null    NotStarted               speed
   null    NotStarted               cab_area
   null    NotStarted               cab_lighting_power
@@ -292,424 +307,430 @@ Elevator  #elements: 21
   null    NotStarted               cab_motor_multiplier_schedule
   null    NotStarted               cab_ventilation_fan_multiplier_schedule
   null    NotStarted               cab_lighting_multiplier_schedule
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 21} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 19} 
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 21} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 19, 'ToDo': 0} 
 
-HeatingVentilationAirConditioningSystem  #elements: 8
-  null                             id
-  null                             reporting_name
-  null                             notes
-  null                             fan_system
-  null                             heating_system
-  null                             cooling_system
-  null                             preheat_system
-  null                             status_type
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 8} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+HeatingVentilatingAirConditioningSystem  #elements: 8
+  note    DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   DoneUsingOutput          fan_system
+  inout   DoneUsingOutput          heating_system
+  inout   DoneUsingOutput          cooling_system
+  inout   NotStarted               preheat_system
+  note    NotStarted               status_type
+  counts:  {'inout ': 4, 'input ': 0, 'output': 0, 'note  ': 2, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 4, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 2, 'ToDo': 0} 
 
-HeatingSystem  #elements: 17
-  output  NotStarted               id
-  null                             reporting_name
-  null                             notes
-  null                             heating_system_type
-  null                             energy_source_type
-  null                             hot_water_loop
-  output  NotStarted               design_capacity
-  null                             rated_capacity
-  null                             oversizing_factor
-  null                             is_autosized
-  null                             heating_coil_setpoint
-  null                             efficiency_metric_values
-  null                             efficiency_metric_types
-  null                             heatpump_auxilliary_heat_type
-  null                             heatpump_auxilliary_heat_high_shutoff_temperature
-  null                             heatpump_low_shutoff_temperature
-  null                             humidification_type
-  counts:  {'inout ': 0, 'input ': 0, 'output': 2, 'note  ': 0, 'null  ': 15} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 2} 
+HeatingSystem  #elements: 18
+  inout   DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   DoneUsingOutput          type
+  inout   DoneUsingOutput          energy_source_type
+  inout   DoneUsingOutput          hot_water_loop
+  input   NotStarted               water_source_heat_pump_loop
+  inout   DoneUsingOutput          design_capacity
+  output  DoneUsingOutput          rated_capacity
+  output  DoneUsingOutput          oversizing_factor
+  inout   DoneUsingOutput          is_autosized
+  output  DoneUsingOutput          heating_coil_setpoint
+  output  PartialUsingOutput       efficiency_metric_values
+  output  PartialUsingOutput       efficiency_metric_types
+  input   NotStarted               heatpump_auxilliary_heat_type
+  input   NotStarted               heatpump_auxilliary_heat_high_shutoff_temperature
+  inout   DoneUsingOutput          heatpump_low_shutoff_temperature
+  note    NotStarted               humidification_type
+  counts:  {'inout ': 7, 'input ': 3, 'output': 5, 'note  ': 1, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 10, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 2, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 4, 'ToDo': 0} 
 
 CoolingSystem  #elements: 16
-  null                             id
-  null                             reporting_name
-  null                             notes
-  null                             cooling_system_type
-  null                             design_total_cool_capacity
-  null                             design_sensible_cool_capacity
-  null                             rated_total_cool_capacity
-  null                             rated_sensible_cool_capacity
-  null                             oversizing_factor
-  null                             is_autosized
-  null                             chilled_water_loop
-  null                             condenser_water_loop
-  null                             efficiency_metric_values
-  null                             efficiency_metric_types
-  null                             dehumidification_type
-  null                             cooling_turndown_ratio
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 16} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  inout   DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   DoneUsingOutput          type
+  inout   DoneUsingOutput          design_total_cool_capacity
+  inout   DoneUsingOutput          design_sensible_cool_capacity
+  output  DoneUsingOutput          rated_total_cool_capacity
+  output  DoneUsingOutput          rated_sensible_cool_capacity
+  output  DoneUsingOutput          oversizing_factor
+  inout   DoneUsingOutput          is_autosized
+  inout   DoneUsingOutput          chilled_water_loop
+  input   NotStarted               condenser_water_loop
+  output  DoneUsingOutput          efficiency_metric_values
+  output  DoneUsingOutput          efficiency_metric_types
+  input   NotStarted               dehumidification_type
+  inout   NotStarted               cooling_turndown_ratio
+  counts:  {'inout ': 7, 'input ': 2, 'output': 5, 'note  ': 0, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 11, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 3, 'ToDo': 0} 
 
-FanSystem  #elements: 27
-  null                             id
-  null                             reporting_name
-  null                             notes
-  null                             supply_fans
-  null                             return_fans
-  null                             exhaust_fans
-  null                             relief_fans
-  null                             air_economizer
-  null                             air_energy_recovery
-  null                             temperature_control
-  null                             operation_during_occupied
-  null                             operation_during_unoccupied
-  null                             has_lock_out_central_heat_during_unoccupied
-  null                             fan_control
-  null                             supply_air_setpoint_temperature
-  null                             reset_differential_temperature
-  null                             supply_air_temperature_reset_load_fraction
-  null                             supply_air_temperature_reset_schedule
-  null                             fan_volume_reset_type
-  null                             fan_volume_reset_fraction
-  null                             operating_schedule
-  null                             minimum_airflow
-  null                             minimum_outdoor_airflow
-  null                             maximum_outdoor_airflow
-  null                             air_filter_merv_rating
-  null                             has_fully_ducted_return
-  null                             demand_control_ventilation_control
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 27} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+FanSystem  #elements: 26
+  inout   DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   DoneUsingOutput          supply_fans
+  input   NotStarted               return_fans
+  inout   NotStarted               exhaust_fans
+  input   NotStarted               relief_fans
+  inout   NotStarted               air_economizer
+  inout   NotStarted               air_energy_recovery
+  input   NotStarted               temperature_control
+  note    NotStarted               operation_during_occupied
+  note    NotStarted               operation_during_unoccupied
+  note    NotStarted               has_lock_out_central_heat_during_unoccupied
+  inout   PartialUsingOutput       fan_control
+  input   NotStarted               reset_differential_temperature
+  input   NotStarted               supply_air_temperature_reset_load_fraction
+  input   NotStarted               supply_air_temperature_reset_schedule
+  note    NotStarted               fan_volume_reset_type
+  note    NotStarted               fan_volume_reset_fraction
+  input   NotStarted               operating_schedule
+  output  NotStarted               minimum_airflow
+  output  NotStarted               minimum_outdoor_airflow
+  output  NotStarted               maximum_outdoor_airflow
+  note    NotStarted               air_filter_merv_rating
+  note    NotStarted               has_fully_ducted_return
+  inout   NotStarted               demand_control_ventilation_control
+  counts:  {'inout ': 7, 'input ': 7, 'output': 3, 'note  ': 7, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 2, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 1, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 21, 'ToDo': 0} 
 
 AirEconomizer  #elements: 5
-  null                             id
-  null                             reporting_name
-  null                             notes
-  null                             type
-  null                             high_limit_shutoff_temperature
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 5} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  inout   NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   NotStarted               type
+  inout   NotStarted               high_limit_shutoff_temperature
+  counts:  {'inout ': 3, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 3, 'ToDo': 0} 
 
-AirEnergyRecovery  #elements: 9
-  null                             id
-  null                             reporting_name
-  null                             notes
-  null                             energy_recovery_type
-  null                             enthalpy_recovery_ratio
-  null                             energy_recovery_operation
-  null                             energy_recovery_supply_air_temperature_control
-  null                             design_sensible_effectiveness
-  null                             design_latent_effectiveness
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 9} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+AirEnergyRecovery  #elements: 11
+  inout   NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  input   NotStarted               type
+  note    NotStarted               enthalpy_recovery_ratio
+  inout   NotStarted               energy_recovery_operation
+  inout   NotStarted               energy_recovery_supply_air_temperature_control
+  input   NotStarted               design_sensible_effectiveness
+  input   NotStarted               design_latent_effectiveness
+  inout   NotStarted               outdoor_airflow
+  input   NotStarted               exhaust_airflow
+  counts:  {'inout ': 4, 'input ': 4, 'output': 0, 'note  ': 1, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 9, 'ToDo': 0} 
 
-Fan  #elements: 16
-  null                             id
-  null                             reporting_name
-  null                             notes
-  null                             design_airflow
-  null                             specification_method
-  null                             design_electric_power
-  null                             design_pressure_rise
-  null                             nameplate_power
-  null                             input_power
-  null                             total_efficiency
-  null                             motor_efficiency
-  null                             motor_heat_to_airflow_fraction
-  null                             motor_heat_to_zone_fraction
-  null                             motor_location_zone
-  null                             status_type
-  null                             output_validation_points
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 16} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+Fan  #elements: 17
+  inout   DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   DoneUsingOutput          design_airflow
+  inout   DoneUsingOutput          is_airflow_autosized
+  note    DoneUsingOutput          specification_method
+  inout   DoneUsingOutput          design_electric_power
+  inout   DoneUsingOutput          design_pressure_rise
+  note    NotStarted               motor_nameplate_power
+  note    NotStarted               shaft_power
+  inout   DoneUsingOutput          total_efficiency
+  inout   DoneUsingOutput          motor_efficiency
+  inout   DoneUsingOutput          motor_heat_to_airflow_fraction
+  inout   DoneUsingOutput          motor_heat_to_zone_fraction
+  input   NotStarted               motor_location_zone
+  note    NotStarted               status_type
+  input   NotStarted               output_validation_points
+  counts:  {'inout ': 9, 'input ': 2, 'output': 0, 'note  ': 4, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 10, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 5, 'ToDo': 0} 
 
 FanOutputValidationPoint  #elements: 2
-  null                             airflow
-  null                             result
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  input   NotStarted               airflow
+  input   NotStarted               result
+  counts:  {'inout ': 0, 'input ': 2, 'output': 0, 'note  ': 0, 'null  ': 0} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 2, 'ToDo': 0} 
 
-Terminal  #elements: 22
-  null                             id
-  null                             reporting_name
-  null                             notes
-  null                             type
-  null                             served_by_heating_ventilation_air_conditioning_system
-  null                             heating_source
-  null                             heating_from_loop
-  null                             cooling_source
-  null                             cooling_from_loop
-  null                             fan
-  null                             fan_configuration
-  null                             primary_airflow
-  null                             secondary_airflow
-  null                             supply_setpoint_temperature
-  null                             temperature_control
-  null                             minimum_airflow
-  null                             minimum_outdoor_airflow
-  null                             minimum_outdoor_airflow_multiplier_schedule
-  null                             heating_capacity
-  null                             cooling_capacity
-  null                             is_supply_ducted
-  null                             has_demand_control_ventilation
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 22} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+Terminal  #elements: 24
+  input   DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  input   NotStarted               type
+  input   NotStarted               served_by_heating_ventilating_air_conditioning_system
+  input   NotStarted               heating_source
+  input   NotStarted               heating_from_loop
+  input   NotStarted               cooling_source
+  input   NotStarted               cooling_from_loop
+  input   NotStarted               fan
+  input   NotStarted               fan_configuration
+  input   NotStarted               primary_airflow
+  input   NotStarted               secondary_airflow
+  input   NotStarted               max_heating_airflow
+  input   NotStarted               supply_design_heating_setpoint_temperature
+  note    NotStarted               supply_design_cooling_setpoint_temperature
+  note    NotStarted               temperature_control
+  inout   NotStarted               minimum_airflow
+  output  NotStarted               minimum_outdoor_airflow
+  input   NotStarted               minimum_outdoor_airflow_multiplier_schedule
+  input   NotStarted               heating_capacity
+  inout   NotStarted               cooling_capacity
+  note    NotStarted               is_supply_ducted
+  inout   NotStarted               has_demand_control_ventilation
+  counts:  {'inout ': 3, 'input ': 15, 'output': 1, 'note  ': 3, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 1, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 21, 'ToDo': 0} 
 
 FluidLoop  #elements: 8
-  null                             id
-  null                             reporting_name
-  null                             notes
-  null                             type
-  null                             pump_power_per_flow_rate
-  null                             child_loops
-  null                             cooling_or_condensing_design_and_control
-  null                             heating_design_and_control
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 8} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  inout   NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  input   NotStarted               type
+  input   NotStarted               pump_power_per_flow_rate
+  note    NotStarted               child_loops
+  note    NotStarted               cooling_or_condensing_design_and_control
+  note    NotStarted               heating_design_and_control
+  counts:  {'inout ': 1, 'input ': 2, 'output': 0, 'note  ': 3, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 6, 'ToDo': 0} 
 
 FluidLoopDesignAndControl  #elements: 17
-  null                             id
-  null                             reporting_name
-  null                             notes
-  null                             design_supply_temperature
-  null                             design_return_temperature
-  null                             is_sized_using_coincident_load
-  null                             minimum_flow_fraction
-  null                             operation
-  null                             operation_schedule
-  null                             flow_control
-  null                             temperature_reset_type
-  null                             outdoor_high_for_loop_supply_reset_temperature
-  null                             outdoor_low_for_loop_supply_reset_temperature
-  null                             loop_supply_temperature_at_outdoor_high
-  null                             loop_supply_temperature_at_outdoor_low
-  null                             loop_supply_temperature_at_low_load
-  null                             has_integrated_waterside_economizer
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 17} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  inout   NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  note    NotStarted               design_supply_temperature
+  note    NotStarted               design_return_temperature
+  input   NotStarted               is_sized_using_coincident_load
+  input   NotStarted               minimum_flow_fraction
+  inout   NotStarted               operation
+  input   NotStarted               operation_schedule
+  input   NotStarted               flow_control
+  input   NotStarted               temperature_reset_type
+  input   NotStarted               outdoor_high_for_loop_supply_reset_temperature
+  input   NotStarted               outdoor_low_for_loop_supply_reset_temperature
+  input   NotStarted               loop_supply_temperature_at_outdoor_high
+  input   NotStarted               loop_supply_temperature_at_outdoor_low
+  input   NotStarted               loop_supply_temperature_at_low_load
+  input   NotStarted               has_integrated_waterside_economizer
+  counts:  {'inout ': 2, 'input ': 11, 'output': 0, 'note  ': 2, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 15, 'ToDo': 0} 
 
 Pump  #elements: 13
-  null                             id
-  null                             reporting_name
-  null                             notes
-  null                             loop_or_piping
-  null                             specification_method
-  null                             design_electric_power
-  null                             motor_nameplate_power
-  null                             design_head
-  null                             impeller_efficiency
-  null                             motor_efficiency
-  null                             speed_control
-  null                             design_flow
-  null                             is_flow_autosized
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 13} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  inout   DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   DoneUsingOutput          loop_or_piping
+  note    DoneUsingConstant        specification_method
+  inout   DoneUsingConstant        design_electric_power
+  note    NotStarted               motor_nameplate_power
+  inout   DoneUsingOutput          design_head
+  note    NotStarted               impeller_efficiency
+  inout   DoneUsingOutput          motor_efficiency
+  inout   DoneUsingOutput          speed_control
+  inout   DoneUsingOutput          design_flow
+  inout   DoneUsingOutput          is_flow_autosized
+  counts:  {'inout ': 8, 'input ': 0, 'output': 0, 'note  ': 3, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 7, 'DoneUsingConstant': 2, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 2, 'ToDo': 0} 
 
 Boiler  #elements: 15
-  null                             id
-  null                             reporting_name
-  null                             notes
-  null                             loop
-  null                             design_capacity
-  null                             rated_capacity
-  null                             minimum_load_ratio
-  null                             draft_type
-  null                             energy_source_type
-  null                             efficiency_metric
-  null                             efficiency
-  null                             output_validation_points
-  null                             auxiliary_power
-  null                             operation_lower_limit
-  null                             operation_upper_limit
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 15} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  inout   DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   DoneUsingOutput          loop
+  inout   DoneUsingOutput          design_capacity
+  output  DoneUsingOutput          rated_capacity
+  inout   DoneUsingOutput          minimum_load_ratio
+  note    NotStarted               draft_type
+  inout   DoneUsingOutput          energy_source_type
+  note    DoneUsingConstant        efficiency_metric
+  inout   DoneUsingOutput          efficiency
+  input   NotStarted               output_validation_points
+  inout   DoneUsingOutput          auxiliary_power
+  input   NotStarted               operation_lower_limit
+  input   NotStarted               operation_upper_limit
+  counts:  {'inout ': 7, 'input ': 3, 'output': 1, 'note  ': 2, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 8, 'DoneUsingConstant': 1, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 4, 'ToDo': 0} 
 
 BoilerOutputValidationPoint  #elements: 3
-  null                             load
-  null                             entering_water_temperature
-  null                             result
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 3} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  null    NotStarted               load
+  null    NotStarted               entering_water_temperature
+  null    NotStarted               result
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 3} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 3, 'ToDo': 0} 
 
 Chiller  #elements: 25
-  null                             id
-  null                             reporting_name
-  null                             notes
-  null                             cooling_loop
-  null                             condensing_loop
-  null                             compressor_type
-  null                             energy_source_type
-  null                             design_capacity
-  null                             rated_capacity
-  null                             rated_entering_condenser_temperature
-  null                             rated_leaving_evaporator_temperature
-  null                             minimum_load_ratio
-  null                             design_flow_evaporator
-  null                             design_flow_condenser
-  null                             design_entering_condenser_temperature
-  null                             design_leaving_evaporator_temperature
-  null                             full_load_efficiency
-  null                             part_load_efficiency
-  null                             part_load_efficiency_metric
-  null                             capacity_validation_points
-  null                             power_validation_points
-  null                             is_chilled_water_pump_interlocked
-  null                             is_condenser_water_pump_interlocked
-  null                             heat_recovery_loop
-  null                             heat_recovery_fraction
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 25} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  inout   DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   DoneUsingOutput          cooling_loop
+  inout   DoneUsingOutput          condensing_loop
+  note    NotStarted               compressor_type
+  inout   NotStarted               energy_source_type
+  inout   DoneUsingOutput          design_capacity
+  output  DoneUsingOutput          rated_capacity
+  output  DoneUsingOutput          rated_entering_condenser_temperature
+  output  DoneUsingOutput          rated_leaving_evaporator_temperature
+  inout   DoneUsingOutput          minimum_load_ratio
+  inout   DoneUsingOutput          design_flow_evaporator
+  inout   DoneUsingOutput          design_flow_condenser
+  inout   DoneUsingOutput          design_entering_condenser_temperature
+  inout   DoneUsingOutput          design_leaving_evaporator_temperature
+  inout   DoneUsingOutput          full_load_efficiency
+  output  DoneUsingOutput          part_load_efficiency
+  note    DoneUsingConstant        part_load_efficiency_metric
+  input   NotStarted               capacity_validation_points
+  input   NotStarted               power_validation_points
+  input   NotStarted               is_chilled_water_pump_interlocked
+  input   NotStarted               is_condenser_water_pump_interlocked
+  inout   DoneUsingOutput          heat_recovery_loop
+  inout   DoneUsingOutput          heat_recovery_fraction
+  counts:  {'inout ': 13, 'input ': 4, 'output': 4, 'note  ': 2, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 16, 'DoneUsingConstant': 1, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 6, 'ToDo': 0} 
 
 ChillerCapacityValidationPoint  #elements: 3
-  null                             chilled_water_supply_temperature
-  null                             condenser_temperature
-  null                             result
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 3} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  null    NotStarted               chilled_water_supply_temperature
+  null    NotStarted               condenser_temperature
+  null    NotStarted               result
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 3} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 3, 'ToDo': 0} 
 
 ChillerPowerValidationPoint  #elements: 5
-  null                             chilled_water_supply_temperature
-  null                             condenser_temperature
-  null                             load
-  null                             is_at_full_capacity
-  null                             result
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 5} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  null    NotStarted               chilled_water_supply_temperature
+  null    NotStarted               condenser_temperature
+  null    NotStarted               load
+  null    NotStarted               is_at_full_capacity
+  null    NotStarted               result
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 5} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 5, 'ToDo': 0} 
 
-HeatRejection  #elements: 16
-  null                             id
-  null                             reporting_name
-  null                             notes
-  null                             loop
-  null                             type
-  null                             fan_type
-  null                             fluid
-  null                             range
-  null                             approach
-  null                             fan_electric_input_power
-  null                             fan_nameplate_power
-  null                             fan_speed_control
-  null                             design_wetbulb_temperature
-  null                             design_water_flowrate
-  null                             rated_water_flowrate
-  null                             leaving_water_setpoint_temperature
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 16} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+HeatRejection  #elements: 17
+  inout   DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   DoneUsingOutput          loop
+  input   NotStarted               type
+  note    NotStarted               fan_type
+  input   NotStarted               fluid
+  inout   DoneUsingOutput          range
+  inout   DoneUsingOutput          approach
+  note    NotStarted               fan_shaft_power
+  note    NotStarted               fan_motor_efficiency
+  inout   DoneUsingOutput          fan_motor_nameplate_power
+  inout   NotStarted               fan_speed_control
+  inout   DoneUsingOutput          design_wetbulb_temperature
+  inout   DoneUsingOutput          design_water_flowrate
+  note    NotStarted               rated_water_flowrate
+  input   NotStarted               leaving_water_setpoint_temperature
+  counts:  {'inout ': 8, 'input ': 3, 'output': 0, 'note  ': 4, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 7, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 8, 'ToDo': 0} 
 
 ExternalFluidSource  #elements: 6
-  null                             id
-  null                             reporting_name
-  null                             notes
-  null                             loop
-  null                             type
-  null                             energy_source_type
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 6} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  null    NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  null    NotStarted               loop
+  null    NotStarted               type
+  null    NotStarted               energy_source_type
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 6} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 4, 'ToDo': 0} 
 
 ServiceWaterHeatingDistributionSystem  #elements: 17
-  null                             id
-  null                             reporting_name
-  null                             notes
-  null                             design_supply_temperature
-  null                             design_supply_temperature_difference
-  null                             tanks
-  null                             is_central_system
-  null                             service_water_piping
-  null                             distribution_compactness
-  null                             control_type
-  null                             configuration_type
-  null                             is_recovered_heat_from_drain_used_by_water_heater
-  null                             drain_heat_recovery_efficiency
-  null                             drain_heat_recovery_type
-  null                             flow_multiplier_schedule
-  null                             entering_water_mains_temperature_schedule
-  null                             is_ground_temperature_used_for_entering_water
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 17} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  null    NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  null    NotStarted               design_supply_temperature
+  null    NotStarted               design_supply_temperature_difference
+  null    NotStarted               tanks
+  null    NotStarted               is_central_system
+  null    NotStarted               service_water_piping
+  null    NotStarted               distribution_compactness
+  null    NotStarted               control_type
+  null    NotStarted               configuration_type
+  null    NotStarted               is_recovered_heat_from_drain_used_by_water_heater
+  null    NotStarted               drain_heat_recovery_efficiency
+  null    NotStarted               drain_heat_recovery_type
+  null    NotStarted               flow_multiplier_schedule
+  null    NotStarted               entering_water_mains_temperature_schedule
+  null    NotStarted               is_ground_temperature_used_for_entering_water
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 17} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 15, 'ToDo': 0} 
 
 ServiceWaterPiping  #elements: 10
-  null                             id
-  null                             reporting_name
-  null                             notes
-  null                             is_recirculation_loop
-  null                             insulation_thickness
-  null                             loop_pipe_location
-  null                             location_zone
-  null                             length
-  null                             diameter
-  null                             child_service_water_piping
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 10} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  null    NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  null    NotStarted               is_recirculation_loop
+  null    NotStarted               insulation_thickness
+  null    NotStarted               loop_pipe_location
+  null    NotStarted               location_zone
+  null    NotStarted               length
+  null    NotStarted               diameter
+  null    NotStarted               child
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 10} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 8, 'ToDo': 0} 
 
 SolarThermal  #elements: 9
-  null                             id
-  null                             reporting_name
-  null                             notes
-  null                             angle_from_true_north
-  null                             solar_savings_fraction
-  null                             collector_area
-  null                             collector_type_description
-  null                             collector_slope
-  null                             tank
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 9} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  null    NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  null    NotStarted               angle_from_true_north
+  null    NotStarted               solar_savings_fraction
+  null    NotStarted               collector_area
+  null    NotStarted               collector_type_description
+  null    NotStarted               collector_slope
+  null    NotStarted               tank
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 9} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 7, 'ToDo': 0} 
 
 ServiceWaterHeatingEquipment  #elements: 29
-  null                             id
-  null                             reporting_name
-  null                             notes
-  null                             heater_fuel_type
-  null                             service_water_heating_distribution_system
-  null                             energy_factor
-  null                             thermal_efficiency
-  null                             standby_loss_fraction
-  null                             uniform_energy_factor
-  null                             first_hour_rating
-  null                             output_validation_points
-  null                             input_power
-  null                             rated_capacity
-  null                             minimum_capacity
-  null                             recovery_efficiency
-  null                             setpoint_temperature
-  null                             compressor_location
-  null                             compressor_zone
-  null                             compressor_heat_rejection_source
-  null                             compressor_heat_rejection_zone
-  null                             compressor_capacity_validation_points
-  null                             compressor_power_validation_points
-  null                             draft_fan_power
-  null                             has_electrical_ignition
-  null                             heater_type
-  null                             tank
-  null                             status_type
-  null                             solar_thermal_systems
-  null                             hot_water_loop
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 29} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  null    NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  null    NotStarted               heater_fuel_type
+  null    NotStarted               distribution_system
+  null    NotStarted               energy_factor
+  null    NotStarted               thermal_efficiency
+  null    NotStarted               standby_loss_fraction
+  null    NotStarted               uniform_energy_factor
+  null    NotStarted               first_hour_rating
+  null    NotStarted               output_validation_points
+  null    NotStarted               input_power
+  null    NotStarted               rated_capacity
+  null    NotStarted               minimum_capacity
+  null    NotStarted               recovery_efficiency
+  null    NotStarted               setpoint_temperature
+  null    NotStarted               compressor_location
+  null    NotStarted               compressor_zone
+  null    NotStarted               compressor_heat_rejection_source
+  null    NotStarted               compressor_heat_rejection_zone
+  null    NotStarted               compressor_capacity_validation_points
+  null    NotStarted               compressor_power_validation_points
+  null    NotStarted               draft_fan_power
+  null    NotStarted               has_electrical_ignition
+  null    NotStarted               heater_type
+  null    NotStarted               tank
+  null    NotStarted               status_type
+  null    NotStarted               solar_thermal_systems
+  null    NotStarted               hot_water_loop
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 29} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 27, 'ToDo': 0} 
 
 ServiceWaterHeaterValidationPoint  #elements: 2
-  null                             load
-  null                             result
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  null    NotStarted               load
+  null    NotStarted               result
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 2, 'ToDo': 0} 
 
 HeatPumpWaterHeaterCapacityValidationPoint  #elements: 5
-  null                             evaporator_air_temperature
-  null                             condenser_water_temperature
-  null                             evaporator_air_flow
-  null                             condenser_water_flow
-  null                             result
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 5} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  null    NotStarted               evaporator_air_temperature
+  null    NotStarted               condenser_water_temperature
+  null    NotStarted               evaporator_air_flow
+  null    NotStarted               condenser_water_flow
+  null    NotStarted               result
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 5} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 5, 'ToDo': 0} 
 
 HeatPumpWaterHeaterPowerValidationPoint  #elements: 6
-  null                             evaporator_air_temperature
-  null                             condenser_water_temperature
-  null                             evaporator_air_flow
-  null                             condenser_water_flow
-  null                             load
-  null                             result
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 6} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  null    NotStarted               evaporator_air_temperature
+  null    NotStarted               condenser_water_temperature
+  null    NotStarted               evaporator_air_flow
+  null    NotStarted               condenser_water_flow
+  null    NotStarted               load
+  null    NotStarted               result
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 6} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 6, 'ToDo': 0} 
 
 Tank  #elements: 10
-  null                             id
-  null                             reporting_name
-  null                             notes
-  null                             storage_capacity
-  null                             type
-  null                             height
-  null                             interior_insulation
-  null                             exterior_insulation
-  null                             location
-  null                             location_zone
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 10} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  null    NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  null    NotStarted               storage_capacity
+  null    NotStarted               type
+  null    NotStarted               height
+  null    NotStarted               interior_insulation
+  null    NotStarted               exterior_insulation
+  null    NotStarted               location
+  null    NotStarted               location_zone
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 10} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 8, 'ToDo': 0} 
 
 ServiceWaterHeatingUse  #elements: 12
-  null                             id
-  null                             reporting_name
-  null                             notes
-  null                             area_type
-  null                             water_serves_type
-  null                             served_by_distribution_system
-  null                             use
-  null                             use_units
-  null                             use_multiplier_schedule
-  null                             temperature_at_fixture
-  null                             is_heat_recovered_by_drain
-  null                             is_recovered_heat_used_by_cold_side_feed
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 12} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  null    NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  null    NotStarted               area_type
+  null    NotStarted               water_serves_type
+  null    NotStarted               served_by_distribution_system
+  null    NotStarted               use
+  null    NotStarted               use_units
+  null    NotStarted               use_multiplier_schedule
+  null    NotStarted               temperature_at_fixture
+  null    NotStarted               is_heat_recovered_by_drain
+  null    NotStarted               is_recovered_heat_used_by_cold_side_feed
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 12} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 10, 'ToDo': 0} 
 
 ExteriorLighting  #elements: 10
   inout   DoneUsingOutput          id
@@ -722,22 +743,22 @@ ExteriorLighting  #elements: 10
   note    NotStarted               fixture_height
   note    NotStarted               is_exempt
   inout   PartialUsingOutput       multiplier_schedule
-  counts:  {'inout ': 3, 'input ': 0, 'output': 0, 'note  ': 5, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 2, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 1, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 5} 
+  counts:  {'inout ': 3, 'input ': 0, 'output': 0, 'note  ': 5, 'null  ': 2} {'DoneUsingInput': 0, 'DoneUsingOutput': 2, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 1, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 5, 'ToDo': 0} 
 
 RefrigeratedCase  #elements: 14
-  null                             id
-  null                             reporting_name
-  null                             notes
-  null                             type
-  null                             equipment_category
-  null                             is_self_contained
-  null                             application_temperature
-  null                             power
-  null                             power_multiplier_schedule
-  null                             sensible_fraction
-  null                             heat_gain_fraction
-  null                             case_volume
-  null                             total_display_area
-  null                             case_zone
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 14} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 0, 'NotStarted': 0} 
+  null    NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  null    NotStarted               type
+  null    NotStarted               equipment_category
+  null    NotStarted               is_self_contained
+  null    NotStarted               application_temperature
+  null    NotStarted               power
+  null    NotStarted               power_multiplier_schedule
+  null    NotStarted               sensible_fraction
+  null    NotStarted               heat_gain_fraction
+  null    NotStarted               volume
+  null    NotStarted               total_display_area
+  null    NotStarted               zone
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 14} {'DoneUsingInput': 0, 'DoneUsingOutput': 0, 'DoneUsingConstant': 0, 'PartialUsingInput': 0, 'PartialUsingOutput': 0, 'PartialUsingConstant': 0, 'NotRequired': 2, 'NotStarted': 12, 'ToDo': 0} 
 
