@@ -1344,6 +1344,9 @@ class Translator:
         return pumps
 
     def add_simulation_outputs(self):
+        ea_advisory_messages_table = self.get_table('LEEDsummary', 'EAp2-2. Advisory Messages')
+        time_setpoint_not_met_tabel = self.get_table('SystemSummary', 'Time Setpoint Not Met')
+
         source_result = {
             'id': 'source_results_1',
             'energy_source': 'ELECTRICITY',
