@@ -1343,6 +1343,55 @@ class Translator:
         self.model_description['pumps'] = pumps
         return pumps
 
+    def add_simulation_outputs(self):
+        source_result = {
+            'id': 'source_results_1',
+            'energy_source': 'ELECTRICITY',
+            'annual_consumption': 1122334455.66,
+            'annual_demand': 9876.5,
+            'annual_cost': 12345.67
+        }
+        source_results = [source_result,]
+        end_use_result = {
+            'id': 'end_use_1',
+            'type': 'INTERIOR_LIGHTING',
+            'energy_source': 'ELECTRICITY',
+            'annual_site_energy_use': 654321.0,
+            'annual_site_coincident_demand': 789.0,
+            'annual_site_non_coincident_demand': 890.1,
+            'is_regulated': True
+        }
+        end_use_results = [end_use_result,]
+        output_instance = {
+            'id': 'output_instance_1',
+            'ruleset_model_type': 'PROPOSED',
+            'rotation_angle': 0,
+            'unmet_load_hours': 300,
+            'unmet_load_hours_heating': 200,
+            'unmet_occupied_load_hours_heating':250,
+            'unmet_load_hours_cooling': 275,
+            'unmet_occupied_load_hours_cooling': 150,
+            'annual_source_results': source_results,
+            'building_peak_cooling_load': 8000,
+            'annual_end_use_results': end_use_results
+        }
+        simulation_output = {
+            'id': 'output_1',
+            'output_instance': output_instance,
+            'performance_cost_index': 0.8787,
+            'baseline_building_unregulated_energy_cost': 123456.78,
+            'baseline_building_regulated_energy_cost': 23,
+            'baseline_building_performance_energy_cost': 34,
+            'total_area_weighted_building_performance_factor': 54,
+            'performance_cost_index_target': 0.78,
+            'total_proposed_building_energy_cost_including_renewable_energy': 0,
+            'total_proposed_building_energy_cost_excluding_renewable_energy': 0,
+            'percent_renewable_energy_savings': 0
+        }
+        self.model_description['output'] = simulation_output
+        return simulation_output
+
+
     def ensure_all_id_unique(self):
         self.add_serial_number_nested(self.model_description, 'id')
 
@@ -1391,6 +1440,7 @@ class Translator:
         self.add_zones()
         self.add_spaces()
         self.add_exterior_lighting()
+        self.add_simulation_outputs()
         self.add_schedules()
         self.ensure_all_id_unique()
         passed, message = self.validator.validate_rmd(self.project_description)
