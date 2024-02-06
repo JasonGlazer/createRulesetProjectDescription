@@ -24,6 +24,7 @@ def energy_source_convert(energy_name_input):
     energy_type = energy_name_input.upper().replace(' ', '_')
     return energy_source_map[energy_type]
 
+
 def heating_type_convert(coil_type):
     coil_map = {'COIL:HEATING:WATER': 'FLUID_LOOP',
                 'COIL:HEATING:STEAM': 'FLUID_LOOP',
@@ -1343,47 +1344,71 @@ class Translator:
         return pumps
 
     def add_simulation_outputs(self):
-        end_use_map = {'Electricity': 'ELECTRICITY',
-                       'Natural Gas': 'NATURAL_GAS',
-                       'Gasoline': 'OTHER',
-                       'Diesel': 'OTHER',
-                       'Coal': 'OTHER',
-                       'Fuel Oil No 1': 'FUEL_OIL',
-                       'Fuel Oil No 2': 'FUEL_OIL',
-                       'Propane': 'PROPANE',
-                       'Other Fuel 1': 'OTHER',
-                       'Other Fuel 2': 'OTHER',
-                       'District Cooling': 'OTHER',
-                       'District Heating Water': 'OTHER',
-                       'District Heating Steam': 'OTHER',
-                       'Water': 'OTHER'}
+        source_map = {'Electricity': 'ELECTRICITY',
+                      'Natural Gas': 'NATURAL_GAS',
+                      'Gasoline': 'OTHER',
+                      'Diesel': 'OTHER',
+                      'Coal': 'OTHER',
+                      'Fuel Oil No 1': 'FUEL_OIL',
+                      'Fuel Oil No 2': 'FUEL_OIL',
+                      'Propane': 'PROPANE',
+                      'Other Fuel 1': 'OTHER',
+                      'Other Fuel 2': 'OTHER',
+                      'District Cooling': 'OTHER',
+                      'District Heating Water': 'OTHER',
+                      'District Heating Steam': 'OTHER',
+                      'Water': 'OTHER'}
+        enduse_map = {'Heating': 'SPACE_HEATING',
+                      'Cooling': 'SPACE_COOLING',
+                      'Interior Lighting': 'INTERIOR_LIGHTING',
+                      'Exterior Lighting': 'EXTERIOR_LIGHTING',
+                      'Interior Equipment': 'MISC_EQUIPMENT',
+                      'Exterior Equipment': 'OTHER',
+                      'Fans': 'FANS_INTERIOR_VENTILATION',
+                      'Pumps': 'PUMPS',
+                      'Heat Rejection': 'HEAT_REJECTION',
+                      'Humidification': 'HUMIDIFICATION',
+                      'Heat Recovery': 'HEAT_RECOVERY',
+                      'Water Systems': 'SERVICE_WATER_HEATING',
+                      'Refrigeration': 'REFRIGERATION_EQUIPMENT',
+                      'Generators': 'OTHER'}
         abups_enduse_table = self.get_table('AnnualBuildingUtilityPerformanceSummary', 'End Uses')
         abups_enduse_rows = abups_enduse_table['Rows']
         abups_enduse_cols = abups_enduse_table['Cols']
+        demand_enduse_table = self.get_table('DemandEndUseComponentsSummary', 'End Uses')
+        demand_enduse_rows = demand_enduse_table['Rows']
+        #  demand_enduse_cols = demand_enduse_table['Cols']
         source_results = []
+        end_use_results = []
         for col in abups_enduse_cols:
             consumption = float(abups_enduse_rows['Total End Uses'][abups_enduse_cols.index(col)])
-            enduse = end_use_map[col.split(' [', 1)[0]]
+            demand = float(demand_enduse_rows['Total End Uses'][abups_enduse_cols.index(col)])  # must be same order
+            source = source_map[col.split(' [', 1)[0]]
             if consumption > 0 and 'Water' not in col:
                 source_result = {
-                    'id': 'source_results_' + enduse,
-                    'energy_source': enduse,
+                    'id': 'source_results_' + source,
+                    'energy_source': source,
                     'annual_consumption': consumption,
-                    'annual_demand': 9876.5,
+                    'annual_demand': demand,
                     'annual_cost': -1.,
                 }
                 source_results.append(source_result)
 
-        end_use_result = {
-            'id': 'end_use_1',
-            'type': 'INTERIOR_LIGHTING',
-            'energy_source': 'ELECTRICITY',
-            'annual_site_energy_use': 654321.0,
-            'annual_site_coincident_demand': 789.0,
-            'annual_site_non_coincident_demand': 890.1,
-            'is_regulated': True
-        }
-        end_use_results = [end_use_result,]
+            for row in abups_enduse_rows:
+                if row != 'Total End Uses' and row != '':
+                    consumption = float(abups_enduse_rows[row][abups_enduse_cols.index(col)])
+                    demand = float(demand_enduse_rows[row][abups_enduse_cols.index(col)])
+                    if consumption > 0 and 'Water' not in row:
+                        end_use_result = {
+                            'id': 'end_use_' + source + '-' + row,
+                            'type': enduse_map[row],
+                            'energy_source': source,
+                            'annual_site_energy_use': consumption,
+                            'annual_site_coincident_demand': demand,
+                            'annual_site_non_coincident_demand': -1.,
+                            'is_regulated': True
+                        }
+                        end_use_results.append(end_use_result)
 
         ea_advisory_messages_table = self.get_table('LEEDsummary', 'EAp2-2. Advisory Messages')
         ea_rows = ea_advisory_messages_table['Rows']
@@ -1415,15 +1440,15 @@ class Translator:
         simulation_output = {
             'id': 'output_1',
             'output_instance': output_instance,
-            'performance_cost_index': 0.8787,
-            'baseline_building_unregulated_energy_cost': 123456.78,
-            'baseline_building_regulated_energy_cost': 23,
-            'baseline_building_performance_energy_cost': 34,
-            'total_area_weighted_building_performance_factor': 54,
-            'performance_cost_index_target': 0.78,
-            'total_proposed_building_energy_cost_including_renewable_energy': 0,
-            'total_proposed_building_energy_cost_excluding_renewable_energy': 0,
-            'percent_renewable_energy_savings': 0
+            'performance_cost_index': -1.,
+            'baseline_building_unregulated_energy_cost': -1.,
+            'baseline_building_regulated_energy_cost': -1.,
+            'baseline_building_performance_energy_cost': -1.,
+            'total_area_weighted_building_performance_factor': -1.,
+            'performance_cost_index_target': -1.,
+            'total_proposed_building_energy_cost_including_renewable_energy': -1.,
+            'total_proposed_building_energy_cost_excluding_renewable_energy': -1.,
+            'percent_renewable_energy_savings': -1.
         }
         self.model_description['output'] = simulation_output
         return simulation_output
