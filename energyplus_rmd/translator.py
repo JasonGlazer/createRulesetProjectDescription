@@ -24,7 +24,6 @@ def energy_source_convert(energy_name_input):
     energy_type = energy_name_input.upper().replace(' ', '_')
     return energy_source_map[energy_type]
 
-
 def heating_type_convert(coil_type):
     coil_map = {'COIL:HEATING:WATER': 'FLUID_LOOP',
                 'COIL:HEATING:STEAM': 'FLUID_LOOP',
@@ -1344,17 +1343,37 @@ class Translator:
         return pumps
 
     def add_simulation_outputs(self):
-        ea_advisory_messages_table = self.get_table('LEEDsummary', 'EAp2-2. Advisory Messages')
-        time_setpoint_not_met_tabel = self.get_table('SystemSummary', 'Time Setpoint Not Met')
+        end_use_map = {'Electricity': 'ELECTRICITY',
+                       'Natural Gas': 'NATURAL_GAS',
+                       'Gasoline': 'OTHER',
+                       'Diesel': 'OTHER',
+                       'Coal': 'OTHER',
+                       'Fuel Oil No 1': 'FUEL_OIL',
+                       'Fuel Oil No 2': 'FUEL_OIL',
+                       'Propane': 'PROPANE',
+                       'Other Fuel 1': 'OTHER',
+                       'Other Fuel 2': 'OTHER',
+                       'District Cooling': 'OTHER',
+                       'District Heating Water': 'OTHER',
+                       'District Heating Steam': 'OTHER',
+                       'Water': 'OTHER'}
+        abups_enduse_table = self.get_table('AnnualBuildingUtilityPerformanceSummary', 'End Uses')
+        abups_enduse_rows = abups_enduse_table['Rows']
+        abups_enduse_cols = abups_enduse_table['Cols']
+        source_results = []
+        for col in abups_enduse_cols:
+            consumption = float(abups_enduse_rows['Total End Uses'][abups_enduse_cols.index(col)])
+            enduse = end_use_map[col.split(' [', 1)[0]]
+            if consumption > 0 and 'Water' not in col:
+                source_result = {
+                    'id': 'source_results_' + enduse,
+                    'energy_source': enduse,
+                    'annual_consumption': consumption,
+                    'annual_demand': 9876.5,
+                    'annual_cost': -1.,
+                }
+                source_results.append(source_result)
 
-        source_result = {
-            'id': 'source_results_1',
-            'energy_source': 'ELECTRICITY',
-            'annual_consumption': 1122334455.66,
-            'annual_demand': 9876.5,
-            'annual_cost': 12345.67
-        }
-        source_results = [source_result,]
         end_use_result = {
             'id': 'end_use_1',
             'type': 'INTERIOR_LIGHTING',
@@ -1365,19 +1384,34 @@ class Translator:
             'is_regulated': True
         }
         end_use_results = [end_use_result,]
-        output_instance = {
-            'id': 'output_instance_1',
-            'ruleset_model_type': 'PROPOSED',
-            'rotation_angle': 0,
-            'unmet_load_hours': 300,
-            'unmet_load_hours_heating': 200,
-            'unmet_occupied_load_hours_heating':250,
-            'unmet_load_hours_cooling': 275,
-            'unmet_occupied_load_hours_cooling': 150,
-            'annual_source_results': source_results,
-            'building_peak_cooling_load': 8000,
-            'annual_end_use_results': end_use_results
-        }
+
+        ea_advisory_messages_table = self.get_table('LEEDsummary', 'EAp2-2. Advisory Messages')
+        ea_rows = ea_advisory_messages_table['Rows']
+        ea_cols = ea_advisory_messages_table['Cols']
+        ea_data_column = ea_cols.index('Data')
+
+        time_setpoint_not_met_table = self.get_table('SystemSummary', 'Time Setpoint Not Met')
+        time_rows = time_setpoint_not_met_table['Rows']
+        time_cols = time_setpoint_not_met_table['Cols']
+        time_heat_occupied_column = time_cols.index('During Occupied Heating [hr]')
+        time_cool_occupied_column = time_cols.index('During Occupied Cooling [hr]')
+
+        output_instance = {}
+        if ea_advisory_messages_table and time_setpoint_not_met_table:
+            output_instance = {
+                'id': 'output_instance_1',
+                'ruleset_model_type': 'PROPOSED',
+                'rotation_angle': 0,
+                'unmet_load_hours': float(ea_rows['Number of hours not met'][ea_data_column]),
+                'unmet_load_hours_heating': float(ea_rows['Number of hours heating loads not met'][ea_data_column]),
+                'unmet_occupied_load_hours_heating': float(time_rows['Facility'][time_heat_occupied_column]),
+                'unmet_load_hours_cooling': float(ea_rows['Number of hours cooling loads not met'][ea_data_column]),
+                'unmet_occupied_load_hours_cooling': float(time_rows['Facility'][time_cool_occupied_column]),
+                'annual_source_results': source_results,
+                'building_peak_cooling_load': -1,
+                'annual_end_use_results': end_use_results
+            }
+
         simulation_output = {
             'id': 'output_1',
             'output_instance': output_instance,
