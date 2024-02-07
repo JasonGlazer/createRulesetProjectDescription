@@ -1372,12 +1372,35 @@ class Translator:
                       'Water Systems': 'SERVICE_WATER_HEATING',
                       'Refrigeration': 'REFRIGERATION_EQUIPMENT',
                       'Generators': 'OTHER'}
+        meter_map = {'Heating': 'Heating',
+                     'Cooling': 'Cooling',
+                     'Interior Lighting': 'InteriorLights',
+                     'Exterior Lighting': 'ExteriorLights',
+                     'Interior Equipment': 'InteriorEquipment',
+                     'Exterior Equipment': 'OTHER',
+                     'Fans': 'Fans',
+                     'Pumps': 'Pumps',
+                     'Heat Rejection': 'HeatRejection',
+                     'Humidification': 'Humidification',
+                     'Heat Recovery': 'HeatRecovery',
+                     'Water Systems': 'WaterSystem',
+                     'Refrigeration': 'Refrigeration',
+                     'Generators': 'Generators'}
         abups_enduse_table = self.get_table('AnnualBuildingUtilityPerformanceSummary', 'End Uses')
         abups_enduse_rows = abups_enduse_table['Rows']
         abups_enduse_cols = abups_enduse_table['Cols']
         demand_enduse_table = self.get_table('DemandEndUseComponentsSummary', 'End Uses')
         demand_enduse_rows = demand_enduse_table['Rows']
         #  demand_enduse_cols = demand_enduse_table['Cols']
+        meters_elec_table = self.get_table('EnergyMeters', 'Annual and Peak Values - Electricity')
+        meters_elec_rows = meters_elec_table['Rows']
+        meters_elec_cols = meters_elec_table['Cols']
+        meters_elec_max_col = meters_elec_cols.index('Electricity Maximum Value [W]')
+        meters_gas_table = self.get_table('EnergyMeters', 'Annual and Peak Values - Natural Gas')
+        meters_gas_rows = meters_gas_table['Rows']
+        meters_gas_cols = meters_gas_table['Cols']
+        meters_gas_max_col = meters_gas_cols.index('Natural Gas Maximum Value [W]')
+
         source_results = []
         end_use_results = []
         for col in abups_enduse_cols:
@@ -1397,17 +1420,28 @@ class Translator:
             for row in abups_enduse_rows:
                 if row != 'Total End Uses' and row != '':
                     consumption = float(abups_enduse_rows[row][abups_enduse_cols.index(col)])
-                    demand = float(demand_enduse_rows[row][abups_enduse_cols.index(col)])
+                    conincident_demand = float(demand_enduse_rows[row][abups_enduse_cols.index(col)])
                     if consumption > 0 and 'Water' not in row:
                         end_use_result = {
                             'id': 'end_use_' + source + '-' + row,
                             'type': enduse_map[row],
                             'energy_source': source,
                             'annual_site_energy_use': consumption,
-                            'annual_site_coincident_demand': demand,
+                            'annual_site_coincident_demand': conincident_demand,
                             'annual_site_non_coincident_demand': -1.,
                             'is_regulated': True
                         }
+                        if source == 'ELECTRICITY':
+                            end_use_meter_name = meter_map[row] + ':Electricity'
+                            if end_use_meter_name in meters_elec_rows:
+                                noncoincident_demand = float(meters_elec_rows[end_use_meter_name][meters_elec_max_col])
+                                end_use_result['annual_site_non_coincident_demand'] = noncoincident_demand
+                        elif source == 'NATURAL_GAS':
+                            end_use_meter_name = meter_map[row] + ':NaturalGas'
+                            if end_use_meter_name in meters_gas_rows:
+                                noncoincident_demand = float(meters_gas_rows[end_use_meter_name][meters_gas_max_col])
+                                end_use_result['annual_site_non_coincident_demand'] = noncoincident_demand
+
                         end_use_results.append(end_use_result)
 
         ea_advisory_messages_table = self.get_table('LEEDsummary', 'EAp2-2. Advisory Messages')
@@ -1452,7 +1486,6 @@ class Translator:
         }
         self.model_description['output'] = simulation_output
         return simulation_output
-
 
     def ensure_all_id_unique(self):
         self.add_serial_number_nested(self.model_description, 'id')
