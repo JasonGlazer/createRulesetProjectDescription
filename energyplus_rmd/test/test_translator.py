@@ -5733,3 +5733,204 @@ class TestTranslator(TestCase):
                     'VAV_TOP WITH REHEAT MAIN HTG COIL': {'plant_loop_name': 'HOT WATER LOOP'}}
 
         self.assertEqual(gathered_coil_connections, expected)
+
+    def test_add_simulation_outputs(self):
+        t = self.set_minimal_files()
+
+        t.json_results_object['TabularReports'] = [
+            {
+                "For": "Entire Facility",
+                "ReportName": "AnnualBuildingUtilityPerformanceSummary",
+                "Tables": [
+                    {
+                        "Cols": [
+                            "Electricity [GJ]",
+                            "Natural Gas [GJ]",
+                        ],
+                        "Rows": {
+                            "Cooling": [
+                                "12.08",
+                                "0.00",
+                            ],
+                            "Interior Lighting": [
+                                "25.61",
+                                "0.00",
+                            ],
+                            "Total End Uses": [
+                                "138.47",
+                                "4.64",
+                            ],
+                        },
+                        "TableName": "End Uses"
+                    },
+                ]
+            },
+            {
+                "For": "Entire Facility",
+                "ReportName": "DemandEndUseComponentsSummary",
+                "Tables": [
+                    {
+                        "Cols": [
+                            "Electricity [W]",
+                            "Natural Gas [W]",
+                        ],
+                        "Rows": {
+                            "Cooling": [
+                                "42.42",
+                                "0.00",
+                            ],
+                            "Interior Lighting": [
+                                "2461.51",
+                                "0.00",
+                            ],
+                            "Total End Uses": [
+                                "14959.75",
+                                "25029.93",
+                            ],
+                        },
+                        "TableName": "End Uses"
+                    },
+                ]
+            },
+            {
+                "For": "Entire Facility",
+                "ReportName": "EnergyMeters",
+                "Tables": [
+                    {
+                        "Cols": [
+                            "Electricity Annual Value [GJ]",
+                            "Electricity Minimum Value [W]",
+                            "Timestamp of Minimum {TIMESTAMP}",
+                            "Electricity Maximum Value [W]",
+                            "Timestamp of Maximum {TIMESTAMP}"
+                        ],
+                        "Rows": {
+                            "Cooling:Electricity": [
+                                "12.08",
+                                "0.00",
+                                "01-JAN-00:15",
+                                "5318.54",
+                                "05-SEP-15:15"
+                            ],
+                            "InteriorLights:Electricity": [
+                                "25.61",
+                                "110.04",
+                                "01-JAN-00:15",
+                                "2461.51",
+                                "02-JAN-16:45"
+                            ],
+                        },
+                        "TableName": "Annual and Peak Values - Electricity"
+                    },
+                    {
+                        "Cols": [
+                            "Natural Gas Annual Value [GJ]",
+                            "Natural Gas Minimum Value [W]",
+                            "Timestamp of Minimum {TIMESTAMP}",
+                            "Natural Gas Maximum Value [W]",
+                            "Timestamp of Maximum {TIMESTAMP}"
+                        ],
+                        "Rows": {
+                            "Heating:NaturalGas": [
+                                "4.64",
+                                "0.00",
+                                "01-JAN-00:15",
+                                "25029.93",
+                                "02-JAN-06:15"
+                            ],
+                        },
+                        "TableName": "Annual and Peak Values - Natural Gas"
+                    },
+                ]
+            },
+            {
+                "For": "Entire Facility",
+                "ReportName": "LEEDsummary",
+                "Tables": [
+                    {
+                        "Cols": [
+                            "Data"
+                        ],
+                        "Rows": {
+                            "Number of hours cooling loads not met": [
+                                "31.75"
+                            ],
+                            "Number of hours heating loads not met": [
+                                "33.50"
+                            ],
+                            "Number of hours not met": [
+                                "65.25"
+                            ]
+                        },
+                        "TableName": "EAp2-2. Advisory Messages"
+                    },
+                ]
+            },
+            {
+                "For": "Entire Facility",
+                "ReportName": "SystemSummary",
+                "Tables": [
+                    {
+                        "Cols": [
+                            "During Heating [hr]",
+                            "During Cooling [hr]",
+                            "During Occupied Heating [hr]",
+                            "During Occupied Cooling [hr]"
+                        ],
+                        "Rows": {
+                            "CORE_ZN": [
+                                "4.00",
+                                "10.75",
+                                "4.00",
+                                "10.75"
+                            ],
+                            "Facility": [
+                                "71.00",
+                                "33.75",
+                                "33.50",
+                                "31.75"
+                            ],
+                        },
+                        "TableName": "Time Setpoint Not Met"
+                    }
+                ]
+            },
+        ]
+
+        added_simulation_outputs = t.add_simulation_outputs()
+
+        expected = {'id': 'output_1',
+                    'output_instance':
+                        {'id': 'output_instance_1', 'ruleset_model_type': 'PROPOSED',
+                         'rotation_angle': 0, 'unmet_load_hours': 65.25,
+                         'unmet_load_hours_heating': 33.5,
+                         'unmet_occupied_load_hours_heating': 33.5,
+                         'unmet_load_hours_cooling': 31.75,
+                         'unmet_occupied_load_hours_cooling': 31.75,
+                         'annual_source_results': [{'id': 'source_results_ELECTRICITY',
+                                                    'energy_source': 'ELECTRICITY',
+                                                    'annual_consumption': 138.47,
+                                                    'annual_demand': 14959.75,
+                                                    'annual_cost': -1.0},
+                                                   {'id': 'source_results_NATURAL_GAS',
+                                                    'energy_source': 'NATURAL_GAS',
+                                                    'annual_consumption': 4.64,
+                                                    'annual_demand': 25029.93,
+                                                    'annual_cost': -1.0}],
+                         'building_peak_cooling_load': -1, 'annual_end_use_results': [
+                            {'id': 'end_use_ELECTRICITY-Cooling', 'type': 'SPACE_COOLING',
+                             'energy_source': 'ELECTRICITY',
+                             'annual_site_energy_use': 12.08, 'annual_site_coincident_demand': 42.42,
+                             'annual_site_non_coincident_demand': 5318.54, 'is_regulated': True},
+                            {'id': 'end_use_ELECTRICITY-Interior Lighting', 'type': 'INTERIOR_LIGHTING',
+                             'energy_source': 'ELECTRICITY', 'annual_site_energy_use': 25.61,
+                             'annual_site_coincident_demand': 2461.51, 'annual_site_non_coincident_demand': 2461.51,
+                             'is_regulated': True}]}, 'performance_cost_index': -1.0,
+                    'baseline_building_unregulated_energy_cost': -1.0, 'baseline_building_regulated_energy_cost': -1.0,
+                    'baseline_building_performance_energy_cost': -1.0,
+                    'total_area_weighted_building_performance_factor': -1.0, 'performance_cost_index_target': -1.0,
+                    'total_proposed_building_energy_cost_including_renewable_energy': -1.0,
+                    'total_proposed_building_energy_cost_excluding_renewable_energy': -1.0,
+                    'percent_renewable_energy_savings': -1.0}
+
+        self.assertEqual(added_simulation_outputs, expected)

@@ -1386,7 +1386,7 @@ class Translator:
                      'Water Systems': 'WaterSystem',
                      'Refrigeration': 'Refrigeration',
                      'Generators': 'Generators'}
-        simulation_output ={}
+        simulation_output = {}
         abups_enduse_table = self.get_table('AnnualBuildingUtilityPerformanceSummary', 'End Uses')
         if not abups_enduse_table:
             return simulation_output
@@ -1454,11 +1454,15 @@ class Translator:
                         end_use_results.append(end_use_result)
 
         ea_advisory_messages_table = self.get_table('LEEDsummary', 'EAp2-2. Advisory Messages')
+        if not ea_advisory_messages_table:
+            return simulation_output
         ea_rows = ea_advisory_messages_table['Rows']
         ea_cols = ea_advisory_messages_table['Cols']
         ea_data_column = ea_cols.index('Data')
 
         time_setpoint_not_met_table = self.get_table('SystemSummary', 'Time Setpoint Not Met')
+        if not time_setpoint_not_met_table:
+            return simulation_output
         time_rows = time_setpoint_not_met_table['Rows']
         time_cols = time_setpoint_not_met_table['Cols']
         time_heat_occupied_column = time_cols.index('During Occupied Heating [hr]')
