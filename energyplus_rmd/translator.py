@@ -1386,17 +1386,26 @@ class Translator:
                      'Water Systems': 'WaterSystem',
                      'Refrigeration': 'Refrigeration',
                      'Generators': 'Generators'}
+        simulation_output ={}
         abups_enduse_table = self.get_table('AnnualBuildingUtilityPerformanceSummary', 'End Uses')
+        if not abups_enduse_table:
+            return simulation_output
         abups_enduse_rows = abups_enduse_table['Rows']
         abups_enduse_cols = abups_enduse_table['Cols']
         demand_enduse_table = self.get_table('DemandEndUseComponentsSummary', 'End Uses')
+        if not demand_enduse_table:
+            return simulation_output
         demand_enduse_rows = demand_enduse_table['Rows']
         #  demand_enduse_cols = demand_enduse_table['Cols']
         meters_elec_table = self.get_table('EnergyMeters', 'Annual and Peak Values - Electricity')
+        if not meters_elec_table:
+            return simulation_output
         meters_elec_rows = meters_elec_table['Rows']
         meters_elec_cols = meters_elec_table['Cols']
         meters_elec_max_col = meters_elec_cols.index('Electricity Maximum Value [W]')
         meters_gas_table = self.get_table('EnergyMeters', 'Annual and Peak Values - Natural Gas')
+        if not meters_gas_table:
+            return simulation_output
         meters_gas_rows = meters_gas_table['Rows']
         meters_gas_cols = meters_gas_table['Cols']
         meters_gas_max_col = meters_gas_cols.index('Natural Gas Maximum Value [W]')
