@@ -4,10 +4,10 @@ from copy import deepcopy
 from datetime import datetime
 from datetime import timezone
 
-from energyplus_rmd.input_file import InputFile
-from energyplus_rmd.output_file import OutputFile
-from energyplus_rmd.validator import Validator
-from energyplus_rmd.status_reporter import StatusReporter
+from energyplus_rpd.input_file import InputFile
+from energyplus_rpd.output_file import OutputFile
+from energyplus_rpd.validator import Validator
+from energyplus_rpd.status_reporter import StatusReporter
 
 
 def energy_source_convert(energy_name_input):
@@ -91,8 +91,8 @@ class Translator:
         # Modify export name - to avoid long execution line set by windows
         output_path = Path(str(epjson_file_path.parent.absolute()) + "\\" + rmd_name) if rmd_name else epjson_file_path
         self.output_file = OutputFile(output_path)
-        self.rmd_file_path = self.output_file.rmd_file_path
-        print(f"Writing output file to {self.rmd_file_path}")
+        self.rpd_file_path = self.output_file.rpd_file_path
+        print(f"Writing output file to {self.rpd_file_path}")
 
         self.validator = Validator()
         self.status_reporter = StatusReporter()

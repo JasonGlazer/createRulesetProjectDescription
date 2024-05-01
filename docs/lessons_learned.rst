@@ -1,7 +1,7 @@
 Lessons Learned During createRulesetModelDescription Development
 ================================================================
 
-An initial effort to implement an RMD generation script for EnergyPlus took place from March through September 2022. The
+An initial effort to implement an RPD generation script for EnergyPlus took place from March through September 2022. The
 NFP is here:
 
 https://github.com/NREL/EnergyPlus/blob/develop/design/FY2022/NFP-InitialRulesetModelDescription.md
@@ -11,7 +11,7 @@ The repository for the development was here:
 https://github.com/JasonGlazer/createRulesetModelDescription
 
 Overall, the project was successful in demonstrating that an output file could be generated that is consistent with the
-draft ruleset model description (RMD) schema defined for ASHRAE 229 here:
+draft ruleset project description (RPD) schema defined for ASHRAE 229 here:
 
 https://github.com/open229/ruleset-model-description-schema
 
@@ -58,8 +58,8 @@ Goals
 
 The development of the createRulesetModelDescription.py script for EnergyPlus always has multiple goals:
 
- - Demonstrate an initial implementation of producing an RMD
- - Uncover problems with RMD schema
+ - Demonstrate an initial implementation of producing an RPD
+ - Uncover problems with RPD schema
  - Show feasibility of implementation
  - Implement as many stable data groups as possible
 
@@ -68,7 +68,7 @@ As part of this plan, we decided to skip complicated data elements and �Compli
 Separate Python Utility Focused on Output
 -----------------------------------------
 
-The original expectation for how to implement the functionality of creating an RMD file was to include it directly in
+The original expectation for how to implement the functionality of creating an RPD file was to include it directly in
 the EnergyPlus C++ engine as an additional report option. After a presentation of this original plan, the EnergyPlus
 development team recognized the value of keeping it outside the EnergyPlus engine and instead made it a separate
 Python utility. This kept the EnergyPlus engine from having an additional non-core feature as well as separating the
@@ -85,7 +85,7 @@ use input files if absolutely necessary. The reasons for this were:
 All JSON Approach
 -----------------
 
-To simplify the script and include fewer libraries, we decided leverage to JSON files whenever possible. The RMD file is
+To simplify the script and include fewer libraries, we decided leverage to JSON files whenever possible. The RPD file is
 already in JSON format, and EnergyPlus has a JSON formatted input file called epJSON that is equivalent to an IDF file.
 In addition, EnergyPlus can produce tabular output files in JSON format. While the JSON output format and epJSON
 input format are not as commonly used, they are easy for users to create. In the case of epJSON, a utility is included
@@ -126,17 +126,17 @@ Version Nightmares
 ------------------
 
 Many separate software pieces were going through simultaneous development during this effort, including EnergyPlus, the
-RMD Schema, the PNNL RCT tool and the version of the RMD Schema it was using, and OpenStudio Standards and the version
+RPD Schema, the PNNL RCT tool and the version of the RPD Schema it was using, and OpenStudio Standards and the version
 of EnergyPlus it was using. This is the nature of software components being developed to be used with other software
-that has its own priorities and deadlines and is nothing new. Hopefully, as the RMD Schema gets published as part of
+that has its own priorities and deadlines and is nothing new. Hopefully, as the RPD Schema gets published as part of
 Standard 229, it will undergo no changes or at least fewer changes, and that will allow all other software components to
 be integrated without as much concern for versions.
 
 Validation
 ----------
 
-The initial version of the script did not validate the RMD files that were being produced, but this oversight was quickly
-changed, and now the Python package jsonschema is used to validate the RMD file being produced by the script. It adds very
+The initial version of the script did not validate the RPD files that were being produced, but this oversight was quickly
+changed, and now the Python package jsonschema is used to validate the RPD file being produced by the script. It adds very
 little overhead and has caught numerous problems.
 
 Unit Testing
@@ -163,15 +163,15 @@ to make sure separate subdictionary elements are named uniquely.
 Level
 -----
 
-The inherent hierarchy of EnergyPlus and the inherent hierarchy of the RMD schema do not always match, and this can be a
+The inherent hierarchy of EnergyPlus and the inherent hierarchy of the RPD schema do not always match, and this can be a
 challenge. For example, modeling plug loads in EnergyPlus is done with ElectricEquipment, which most commonly references
-the Zone, but in the RMD schema, the MiscellaneousEquipment data group is a child of the Space data group, which is a child
+the Zone, but in the RPD schema, the MiscellaneousEquipment data group is a child of the Space data group, which is a child
 of Zone. This disconnect in the level of the hierarchy can be difficult to properly map and allocate.
 
 Schedules
 ---------
 
-A very large portion of RMD files ends up being the schedules since they are represented in the schema as 8760 hourly
+A very large portion of RPD files ends up being the schedules since they are represented in the schema as 8760 hourly
 values. This makes them almost impossible to debug if they are being done correctly. Since we were echoing the values
 from an hourly output from EnergyPlus, no debugging was performed other than to see that they were the same.
 
@@ -214,11 +214,11 @@ Many data elements are not reflected in an EnergyPlus input or output files, and
 categorization used in compliance. In general, these data elements were not implemented, but some system to facilitate
 input from users would make sense. For interfaces using EnergyPlus, they might be added as fields from the user
 interface, or they might be inferred from the use of a particular library element. For users of EnergyPlus directly, a
-system to merge parameters that are compliance parameters with the RMD created by the script would be useful. One
-possible approach would be to have an RMD-like file that only includes only the compliance parameters but follows the
-structure of the RMD file for zones and other data groups. This file could be read by the script and merged together to
-provide a complete RMD file. Given the iterative nature of input file creation and debugging, this would be a good
-approach. The script itself could help create a "blank" RMD-like file that has all the places that need to be completed
+system to merge parameters that are compliance parameters with the RPD created by the script would be useful. One
+possible approach would be to have an RPD-like file that only includes only the compliance parameters but follows the
+structure of the RPD file for zones and other data groups. This file could be read by the script and merged together to
+provide a complete RPD file. Given the iterative nature of input file creation and debugging, this would be a good
+approach. The script itself could help create a "blank" RPD-like file that has all the places that need to be completed
 by the user. This could simply be a JSON-based file with fields for all the compliance parameters organized by zone and
 by other data groups with such parameters.
 

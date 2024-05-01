@@ -3,11 +3,11 @@
 [![Test/Package Status](https://github.com/JasonGlazer/createRulesetModelDescription/actions/workflows/flake8.yml/badge.svg)](https://github.com/JasonGlazer/createRulesetModelDescription/actions/workflows/flake8.yml)
 [![Build Package and Run Tests](https://github.com/JasonGlazer/createRulesetModelDescription/actions/workflows/build_and_test.yml/badge.svg?branch=main)](https://github.com/JasonGlazer/createRulesetModelDescription/actions/workflows/build_and_test.yml)
 
-An EnergyPlus utility that creates a Ruleset Model Description (RMD) file based on output (and some input) from a simulation. 
+An EnergyPlus utility that creates a Ruleset Project Description (RPD) file based on output (and some input) from a simulation. 
 
 ## Background
 
-The RMD file is based on a schema being developed as part of the writing of ASHRAE Standard 229P:
+The RPD file is based on a schema being developed as part of the writing of ASHRAE Standard 229P:
 
 Title:
 
@@ -22,7 +22,7 @@ Scope:
  - This standard applies to building performance modeling software that implements rulesets.
  - This standard applies to rulesets associated with new or existing buildings and their systems, system controls, their sites, and other aspects of buildings described by the ruleset implementation being evaluated.
 
-The development of the RMD schema to support the standard is going on here:
+The development of the RPD schema to support the standard is going on here:
 
 https://github.com/open229/ruleset-model-description-schema
 
@@ -31,7 +31,7 @@ https://github.com/open229/ruleset-model-description-schema
 The utility is intended to be used at a command line prompt:
 
 ```
-  energyplus_create_rmd in.epJSON
+  energyplus_create_rpd in.epJSON
 ```
 
 where in.epJSON is the name of the EnergyPlus input file with the file path, in the epJSON format. 
@@ -149,7 +149,7 @@ report, which is used to identify the ASHRAE climate zone.
 
 ## Output
 
-The resulting Ruleset Model Description file will be created in the same directory as the epJSON file with the same name and the file extension .rmd
+The resulting Ruleset Model Description file will be created in the same directory as the epJSON file with the same name and the file extension .rpd
 
 The Ruleset Model Description file is not complete but can be used to test many aspects of the building model transformation due to the ruleset. 
 The data groups that are partially populated include:

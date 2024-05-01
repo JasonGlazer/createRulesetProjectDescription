@@ -1,7 +1,7 @@
 from pathlib import Path
 from setuptools import setup
 
-from energyplus_rmd import VERSION
+from energyplus_rpd import VERSION
 
 readme_file = Path(__file__).parent.resolve() / 'README.md'
 readme_contents = readme_file.read_text()
@@ -9,13 +9,13 @@ readme_contents = readme_file.read_text()
 setup(
     name='energyplus_ruleset_model',
     version=VERSION,
-    packages=['energyplus_rmd'],
+    packages=['energyplus_rpd'],
     url='https://github.com/JasonGlazer/createRulesetModelDescription',
     license='ModifiedBSD',
     author='Jason Glazer',
-    description='A Python tool for generating RMDs.',
+    description='A Python tool for generating RPDs.',
     package_data={
-        "eplus_rmd": [
+        "eplus_rpd": [
             "example/*",
             "*.json",
             "*.yaml",
@@ -29,7 +29,7 @@ setup(
     install_requires=['jsonschema', 'pyyaml'],
     entry_points={
         'console_scripts': [
-            'energyplus_create_rmd=energyplus_rmd.runner:run',
+            'energyplus_create_rpd=energyplus_rpd.runner:run',
         ],
     },
     python_requires='>=3.7',

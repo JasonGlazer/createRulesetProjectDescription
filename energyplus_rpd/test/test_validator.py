@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from energyplus_rmd.validator import Validator
+from energyplus_rpd.validator import Validator
 
 
 class TestValidator(TestCase):

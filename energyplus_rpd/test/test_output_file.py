@@ -3,7 +3,7 @@ from pathlib import Path
 from tempfile import mkdtemp
 from unittest import TestCase
 
-from energyplus_rmd.output_file import OutputFile
+from energyplus_rpd.output_file import OutputFile
 
 
 class TestOutputFile(TestCase):
@@ -11,7 +11,7 @@ class TestOutputFile(TestCase):
         self.run_dir_path = Path(mkdtemp())
 
     def test_valid_path_has_json(self):
-        out_file = self.run_dir_path / 'output.rmd'
+        out_file = self.run_dir_path / 'output.rpd'
         output_dict = {'message': 'We are all good here'}
         o = OutputFile(out_file)
         o.write(output_dict)
