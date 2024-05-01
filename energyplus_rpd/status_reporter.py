@@ -19,7 +19,7 @@ class StatusReporter:
         report_file = 'energyplus_implementation_report.txt'
         self.report_file_path = parent_dir / report_file
 
-    def generate(self):  # , rmd_dict):
+    def generate(self):  # , rpd_dict):
         if self.extra_schema:
             # if the YAML schema file is not present then don't generate report
             # since the report is just for internal tracking of development

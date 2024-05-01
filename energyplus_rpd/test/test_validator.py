@@ -9,13 +9,13 @@ class TestValidator(TestCase):
         test1 = {"id": "0001",
                  "data_timestamp": "2016-06-29T14:35Z"}
         v = Validator()
-        passed, _ = v.validate_rmd(test1)
+        passed, _ = v.validate_rpd(test1)
         self.assertTrue(passed)
 
     def test_invalid_dict(self):
         test2 = {"junk": 0.0}
         v = Validator()
-        passed, message = v.validate_rmd(test2)
+        passed, message = v.validate_rpd(test2)
         self.assertFalse(passed)
         self.assertEqual(message, "invalid: 'id' is a required property at $")
 

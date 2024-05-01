@@ -1551,7 +1551,7 @@ class Translator:
         self.add_simulation_outputs()
         self.add_schedules()
         self.ensure_all_id_unique()
-        passed, message = self.validator.validate_rmd(self.project_description)
+        passed, message = self.validator.validate_rpd(self.project_description)
         if not passed:
             print(message)
         self.output_file.write(self.project_description)
