@@ -1,4 +1,4 @@
-Lessons Learned During createRulesetModelDescription Development
+Lessons Learned During createRulesetProjectDescription Development
 ================================================================
 
 An initial effort to implement an RPD generation script for EnergyPlus took place from March through September 2022. The
@@ -8,7 +8,7 @@ https://github.com/NREL/EnergyPlus/blob/develop/design/FY2022/NFP-InitialRuleset
 
 The repository for the development was here:
 
-https://github.com/JasonGlazer/createRulesetModelDescription
+https://github.com/JasonGlazer/createRulesetProjectDescription
 
 Overall, the project was successful in demonstrating that an output file could be generated that is consistent with the
 draft ruleset project description (RPD) schema defined for ASHRAE 229 here:
@@ -48,7 +48,7 @@ for each data element and were one of the following:
 If the ASHRAE229_extra.schema.yaml is present in the same directory as the script, these tags are read and summarized in
 the script, and a report is generated each time it is run
 
-https://github.com/JasonGlazer/createRulesetModelDescription/blob/initial_development/eplus_rmd/energyplus_implementation_report.txt
+https://github.com/JasonGlazer/createRulesetProjectDescription/blob/initial_development/eplus_rpd/energyplus_implementation_report.txt
 
 The 'counts' at the bottom of each data group summarize the implementation for that data group. This file is regenerated
 each time the script is run if the ASHRAE229_extra.schema.yaml is in the folder with the script.
@@ -56,7 +56,7 @@ each time the script is run if the ASHRAE229_extra.schema.yaml is in the folder 
 Goals
 -----
 
-The development of the createRulesetModelDescription.py script for EnergyPlus always has multiple goals:
+The development of the createRulesetProjectDescription.py script for EnergyPlus always has multiple goals:
 
  - Demonstrate an initial implementation of producing an RPD
  - Uncover problems with RPD schema
@@ -234,7 +234,7 @@ using these fields but more could be implemented in the future.
 Summary
 -------
 
-The most important considerations for completing the createRulesetModelDescription are:
+The most important considerations for completing the createRulesetProjectDescription are:
 
 - identification and classification of all data groups using the special tags in the schema
 - adding necessary output reports in EnergyPlus
