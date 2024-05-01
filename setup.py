@@ -10,7 +10,7 @@ setup(
     name='energyplus_ruleset_model',
     version=VERSION,
     packages=['energyplus_rpd'],
-    url='https://github.com/JasonGlazer/createRulesetModelDescription',
+    url='https://github.com/JasonGlazer/createRulesetProjectDescription',
     license='ModifiedBSD',
     author='Jason Glazer',
     description='A Python tool for generating RPDs.',

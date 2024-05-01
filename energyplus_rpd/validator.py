@@ -37,9 +37,9 @@ class Validator:
         validator_class_type = jsonschema.validators.validator_for(self.main_schema)
         self.validator = validator_class_type(self.main_schema, resolver=resolver)
 
-    def validate_rpd(self, rmd_dict: dict) -> Tuple[bool, str]:
+    def validate_rpd(self, rpd_dict: dict) -> Tuple[bool, str]:
         try:
-            self.validator.validate(rmd_dict)
+            self.validator.validate(rpd_dict)
             return True, ''
         except jsonschema.exceptions.ValidationError as err:
             return False, f"invalid: {err.message} at {err.json_path}"
