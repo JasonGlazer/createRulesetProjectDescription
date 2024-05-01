@@ -1,7 +1,7 @@
-# createRulesetModelDescription
+# createRulesetProjectDescription
 
-[![Test/Package Status](https://github.com/JasonGlazer/createRulesetModelDescription/actions/workflows/flake8.yml/badge.svg)](https://github.com/JasonGlazer/createRulesetModelDescription/actions/workflows/flake8.yml)
-[![Build Package and Run Tests](https://github.com/JasonGlazer/createRulesetModelDescription/actions/workflows/build_and_test.yml/badge.svg?branch=main)](https://github.com/JasonGlazer/createRulesetModelDescription/actions/workflows/build_and_test.yml)
+[![Test/Package Status](https://github.com/JasonGlazer/createRulesetProjectDescription/actions/workflows/flake8.yml/badge.svg)](https://github.com/JasonGlazer/createRulesetProjectDescription/actions/workflows/flake8.yml)
+[![Build Package and Run Tests](https://github.com/JasonGlazer/createRulesetProjectDescription/actions/workflows/build_and_test.yml/badge.svg?branch=main)](https://github.com/JasonGlazer/createRulesetProjectDescription/actions/workflows/build_and_test.yml)
 
 An EnergyPlus utility that creates a Ruleset Project Description (RPD) file based on output (and some input) from a simulation. 
 
@@ -59,7 +59,7 @@ For additional help with ConvertInputFormat at the command prompt in the directo
 
 ## Required Input File Changes
 
-The EnergyPlus input file has some added requirements to be used with the createRulesetModelDescription utility.
+The EnergyPlus input file has some added requirements to be used with the createRulesetProjectDescription utility.
 
  - many tabular output reports are used, so the Output:Table:SummaryReports should be set to AllSummary, AllSummaryMonthly, or AllSummaryMonthlyAndSizingPeriod:
 
@@ -149,9 +149,9 @@ report, which is used to identify the ASHRAE climate zone.
 
 ## Output
 
-The resulting Ruleset Model Description file will be created in the same directory as the epJSON file with the same name and the file extension .rpd
+The resulting Ruleset Project Description file will be created in the same directory as the epJSON file with the same name and the file extension .rpd
 
-The Ruleset Model Description file is not complete but can be used to test many aspects of the building model transformation due to the ruleset. 
+The Ruleset Project Description file is not complete but can be used to test many aspects of the building model transformation due to the ruleset. 
 The data groups that are partially populated include:
 
  - RulesetProjectDescription
@@ -211,5 +211,5 @@ Data groups that have not started to be implemented are:
  - ServiceWaterHeatingUse
  - RefrigeratedCase
 
-The [energyplus_implementatio_report.txt](https://github.com/JasonGlazer/createRulesetModelDescription/blob/main/energyplus_rmd/energyplus_implementation_report.txt) provides additional details. 
+The [energyplus_implementatio_report.txt](https://github.com/JasonGlazer/createRulesetProjectDescription/blob/main/energyplus_rpd/energyplus_implementation_report.txt) provides additional details. 
 
