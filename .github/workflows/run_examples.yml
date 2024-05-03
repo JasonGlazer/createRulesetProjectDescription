@@ -19,6 +19,4 @@ jobs:
 
     - name: Run Example Files
       run: |
-        python run_examples.py
-      with:
-        path: energyplus_rpd/scripts
+        python energyplus_rpd/scripts/run_examples.py
