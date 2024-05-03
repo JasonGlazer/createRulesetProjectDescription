@@ -3,7 +3,7 @@
 [![Test/Package Status](https://github.com/JasonGlazer/createRulesetModelDescription/actions/workflows/flake8.yml/badge.svg)](https://github.com/JasonGlazer/createRulesetModelDescription/actions/workflows/flake8.yml)
 [![Build Package and Run Tests](https://github.com/JasonGlazer/createRulesetModelDescription/actions/workflows/build_and_test.yml/badge.svg?branch=main)](https://github.com/JasonGlazer/createRulesetModelDescription/actions/workflows/build_and_test.yml)
 
-An EnergyPlus utility that creates an Ruleset Model Description (RMD) file based on output (and some input) from a simulation. 
+An EnergyPlus utility that creates a Ruleset Model Description (RMD) file based on output (and some input) from a simulation. 
 
 ## Background
 
@@ -31,16 +31,16 @@ https://github.com/open229/ruleset-model-description-schema
 The utility is intended to be used at a command line prompt:
 
 ```
-  createRulesetModelDescription in.epJSON
+  energyplus_create_rmd in.epJSON
 ```
 
-where in.epJSON is the name of the EnergyPlus input file with path in the epJSON format. 
+where in.epJSON is the name of the EnergyPlus input file with the file path, in the epJSON format. 
 
-EnergyPlus version 22.2.0 or newer is requried to use the utility.
+EnergyPlus version 23.2.0 or newer is required to use the utility.
 
 ## epJSON Format
 
-To create an epJSON file from an EnergyPlus IDF file use ConvertInputFormat.exe that comes with EnergyPlus. 
+To create an epJSON file from an EnergyPlus IDF file, use ConvertInputFormat.exe that comes with EnergyPlus. 
 
 To convert files, at the command prompt type:
 
@@ -48,8 +48,8 @@ To convert files, at the command prompt type:
  ConvertInputFormat in.idf
 ```
 
-Where in.idf is the name of the EnergyPlus input file with path in the IDF format. The utility will convert the file into a file with the same name
-but the extension .epJSON in the JSON format. 
+Where in.idf is the name of the EnergyPlus input file with the file path, in the IDF format. The utility will convert the file into a file with the same name
+but with the extension .epJSON in the JSON format. 
 
 For additional help with ConvertInputFormat at the command prompt in the directory with the EnergyPlus application, type:
 
@@ -61,7 +61,7 @@ For additional help with ConvertInputFormat at the command prompt in the directo
 
 The EnergyPlus input file has some added requirements to be used with the createRulesetModelDescription utility.
 
- - many tabular output reports are used so the Output:Table:SummaryReports should be set to AllSummary, AllSummaryMonthly, or AllSummaryMonthlyAndSizingPeriod:
+ - many tabular output reports are used, so the Output:Table:SummaryReports should be set to AllSummary, AllSummaryMonthly, or AllSummaryMonthlyAndSizingPeriod:
 
 ``` 
   Output:Table:SummaryReports,
@@ -70,7 +70,7 @@ The EnergyPlus input file has some added requirements to be used with the create
 
 Additional warning messages may appear when including the monthly predefined reports.
 
- - the JSON output format is used so that should be enabled for both timeseries and tabular output:
+ - the JSON output format is used, so that should be enabled for both time series and tabular output:
 
 ```    
   Output:JSON,
@@ -83,7 +83,7 @@ Additional warning messages may appear when including the monthly predefined rep
 This will create filename_out.json files when EnergyPlus is run at the command line. 
 
 Note: This utility was designed to work with files produced using EnergyPlus at the command line. Some file renaming might be necessary if using EP-Launch. 
-If using EP-Launch the eplusout.json and eplusout_hourly.json files may be found in the EPTEMP directory without the specific file name.
+If using EP-Launch, the eplusout.json and eplusout_hourly.json files may be found in the EPTEMP directory without the specific file name.
 
  - SI units should be used so
 
@@ -101,7 +101,7 @@ If using EP-Launch the eplusout.json and eplusout_hourly.json files may be found
     hourly;
 ```
 
-This will create filenameout_hourly.json files when EnergyPlus is run at the command line. If using EP-Launch this files may be found in the EPTEMP directory without the specific file name.
+This will create filenameout_hourly.json files when EnergyPlus is run at the command line. If using EP-Launch, this files may be found in the EPTEMP directory without the specific file name.
 
  - add output schedules reports
  
@@ -138,19 +138,78 @@ These enumerated lists are found here:
 
 https://github.com/open229/ruleset-model-description-schema/blob/master/docs229/Enumerations2019ASHRAE901.schema.md
 
-If you had not been using the Space input object before, set the numeric inputs to 'autocalculate'.
+If you have not been using the Space input object before, set the numeric inputs to 'autocalculate'.
 
 It is usually easier to make these changes prior to converting the file into the epJSON format.
 
 ## Weather File
 
-When selecting the EPW weather file, make sure the STAT file is present in the same directory. This file is needed for the fully populate the Climatic Data Summary tabular 
-report which is used to identify the ASHRAE climate zone.
+When selecting the EPW weather file, make sure the STAT file is present in the same directory. This file is needed to fully populate the Climatic Data Summary tabular 
+report, which is used to identify the ASHRAE climate zone.
 
 ## Output
 
 The resulting Ruleset Model Description file will be created in the same directory as the epJSON file with the same name and the file extension .rmd
 
+The Ruleset Model Description file is not complete but can be used to test many aspects of the building model transformation due to the ruleset. 
+The data groups that are partially populated include:
+
+ - RulesetProjectDescription
+ - RulesetModelDescription
+ - Building
+ - BuildingSegment
+ - Zone
+ - Space
+ - Infiltration
+ - Surface
+ - Construction
+ - Material
+ - Subsurface
+ - InteriorLighting
+ - MiscellaneousEquipment
+ - Schedule
+ - Calendar
+ - Weather
+ - HeatingVentilatingAirConditioningSystem
+ - HeatingSystem
+ - CoolingSystem
+ - FanSystem
+ - Fan
+ - Terminal
+ - Pump
+ - Boiler
+ - Chiller
+ - HeatRejection
+ - ExteriorLighting
 
 
+Please note that all data groups listed above still have some data elements that are not implemented and, in many cases, many data elements that are not implemented. The ones that 
+were implemented often because they were easy to implement and not necessarily based on the need for the data element. 
+
+Data groups that have not started to be implemented are:
+
+ - SurfaceOpticalProperties
+ - Transformer
+ - Elevator
+ - AirEconomizer
+ - AirEnergyRecovery
+ - FanOutputValidationPoint
+ - FluidLoop
+ - FluidLoopDesignAndControl
+ - BoilerOutputValidationPoint
+ - ChillerCapacityValidationPoint
+ - ChillerPowerValidationPoint
+ - ExternalFluidSource
+ - ServiceWaterHeatingDistributionSystem
+ - ServiceWaterPiping
+ - SolarThermal
+ - ServiceWaterHeatingEquipment
+ - ServiceWaterHeaterValidationPoint
+ - HeatPumpWaterHeaterCapacityValidationPoint
+ - HeatPumpWaterHeaterPowerValidationPoint
+ - Tank
+ - ServiceWaterHeatingUse
+ - RefrigeratedCase
+
+The [energyplus_implementatio_report.txt](https://github.com/JasonGlazer/createRulesetModelDescription/blob/main/energyplus_rmd/energyplus_implementation_report.txt) provides additional details. 
 

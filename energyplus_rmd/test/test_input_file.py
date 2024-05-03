@@ -3,7 +3,7 @@ from pathlib import Path
 from tempfile import mkdtemp
 from unittest import TestCase
 
-from eplus_rmd.input_file import InputFile
+from energyplus_rmd.input_file import InputFile
 
 
 class TestInputFile(TestCase):
