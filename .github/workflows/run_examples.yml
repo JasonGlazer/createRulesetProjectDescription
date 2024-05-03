@@ -5,6 +5,9 @@ on: [push]
 jobs:
   run_examples:
     runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: ./energyplus_rpd/scripts
 
     steps:
     - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8  # v2
@@ -19,4 +22,5 @@ jobs:
 
     - name: Run Example Files
       run: |
+#        python energyplus_rpd/scripts/run_examples.py
         python run_examples.py
