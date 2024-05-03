@@ -155,7 +155,9 @@ class TestTranslator(TestCase):
             {
                 'id': 'ONLY-SCHEDULE',
                 'sequence_type': 'HOURLY',
-                'hourly_values': [1]
+                'hourly_values': [1],
+                'hourly_cooling_design_day':[],
+                'hourly_heating_design_day':[]
             }
         ]
         t.add_schedules()
@@ -182,7 +184,9 @@ class TestTranslator(TestCase):
             {
                 'id': 'ONLY-SCHEDULE',
                 'sequence_type': 'HOURLY',
-                'hourly_values': [1, 2, 3, 4, 5]
+                'hourly_values': [1, 2, 3, 4, 5],
+                'hourly_cooling_design_day': [],
+                'hourly_heating_design_day': []
             }
         ]
         t.add_schedules()
@@ -211,17 +215,23 @@ class TestTranslator(TestCase):
             {
                 'id': 'ONE-SCHEDULE',
                 'sequence_type': 'HOURLY',
-                'hourly_values': [1, 2, 3, 4, 5]
+                'hourly_values': [1, 2, 3, 4, 5],
+                'hourly_cooling_design_day': [],
+                'hourly_heating_design_day': []
             },
             {
                 'id': 'TWO-SCHEDULE',
                 'sequence_type': 'HOURLY',
-                'hourly_values': [11, 12, 13, 14, 15]
+                'hourly_values': [11, 12, 13, 14, 15],
+                'hourly_cooling_design_day': [],
+                'hourly_heating_design_day': []
             },
             {
                 'id': 'THREE-SCHEDULE',
                 'sequence_type': 'HOURLY',
-                'hourly_values': [21, 22, 23, 24, 25]
+                'hourly_values': [21, 22, 23, 24, 25],
+                'hourly_cooling_design_day': [],
+                'hourly_heating_design_day': []
             }
         ]
         t.add_schedules()
