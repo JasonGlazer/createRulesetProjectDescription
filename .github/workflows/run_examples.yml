@@ -16,7 +16,7 @@ jobs:
       run: pip install -r requirements.txt
     - name: Run Example Files
       run: |
-        python run_examples.py
+        python energyplus_rpd/scripts/run_examples.py
     - name: list files
       run: |
         ls
