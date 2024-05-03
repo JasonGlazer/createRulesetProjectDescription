@@ -156,8 +156,8 @@ class TestTranslator(TestCase):
                 'id': 'ONLY-SCHEDULE',
                 'sequence_type': 'HOURLY',
                 'hourly_values': [1],
-                'hourly_cooling_design_day':[],
-                'hourly_heating_design_day':[]
+                'hourly_cooling_design_day': [],
+                'hourly_heating_design_day': []
             }
         ]
         t.add_schedules()
