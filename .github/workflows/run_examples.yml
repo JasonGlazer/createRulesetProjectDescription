@@ -1,4 +1,4 @@
-name: Run All Example Files
+name: Run All Tests
 
 on: [push]
 
@@ -8,15 +8,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.8
+    - name: Set up Python 3.9
       uses: actions/setup-python@d27e3f3d7c64b4bbf8e4abfb9b63b83e846e0435  # v4.5.0
       with:
-        python-version: 3.8
+        python-version: 3.9
     - name: Install Pip Dependencies
       run: pip install -r requirements.txt
-    - name: Run Example Files
-      run: |
-        python energyplus_rpd/scripts/run_examples.py
+    - name: Run Tests
+      run: python -m pytest
     - name: list files
-      run: |
-        ls
+      run: ls
