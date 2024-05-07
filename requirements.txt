@@ -6,6 +6,7 @@ pyyaml
 coveralls
 flake8
 nose
+pytest
 
 # developer requirements to generate documentation
 sphinx
