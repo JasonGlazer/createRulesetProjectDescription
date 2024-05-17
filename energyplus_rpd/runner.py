@@ -1,21 +1,46 @@
 from pathlib import Path
 from sys import argv, exit
 from energyplus_rpd.translator import Translator
+import argparse
 
 
-def run_with_path(p: Path) -> int:
-    t = Translator(p)
+def run_with_path(p: Path, add_cp=False, empty_cp=False) -> int:
+    t = Translator(p, add_cp=add_cp, empty_cp=empty_cp)
     t.process()
     return 0
 
+def build_argument_parser():
+    parser = argparse.ArgumentParser(
+        prog='createRulesetProjectDescription',
+        description='An EnergyPlus utility that creates a Ruleset Project Description (RPD) file based on output (and '
+                    'some input) from a simulation that is consistent with Standard 229P.'
+    )
+    parser.add_argument(
+        'filename',
+        help='the name of the epJSON file name with path'
+    )
+    parser.add_argument(
+        '--add_cp',
+        '-a',
+        action="store_true",
+        help='Add the compliance parameters located in the <filename>.cp.json file'
+    )
+    parser.add_argument(
+        '--create_empty_cp',
+        '-c',
+        action="store_true",
+        help='Create an empty compliance parameter file using the name <filename>.cp.json'
+    )
+    return parser
 
 def run() -> int:
-    if len(argv) < 2:
-        print("Need to pass at least 1 args: epJSON file")
-        return 1
-    epjson_input_file_path = Path(argv[1])
-    return run_with_path(epjson_input_file_path)
-
+    cli = build_argument_parser()
+    args = cli.parse_args()
+    if args.filename:
+        epjson_input_file_path = Path(args.filename)
+        return run_with_path(epjson_input_file_path, args.add_cp, args.create_empty_cp)
+    else:
+        print('An epJSON file name must be specified.')
 
 if __name__ == "__main__":
     exit(run())

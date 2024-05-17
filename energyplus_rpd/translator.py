@@ -8,6 +8,7 @@ from energyplus_rpd.input_file import InputFile
 from energyplus_rpd.output_file import OutputFile
 from energyplus_rpd.validator import Validator
 from energyplus_rpd.status_reporter import StatusReporter
+from energyplus_rpd.compliance_parameter_handler import ComplianceParameterHandler
 
 
 def energy_source_convert(energy_name_input):
@@ -79,7 +80,7 @@ def is_float(string):
 class Translator:
     """This class reads in the input files and does the heavy lifting to write output files"""
 
-    def __init__(self, epjson_file_path: Path, rpd_name=None):
+    def __init__(self, epjson_file_path: Path, rpd_name=None, add_cp=False, empty_cp=False):
         print(f"Reading epJSON input file at {epjson_file_path}")
         self.input_file = InputFile(epjson_file_path)
         self.epjson_object = self.input_file.epjson_object
@@ -94,8 +95,15 @@ class Translator:
         self.rpd_file_path = self.output_file.rpd_file_path
         print(f"Writing output file to {self.rpd_file_path}")
 
+
         self.validator = Validator()
         self.status_reporter = StatusReporter()
+
+        self.do_use_compliance_parameters = add_cp
+        self.do_create_empty_compliance_parameters = empty_cp
+        self.compliance_parameter = ComplianceParameterHandler(epjson_file_path)
+        if self.do_use_compliance_parameters or self.do_create_empty_compliance_parameters:
+            print(f"File with compliance parameter information is: {self.compliance_parameter.cp_file_path}")
 
         self.project_description = {}
         self.model_description = {}
@@ -1559,6 +1567,10 @@ class Translator:
         self.add_exterior_lighting()
         self.add_simulation_outputs()
         self.add_schedules()
+        if self.do_use_compliance_parameters:
+            self.compliance_parameter
+        elif self.do_create_empty_compliance_parameters:
+            self.compliance_parameter.create_empty_patch(self.project_description)
         self.ensure_all_id_unique()
         passed, message = self.validator.validate_rpd(self.project_description)
         if not passed:
