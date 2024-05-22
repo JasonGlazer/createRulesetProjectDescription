@@ -1571,6 +1571,8 @@ class Translator:
             self.compliance_parameter
         elif self.do_create_empty_compliance_parameters:
             self.compliance_parameter.create_empty_patch(self.project_description)
+            self.compliance_parameter.create_empty_cp(self.project_description)
+            self.compliance_parameter.create_empty_cp2(self.project_description)
         self.ensure_all_id_unique()
         passed, message = self.validator.validate_rpd(self.project_description)
         if not passed:
