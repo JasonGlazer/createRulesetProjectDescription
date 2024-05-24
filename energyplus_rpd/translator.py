@@ -103,7 +103,7 @@ class Translator:
         self.do_create_empty_compliance_parameters = empty_cp
         self.compliance_parameter = ComplianceParameterHandler(epjson_file_path)
         if self.do_use_compliance_parameters or self.do_create_empty_compliance_parameters:
-            print(f"File with compliance parameter information is: {self.compliance_parameter.cp_file_path}")
+            print(f"File with compliance parameter information is: {self.compliance_parameter.cp_empty_file_path}")
 
         self.project_description = {}
         self.model_description = {}
@@ -1571,9 +1571,6 @@ class Translator:
         if self.do_use_compliance_parameters:
             self.compliance_parameter
         elif self.do_create_empty_compliance_parameters:
-            # self.compliance_parameter.create_empty_patch(self.project_description)
-            # self.compliance_parameter.create_empty_cp(self.project_description)
-            self.compliance_parameter.create_empty_cp2(self.project_description)
             self.compliance_parameter.create_compliance_json(self.project_description)
         passed, message = self.validator.validate_rpd(self.project_description)
         if not passed:
