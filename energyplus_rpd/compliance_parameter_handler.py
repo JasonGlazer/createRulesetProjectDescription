@@ -1,5 +1,5 @@
 import copy
-from json import dumps
+from json import dumps, loads
 from pathlib import Path
 from typing import Dict
 
@@ -8,6 +8,7 @@ class ComplianceParameterHandler:
     def __init__(self, epjson_file_path: Path):
         self.cp_empty_file_path = epjson_file_path.with_suffix('.comp-param-empty.json')
         self.cp_file_path = epjson_file_path.with_suffix('.comp-param.json')
+        self.cp_file = {}
         self.compliance_group_element = {
             # data group: {data element: default value, ...}
             'root': # RulesetProjectDescription
@@ -92,7 +93,7 @@ class ComplianceParameterHandler:
                  'is_exempt': False}
         }
 
-    def create_compliance_json(self, json_dict: Dict):
+    def create_empty_compliance_json(self, json_dict: Dict):
         created_dict = {}
         self.mirror_nested(json_dict, created_dict)
         self.cp_empty_file_path.write_text(dumps(created_dict, indent=2))
@@ -123,3 +124,47 @@ class ComplianceParameterHandler:
         if in_key in self.compliance_group_element:
             dict_new.update(self.compliance_group_element[in_key])
 
+    def merge_in_compliance_parameters(self, rpd_dict):
+        self._load_cp_file()
+        rpd_dict = self.update_dict(rpd_dict, self.cp_file)
+
+    def _load_cp_file(self):
+        if not self.cp_file_path.exists():
+            raise Exception(f"Could not find input file at path: {self.cp_file_path}")
+        try:
+            cp_contents = self.cp_file_path.read_text()
+            self.cp_file = loads(cp_contents)
+        except Exception as e:
+            print(f"Could not process compliance file into JSON object; error: {e}")
+            raise
+
+    # https://stackoverflow.com/questions/66383920/merge-deep-json-files-in-python
+    def update_dict(self, original, update):
+        for key, value in update.items():
+            # Add new key values
+            if key not in original:
+                original[key] = update[key]
+                continue
+            # Update the old key values with the new key values
+            if key in original:
+                if isinstance(value, dict):
+                    self.update_dict(original[key], update[key])
+                if isinstance(value, list):
+                    self.update_list(original[key], update[key])
+                if isinstance(value, (str, int, float)):
+                    original[key] = update[key]
+        return original
+
+    def update_list(self, original, update):
+        # Make sure the order is equal, otherwise it is hard to compare the items.
+        assert len(original) == len(update), "Can only handle equal length lists."
+        for idx, (val_original, val_update) in enumerate(zip(original, update)):
+            if not isinstance(val_original, type(val_update)):
+                raise ValueError(f"Different types! {type(val_original)}, {type(val_update)}")
+            if isinstance(val_original, dict):
+                original[idx] = self.update_dict(original[idx], update[idx])
+            if isinstance(val_original, (tuple, list)):
+                original[idx] = self.update_list(original[idx], update[idx])
+            if isinstance(val_original, (str, int, float)):
+                original[idx] = val_update
+        return original

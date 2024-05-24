@@ -1569,9 +1569,9 @@ class Translator:
         self.add_schedules()
         self.ensure_all_id_unique()
         if self.do_use_compliance_parameters:
-            self.compliance_parameter
+            self.compliance_parameter.merge_in_compliance_parameters(self.project_description)
         elif self.do_create_empty_compliance_parameters:
-            self.compliance_parameter.create_compliance_json(self.project_description)
+            self.compliance_parameter.create_empty_compliance_json(self.project_description)
         passed, message = self.validator.validate_rpd(self.project_description)
         if not passed:
             print(message)
