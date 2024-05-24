@@ -235,3 +235,53 @@ class ComplianceParameterHandler:
 
 ## maybe make a deepcopy and delete the elements of each dictionary that are not id or notes and then add the new items.
 ## or else reconstruct a JSON dictionary in the image as it is being created and just copy the id and notes and the new items
+
+    def create_compliance_json(self, json_dict: Dict):
+        #cp_dict = copy.deepcopy(json_dict)
+        #self.delete_and_add_compliance(cp_dict)
+        # print(dumps(cp_dict, indent=2))
+        created_dict = {}
+        self.mirror_nested(json_dict, created_dict)
+        print(dumps(created_dict, indent=2))
+        out_path = Path("test.json")
+        out_path.write_text(dumps(created_dict, indent=2))
+
+    def delete_and_add_compliance(self, in_dict: Dict):
+        for k, v in in_dict.items():
+            if isinstance(v, dict):
+                if 'id' in in_dict:
+                    print(f'data group:  {k} - {in_dict["id"]}')
+                self.delete_and_add_compliance(v)
+            if isinstance(v, list):
+                for o in v:
+                    if isinstance(o, dict):
+                        if 'id' in in_dict:
+                            print(f'data group:  {k} - {in_dict["id"]}')
+                        self.delete_and_add_compliance(o)
+
+    def mirror_nested(self, in_dict: Dict, out_dict: Dict):
+        for key_in, value_in in in_dict.items():
+            if key_in == 'id':
+                out_dict['id'] = value_in
+            if isinstance(value_in, dict):
+                new_dict = {}
+                out_dict[key_in] = new_dict
+                self.add_compliance_parameters(key_in, new_dict)
+                self.mirror_nested(value_in, new_dict)
+            if isinstance(value_in, list):
+                list_out = []
+                found = False
+                for item_in in value_in:
+                    if isinstance(item_in, dict):
+                        found = True
+                        new_dict = {}
+                        self.add_compliance_parameters(key_in, new_dict)
+                        list_out.append(new_dict)
+                        self.mirror_nested(item_in, new_dict)
+                if found:
+                    out_dict[key_in] = list_out
+
+    def add_compliance_parameters(self, in_key, dict_new):
+        if in_key in self.compliance_group_element:
+            dict_new.update(self.compliance_group_element[in_key])
+
