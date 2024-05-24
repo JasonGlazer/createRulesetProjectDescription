@@ -95,7 +95,6 @@ class Translator:
         self.rpd_file_path = self.output_file.rpd_file_path
         print(f"Writing output file to {self.rpd_file_path}")
 
-
         self.validator = Validator()
         self.status_reporter = StatusReporter()
 

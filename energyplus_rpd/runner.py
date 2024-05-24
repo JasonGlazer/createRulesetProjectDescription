@@ -1,5 +1,5 @@
 from pathlib import Path
-from sys import argv, exit
+from sys import exit
 from energyplus_rpd.translator import Translator
 import argparse
 
@@ -8,6 +8,7 @@ def run_with_path(p: Path, add_cp=False, empty_cp=False) -> int:
     t = Translator(p, add_cp=add_cp, empty_cp=empty_cp)
     t.process()
     return 0
+
 
 def build_argument_parser():
     parser = argparse.ArgumentParser(
@@ -33,6 +34,7 @@ def build_argument_parser():
     )
     return parser
 
+
 def run() -> int:
     cli = build_argument_parser()
     args = cli.parse_args()
@@ -41,6 +43,7 @@ def run() -> int:
         return run_with_path(epjson_input_file_path, args.add_cp, args.create_empty_cp)
     else:
         print('An epJSON file name must be specified.')
+
 
 if __name__ == "__main__":
     exit(run())

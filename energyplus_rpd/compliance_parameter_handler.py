@@ -1,4 +1,3 @@
-import copy
 from json import dumps, loads
 from pathlib import Path
 from typing import Dict
@@ -11,7 +10,7 @@ class ComplianceParameterHandler:
         self.cp_file = {}
         self.compliance_group_element = {
             # data group: {data element: default value, ...}
-            'root': # RulesetProjectDescription
+            'root':
                 {'compliance_path': 'CODE_COMPLIANT', },
             'ruleset_model_descriptions':
                 {'type': 'PROPOSED',
@@ -66,7 +65,7 @@ class ComplianceParameterHandler:
                 {'air_filter_merv_rating': 8,
                  'has_fully_ducted_return': False},
             'air_energy_recovery':
-                {'enthalpy_recovery_ratio':0.3},
+                {'enthalpy_recovery_ratio': 0.3},
             'fans':
                 {'motor_nameplate_power': 0.0,
                  'shaft_power': 0.0,
