@@ -1102,10 +1102,16 @@ class Translator:
         minimum_temperature_column = dx_cols.index('Minimum Outdoor Dry-Bulb Temperature for Compressor Operation')
         for row_key in dx_row_keys:
             if row_key in coil_row_keys:
-                coil_efficiencies[row_key]['HSPF'] = float(dx_rows[row_key][hspf_column])
+                try:
+                    coil_efficiencies[row_key]['HSPF'] = float(dx_rows[row_key][hspf_column])
+                except ValueError:
+                    pass
                 coil_efficiencies[row_key]['HSPF_region'] = dx_rows[row_key][hspf_region_column]
-                coil_efficiencies[row_key]['minimum_temperature_compressor'] = float(
-                    dx_rows[row_key][minimum_temperature_column])
+                try:
+                    coil_efficiencies[row_key]['minimum_temperature_compressor'] = float(
+                        dx_rows[row_key][minimum_temperature_column])
+                except ValueError:
+                    pass
         dx2_table = self.get_table('EquipmentSummary', 'DX Heating Coils [ HSPF2 ]')
         dx2_rows = dx2_table['Rows']
         dx2_row_keys = list(dx2_rows.keys())
