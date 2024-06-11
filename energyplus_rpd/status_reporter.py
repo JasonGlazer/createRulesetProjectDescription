@@ -7,6 +7,7 @@ class StatusReporter:
     def __init__(self):
         self.extra_schema = {}
         parent_dir = Path(__file__).parent
+        grand_parent_dir = Path(__file__).parent.parent
 
         # the extra schema file includes extra tags on fields related to appendix G and energyplus
         # these extra tags are just for internal tracking of what has been fully or partially
@@ -17,7 +18,7 @@ class StatusReporter:
             with open(extra_schema_path) as schema_f:
                 self.extra_schema = safe_load(schema_f)
         report_file = 'energyplus_implementation_report.txt'
-        self.report_file_path = parent_dir / report_file
+        self.report_file_path = grand_parent_dir / report_file
 
     def generate(self):  # , rpd_dict):
         if self.extra_schema:
