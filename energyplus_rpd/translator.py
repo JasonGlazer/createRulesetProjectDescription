@@ -76,6 +76,33 @@ def is_float(string):
     except ValueError:
         return False
 
+def terminal_option_convert(type_of_input_object):
+    if 'VAV' in type_of_input_object:
+        option =  'VARIABLE_AIR_VOLUME'
+    elif 'ConstantVolume' in type_of_input_object:
+        option =  'CONSTANT_AIR_VOLUME'
+    else:
+        option = 'OTHER'
+    return option
+
+def terminal_heating_source_convert(heat_coil_type):
+    if 'WATER' in heat_coil_type:
+        option = 'HOT_WATER'
+    elif 'ELECTRIC' in heat_coil_type:
+        option = 'ELECTRIC'
+    else:
+        option = 'NONE'
+    return option
+
+def terminal_cooling_source_convert(cool_coil_type):
+    if 'n/a' in cool_coil_type:
+        option = 'NONE'
+    elif cool_coil_type == '':
+        option = 'NONE'
+    else:
+        option = 'CHILLED_WATER'
+    return option
+
 
 class Translator:
     """This class reads in the input files and does the heavy lifting to write output files"""
@@ -226,6 +253,7 @@ class Translator:
                             people_schedule_by_zone[zone_name.upper()] = schedule_name
         # print(people_schedule_by_zone)
         return people_schedule_by_zone
+
 
     def create_skeleton(self):
         self.building_segment = {'id': 'segment 1'}
@@ -845,6 +873,7 @@ class Translator:
         cooling_coil_efficiencies = self.gather_cooling_coil_efficiencies()
         heating_coil_efficiencies = self.gather_heating_coil_efficiencies()
         equipment_fans = self.gather_equipment_fans()
+        air_terminals = self.gather_air_terminal()
         coils_table = self.get_table('CoilSizingDetails', 'Coils')
         if not coils_table:
             return hvac_systems
@@ -963,13 +992,18 @@ class Translator:
                 # print(hvac_system)
                 hvac_systems.append(hvac_system)
                 for zone in zone_name_list:
-                    terminal = {
-                        'id': zone + '-terminal',
-                        'served_by_heating_ventilating_air_conditioning_system': hvac_name
-                    }
-                    if zone in terminal_capacity_by_zone:
-                        terminal['heating_capacity'] = terminal_capacity_by_zone[zone]
-                    self.terminals_by_zone[zone.upper()] = [terminal, ]
+                    if zone in air_terminals:
+                        current_air_terminal = air_terminals[zone]
+                        terminal = {
+                            'id': current_air_terminal['terminal_name']  ,
+                            'type': terminal_option_convert(current_air_terminal['type_input']),
+                            'heating_source': terminal_heating_source_convert(current_air_terminal['heat_coil_type']),
+                            'cooling_source': terminal_cooling_source_convert(current_air_terminal['chill_coil_type']),
+                            'served_by_heating_ventilating_air_conditioning_system': hvac_name
+                        }
+                        if zone in terminal_capacity_by_zone:
+                            terminal['heating_capacity'] = terminal_capacity_by_zone[zone]
+                        self.terminals_by_zone[zone.upper()] = [terminal, ]
         self.building_segment['heating_ventilating_air_conditioning_systems'] = hvac_systems
         # print(self.terminals_by_zone)
         return hvac_systems, self.terminals_by_zone
@@ -1190,6 +1224,70 @@ class Translator:
                          'airloop_name': airloop_name}
             equipment_fans[row_key] = (equipment_fan, fan_extra)
         return equipment_fans
+
+    def gather_air_terminal(self):
+        air_terminal_by_zone = {}
+        table = self.get_table('EquipmentSummary', 'Air Terminals')
+        if not table:
+            return air_terminal_by_zone
+        rows = table['Rows']
+        row_keys = list(rows.keys())
+        cols = table['Cols']
+        zone_name_column = cols.index('Zone Name')
+        min_flow_column = cols.index('Minimum Flow [m3/s]')
+        min_oa_flow_column = cols.index('Minimum Outdoor Flow [m3/s]')
+        supply_cool_set_point_column = cols.index('Supply Cooling Setpoint [C]')
+        supply_heat_set_point_column = cols.index('Supply Heating Setpoint [C]')
+        heating_capacity_column = cols.index('Heating Capacity [W]')
+        cooling_capacity_column = cols.index('Cooling Capacity [W]')
+        type_input_column = cols.index('Type of Input Object')
+        heat_coil_type_column = cols.index('Heat/Reheat Coil Object Type')
+        chill_coil_type_column = cols.index('Chilled Water Coil Object Type')
+        fan_type_column = cols.index('Fan Object Type')
+        fan_name_column = cols.index('Fan Name')
+        primary_airflow_rate_column = cols.index('Primary Air Flow Rate [m3/s]')
+        secondary_airflow_rate_column = cols.index('Secondary Air Flow Rate [m3/s]')
+        min_flow_schedule_name_column = cols.index('Minimum Flow Schedule Name')
+        max_flow_during_reheat_column = cols.index('Maximum Flow During Reheat [m3/s]')
+        min_oa_schedule_name_column = cols.index('Minimum Outdoor Flow Schedule Name')
+        for row_key in row_keys:
+            zone_name = rows[row_key][zone_name_column].upper()
+            min_flow = rows[row_key][min_flow_column]
+            min_oa_flow = rows[row_key][min_oa_flow_column]
+            supply_cool_set_point = rows[row_key][supply_cool_set_point_column]
+            supply_heat_set_point = rows[row_key][supply_heat_set_point_column]
+            heating_capacity = rows[row_key][heating_capacity_column]
+            cooling_capacity = rows[row_key][cooling_capacity_column]
+            type_input = rows[row_key][type_input_column]
+            heat_coil_type = rows[row_key][heat_coil_type_column]
+            chill_coil_type = rows[row_key][chill_coil_type_column]
+            fan_type = rows[row_key][fan_type_column]
+            fan_name = rows[row_key][fan_name_column]
+            primary_airflow_rate = rows[row_key][primary_airflow_rate_column]
+            secondary_airflow_rate = rows[row_key][secondary_airflow_rate_column]
+            min_flow_schedule_name = rows[row_key][min_flow_schedule_name_column]
+            max_flow_during_reheat = rows[row_key][max_flow_during_reheat_column]
+            min_oa_schedule_name = rows[row_key][min_oa_schedule_name_column]
+            terminal = {'terminal_name': row_key,
+                        'min_flow': min_flow,
+                        'min_oa_flow': min_oa_flow,
+                        'supply_cool_set_point': supply_cool_set_point,
+                        'supply_heat_set_point': supply_heat_set_point,
+                        'heating_capacity': heating_capacity,
+                        'cooling_capacity': cooling_capacity,
+                        'type_input': type_input,
+                        'heat_coil_type': heat_coil_type,
+                        'chill_coil_type': chill_coil_type,
+                        'fan_type': fan_type,
+                        'fan_name': fan_name,
+                        'primary_airflow_rate': primary_airflow_rate,
+                        'secondary_airflow_rate': secondary_airflow_rate,
+                        'min_flow_schedule_name': min_flow_schedule_name,
+                        'max_flow_during_reheat': max_flow_during_reheat,
+                        'min_oa_schedule_name': min_oa_schedule_name}
+            air_terminal_by_zone[zone_name] = terminal
+        print(air_terminal_by_zone)
+        return air_terminal_by_zone
 
     def add_chillers(self):
         chillers = []
