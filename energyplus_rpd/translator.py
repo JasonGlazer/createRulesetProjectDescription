@@ -103,6 +103,15 @@ def terminal_cooling_source_convert(cool_coil_type):
         option = 'CHILLED_WATER'
     return option
 
+def terminal_config_convert(type_input_obj):
+    if 'series' in type_input_obj.lower():
+        option = 'SERIES'
+    elif 'parallel' in type_input_obj.lower():
+        option = 'PARALLEL'
+    else:
+        option = "OTHER"
+    return option
+
 
 class Translator:
     """This class reads in the input files and does the heavy lifting to write output files"""
@@ -999,10 +1008,27 @@ class Translator:
                             'type': terminal_option_convert(current_air_terminal['type_input']),
                             'heating_source': terminal_heating_source_convert(current_air_terminal['heat_coil_type']),
                             'cooling_source': terminal_cooling_source_convert(current_air_terminal['chill_coil_type']),
-                            'served_by_heating_ventilating_air_conditioning_system': hvac_name
+                            'served_by_heating_ventilating_air_conditioning_system': hvac_name,
+                            'primary_airflow': current_air_terminal['primary_airflow_rate'] * 1000,  # m3 to L
+                            'supply_design_heating_setpoint_temperature': current_air_terminal['supply_heat_set_point'],
+                            'supply_design_cooling_setpoint_temperature': current_air_terminal['supply_cool_set_point'],
+                            'minimum_airflow': current_air_terminal['min_flow'] * 1000,
+                            'minimum_outdoor_airflow': current_air_terminal['min_oa_flow'] * 1000,
+                            'heating_capacity': current_air_terminal['heating_capacity'],
+                            'cooling_capacity': current_air_terminal['cooling_capacity']
                         }
                         if zone in terminal_capacity_by_zone:
                             terminal['heating_capacity'] = terminal_capacity_by_zone[zone]
+                        if current_air_terminal['fan_name']:
+                            terminal_fan = {'id': current_air_terminal['fan_name']}
+                            equipment_fan, equipment_fan_extra = equipment_fans[current_air_terminal['fan_name']]
+                            terminal_fan.update(equipment_fan)
+                            terminal['fan'] = terminal_fan
+                            terminal['fan_configuration'] = terminal_config_convert(current_air_terminal['type_input'])
+                        if current_air_terminal['secondary_airflow_rate'] > 0:
+                            terminal['secondary_airflow'] = current_air_terminal['secondary_airflow_rate'] * 1000
+                        if current_air_terminal['max_flow_during_reheat'] > 0:
+                            terminal['max_heating_airflow'] = current_air_terminal['max_flow_during_reheat'] * 1000
                         self.terminals_by_zone[zone.upper()] = [terminal, ]
         self.building_segment['heating_ventilating_air_conditioning_systems'] = hvac_systems
         # print(self.terminals_by_zone)
@@ -1269,22 +1295,28 @@ class Translator:
             max_flow_during_reheat = rows[row_key][max_flow_during_reheat_column]
             min_oa_schedule_name = rows[row_key][min_oa_schedule_name_column]
             terminal = {'terminal_name': row_key,
-                        'min_flow': min_flow,
-                        'min_oa_flow': min_oa_flow,
+                        'min_flow': float(min_flow),
+                        'min_oa_flow': float(min_oa_flow),
                         'supply_cool_set_point': supply_cool_set_point,
                         'supply_heat_set_point': supply_heat_set_point,
-                        'heating_capacity': heating_capacity,
-                        'cooling_capacity': cooling_capacity,
+                        'heating_capacity': float(heating_capacity),
+                        'cooling_capacity': float(cooling_capacity),
                         'type_input': type_input,
                         'heat_coil_type': heat_coil_type,
                         'chill_coil_type': chill_coil_type,
                         'fan_type': fan_type,
                         'fan_name': fan_name,
-                        'primary_airflow_rate': primary_airflow_rate,
-                        'secondary_airflow_rate': secondary_airflow_rate,
+                        'primary_airflow_rate': float(primary_airflow_rate),
                         'min_flow_schedule_name': min_flow_schedule_name,
-                        'max_flow_during_reheat': max_flow_during_reheat,
                         'min_oa_schedule_name': min_oa_schedule_name}
+            if is_float(secondary_airflow_rate):
+                terminal['secondary_airflow_rate'] = float(secondary_airflow_rate)
+            else:
+                terminal['secondary_airflow_rate'] = 0.
+            if is_float(max_flow_during_reheat):
+                terminal['max_flow_during_reheat'] = float(max_flow_during_reheat)
+            else:
+                terminal['max_flow_during_reheat'] = 0.
             air_terminal_by_zone[zone_name] = terminal
         print(air_terminal_by_zone)
         return air_terminal_by_zone
