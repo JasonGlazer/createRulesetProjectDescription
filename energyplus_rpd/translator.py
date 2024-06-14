@@ -77,25 +77,25 @@ def is_float(string):
         return False
 
 def terminal_option_convert(type_of_input_object):
-    if 'VAV' in type_of_input_object:
+    if 'VAV' in type_of_input_object.upper():
         option =  'VARIABLE_AIR_VOLUME'
-    elif 'ConstantVolume' in type_of_input_object:
+    elif 'CONSTANTVOLUME' in type_of_input_object.upper():
         option =  'CONSTANT_AIR_VOLUME'
     else:
         option = 'OTHER'
     return option
 
 def terminal_heating_source_convert(heat_coil_type):
-    if 'WATER' in heat_coil_type:
+    if 'WATER' in heat_coil_type.upper():
         option = 'HOT_WATER'
-    elif 'ELECTRIC' in heat_coil_type:
+    elif 'ELECTRIC' in heat_coil_type.upper():
         option = 'ELECTRIC'
     else:
         option = 'NONE'
     return option
 
 def terminal_cooling_source_convert(cool_coil_type):
-    if 'n/a' in cool_coil_type:
+    if 'N/A' in cool_coil_type.upper():
         option = 'NONE'
     elif cool_coil_type == '':
         option = 'NONE'

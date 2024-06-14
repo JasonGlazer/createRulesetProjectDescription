@@ -4,7 +4,15 @@ from tempfile import mkdtemp
 from unittest import TestCase
 
 from energyplus_rpd.translator import Translator
-
+from energyplus_rpd.translator import is_float
+from energyplus_rpd.translator import energy_source_convert
+from energyplus_rpd.translator import heating_type_convert
+from energyplus_rpd.translator import cooling_type_convert
+from energyplus_rpd.translator import source_from_coil
+from energyplus_rpd.translator import terminal_option_convert
+from energyplus_rpd.translator import terminal_heating_source_convert
+from energyplus_rpd.translator import terminal_cooling_source_convert
+from energyplus_rpd.translator import terminal_config_convert
 
 class TestTranslator(TestCase):
     def setUp(self) -> None:
@@ -5944,3 +5952,54 @@ class TestTranslator(TestCase):
                     'percent_renewable_energy_savings': -1.0}
 
         self.assertEqual(added_simulation_outputs, expected)
+
+
+    def test_is_float(self):
+        self.assertTrue(is_float('0.09'))
+        self.assertTrue(is_float('1'))
+        self.assertTrue(is_float('999999.999'))
+        self.assertFalse(is_float('1x'))
+        self.assertFalse(is_float('y11.1'))
+
+    def test_energy_source_convert(self):
+        self.assertEqual(energy_source_convert('ELECTRICITY'), 'ELECTRICITY')
+        self.assertEqual(energy_source_convert('FUELOIL2'), 'FUEL_OIL')
+        self.assertEqual(energy_source_convert('OTHERFUEL2'), 'OTHER')
+        self.assertEqual(energy_source_convert('electricity'), 'ELECTRICITY')
+
+    def test_heating_type_convert(self):
+        self.assertEqual(heating_type_convert('COIL:HEATING:WATER'), 'FLUID_LOOP')
+        self.assertEqual(heating_type_convert('COIL:HEATING:FUEL'), 'FURNACE')
+        self.assertEqual(heating_type_convert('COIL:HEATING:dx:VARIABLESPEED'), 'HEAT_PUMP')
+
+    def test_cooling_type_convert(self):
+        self.assertEqual(cooling_type_convert('COIL:COOLING:WATER'), 'FLUID_LOOP')
+        self.assertEqual(cooling_type_convert('COIL:COOLING:DX:VARIABLESPEED'), 'DIRECT_EXPANSION')
+        self.assertEqual(cooling_type_convert('COIL:cooling:WATERTOAIRHEATPUMP:EQUATIONFIT'), 'DIRECT_EXPANSION')
+
+    def test_source_from_coil(self):
+        self.assertEqual(source_from_coil('Coil:Heating:Water'), 'OTHER')
+        self.assertEqual(source_from_coil('Coil:Heating:Fuel'), 'NATURAL_GAS')
+        self.assertEqual(source_from_coil('Coil:Heating:Electric'), 'ELECTRICITY')
+
+    def test_terminal_option_convert(self):
+        self.assertEqual(terminal_option_convert('AirTerminal:SingleDuct:ConstantVolume:Reheat'), 'CONSTANT_AIR_VOLUME')
+        self.assertEqual(terminal_option_convert('AirTerminal:SingleDuct:VAV:NoReheat'), 'VARIABLE_AIR_VOLUME')
+        self.assertEqual(terminal_option_convert('AirTerminal:SingleDuct:Mixer'), 'OTHER')
+
+    def test_terminal_heating_source_convert(self):
+        self.assertEqual(terminal_heating_source_convert('Coil:Heating:Water'),'HOT_WATER')
+        self.assertEqual(terminal_heating_source_convert('Coil:Heating:Electric'),'ELECTRIC')
+        self.assertEqual(terminal_heating_source_convert('Coil:Heating:Steam'),'NONE')
+
+    def test_terminal_cooling_source_convert(self):
+        self.assertEqual(terminal_cooling_source_convert('n/a'), 'NONE')
+        self.assertEqual(terminal_cooling_source_convert(''), 'NONE')
+        self.assertEqual(terminal_cooling_source_convert('x'), 'CHILLED_WATER')
+
+    def test_terminal_config_convert(self):
+        self.assertEqual(terminal_config_convert('AirTerminal:SingleDuct:SeriesPIU:Reheat'),'SERIES')
+        self.assertEqual(terminal_config_convert('AirTerminal:SingleDuct:ParallelPIU:Reheat'),'PARALLEL')
+        self.assertEqual(terminal_config_convert('AirTerminal:SingleDuct:VAV:HeatAndCool:Reheat'),'OTHER')
+
+
