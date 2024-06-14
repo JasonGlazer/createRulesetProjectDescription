@@ -7,7 +7,13 @@ class TestValidator(TestCase):
 
     def test_valid_dict(self):
         test1 = {"id": "0001",
-                 "data_timestamp": "2016-06-29T14:35Z"}
+                 "data_timestamp": "2016-06-29T14:35Z",
+                 "ruleset_model_descriptions": [
+                     {"id": "0002",
+                      "type": "PROPOSED"
+                      }
+                 ]
+            }
         v = Validator()
         passed, _ = v.validate_rpd(test1)
         self.assertTrue(passed)

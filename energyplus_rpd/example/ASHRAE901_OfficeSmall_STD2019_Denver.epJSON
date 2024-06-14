@@ -3177,35 +3177,35 @@
             "design_level_calculation_method": "Watts/Area",
             "end_use_subcategory": "MiscPlug",
             "schedule_name": "BLDG_EQUIP_SCH",
-            "watts_per_zone_floor_area": 6.78,
+            "watts_per_floor_area": 6.78,
             "zone_or_zonelist_or_space_or_spacelist_name": "Core_ZN"
         },
         "Perimeter_ZN_1_MiscPlug_Equip": {
             "design_level_calculation_method": "Watts/Area",
             "end_use_subcategory": "MiscPlug",
             "schedule_name": "BLDG_EQUIP_SCH",
-            "watts_per_zone_floor_area": 6.78,
+            "watts_per_floor_area": 6.78,
             "zone_or_zonelist_or_space_or_spacelist_name": "Perimeter_ZN_1"
         },
         "Perimeter_ZN_2_MiscPlug_Equip": {
             "design_level_calculation_method": "Watts/Area",
             "end_use_subcategory": "MiscPlug",
             "schedule_name": "BLDG_EQUIP_SCH",
-            "watts_per_zone_floor_area": 6.78,
+            "watts_per_floor_area": 6.78,
             "zone_or_zonelist_or_space_or_spacelist_name": "Perimeter_ZN_2"
         },
         "Perimeter_ZN_3_MiscPlug_Equip": {
             "design_level_calculation_method": "Watts/Area",
             "end_use_subcategory": "MiscPlug",
             "schedule_name": "BLDG_EQUIP_SCH",
-            "watts_per_zone_floor_area": 6.78,
+            "watts_per_floor_area": 6.78,
             "zone_or_zonelist_or_space_or_spacelist_name": "Perimeter_ZN_3"
         },
         "Perimeter_ZN_4_MiscPlug_Equip": {
             "design_level_calculation_method": "Watts/Area",
             "end_use_subcategory": "MiscPlug",
             "schedule_name": "BLDG_EQUIP_SCH",
-            "watts_per_zone_floor_area": 6.78,
+            "watts_per_floor_area": 6.78,
             "zone_or_zonelist_or_space_or_spacelist_name": "Perimeter_ZN_4"
         }
     },
@@ -4060,7 +4060,7 @@
             "return_air_fraction": 0.0,
             "return_air_fraction_calculated_from_plenum_temperature": "No",
             "schedule_name": "BLDG_LIGHT_SCH",
-            "watts_per_zone_floor_area": 6.888902667,
+            "watts_per_floor_area": 6.888902667,
             "zone_or_zonelist_or_space_or_spacelist_name": "Core_ZN"
         },
         "Perimeter_ZN_1_Lights": {
@@ -4072,7 +4072,7 @@
             "return_air_fraction": 0.0,
             "return_air_fraction_calculated_from_plenum_temperature": "No",
             "schedule_name": "BLDG_LIGHT_SCH",
-            "watts_per_zone_floor_area": 6.888902667,
+            "watts_per_floor_area": 6.888902667,
             "zone_or_zonelist_or_space_or_spacelist_name": "Perimeter_ZN_1"
         },
         "Perimeter_ZN_2_Lights": {
@@ -4084,7 +4084,7 @@
             "return_air_fraction": 0.0,
             "return_air_fraction_calculated_from_plenum_temperature": "No",
             "schedule_name": "BLDG_LIGHT_SCH",
-            "watts_per_zone_floor_area": 6.888902667,
+            "watts_per_floor_area": 6.888902667,
             "zone_or_zonelist_or_space_or_spacelist_name": "Perimeter_ZN_2"
         },
         "Perimeter_ZN_3_Lights": {
@@ -4096,7 +4096,7 @@
             "return_air_fraction": 0.0,
             "return_air_fraction_calculated_from_plenum_temperature": "No",
             "schedule_name": "BLDG_LIGHT_SCH",
-            "watts_per_zone_floor_area": 6.888902667,
+            "watts_per_floor_area": 6.888902667,
             "zone_or_zonelist_or_space_or_spacelist_name": "Perimeter_ZN_3"
         },
         "Perimeter_ZN_4_Lights": {
@@ -4108,7 +4108,7 @@
             "return_air_fraction": 0.0,
             "return_air_fraction_calculated_from_plenum_temperature": "No",
             "schedule_name": "BLDG_LIGHT_SCH",
-            "watts_per_zone_floor_area": 6.888902667,
+            "watts_per_floor_area": 6.888902667,
             "zone_or_zonelist_or_space_or_spacelist_name": "Perimeter_ZN_4"
         }
     },
@@ -4678,7 +4678,7 @@
             "enable_ashrae_55_comfort_warnings": "No",
             "floor_area_per_person": 16.5880764430522,
             "fraction_radiant": 0.3,
-            "mean_radiant_temperature_calculation_type": "ZoneAveraged",
+            "mean_radiant_temperature_calculation_type": "EnclosureAveraged",
             "number_of_people_calculation_method": "Area/Person",
             "number_of_people_schedule_name": "BLDG_OCC_SCH_wo_SB",
             "sensible_heat_fraction": "Autocalculate",
@@ -4689,7 +4689,7 @@
             "enable_ashrae_55_comfort_warnings": "No",
             "floor_area_per_person": 16.5880764430522,
             "fraction_radiant": 0.3,
-            "mean_radiant_temperature_calculation_type": "ZoneAveraged",
+            "mean_radiant_temperature_calculation_type": "EnclosureAveraged",
             "number_of_people_calculation_method": "Area/Person",
             "number_of_people_schedule_name": "BLDG_OCC_SCH_wo_SB",
             "sensible_heat_fraction": "Autocalculate",
@@ -4700,7 +4700,7 @@
             "enable_ashrae_55_comfort_warnings": "No",
             "floor_area_per_person": 16.5880764430522,
             "fraction_radiant": 0.3,
-            "mean_radiant_temperature_calculation_type": "ZoneAveraged",
+            "mean_radiant_temperature_calculation_type": "EnclosureAveraged",
             "number_of_people_calculation_method": "Area/Person",
             "number_of_people_schedule_name": "BLDG_OCC_SCH_w_SB",
             "sensible_heat_fraction": "Autocalculate",
@@ -4711,7 +4711,7 @@
             "enable_ashrae_55_comfort_warnings": "No",
             "floor_area_per_person": 16.5880764430522,
             "fraction_radiant": 0.3,
-            "mean_radiant_temperature_calculation_type": "ZoneAveraged",
+            "mean_radiant_temperature_calculation_type": "EnclosureAveraged",
             "number_of_people_calculation_method": "Area/Person",
             "number_of_people_schedule_name": "BLDG_OCC_SCH_wo_SB",
             "sensible_heat_fraction": "Autocalculate",
@@ -4722,7 +4722,7 @@
             "enable_ashrae_55_comfort_warnings": "No",
             "floor_area_per_person": 16.5880764430522,
             "fraction_radiant": 0.3,
-            "mean_radiant_temperature_calculation_type": "ZoneAveraged",
+            "mean_radiant_temperature_calculation_type": "EnclosureAveraged",
             "number_of_people_calculation_method": "Area/Person",
             "number_of_people_schedule_name": "BLDG_OCC_SCH_wo_SB",
             "sensible_heat_fraction": "Autocalculate",
@@ -9604,7 +9604,7 @@
     },
     "Version": {
         "Version 1": {
-            "version_identifier": "23.2"
+            "version_identifier": "24.2"
         }
     },
     "WaterHeater:Mixed": {

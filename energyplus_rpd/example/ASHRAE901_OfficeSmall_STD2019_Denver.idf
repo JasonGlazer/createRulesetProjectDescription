@@ -4,7 +4,7 @@
 !-      Use '!' comments if they need to be retained when using the IDFEditor.
 !-   ===========  ALL OBJECTS IN CLASS: VERSION ===========
 
-  Version,22.2;
+  Version,24.2;
 
 !-   ===========  ALL OBJECTS IN CLASS: SIMULATIONCONTROL ===========
 
@@ -132,7 +132,7 @@
     1,                       !- Begin Month
     1,                       !- Begin Day of Month
     ,                        !- Begin Year
-    12,                       !- End Month
+    12,                      !- End Month
     31,                      !- End Day of Month
     ,                        !- End Year
     Sunday,                  !- Day of Week for Start Day
@@ -1730,11 +1730,11 @@
   Space,
     core_space,              !- Name
     Core_ZN,                 !- Zone Name
-    autocalculate,           !- Ceiling Height
-    autocalculate,           !- Volume
+    autocalculate,           !- Ceiling Height {m}
+    autocalculate,           !- Volume {m3}
     autocalculate,           !- Floor Area {m2}
     OFFICE_OPEN_PLAN,        !- Space Type
-    OFFICE_BUILDINGS_OFFICE_SPACE, !- Tag 1
+    OFFICE_BUILDINGS_OFFICE_SPACE,  !- Tag 1
     OFFICE;                  !- Tag 2
 
   Zone,
@@ -1755,11 +1755,11 @@
   Space,
     perimeter_1_space,       !- Name
     Perimeter_ZN_1,          !- Zone Name
-    autocalculate,           !- Ceiling Height
-    autocalculate,           !- Volume
+    autocalculate,           !- Ceiling Height {m}
+    autocalculate,           !- Volume {m3}
     autocalculate,           !- Floor Area {m2}
     LOBBY_ALL_OTHERS,        !- Space Type
-    OFFICE_BUILDINGS_MAIN_ENTRY_LOBBIES,                     !- Tag 1
+    OFFICE_BUILDINGS_MAIN_ENTRY_LOBBIES,  !- Tag 1
     OFFICE;                  !- Tag 2
 
   Zone,
@@ -1780,13 +1780,12 @@
   Space,
     perimeter_2_space,       !- Name
     Perimeter_ZN_2,          !- Zone Name
-    autocalculate,           !- Ceiling Height
-    autocalculate,           !- Volume
+    autocalculate,           !- Ceiling Height {m}
+    autocalculate,           !- Volume {m3}
     autocalculate,           !- Floor Area {m2}
     OFFICE_ENCLOSED,         !- Space Type
-    OFFICE_BUILDINGS_OFFICE_SPACE,                     !- Tag 1
+    OFFICE_BUILDINGS_OFFICE_SPACE,  !- Tag 1
     OFFICE;                  !- Tag 2
-
 
   Zone,
     Perimeter_ZN_3,          !- Name
@@ -1806,11 +1805,11 @@
   Space,
     perimeter_3_space,       !- Name
     Perimeter_ZN_3,          !- Zone Name
-    autocalculate,           !- Ceiling Height
-    autocalculate,           !- Volume
+    autocalculate,           !- Ceiling Height {m}
+    autocalculate,           !- Volume {m3}
     autocalculate,           !- Floor Area {m2}
     OFFICE_ENCLOSED,         !- Space Type
-    OFFICE_BUILDINGS_OFFICE_SPACE,                     !- Tag 1
+    OFFICE_BUILDINGS_OFFICE_SPACE,  !- Tag 1
     OFFICE;                  !- Tag 2
 
   Zone,
@@ -1831,11 +1830,11 @@
   Space,
     perimeter_4_space,       !- Name
     Perimeter_ZN_4,          !- Zone Name
-    autocalculate,           !- Ceiling Height
-    autocalculate,           !- Volume
+    autocalculate,           !- Ceiling Height {m}
+    autocalculate,           !- Volume {m3}
     autocalculate,           !- Floor Area {m2}
     OFFICE_ENCLOSED,         !- Space Type
-    OFFICE_BUILDINGS_OFFICE_SPACE,                     !- Tag 1
+    OFFICE_BUILDINGS_OFFICE_SPACE,  !- Tag 1
     OFFICE;                  !- Tag 2
 
   Zone,
@@ -1854,13 +1853,13 @@
     No;                      !- Part of Total Floor Area
 
   Space,
-    attic_space,       !- Name
+    attic_space,             !- Name
     Attic,                   !- Zone Name
-    autocalculate,           !- Ceiling Height
-    autocalculate,           !- Volume
+    autocalculate,           !- Ceiling Height {m}
+    autocalculate,           !- Volume {m3}
     autocalculate,           !- Floor Area {m2}
     STORAGE_ROOM_LARGE,      !- Space Type
-    OFFICE_BUILDINGS_OCCUPIABLE_STORAGE_ROOMS_FOR_DRY_MATERIALS,                     !- Tag 1
+    OFFICE_BUILDINGS_OCCUPIABLE_STORAGE_ROOMS_FOR_DRY_MATERIALS,  !- Tag 1
     OFFICE;                  !- Tag 2
 
 !-   ===========  ALL OBJECTS IN CLASS: BUILDINGSURFACE:DETAILED ===========
@@ -3003,7 +3002,7 @@
     ACTIVITY_SCH,            !- Activity Level Schedule Name
     ,                        !- Carbon Dioxide Generation Rate {m3/s-W}
     No,                      !- Enable ASHRAE 55 Comfort Warnings
-    ZoneAveraged;            !- Mean Radiant Temperature Calculation Type
+    EnclosureAveraged;       !- Mean Radiant Temperature Calculation Type
 
   People,
     Perimeter_ZN_1,          !- Name
@@ -3018,7 +3017,7 @@
     ACTIVITY_SCH,            !- Activity Level Schedule Name
     ,                        !- Carbon Dioxide Generation Rate {m3/s-W}
     No,                      !- Enable ASHRAE 55 Comfort Warnings
-    ZoneAveraged;            !- Mean Radiant Temperature Calculation Type
+    EnclosureAveraged;       !- Mean Radiant Temperature Calculation Type
 
   People,
     Perimeter_ZN_2,          !- Name
@@ -3033,7 +3032,7 @@
     ACTIVITY_SCH,            !- Activity Level Schedule Name
     ,                        !- Carbon Dioxide Generation Rate {m3/s-W}
     No,                      !- Enable ASHRAE 55 Comfort Warnings
-    ZoneAveraged;            !- Mean Radiant Temperature Calculation Type
+    EnclosureAveraged;       !- Mean Radiant Temperature Calculation Type
 
   People,
     Perimeter_ZN_3,          !- Name
@@ -3048,7 +3047,7 @@
     ACTIVITY_SCH,            !- Activity Level Schedule Name
     ,                        !- Carbon Dioxide Generation Rate {m3/s-W}
     No,                      !- Enable ASHRAE 55 Comfort Warnings
-    ZoneAveraged;            !- Mean Radiant Temperature Calculation Type
+    EnclosureAveraged;       !- Mean Radiant Temperature Calculation Type
 
   People,
     Perimeter_ZN_4,          !- Name
@@ -3063,7 +3062,7 @@
     ACTIVITY_SCH,            !- Activity Level Schedule Name
     ,                        !- Carbon Dioxide Generation Rate {m3/s-W}
     No,                      !- Enable ASHRAE 55 Comfort Warnings
-    ZoneAveraged;            !- Mean Radiant Temperature Calculation Type
+    EnclosureAveraged;       !- Mean Radiant Temperature Calculation Type
 
 !-   ===========  ALL OBJECTS IN CLASS: LIGHTS ===========
 
@@ -3073,7 +3072,7 @@
     BLDG_LIGHT_SCH,          !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    6.888902667,             !- Watts per Zone Floor Area {W/m2}
+    6.888902667,             !- Watts per Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.7000,                  !- Fraction Radiant
@@ -3088,7 +3087,7 @@
     BLDG_LIGHT_SCH,          !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    6.888902667,             !- Watts per Zone Floor Area {W/m2}
+    6.888902667,             !- Watts per Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.7000,                  !- Fraction Radiant
@@ -3103,7 +3102,7 @@
     BLDG_LIGHT_SCH,          !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    6.888902667,             !- Watts per Zone Floor Area {W/m2}
+    6.888902667,             !- Watts per Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.7000,                  !- Fraction Radiant
@@ -3118,7 +3117,7 @@
     BLDG_LIGHT_SCH,          !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    6.888902667,             !- Watts per Zone Floor Area {W/m2}
+    6.888902667,             !- Watts per Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.7000,                  !- Fraction Radiant
@@ -3133,7 +3132,7 @@
     BLDG_LIGHT_SCH,          !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    6.888902667,             !- Watts per Zone Floor Area {W/m2}
+    6.888902667,             !- Watts per Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.7000,                  !- Fraction Radiant
@@ -3150,7 +3149,7 @@
     BLDG_EQUIP_SCH,          !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Design Level {W}
-    6.78,                    !- Watts per Zone Floor Area {W/m2}
+    6.78,                    !- Watts per Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     ,                        !- Fraction Latent
     ,                        !- Fraction Radiant
@@ -3163,7 +3162,7 @@
     BLDG_EQUIP_SCH,          !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Design Level {W}
-    6.78,                    !- Watts per Zone Floor Area {W/m2}
+    6.78,                    !- Watts per Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     ,                        !- Fraction Latent
     ,                        !- Fraction Radiant
@@ -3176,7 +3175,7 @@
     BLDG_EQUIP_SCH,          !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Design Level {W}
-    6.78,                    !- Watts per Zone Floor Area {W/m2}
+    6.78,                    !- Watts per Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     ,                        !- Fraction Latent
     ,                        !- Fraction Radiant
@@ -3189,7 +3188,7 @@
     BLDG_EQUIP_SCH,          !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Design Level {W}
-    6.78,                    !- Watts per Zone Floor Area {W/m2}
+    6.78,                    !- Watts per Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     ,                        !- Fraction Latent
     ,                        !- Fraction Radiant
@@ -3202,7 +3201,7 @@
     BLDG_EQUIP_SCH,          !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Design Level {W}
-    6.78,                    !- Watts per Zone Floor Area {W/m2}
+    6.78,                    !- Watts per Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     ,                        !- Fraction Latent
     ,                        !- Fraction Radiant
@@ -3361,8 +3360,8 @@
     INFIL_QUARTER_ON_SCH,    !- Schedule Name
     Flow/ExteriorWallArea,   !- Design Flow Rate Calculation Method
     0,                       !- Design Flow Rate {m3/s}
-    ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.00056896,              !- Flow per Exterior Surface Area {m3/s-m2}
+    ,                        !- Flow Rate per Floor Area {m3/s-m2}
+    0.00056896,              !- Flow Rate per Exterior Surface Area {m3/s-m2}
     ,                        !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0.0000,                  !- Temperature Term Coefficient
@@ -3375,8 +3374,8 @@
     INFIL_Door_Opening_SCH,  !- Schedule Name
     Flow/Zone,               !- Design Flow Rate Calculation Method
     0.076455414,             !- Design Flow Rate {m3/s}
-    ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    ,                        !- Flow per Exterior Surface Area {m3/s-m2}
+    ,                        !- Flow Rate per Floor Area {m3/s-m2}
+    ,                        !- Flow Rate per Exterior Surface Area {m3/s-m2}
     ,                        !- Air Changes per Hour {1/hr}
     1,                       !- Constant Term Coefficient
     0.0000,                  !- Temperature Term Coefficient
@@ -3389,8 +3388,8 @@
     INFIL_QUARTER_ON_SCH,    !- Schedule Name
     Flow/ExteriorWallArea,   !- Design Flow Rate Calculation Method
     0,                       !- Design Flow Rate {m3/s}
-    ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.00056896,              !- Flow per Exterior Surface Area {m3/s-m2}
+    ,                        !- Flow Rate per Floor Area {m3/s-m2}
+    0.00056896,              !- Flow Rate per Exterior Surface Area {m3/s-m2}
     ,                        !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0.0000,                  !- Temperature Term Coefficient
@@ -3403,8 +3402,8 @@
     INFIL_QUARTER_ON_SCH,    !- Schedule Name
     Flow/ExteriorWallArea,   !- Design Flow Rate Calculation Method
     0,                       !- Design Flow Rate {m3/s}
-    ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.00056896,              !- Flow per Exterior Surface Area {m3/s-m2}
+    ,                        !- Flow Rate per Floor Area {m3/s-m2}
+    0.00056896,              !- Flow Rate per Exterior Surface Area {m3/s-m2}
     ,                        !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0.0000,                  !- Temperature Term Coefficient
@@ -3417,8 +3416,8 @@
     INFIL_QUARTER_ON_SCH,    !- Schedule Name
     Flow/ExteriorWallArea,   !- Design Flow Rate Calculation Method
     0,                       !- Design Flow Rate {m3/s}
-    ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.00056896,              !- Flow per Exterior Surface Area {m3/s-m2}
+    ,                        !- Flow Rate per Floor Area {m3/s-m2}
+    0.00056896,              !- Flow Rate per Exterior Surface Area {m3/s-m2}
     ,                        !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0.0000,                  !- Temperature Term Coefficient
@@ -3431,8 +3430,8 @@
     ALWAYS_ON,               !- Schedule Name
     Flow/Zone,               !- Design Flow Rate Calculation Method
     0.2001,                  !- Design Flow Rate {m3/s}
-    ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    ,                        !- Flow per Exterior Surface Area {m3/s-m2}
+    ,                        !- Flow Rate per Floor Area {m3/s-m2}
+    ,                        !- Flow Rate per Exterior Surface Area {m3/s-m2}
     ,                        !- Air Changes per Hour {1/hr}
     1.0,                     !- Constant Term Coefficient
     0.0000,                  !- Temperature Term Coefficient
@@ -3535,7 +3534,14 @@
     No,                      !- Account for Dedicated Outdoor Air System
     NeutralSupplyAir,        !- Dedicated Outdoor Air System Control Strategy
     autosize,                !- Dedicated Outdoor Air Low Setpoint Temperature for Design {C}
-    autosize;                !- Dedicated Outdoor Air High Setpoint Temperature for Design {C}
+    autosize,                !- Dedicated Outdoor Air High Setpoint Temperature for Design {C}
+    ,                        !- Zone Load Sizing Method
+    ,                        !- Zone Latent Cooling Design Supply Air Humidity Ratio Input Method
+    ,                        !- Zone Dehumidification Design Supply Air Humidity Ratio {kgWater/kgDryAir}
+    ,                        !- Zone Cooling Design Supply Air Humidity Ratio Difference {kgWater/kgDryAir}
+    ,                        !- Zone Latent Heating Design Supply Air Humidity Ratio Input Method
+    ,                        !- Zone Humidification Design Supply Air Humidity Ratio {kgWater/kgDryAir}
+    ;                        !- Zone Humidification Design Supply Air Humidity Ratio Difference {kgWater/kgDryAir}
 
   Sizing:Zone,
     Perimeter_ZN_1,          !- Zone or ZoneList Name
@@ -3564,7 +3570,14 @@
     No,                      !- Account for Dedicated Outdoor Air System
     NeutralSupplyAir,        !- Dedicated Outdoor Air System Control Strategy
     autosize,                !- Dedicated Outdoor Air Low Setpoint Temperature for Design {C}
-    autosize;                !- Dedicated Outdoor Air High Setpoint Temperature for Design {C}
+    autosize,                !- Dedicated Outdoor Air High Setpoint Temperature for Design {C}
+    ,                        !- Zone Load Sizing Method
+    ,                        !- Zone Latent Cooling Design Supply Air Humidity Ratio Input Method
+    ,                        !- Zone Dehumidification Design Supply Air Humidity Ratio {kgWater/kgDryAir}
+    ,                        !- Zone Cooling Design Supply Air Humidity Ratio Difference {kgWater/kgDryAir}
+    ,                        !- Zone Latent Heating Design Supply Air Humidity Ratio Input Method
+    ,                        !- Zone Humidification Design Supply Air Humidity Ratio {kgWater/kgDryAir}
+    ;                        !- Zone Humidification Design Supply Air Humidity Ratio Difference {kgWater/kgDryAir}
 
   Sizing:Zone,
     Perimeter_ZN_2,          !- Zone or ZoneList Name
@@ -3593,7 +3606,14 @@
     No,                      !- Account for Dedicated Outdoor Air System
     NeutralSupplyAir,        !- Dedicated Outdoor Air System Control Strategy
     autosize,                !- Dedicated Outdoor Air Low Setpoint Temperature for Design {C}
-    autosize;                !- Dedicated Outdoor Air High Setpoint Temperature for Design {C}
+    autosize,                !- Dedicated Outdoor Air High Setpoint Temperature for Design {C}
+    ,                        !- Zone Load Sizing Method
+    ,                        !- Zone Latent Cooling Design Supply Air Humidity Ratio Input Method
+    ,                        !- Zone Dehumidification Design Supply Air Humidity Ratio {kgWater/kgDryAir}
+    ,                        !- Zone Cooling Design Supply Air Humidity Ratio Difference {kgWater/kgDryAir}
+    ,                        !- Zone Latent Heating Design Supply Air Humidity Ratio Input Method
+    ,                        !- Zone Humidification Design Supply Air Humidity Ratio {kgWater/kgDryAir}
+    ;                        !- Zone Humidification Design Supply Air Humidity Ratio Difference {kgWater/kgDryAir}
 
   Sizing:Zone,
     Perimeter_ZN_3,          !- Zone or ZoneList Name
@@ -3622,7 +3642,14 @@
     No,                      !- Account for Dedicated Outdoor Air System
     NeutralSupplyAir,        !- Dedicated Outdoor Air System Control Strategy
     autosize,                !- Dedicated Outdoor Air Low Setpoint Temperature for Design {C}
-    autosize;                !- Dedicated Outdoor Air High Setpoint Temperature for Design {C}
+    autosize,                !- Dedicated Outdoor Air High Setpoint Temperature for Design {C}
+    ,                        !- Zone Load Sizing Method
+    ,                        !- Zone Latent Cooling Design Supply Air Humidity Ratio Input Method
+    ,                        !- Zone Dehumidification Design Supply Air Humidity Ratio {kgWater/kgDryAir}
+    ,                        !- Zone Cooling Design Supply Air Humidity Ratio Difference {kgWater/kgDryAir}
+    ,                        !- Zone Latent Heating Design Supply Air Humidity Ratio Input Method
+    ,                        !- Zone Humidification Design Supply Air Humidity Ratio {kgWater/kgDryAir}
+    ;                        !- Zone Humidification Design Supply Air Humidity Ratio Difference {kgWater/kgDryAir}
 
   Sizing:Zone,
     Perimeter_ZN_4,          !- Zone or ZoneList Name
@@ -3651,7 +3678,14 @@
     No,                      !- Account for Dedicated Outdoor Air System
     NeutralSupplyAir,        !- Dedicated Outdoor Air System Control Strategy
     autosize,                !- Dedicated Outdoor Air Low Setpoint Temperature for Design {C}
-    autosize;                !- Dedicated Outdoor Air High Setpoint Temperature for Design {C}
+    autosize,                !- Dedicated Outdoor Air High Setpoint Temperature for Design {C}
+    ,                        !- Zone Load Sizing Method
+    ,                        !- Zone Latent Cooling Design Supply Air Humidity Ratio Input Method
+    ,                        !- Zone Dehumidification Design Supply Air Humidity Ratio {kgWater/kgDryAir}
+    ,                        !- Zone Cooling Design Supply Air Humidity Ratio Difference {kgWater/kgDryAir}
+    ,                        !- Zone Latent Heating Design Supply Air Humidity Ratio Input Method
+    ,                        !- Zone Humidification Design Supply Air Humidity Ratio {kgWater/kgDryAir}
+    ;                        !- Zone Humidification Design Supply Air Humidity Ratio Difference {kgWater/kgDryAir}
 
 !-   ===========  ALL OBJECTS IN CLASS: SIZING:SYSTEM ===========
 
@@ -4166,15 +4200,19 @@
     AUTOSIZE,                !- Gross Rated Sensible Heat Ratio
     4.11713235489972,        !- Gross Rated Cooling COP {W/W}
     AUTOSIZE,                !- Rated Air Flow Rate {m3/s}
-    ,                        !- Rated Evaporator Fan Power Per Volume Flow Rate {W/(m3/s)}
-    934.4,                   !- 2023 Rated Evaporator Fan Power Per Volume Flow {W/(m3/s)}
+    ,                        !- 2017 Rated Evaporator Fan Power Per Volume Flow Rate {W/(m3/s)}
+    934.4,                   !- 2023 Rated Evaporator Fan Power Per Volume Flow Rate {W/(m3/s)}
     PSZ-AC:1_Fan-PSZ-AC:1_CoolCNode,  !- Air Inlet Node Name
     PSZ-AC:1_CoolC-PSZ-AC:1_HeatCNode,  !- Air Outlet Node Name
     HPACCoolCapFT,           !- Total Cooling Capacity Function of Temperature Curve Name
     HPACCoolCapFFF,          !- Total Cooling Capacity Function of Flow Fraction Curve Name
     HPACCOOLEIRFT,           !- Energy Input Ratio Function of Temperature Curve Name
     HPACCOOLEIRFFF,          !- Energy Input Ratio Function of Flow Fraction Curve Name
-    HPACCOOLPLFFPLR;         !- Part Load Fraction Correlation Curve Name
+    HPACCOOLPLFFPLR,         !- Part Load Fraction Correlation Curve Name
+    ,                        !- Minimum Outdoor Dry-Bulb Temperature for Compressor Operation {C}
+    ,                        !- Nominal Time for Condensate Removal to Begin {s}
+    ,                        !- Ratio of Initial Moisture Evaporation Rate and Steady State Latent Capacity {dimensionless}
+    ;                        !- Maximum Cycling Rate {cycles/hr}
 
   Coil:Cooling:DX:SingleSpeed,
     PSZ-AC:2 Heat Pump DX Cooling Coil,  !- Name
@@ -4183,15 +4221,19 @@
     AUTOSIZE,                !- Gross Rated Sensible Heat Ratio
     4.11713235489972,        !- Gross Rated Cooling COP {W/W}
     AUTOSIZE,                !- Rated Air Flow Rate {m3/s}
-    ,                        !- Rated Evaporator Fan Power Per Volume Flow Rate {W/(m3/s)}
-    934.4,                   !- 2023 Rated Evaporator Fan Power Per Volume Flow {W/(m3/s)}
+    ,                        !- 2017 Rated Evaporator Fan Power Per Volume Flow Rate {W/(m3/s)}
+    934.4,                   !- 2023 Rated Evaporator Fan Power Per Volume Flow Rate {W/(m3/s)}
     PSZ-AC:2_Fan-PSZ-AC:2_CoolCNode,  !- Air Inlet Node Name
     PSZ-AC:2_CoolC-PSZ-AC:2_HeatCNode,  !- Air Outlet Node Name
     HPACCoolCapFT,           !- Total Cooling Capacity Function of Temperature Curve Name
     HPACCoolCapFFF,          !- Total Cooling Capacity Function of Flow Fraction Curve Name
     HPACCOOLEIRFT,           !- Energy Input Ratio Function of Temperature Curve Name
     HPACCOOLEIRFFF,          !- Energy Input Ratio Function of Flow Fraction Curve Name
-    HPACCOOLPLFFPLR;         !- Part Load Fraction Correlation Curve Name
+    HPACCOOLPLFFPLR,         !- Part Load Fraction Correlation Curve Name
+    ,                        !- Minimum Outdoor Dry-Bulb Temperature for Compressor Operation {C}
+    ,                        !- Nominal Time for Condensate Removal to Begin {s}
+    ,                        !- Ratio of Initial Moisture Evaporation Rate and Steady State Latent Capacity {dimensionless}
+    ;                        !- Maximum Cycling Rate {cycles/hr}
 
   Coil:Cooling:DX:SingleSpeed,
     PSZ-AC:3 Heat Pump DX Cooling Coil,  !- Name
@@ -4200,15 +4242,19 @@
     AUTOSIZE,                !- Gross Rated Sensible Heat Ratio
     4.11713235489972,        !- Gross Rated Cooling COP {W/W}
     AUTOSIZE,                !- Rated Air Flow Rate {m3/s}
-    ,                        !- Rated Evaporator Fan Power Per Volume Flow Rate {W/(m3/s)}
-    934.4,                   !- 2023 Rated Evaporator Fan Power Per Volume Flow {W/(m3/s)}
+    ,                        !- 2017 Rated Evaporator Fan Power Per Volume Flow Rate {W/(m3/s)}
+    934.4,                   !- 2023 Rated Evaporator Fan Power Per Volume Flow Rate {W/(m3/s)}
     PSZ-AC:3_Fan-PSZ-AC:3_CoolCNode,  !- Air Inlet Node Name
     PSZ-AC:3_CoolC-PSZ-AC:3_HeatCNode,  !- Air Outlet Node Name
     HPACCoolCapFT,           !- Total Cooling Capacity Function of Temperature Curve Name
     HPACCoolCapFFF,          !- Total Cooling Capacity Function of Flow Fraction Curve Name
     HPACCOOLEIRFT,           !- Energy Input Ratio Function of Temperature Curve Name
     HPACCOOLEIRFFF,          !- Energy Input Ratio Function of Flow Fraction Curve Name
-    HPACCOOLPLFFPLR;         !- Part Load Fraction Correlation Curve Name
+    HPACCOOLPLFFPLR,         !- Part Load Fraction Correlation Curve Name
+    ,                        !- Minimum Outdoor Dry-Bulb Temperature for Compressor Operation {C}
+    ,                        !- Nominal Time for Condensate Removal to Begin {s}
+    ,                        !- Ratio of Initial Moisture Evaporation Rate and Steady State Latent Capacity {dimensionless}
+    ;                        !- Maximum Cycling Rate {cycles/hr}
 
   Coil:Cooling:DX:SingleSpeed,
     PSZ-AC:4 Heat Pump DX Cooling Coil,  !- Name
@@ -4217,15 +4263,19 @@
     AUTOSIZE,                !- Gross Rated Sensible Heat Ratio
     4.11713235489972,        !- Gross Rated Cooling COP {W/W}
     AUTOSIZE,                !- Rated Air Flow Rate {m3/s}
-    ,                        !- Rated Evaporator Fan Power Per Volume Flow Rate {W/(m3/s)}
-    934.4,                   !- 2023 Rated Evaporator Fan Power Per Volume Flow {W/(m3/s)}
+    ,                        !- 2017 Rated Evaporator Fan Power Per Volume Flow Rate {W/(m3/s)}
+    934.4,                   !- 2023 Rated Evaporator Fan Power Per Volume Flow Rate {W/(m3/s)}
     PSZ-AC:4_Fan-PSZ-AC:4_CoolCNode,  !- Air Inlet Node Name
     PSZ-AC:4_CoolC-PSZ-AC:4_HeatCNode,  !- Air Outlet Node Name
     HPACCoolCapFT,           !- Total Cooling Capacity Function of Temperature Curve Name
     HPACCoolCapFFF,          !- Total Cooling Capacity Function of Flow Fraction Curve Name
     HPACCOOLEIRFT,           !- Energy Input Ratio Function of Temperature Curve Name
     HPACCOOLEIRFFF,          !- Energy Input Ratio Function of Flow Fraction Curve Name
-    HPACCOOLPLFFPLR;         !- Part Load Fraction Correlation Curve Name
+    HPACCOOLPLFFPLR,         !- Part Load Fraction Correlation Curve Name
+    ,                        !- Minimum Outdoor Dry-Bulb Temperature for Compressor Operation {C}
+    ,                        !- Nominal Time for Condensate Removal to Begin {s}
+    ,                        !- Ratio of Initial Moisture Evaporation Rate and Steady State Latent Capacity {dimensionless}
+    ;                        !- Maximum Cycling Rate {cycles/hr}
 
   Coil:Cooling:DX:SingleSpeed,
     PSZ-AC:5 Heat Pump DX Cooling Coil,  !- Name
@@ -4234,15 +4284,19 @@
     AUTOSIZE,                !- Gross Rated Sensible Heat Ratio
     4.11713235489972,        !- Gross Rated Cooling COP {W/W}
     AUTOSIZE,                !- Rated Air Flow Rate {m3/s}
-    ,                        !- Rated Evaporator Fan Power Per Volume Flow Rate {W/(m3/s)}
-    934.4,                   !- 2023 Rated Evaporator Fan Power Per Volume Flow {W/(m3/s)}
+    ,                        !- 2017 Rated Evaporator Fan Power Per Volume Flow Rate {W/(m3/s)}
+    934.4,                   !- 2023 Rated Evaporator Fan Power Per Volume Flow Rate {W/(m3/s)}
     PSZ-AC:5_Fan-PSZ-AC:5_CoolCNode,  !- Air Inlet Node Name
     PSZ-AC:5_CoolC-PSZ-AC:5_HeatCNode,  !- Air Outlet Node Name
     HPACCoolCapFT,           !- Total Cooling Capacity Function of Temperature Curve Name
     HPACCoolCapFFF,          !- Total Cooling Capacity Function of Flow Fraction Curve Name
     HPACCOOLEIRFT,           !- Energy Input Ratio Function of Temperature Curve Name
     HPACCOOLEIRFFF,          !- Energy Input Ratio Function of Flow Fraction Curve Name
-    HPACCOOLPLFFPLR;         !- Part Load Fraction Correlation Curve Name
+    HPACCOOLPLFFPLR,         !- Part Load Fraction Correlation Curve Name
+    ,                        !- Minimum Outdoor Dry-Bulb Temperature for Compressor Operation {C}
+    ,                        !- Nominal Time for Condensate Removal to Begin {s}
+    ,                        !- Ratio of Initial Moisture Evaporation Rate and Steady State Latent Capacity {dimensionless}
+    ;                        !- Maximum Cycling Rate {cycles/hr}
 
 !-   ===========  ALL OBJECTS IN CLASS: COIL:HEATING:FUEL ===========
 
@@ -4299,8 +4353,8 @@
     AUTOSIZE,                !- Gross Rated Heating Capacity {W}
     3.3592,                  !- Gross Rated Heating COP {W/W}
     AUTOSIZE,                !- Rated Air Flow Rate {m3/s}
-    ,                        !- Rated Supply Fan Power Per Volume Flow Rate {W/(m3/s)}
-    934.4,                   !- 2023 Rated Evaporator Fan Power Per Volume Flow {W/(m3/s)}
+    ,                        !- 2017 Rated Supply Fan Power Per Volume Flow Rate {W/(m3/s)}
+    934.4,                   !- 2023 Rated Supply Fan Power Per Volume Flow Rate {W/(m3/s)}
     PSZ-AC:1_CoolC-PSZ-AC:1_HeatCNode,  !- Air Inlet Node Name
     PSZ-AC:1_HeatC-PSZ-AC:1_SuppHeatingNode,  !- Air Outlet Node Name
     HPACHeatCapFT,           !- Heating Capacity Function of Temperature Curve Name
@@ -4313,11 +4367,17 @@
     ,                        !- Outdoor Dry-Bulb Temperature to Turn On Compressor {C}
     1.67,                    !- Maximum Outdoor Dry-Bulb Temperature for Defrost Operation {C}
     50.0,                    !- Crankcase Heater Capacity {W}
+    ,                        !- Crankcase Heater Capacity Function of Temperature Curve Name
     4.4,                     !- Maximum Outdoor Dry-Bulb Temperature for Crankcase Heater Operation {C}
     ReverseCycle,            !- Defrost Strategy
     OnDemand,                !- Defrost Control
     ,                        !- Defrost Time Period Fraction
-    AUTOSIZE;                !- Resistive Defrost Heater Capacity {W}
+    AUTOSIZE,                !- Resistive Defrost Heater Capacity {W}
+    ,                        !- Region number for calculating HSPF
+    ,                        !- Evaporator Air Inlet Node Name
+    ,                        !- Zone Name for Evaporator Placement
+    ,                        !- Secondary Coil Air Flow Rate {m3/s}
+    ;                        !- Secondary Coil Fan Flow Scaling Factor {m3/s}
 
   Coil:Heating:DX:SingleSpeed,
     PSZ-AC:2 Heat Pump DX Heating Coil,  !- Name
@@ -4325,8 +4385,8 @@
     AUTOSIZE,                !- Gross Rated Heating Capacity {W}
     3.3592,                  !- Gross Rated Heating COP {W/W}
     AUTOSIZE,                !- Rated Air Flow Rate {m3/s}
-    ,                        !- Rated Supply Fan Power Per Volume Flow Rate {W/(m3/s)}
-    934.4,                   !- 2023 Rated Evaporator Fan Power Per Volume Flow {W/(m3/s)}
+    ,                        !- 2017 Rated Supply Fan Power Per Volume Flow Rate {W/(m3/s)}
+    934.4,                   !- 2023 Rated Supply Fan Power Per Volume Flow Rate {W/(m3/s)}
     PSZ-AC:2_CoolC-PSZ-AC:2_HeatCNode,  !- Air Inlet Node Name
     PSZ-AC:2_HeatC-PSZ-AC:2_SuppHeatingNode,  !- Air Outlet Node Name
     HPACHeatCapFT,           !- Heating Capacity Function of Temperature Curve Name
@@ -4339,11 +4399,17 @@
     ,                        !- Outdoor Dry-Bulb Temperature to Turn On Compressor {C}
     1.67,                    !- Maximum Outdoor Dry-Bulb Temperature for Defrost Operation {C}
     50.0,                    !- Crankcase Heater Capacity {W}
+    ,                        !- Crankcase Heater Capacity Function of Temperature Curve Name
     4.4,                     !- Maximum Outdoor Dry-Bulb Temperature for Crankcase Heater Operation {C}
     ReverseCycle,            !- Defrost Strategy
     OnDemand,                !- Defrost Control
     ,                        !- Defrost Time Period Fraction
-    AUTOSIZE;                !- Resistive Defrost Heater Capacity {W}
+    AUTOSIZE,                !- Resistive Defrost Heater Capacity {W}
+    ,                        !- Region number for calculating HSPF
+    ,                        !- Evaporator Air Inlet Node Name
+    ,                        !- Zone Name for Evaporator Placement
+    ,                        !- Secondary Coil Air Flow Rate {m3/s}
+    ;                        !- Secondary Coil Fan Flow Scaling Factor {m3/s}
 
   Coil:Heating:DX:SingleSpeed,
     PSZ-AC:3 Heat Pump DX Heating Coil,  !- Name
@@ -4351,8 +4417,8 @@
     AUTOSIZE,                !- Gross Rated Heating Capacity {W}
     3.3592,                  !- Gross Rated Heating COP {W/W}
     AUTOSIZE,                !- Rated Air Flow Rate {m3/s}
-    ,                        !- Rated Supply Fan Power Per Volume Flow Rate {W/(m3/s)}
-    934.4,                   !- 2023 Rated Evaporator Fan Power Per Volume Flow {W/(m3/s)}
+    ,                        !- 2017 Rated Supply Fan Power Per Volume Flow Rate {W/(m3/s)}
+    934.4,                   !- 2023 Rated Supply Fan Power Per Volume Flow Rate {W/(m3/s)}
     PSZ-AC:3_CoolC-PSZ-AC:3_HeatCNode,  !- Air Inlet Node Name
     PSZ-AC:3_HeatC-PSZ-AC:3_SuppHeatingNode,  !- Air Outlet Node Name
     HPACHeatCapFT,           !- Heating Capacity Function of Temperature Curve Name
@@ -4365,11 +4431,17 @@
     ,                        !- Outdoor Dry-Bulb Temperature to Turn On Compressor {C}
     1.67,                    !- Maximum Outdoor Dry-Bulb Temperature for Defrost Operation {C}
     50.0,                    !- Crankcase Heater Capacity {W}
+    ,                        !- Crankcase Heater Capacity Function of Temperature Curve Name
     4.4,                     !- Maximum Outdoor Dry-Bulb Temperature for Crankcase Heater Operation {C}
     ReverseCycle,            !- Defrost Strategy
     OnDemand,                !- Defrost Control
     ,                        !- Defrost Time Period Fraction
-    AUTOSIZE;                !- Resistive Defrost Heater Capacity {W}
+    AUTOSIZE,                !- Resistive Defrost Heater Capacity {W}
+    ,                        !- Region number for calculating HSPF
+    ,                        !- Evaporator Air Inlet Node Name
+    ,                        !- Zone Name for Evaporator Placement
+    ,                        !- Secondary Coil Air Flow Rate {m3/s}
+    ;                        !- Secondary Coil Fan Flow Scaling Factor {m3/s}
 
   Coil:Heating:DX:SingleSpeed,
     PSZ-AC:4 Heat Pump DX Heating Coil,  !- Name
@@ -4377,8 +4449,8 @@
     AUTOSIZE,                !- Gross Rated Heating Capacity {W}
     3.3592,                  !- Gross Rated Heating COP {W/W}
     AUTOSIZE,                !- Rated Air Flow Rate {m3/s}
-    ,                        !- Rated Supply Fan Power Per Volume Flow Rate {W/(m3/s)}
-    934.4,                   !- 2023 Rated Evaporator Fan Power Per Volume Flow {W/(m3/s)}
+    ,                        !- 2017 Rated Supply Fan Power Per Volume Flow Rate {W/(m3/s)}
+    934.4,                   !- 2023 Rated Supply Fan Power Per Volume Flow Rate {W/(m3/s)}
     PSZ-AC:4_CoolC-PSZ-AC:4_HeatCNode,  !- Air Inlet Node Name
     PSZ-AC:4_HeatC-PSZ-AC:4_SuppHeatingNode,  !- Air Outlet Node Name
     HPACHeatCapFT,           !- Heating Capacity Function of Temperature Curve Name
@@ -4391,11 +4463,17 @@
     ,                        !- Outdoor Dry-Bulb Temperature to Turn On Compressor {C}
     1.67,                    !- Maximum Outdoor Dry-Bulb Temperature for Defrost Operation {C}
     50.0,                    !- Crankcase Heater Capacity {W}
+    ,                        !- Crankcase Heater Capacity Function of Temperature Curve Name
     4.4,                     !- Maximum Outdoor Dry-Bulb Temperature for Crankcase Heater Operation {C}
     ReverseCycle,            !- Defrost Strategy
     OnDemand,                !- Defrost Control
     ,                        !- Defrost Time Period Fraction
-    AUTOSIZE;                !- Resistive Defrost Heater Capacity {W}
+    AUTOSIZE,                !- Resistive Defrost Heater Capacity {W}
+    ,                        !- Region number for calculating HSPF
+    ,                        !- Evaporator Air Inlet Node Name
+    ,                        !- Zone Name for Evaporator Placement
+    ,                        !- Secondary Coil Air Flow Rate {m3/s}
+    ;                        !- Secondary Coil Fan Flow Scaling Factor {m3/s}
 
   Coil:Heating:DX:SingleSpeed,
     PSZ-AC:5 Heat Pump DX Heating Coil,  !- Name
@@ -4403,8 +4481,8 @@
     AUTOSIZE,                !- Gross Rated Heating Capacity {W}
     3.3592,                  !- Gross Rated Heating COP {W/W}
     AUTOSIZE,                !- Rated Air Flow Rate {m3/s}
-    ,                        !- Rated Supply Fan Power Per Volume Flow Rate {W/(m3/s)}
-    934.4,                   !- 2023 Rated Evaporator Fan Power Per Volume Flow {W/(m3/s)}
+    ,                        !- 2017 Rated Supply Fan Power Per Volume Flow Rate {W/(m3/s)}
+    934.4,                   !- 2023 Rated Supply Fan Power Per Volume Flow Rate {W/(m3/s)}
     PSZ-AC:5_CoolC-PSZ-AC:5_HeatCNode,  !- Air Inlet Node Name
     PSZ-AC:5_HeatC-PSZ-AC:5_SuppHeatingNode,  !- Air Outlet Node Name
     HPACHeatCapFT,           !- Heating Capacity Function of Temperature Curve Name
@@ -4417,11 +4495,17 @@
     ,                        !- Outdoor Dry-Bulb Temperature to Turn On Compressor {C}
     1.67,                    !- Maximum Outdoor Dry-Bulb Temperature for Defrost Operation {C}
     50.0,                    !- Crankcase Heater Capacity {W}
+    ,                        !- Crankcase Heater Capacity Function of Temperature Curve Name
     4.4,                     !- Maximum Outdoor Dry-Bulb Temperature for Crankcase Heater Operation {C}
     ReverseCycle,            !- Defrost Strategy
     OnDemand,                !- Defrost Control
     ,                        !- Defrost Time Period Fraction
-    AUTOSIZE;                !- Resistive Defrost Heater Capacity {W}
+    AUTOSIZE,                !- Resistive Defrost Heater Capacity {W}
+    ,                        !- Region number for calculating HSPF
+    ,                        !- Evaporator Air Inlet Node Name
+    ,                        !- Zone Name for Evaporator Placement
+    ,                        !- Secondary Coil Air Flow Rate {m3/s}
+    ;                        !- Secondary Coil Fan Flow Scaling Factor {m3/s}
 
 !-   ===========  ALL OBJECTS IN CLASS: AIRLOOPHVAC:UNITARYHEATPUMP:AIRTOAIR ===========
 
@@ -6128,12 +6212,11 @@
   Output:Table:SummaryReports,
     AllSummaryAndMonthly;    !- Report 1 Name
 
-  Output:JSON,   
+  Output:JSON,
     TimeSeriesAndTabular,    !- Option Type
     Yes,                     !- Output JSON
     No,                      !- Output CBOR
     No;                      !- Output MessagePack
-
 
 !-   ===========  ALL OBJECTS IN CLASS: OUTPUT:TABLE:MONTHLY ===========
 
@@ -6212,9 +6295,9 @@
 !-   ===========  ALL OBJECTS IN CLASS: OUTPUTCONTROL:TABLE:STYLE ===========
 
   OutputControl:Table:Style,
-    HTML,            !- Column Separator
-    None;            !- Unit Conversion
-    
+    HTML,                    !- Column Separator
+    None;                    !- Unit Conversion
+
 !-   ===========  ALL OBJECTS IN CLASS: OUTPUTCONTROL:REPORTINGTOLERANCES ===========
 
   OutputControl:ReportingTolerances,
@@ -6223,14 +6306,10 @@
 
 !-   ===========  ALL OBJECTS IN CLASS: OUTPUT:METER:METERFILEONLY ===========
 
-  Output:Variable,
-    *,
-    schedule value,
-    hourly;
+  Output:Variable,*,schedule value,hourly;
 
-  Output:Schedules,
-    Hourly;
-    
+  Output:Schedules,Hourly;
+
   Output:Meter:MeterFileOnly,Electricity:Facility,Hourly;
 
   Output:Meter:MeterFileOnly,ElectricityNet:Facility,Hourly;

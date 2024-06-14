@@ -1409,7 +1409,7 @@ class TestTranslator(TestCase):
             'id': '5 ZONE PVAV 1',
             'cooling_system': {
                 'id': '5 ZONE PVAV 1-cooling',
-                'is_autosized': True,
+                'is_sized_based_on_design_day': True,
                 'oversizing_factor': 7.950141547603329,
                 'design_total_cool_capacity': 98149.824,
                 'design_sensible_cool_capacity': 78534.22,
@@ -4222,23 +4222,23 @@ class TestTranslator(TestCase):
         expected = [{'id': '90.1-PRM-2019 WATERCOOLED  ROTARY SCREW CHILLER 0 1 PRIMARY PUMP',
                      'loop_or_piping': 'CHILLED WATER LOOP_PRIMARY', 'specification_method': 'SIMPLE',
                      'design_electric_power': 2095.21, 'design_head': 21635.69, 'motor_efficiency': 0.88,
-                     'speed_control': 'FIXED_SPEED', 'design_flow': 66.094, 'is_flow_autosized': True},
+                     'speed_control': 'FIXED_SPEED', 'design_flow': 66.094, 'is_flow_sized_based_on_design_day': True},
                     {'id': '90.1-PRM-2019 WATERCOOLED  ROTARY SCREW CHILLER 0 PRIMARY PUMP',
                      'loop_or_piping': 'CHILLED WATER LOOP_PRIMARY', 'specification_method': 'SIMPLE',
                      'design_electric_power': 4190.42, 'design_head': 44260.44, 'motor_efficiency': 0.9,
-                     'speed_control': 'FIXED_SPEED', 'design_flow': 66.094, 'is_flow_autosized': True},
+                     'speed_control': 'FIXED_SPEED', 'design_flow': 66.094, 'is_flow_sized_based_on_design_day': True},
                     {'id': 'CHILLED WATER LOOP PUMP', 'loop_or_piping': 'CHILLED WATER LOOP',
                      'specification_method': 'SIMPLE', 'design_electric_power': 3479.58, 'design_head': 134508.01,
                      'motor_efficiency': 0.9, 'speed_control': 'VARIABLE_SPEED', 'design_flow': 18.16,
-                     'is_flow_autosized': True},
+                     'is_flow_sized_based_on_design_day': True},
                     {'id': 'CONDENSER WATER LOOP CONSTANT PUMP BANK OF 2', 'loop_or_piping': 'CONDENSER WATER LOOP',
                      'specification_method': 'SIMPLE', 'design_electric_power': 63518.6, 'design_head': 219868.07,
                      'motor_efficiency': 0.94, 'speed_control': 'VARIABLE_SPEED', 'design_flow': 210.916,
-                     'is_flow_autosized': True},
+                     'is_flow_sized_based_on_design_day': True},
                     {'id': 'MAIN SERVICE WATER LOOP CIRCULATOR PUMP', 'loop_or_piping': 'SERVICE WATER HEATING LOOP',
                      'specification_method': 'SIMPLE', 'design_electric_power': 20.4, 'design_head': 29891.0,
                      'motor_efficiency': 0.82, 'speed_control': 'FIXED_SPEED', 'design_flow': 0.439,
-                     'is_flow_autosized': True}]
+                     'is_flow_sized_based_on_design_day': True}]
 
         self.assertEqual(added_pumps, expected)
 
@@ -4596,27 +4596,27 @@ class TestTranslator(TestCase):
         gathered_equipment_fans = t.gather_equipment_fans()
 
         expected = {'BASEMENT STORY 0 VAV_PFP_BOXES (SYS8) FAN': (
-            {'design_airflow': 7.69, 'is_airflow_autosized': True, 'design_electric_power': 16476.83,
+            {'design_airflow': 7.69, 'is_airflow_sized_based_on_design_day': True, 'design_electric_power': 16476.83,
              'design_pressure_rise': 1363.04, 'total_efficiency': 0.64, 'motor_efficiency': 0.92,
              'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 1.0},
             {'type': 'Fan:VariableVolume', 'fan_energy_index': 1.18, 'purpose': 'N/A', 'airloop_name': 'N/A'}),
             'BASEMENT ZN PFP TERM FAN': (
-                {'design_airflow': 7.67, 'is_airflow_autosized': True, 'design_electric_power': 5688.72,
+                {'design_airflow': 7.67, 'is_airflow_sized_based_on_design_day': True, 'design_electric_power': 5688.72,
                  'design_pressure_rise': 365.09, 'total_efficiency': 0.49, 'motor_efficiency': 0.9,
                  'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 1.0},
                 {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.11, 'purpose': 'N/A', 'airloop_name': 'N/A'}),
             'CORE_BOTTOM ZN PFP TERM FAN': (
-                {'design_airflow': 7.94, 'is_airflow_autosized': True, 'design_electric_power': 5888.97,
+                {'design_airflow': 7.94, 'is_airflow_sized_based_on_design_day': True, 'design_electric_power': 5888.97,
                  'design_pressure_rise': 365.09, 'total_efficiency': 0.49, 'motor_efficiency': 0.9,
                  'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 1.0},
                 {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.11, 'purpose': 'N/A', 'airloop_name': 'N/A'}),
             'DATACENTER_BASEMENT_ZN_6 ZN PSZ-VAV FAN': (
-                {'design_airflow': 30.36, 'is_airflow_autosized': True, 'design_electric_power': 0.0,
+                {'design_airflow': 30.36, 'is_airflow_sized_based_on_design_day': True, 'design_electric_power': 0.0,
                  'design_pressure_rise': 0.0, 'total_efficiency': 0.57, 'motor_efficiency': 0.94,
                  'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 1.0},
                 {'type': 'Fan:VariableVolume', 'fan_energy_index': 0.0, 'purpose': 'N/A', 'airloop_name': 'N/A'}),
             'PERIMETER_BOT_ZN_2 ZN PFP TERM FAN': (
-                {'design_airflow': 1.53, 'is_airflow_autosized': True, 'design_electric_power': 1137.67,
+                {'design_airflow': 1.53, 'is_airflow_sized_based_on_design_day': True, 'design_electric_power': 1137.67,
                  'design_pressure_rise': 342.66, 'total_efficiency': 0.46, 'motor_efficiency': 0.84,
                  'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 1.0},
                 {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.23, 'purpose': 'N/A', 'airloop_name': 'N/A'})}
