@@ -76,14 +76,16 @@ def is_float(string):
     except ValueError:
         return False
 
+
 def terminal_option_convert(type_of_input_object):
     if 'VAV' in type_of_input_object.upper():
-        option =  'VARIABLE_AIR_VOLUME'
+        option = 'VARIABLE_AIR_VOLUME'
     elif 'CONSTANTVOLUME' in type_of_input_object.upper():
-        option =  'CONSTANT_AIR_VOLUME'
+        option = 'CONSTANT_AIR_VOLUME'
     else:
         option = 'OTHER'
     return option
+
 
 def terminal_heating_source_convert(heat_coil_type):
     if 'WATER' in heat_coil_type.upper():
@@ -94,6 +96,7 @@ def terminal_heating_source_convert(heat_coil_type):
         option = 'NONE'
     return option
 
+
 def terminal_cooling_source_convert(cool_coil_type):
     if 'N/A' in cool_coil_type.upper():
         option = 'NONE'
@@ -102,6 +105,7 @@ def terminal_cooling_source_convert(cool_coil_type):
     else:
         option = 'CHILLED_WATER'
     return option
+
 
 def terminal_config_convert(type_input_obj):
     if 'series' in type_input_obj.lower():
@@ -262,7 +266,6 @@ class Translator:
                             people_schedule_by_zone[zone_name.upper()] = schedule_name
         # print(people_schedule_by_zone)
         return people_schedule_by_zone
-
 
     def create_skeleton(self):
         self.building_segment = {'id': 'segment 1'}
@@ -1004,7 +1007,7 @@ class Translator:
                     if zone in air_terminals:
                         current_air_terminal = air_terminals[zone]
                         terminal = {
-                            'id': current_air_terminal['terminal_name']  ,
+                            'id': current_air_terminal['terminal_name'],
                             'type': terminal_option_convert(current_air_terminal['type_input']),
                             'heating_source': terminal_heating_source_convert(current_air_terminal['heat_coil_type']),
                             'cooling_source': terminal_cooling_source_convert(current_air_terminal['chill_coil_type']),

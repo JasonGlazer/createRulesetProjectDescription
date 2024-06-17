@@ -13,7 +13,7 @@ class TestValidator(TestCase):
                       "type": "PROPOSED"
                       }
                  ]
-            }
+                 }
         v = Validator()
         passed, _ = v.validate_rpd(test1)
         self.assertTrue(passed)

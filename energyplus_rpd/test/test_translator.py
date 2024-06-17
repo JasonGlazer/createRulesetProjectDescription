@@ -14,6 +14,7 @@ from energyplus_rpd.translator import terminal_heating_source_convert
 from energyplus_rpd.translator import terminal_cooling_source_convert
 from energyplus_rpd.translator import terminal_config_convert
 
+
 class TestTranslator(TestCase):
     def setUp(self) -> None:
         self.run_dir_path = Path(mkdtemp())
@@ -5953,7 +5954,6 @@ class TestTranslator(TestCase):
 
         self.assertEqual(added_simulation_outputs, expected)
 
-
     def test_is_float(self):
         self.assertTrue(is_float('0.09'))
         self.assertTrue(is_float('1'))
@@ -5988,9 +5988,9 @@ class TestTranslator(TestCase):
         self.assertEqual(terminal_option_convert('AirTerminal:SingleDuct:Mixer'), 'OTHER')
 
     def test_terminal_heating_source_convert(self):
-        self.assertEqual(terminal_heating_source_convert('Coil:Heating:Water'),'HOT_WATER')
-        self.assertEqual(terminal_heating_source_convert('Coil:Heating:Electric'),'ELECTRIC')
-        self.assertEqual(terminal_heating_source_convert('Coil:Heating:Steam'),'NONE')
+        self.assertEqual(terminal_heating_source_convert('Coil:Heating:Water'), 'HOT_WATER')
+        self.assertEqual(terminal_heating_source_convert('Coil:Heating:Electric'), 'ELECTRIC')
+        self.assertEqual(terminal_heating_source_convert('Coil:Heating:Steam'), 'NONE')
 
     def test_terminal_cooling_source_convert(self):
         self.assertEqual(terminal_cooling_source_convert('n/a'), 'NONE')
@@ -5998,8 +5998,6 @@ class TestTranslator(TestCase):
         self.assertEqual(terminal_cooling_source_convert('x'), 'CHILLED_WATER')
 
     def test_terminal_config_convert(self):
-        self.assertEqual(terminal_config_convert('AirTerminal:SingleDuct:SeriesPIU:Reheat'),'SERIES')
-        self.assertEqual(terminal_config_convert('AirTerminal:SingleDuct:ParallelPIU:Reheat'),'PARALLEL')
-        self.assertEqual(terminal_config_convert('AirTerminal:SingleDuct:VAV:HeatAndCool:Reheat'),'OTHER')
-
-
+        self.assertEqual(terminal_config_convert('AirTerminal:SingleDuct:SeriesPIU:Reheat'), 'SERIES')
+        self.assertEqual(terminal_config_convert('AirTerminal:SingleDuct:ParallelPIU:Reheat'), 'PARALLEL')
+        self.assertEqual(terminal_config_convert('AirTerminal:SingleDuct:VAV:HeatAndCool:Reheat'), 'OTHER')
