@@ -1475,7 +1475,6 @@ class TestTranslator(TestCase):
                  'is_sized_based_on_design_day': True}
         }]
 
-
         expected_terminals = {
             'PERIMETER_MID_ZN_1 ZN': [{''
                                        'id': 'ADU PERIMETER_MID_ZN_1 ZN VAV TERMINAL',
@@ -1491,7 +1490,6 @@ class TestTranslator(TestCase):
                                        'heating_capacity': 11828.176,
                                        'cooling_capacity': 11993.2}
                                       ]}
-
 
         self.assertEqual(added_hvac_systems, expected_hvac)
 
