@@ -17,3 +17,9 @@ class TestComplianceParameterHandler(TestCase):
         self.assertEqual(elements['building'], {'building_open_schedule': ''})
         self.assertEqual(cph.cp_empty_file_path.name, 'in.comp-param-empty.json')
         self.assertEqual(cph.cp_file_path.name, 'in.comp-param.json')
+
+    def merge_in_compliance_parameters(self):
+        pass
+
+    def test_create_empty_compliance_json(self):
+        pass
