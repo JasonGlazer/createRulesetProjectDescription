@@ -8928,8 +8928,8 @@ Chiller:
       EPout File: "table.html"
       EPout Report: "Equipment Summary"
       EPout Table: "Chiller"
-      EPout Column: "PartialUsingOutput"
-      EPstatus: "NotStarted"
+      EPout Column: ""
+      EPstatus: "PartialUsingOutput"
       EP Notes: "For most chillers it is electric, for non-electric chillers some have Fuel Type field. Added to Equipment Summary - Central Plant"
     design_capacity:
       Description: "Chiller Design Cooling Capacity"

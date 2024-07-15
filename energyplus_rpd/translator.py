@@ -1085,10 +1085,10 @@ class Translator:
         dx_2017_rows = dx_2017_table['Rows']
         dx_2017_row_keys = list(dx_2017_rows.keys())
         dx_2017_cols = dx_2017_table['Cols']
-        net_cop_2017_column = dx_2017_cols.index('Standard Rated Net COP [W/W] #2')
-        eer_2017_column = dx_2017_cols.index('EER [Btu/W-h] #2')
-        seer_2017_column = dx_2017_cols.index('SEER Standard [Btu/W-h] #2,3')
-        ieer_2017_column = dx_2017_cols.index('IEER [Btu/W-h] #2')
+        net_cop_2017_column = dx_2017_cols.index('Standard Rating Net COP [W/W][2]')
+        eer_2017_column = dx_2017_cols.index('EER [Btu/W-h][2]')
+        seer_2017_column = dx_2017_cols.index('SEER Standard [Btu/W-h][2,3]')
+        ieer_2017_column = dx_2017_cols.index('IEER [Btu/W-h][2]')
         for row_key in row_keys:
             if row_key in dx_2017_row_keys:
                 coil_efficiencies[row_key]['StandardRatedNetCOP2017'] = float(
@@ -1102,10 +1102,10 @@ class Translator:
         dx_2023_rows = dx_2023_table['Rows']
         dx_2023_row_keys = list(dx_2023_rows.keys())
         dx_2023_cols = dx_2023_table['Cols']
-        net_cop_2023_column = dx_2023_cols.index('Standard Rated Net COP [W/W] #2,4')
-        eer_2023_column = dx_2023_cols.index('EER [Btu/W-h] #2,4')
-        seer_2023_column = dx_2023_cols.index('SEER Standard [Btu/W-h] #2,3')
-        ieer_2023_column = dx_2023_cols.index('IEER [Btu/W-h] #2')
+        net_cop_2023_column = dx_2023_cols.index('Standard Rating Net COP2 [W/W][2,4]')
+        eer_2023_column = dx_2023_cols.index('EER2 [Btu/W-h][2,4]')
+        seer_2023_column = dx_2023_cols.index('SEER2 Standard [Btu/W-h][2,3]')
+        ieer_2023_column = dx_2023_cols.index('IEER [Btu/W-h][2]')
         for row_key in row_keys:
             if row_key in dx_2023_row_keys:
                 coil_efficiencies[row_key]['StandardRatedNetCOP2023'] = float(
@@ -1163,7 +1163,7 @@ class Translator:
         dx_cols = dx_table['Cols']
         hspf_column = dx_cols.index('HSPF [Btu/W-h]')
         hspf_region_column = dx_cols.index('Region Number')
-        minimum_temperature_column = dx_cols.index('Minimum Outdoor Dry-Bulb Temperature for Compressor Operation')
+        minimum_temperature_column = dx_cols.index('Minimum Outdoor Dry-Bulb Temperature for Compressor Operation [C]')
         for row_key in dx_row_keys:
             if row_key in coil_row_keys:
                 try:
@@ -1176,7 +1176,7 @@ class Translator:
                         dx_rows[row_key][minimum_temperature_column])
                 except ValueError:
                     pass
-        dx2_table = self.get_table('EquipmentSummary', 'DX Heating Coils [ HSPF2 ]')
+        dx2_table = self.get_table('EquipmentSummary', 'DX Heating Coils AHRI 2023')
         dx2_rows = dx2_table['Rows']
         dx2_row_keys = list(dx2_rows.keys())
         dx2_cols = dx2_table['Cols']
@@ -1185,7 +1185,7 @@ class Translator:
         for row_key in dx2_row_keys:
             if row_key in coil_row_keys:
                 coil_efficiencies[row_key]['HSPF2'] = float(dx2_rows[row_key][hspf2_column])
-                coil_efficiencies[row_key]['HSPF2_region'] = dx2_rows[row_key][hspf2_region_column]
+                coil_efficiencies[row_key]['Region Number'] = dx2_rows[row_key][hspf2_region_column]
         return coil_efficiencies
 
     def process_heating_metrics(self, coil_name, coil_efficiencies):
