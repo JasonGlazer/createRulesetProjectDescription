@@ -116,6 +116,30 @@ def terminal_config_convert(type_input_obj):
         option = "OTHER"
     return option
 
+def heat_rejection_type_convert(type_input_obj):
+    lower_case_obj = type_input_obj.lower()
+    if 'tower' in lower_case_obj:
+        option = 'OPEN_CIRCUIT_COOLING_TOWER'
+    elif 'evaporative' in lower_case_obj:
+        option = 'CLOSED_CIRCUIT_COOLING_TOWER'
+    elif 'fluidcooler' in lower_case_obj:
+        option = 'DRY_COOLER'
+    else:
+        option = 'OTHER'
+    return option
+
+def heat_rejection_fan_speed_convert(type_input_obj):
+    lower_case_obj = type_input_obj.lower()
+    if 'two' in lower_case_obj:
+        option = 'TWO_SPEED'
+    elif 'variable' in lower_case_obj:
+        option = 'VARIABLE_SPEED'
+    elif 'single' in lower_case_obj:
+        option = 'CONSTANT'
+    else:
+        option = 'OTHER'
+    return option
+
 
 class Translator:
     """This class reads in the input files and does the heavy lifting to write output files"""
@@ -1432,6 +1456,8 @@ class Translator:
                         rows = table['Rows']
                         heat_rejection_names = list(rows.keys())
                         cols = table['Cols']
+                        type_column = cols.index('Type')
+                        fluid_type_column = cols.index('Fluid Type')
                         loop_name_column = cols.index('Condenser Loop Name')
                         range_column = cols.index('Range [C]')
                         approach_column = cols.index('Approach [C]')
@@ -1452,8 +1478,16 @@ class Translator:
                                         float(rows[heat_rejection_name][leaving_setpoint_column]),
                                 }
                                 approach_str = rows[heat_rejection_name][approach_column]
+                                type_of_object = rows[heat_rejection_name][type_column]
                                 if approach_str:
                                     heat_rejection['approach'] = float(approach_str)
+                                heat_rejection['type'] = heat_rejection_type_convert(type_of_object)
+                                fluid_type_str = rows[heat_rejection_name][fluid_type_column].lower()
+                                if fluid_type_str == 'water':
+                                    heat_rejection['fluid'] = 'WATER'
+                                else:
+                                    heat_rejection['fluid'] = 'OTHER'
+                                heat_rejection['fan_speed_control'] = heat_rejection_fan_speed_convert(type_of_object)
                                 heat_rejections.append(heat_rejection)
         self.model_description['heat_rejections'] = heat_rejections
         return heat_rejections
