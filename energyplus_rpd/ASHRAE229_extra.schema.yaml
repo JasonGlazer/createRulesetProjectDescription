@@ -245,8 +245,8 @@ RulesetProjectDescription:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     output_format_type:
       Description: "Indicates the chosen format for output"
       Data Type: "(<OutputSchemaOptions2019ASHRAE901>, <OutputSchemaOptions2019T24>, OutputSchemaOptionsRESNET)"
@@ -339,8 +339,8 @@ RulesetModelDescription:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Used by RCT. Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: "Used by RCT."
     transformers:
       Description: "Electrical transformers at the building site"
       Data Type: "[{Transformer}]"
@@ -413,8 +413,8 @@ RulesetModelDescription:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     is_measured_infiltration_based_on_test:
       Description: "Indicates whether the differential pressure difference used during measurement for infiltration values is based on pressure testing of the building."
       Data Type: "Boolean"
@@ -430,8 +430,8 @@ RulesetModelDescription:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     fluid_loops:
       Description: "Fluid loops on the site"
       Data Type: "[{FluidLoop}]"
@@ -501,7 +501,7 @@ RulesetModelDescription:
       EPout Report: "Equipment Summary"
       EPout Table: "Pumps"
       EPout Column: "Name"
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Only need this input after supporting this data group"
     boilers:
       Description: "Boilers used on the site"
@@ -518,7 +518,7 @@ RulesetModelDescription:
       EPout Report: "Equipment Summary"
       EPout Table: "Boilers"
       EPout Column: "Name"
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Only need this input after supporting this data group"
     chillers:
       Description: "Chillers used on the site"
@@ -535,7 +535,7 @@ RulesetModelDescription:
       EPout Report: "Equipment Summary"
       EPout Table: "Chillers"
       EPout Column: "Name"
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Only need this input after supporting this data group"
     heat_rejections:
       Description: "HeatRejections used on the site"
@@ -552,7 +552,7 @@ RulesetModelDescription:
       EPout Report: "Equipment Summary"
       EPout Table: "Cooling Towers and Fluid Coolers"
       EPout Column: "Name"
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Only need this input after supporting this data group"
     external_fluid_sources:
       Description: "ExternalFluidSources used on the site"
@@ -588,8 +588,8 @@ RulesetModelDescription:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     output:
       Description: "Output"
       Data Type: "({Output2019ASHRAE901})"
@@ -752,8 +752,8 @@ Building:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "PartialUsingConstant"
-      EP Notes: "Used by RCT. Undeterminable compliance parameter. Could estimate based on occupancy schedules but may not match actual building schedule."
+      EPstatus: "ComplianceParameter"
+      EP Notes: "Used by RCT. Could estimate based on occupancy schedules but may not match actual building schedule."
     has_site_shading:
       Description: "Indicates whether the site has features that cast shadows on the building"
       Data Type: "Boolean"
@@ -920,8 +920,8 @@ BuildingSegment:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     zones:
       Description: "Zones in the building segment"
       Data Type: "[{Zone}]"
@@ -956,7 +956,7 @@ BuildingSegment:
       EPout Report: "Equipment Summary"
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "May be complicated to determine. Only need this input after supporting this data group"
     area_type_vertical_fenestration:
       Description: "Building area classification used for vertical fenestration"
@@ -974,8 +974,8 @@ BuildingSegment:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     lighting_building_area_type:
       Description: "Building area lighting area type"
       Data Type: "<LightingBuildingAreaOptions2019ASHRAE901T951TG38>"
@@ -992,8 +992,8 @@ BuildingSegment:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     area_type_heating_ventilating_air_conditioning_system:
       Description: "Classification used for HVAC"
       Data Type: "<HeatingVentilatingAirConditioningBuildingAreaOptions2019ASHRAE901>"
@@ -1010,8 +1010,8 @@ BuildingSegment:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
 
 Zone:
   Object Type: "Data Group"
@@ -1158,7 +1158,7 @@ Zone:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ComplianceParameter"
       EP Notes: "Might be able to figure out if HEATED_AND_COOLED, HEATED_ONLY, or UNCONDITIONED but SEMIHEATED is probably a compliance interpretation or at least complicated."
     infiltration:
       Description: "Airleakage into the zone."
@@ -1306,7 +1306,7 @@ Zone:
       EPout Report: "Equipment Summary"
       EPout Table: "Air Terminals"
       EPout Column: "Name"
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Only need this input after supporting this data group"
     served_by_service_water_heating_system:
       Description: "A service water heating system serving the zone"
@@ -1493,8 +1493,8 @@ Zone:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
  
 Space:
   Object Type: "Data Group"
@@ -1696,8 +1696,8 @@ Space:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     function:
       Description: "Generic function for the space."
       Data Type: "<SpaceFunctionOptions>"
@@ -1714,8 +1714,8 @@ Space:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     envelope_space_type:
       Description: "Envelope space type classification"
       Data Type: "<EnvelopeSpaceOptions2019ASHRAE901>"
@@ -1950,8 +1950,8 @@ Infiltration:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     flow_rate:
       Description: "Design infiltration flow rate"
       Data Type: "Numeric"
@@ -2259,8 +2259,8 @@ Surface:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
 
 Construction:
   Object Type: "Data Group"
@@ -2332,8 +2332,8 @@ Construction:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Might be partially derivable but difficult. Probably compliance parameter."
+      EPstatus: "ComplianceParameter"
+      EP Notes: "Might be partially derivable but difficult."
     surface_construction_input_option:
       Description: "Identifies whether construction is entered layer-by-layer or simplified (R-value)"
       Data Type: "<SurfaceConstructionInputOptions>"
@@ -3004,8 +3004,8 @@ Subsurface:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     is_operable:
       Description: "Identifies whether window subsurface can be opened and closed including by pivoting or sliding."
       Data Type: "Boolean"
@@ -3022,8 +3022,8 @@ Subsurface:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     has_open_sensor:
       Description: "Has sensor and reports to building control system when the window or door is open."
       Data Type: "Boolean"
@@ -3039,8 +3039,8 @@ Subsurface:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     framing_type:
       Description: "The material of the framing."
       Data Type: "<SubsurfaceFrameOptions2019ASHRAE901>"
@@ -3057,8 +3057,8 @@ Subsurface:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     glazed_area:
       Description: "Area of subsurface including glass and transparent surfaces"
       Data Type: "Numeric"
@@ -3279,8 +3279,8 @@ Subsurface:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     solar_transmittance_multiplier_summer:
       Description: "Solar transmittance multiplier for summer"
       Data Type: "Numeric"
@@ -3351,8 +3351,8 @@ Subsurface:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
 
 SubsurfaceClassificationOptions:
   Object Type: "Enumeration"
@@ -3448,8 +3448,8 @@ InteriorLighting:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     power_per_area:
       Description: "Total power for lights divided by the area of the space."
       Data Type: "Numeric"
@@ -3502,8 +3502,8 @@ InteriorLighting:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     daylighting_control_type:
       Description: "Indicates the type of daylighting controls"
       Data Type: "<LightingDaylightingControlOptions>"
@@ -3785,8 +3785,8 @@ MiscellaneousEquipment:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Partially undeterminable compliance parameter. If ElectricEquipment:ITE:AirCooled then can be set to INFORMATION_TECHNOLOGY_EQUIPMENT but no way to differentiate between PLUG and PROCESS."
+      EPstatus: "ComplianceParameter"
+      EP Notes: "If ElectricEquipment:ITE:AirCooled then can be set to INFORMATION_TECHNOLOGY_EQUIPMENT but no way to differentiate between PLUG and PROCESS."
     has_automatic_control:
       Description: "Indicates that the receptacles have automatic controls"
       Data Type: "Boolean"
@@ -3802,8 +3802,8 @@ MiscellaneousEquipment:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
 
 MiscellaneousEquipmentOptions:
   Object Type: "Enumeration"
@@ -3888,8 +3888,8 @@ Transformer:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     phase:
       Description: "The number of electrical phases"
       Data Type: "<ElectricalPhaseOptions>"
@@ -4274,8 +4274,8 @@ Schedule:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     is_modified_for_workaround:
       Description: "True if any schedule has been modified for a workaround"
       Data Type: "Boolean"
@@ -4292,8 +4292,8 @@ Schedule:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
 
 ScheduleSequenceOptions:
   Object Type: "Enumeration"
@@ -5083,7 +5083,7 @@ HeatingVentilatingAirConditioningSystem:
       EPout Report: "Coil Sizing Details"
       EPout Table: "Coils"
       EPout Column: "first column"
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "Used by RCT. Would need to analyze structure of topology to determine if this is preheat system."
     status_type:
       Description: "Choice of new, existing, addition, alteration, etc. for each ruleset."
@@ -5100,8 +5100,8 @@ HeatingVentilatingAirConditioningSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
 
 HeatingSystem:
   Object Type: "Data Group"
@@ -5789,7 +5789,7 @@ CoolingSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "Based on the EnergyPlus input object, usually Mechanical cooling. Should be covered by new topology report"
     cooling_turndown_ratio:
       Description: "Cooling turndown ratio"
@@ -5965,7 +5965,7 @@ FanSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "Add equipment summary report, fans table, add airloop and branch names, maybe easier in topology report. DisplacementVent_1ZoneOffice.idf is an example. Maybe look at the code in coil sizing details to see how supply fans are classified."
     exhaust_fans:
       Description: "List of exhaust fans"
@@ -5983,7 +5983,7 @@ FanSystem:
       EPout Report: "Component Sizing Summary"
       EPout Table: "Fan:ZoneExhaust"
       EPout Column: "first column"
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "Usually found in zone equipment. Could be a problem if more than one airloop serving zone, TermReheatZoneExh.idf is example. shows up in fans table in equpment summary"
     relief_fans:
       Description: "List of relief fans"
@@ -6001,7 +6001,7 @@ FanSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "5ZoneAirCooledConvCoef.idf example has relief fan. No outdoor air equipment reporting currently. Easy to figure out if it's outlet is outdoors but more complex if through HX. The Annual Heat Emissions Report shows the HVAC Relief Air so perhaps an approach to identify relief already exists in the code."
     air_economizer:
       Description: "Air side economizer related to the fan system"
@@ -6069,7 +6069,7 @@ FanSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "For unitary systems could see supply fan operating mode schedule. For central system no cycling except night-cycle avail manager. Add to Equipment Summary Fans"
     operation_during_unoccupied:
       Description: "Operation during unoccupied times type"
@@ -6086,7 +6086,7 @@ FanSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "For unitary systems could see supply fan operating mode schedule. For central system no cycling except night-cycle avail manager.  Add to Equipment Summary Fans"
     has_lock_out_central_heat_during_unoccupied:
       Description: "Locks out the use of central heating during unoccupied hours"
@@ -6248,7 +6248,7 @@ FanSystem:
       EPout Report: "Standard 62.1 Summary"
       EPout Table: "System Ventilation Calculations for Cooling Design, Zone Ventilation Calculations for Heating Design"
       EPout Column: "Sum of Min Zone Primary Airflow - Vpz-min"
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "look for smaller of heating and cooling"
     minimum_outdoor_airflow:
       Description: "Minimum outdoor air volume airflow"
@@ -6267,7 +6267,7 @@ FanSystem:
       EPout Report: "Component Sizing Summary"
       EPout Table: "Controller:OutdoorAir"
       EPout Column: "Minimum Outdoor Air Flow Rate "
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "This doesn't report correctly when DCV using Controller:MechanicalVentilation. Maybe look at the 62.1 summary instead "
     maximum_outdoor_airflow:
       Description: "Maximum outdoor air volume airflow"
@@ -6286,7 +6286,7 @@ FanSystem:
       EPout Report: "Component Sizing Summary"
       EPout Table: "Controller:OutdoorAir"
       EPout Column: "Maximum Outdoor Air Flow Rate "
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "The specified or autosized Max OA Flow Rate should be accurate here, but that doesn't mean it will ever operate at that flow. But EnergyPlus autosizing does not check for economizer operation and size this to match the min OA flow rate. So the Note above won't work with current EnergyPlus autosizing."
     air_filter_merv_rating:
       Description: "The MERV rating of the air filter"
@@ -6304,8 +6304,8 @@ FanSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     has_fully_ducted_return:
       Description: "If the fan system has fully ducted return."
       Data Type: "Boolean"
@@ -6321,8 +6321,8 @@ FanSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     demand_control_ventilation_control:
       Description: "Demand control ventilation control type"
       Data Type: "<DemandControlVentilationControlOptions>"
@@ -6338,7 +6338,7 @@ FanSystem:
       EPout Report: "System Summary"
       EPout Table: "Demand Controlled Ventilation using Controller:MechanicalVentilation"
       EPout Column: "New column"
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "The only options currently supported are CO2 zone and Other. Need to add this info to the table output."
 
 AirEconomizer:
@@ -6441,6 +6441,15 @@ AirEconomizer:
       AppG P_RMD Equals U_RMD: "unknown"
       AppG B_RMD Equals P_RMD: "unknown"
       AppG B_RMDs Same: "unknown"
+      Used by RCT Test: "unknown"
+      EPin Object: ""
+      EPin Field: ""
+      EPout File: ""
+      EPout Report: ""
+      EPout Table: ""
+      EPout Column: ""
+      EPstatus: "NotStarted"
+      EP Notes: ""
 
 
 AirEnergyRecovery:
@@ -6532,8 +6541,8 @@ AirEnergyRecovery:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     energy_recovery_operation:
       Description: "Energy recovery operation"
       Data Type: "<EnergyRecoveryOperationOptions>"
@@ -6934,8 +6943,8 @@ Fan:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     shaft_power:
       Description: "fan shaft power"
       Data Type: "Numeric"
@@ -6953,8 +6962,8 @@ Fan:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     total_efficiency:
       Description: "Total fan efficiency"
       Data Type: "Numeric"
@@ -7047,7 +7056,7 @@ Fan:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "To be added to Equipment Summary - Fans"
     status_type:
       Description: "Choice of new, existing, addition, alteration, etc. for each ruleset."
@@ -7064,8 +7073,8 @@ Fan:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     output_validation_points:
       Description: "Energy validation points"
       Data Type: "[{FanOutputValidationPoint}]"
@@ -7263,7 +7272,7 @@ Terminal:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "Used by RCT. From coil use nodes to identify loop. See new HVAC Topology Report"
     cooling_source:
       Description: "Source of cooling"
@@ -7299,7 +7308,7 @@ Terminal:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "From coil use nodes to identify loop. See new HVAC Topology Report"
     fan:
       Description: "Terminal fan"
@@ -7498,7 +7507,7 @@ Terminal:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "New report Equipment Summary - AirTerminals, Minimum Flow Schedule Name. We do have the option for some terminal units to include a DesignSpecification:OutdoorAir option, and that input has a schedule."
     heating_capacity:
       Description: "Heating capacity for baseboard or radiant system or reheat"
@@ -7554,8 +7563,8 @@ Terminal:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     has_demand_control_ventilation:
       Description: "True if the zone has demand control ventilation"
       Data Type: "Boolean"
@@ -7572,7 +7581,7 @@ Terminal:
       EPout Report: "System Summary, Outdoor Air Details "
       EPout Table: "Demand Controlled Ventilation using Controller:MechanicalVentilation, Outdoor Air Controller Limiting Factors by AirLoop"
       EPout Column: "Controller:MechanicalVentilation Name, Demand Controlled Ventilation "
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: ""
     is_fan_first_stage_heat:
       Description: "True if the the only source of first stage heating is the heat from the fan itself"
@@ -7670,7 +7679,7 @@ FluidLoop:
       EPout Report: "Component Sizing Summary"
       EPout Table: "PlantLoop, CondenserLoop"
       EPout Column: "first column"
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "Add to new Equipment Summary - PlantLoop or CondenserLoop report"
     reporting_name:
       Description: "Descriptive name used in RCT reports if id is not already a descriptive name"
@@ -7722,7 +7731,7 @@ FluidLoop:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "can determine Condenser by type of input object but heating vs cooling would need to examine pieces on loop. Add to new Equipment Summary - PlantLoop or CondenserLoop report"
     pump_power_per_flow_rate:
       Description: "Total design pump power divided by the loop design flow rate"
@@ -7741,7 +7750,7 @@ FluidLoop:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "pump power from looking at all pumps on loop, the flow rate from Maximum Loop Flow Rate. Add to new Equipment Summary - PlantLoop or CondenserLoop "
     child_loops:
       Description: "Other fluid loops connected to this one as children."
@@ -7759,7 +7768,7 @@ FluidLoop:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "from topology report"
     cooling_or_condensing_design_and_control:
       Description: "Fluid loop design and control used for cooling or condensing loops"
@@ -7777,7 +7786,7 @@ FluidLoop:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "base name on the name of the PlantLoop or CondenserLoop plus -cooling or -condensing"
     heating_design_and_control:
       Description: "Fluid loop design and control used for heaing loops"
@@ -7795,7 +7804,7 @@ FluidLoop:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "base name on the name of the PlantLoop or CondenserLoop plus -heating"
 
 FluidLoopDesignAndControl:
@@ -7817,7 +7826,7 @@ FluidLoopDesignAndControl:
       EPout Report: "Component Sizing Summary"
       EPout Table: "PlantLoop, CondenserLoop"
       EPout Column: "first column"
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "Add to new Equipment Summary - PlantLoop or CondenserLoop report and use -cooling, -heating, -condensing"
     reporting_name:
       Description: "Descriptive name used in RCT reports if id is not already a descriptive name"
@@ -7870,7 +7879,7 @@ FluidLoopDesignAndControl:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "Add new column to Component Sizing Summary - PlantLoop"
     design_return_temperature:
       Description: "Design Return Temperature"
@@ -7888,7 +7897,7 @@ FluidLoopDesignAndControl:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "Add new column to Component Sizing Summary - PlantLoop"
     is_sized_using_coincident_load:
       Description: "True if the loop is sized based on coincident load"
@@ -7905,7 +7914,7 @@ FluidLoopDesignAndControl:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "Add new column to Component Sizing Summary - PlantLoop"
     minimum_flow_fraction:
       Description: "Minimum fraction of full flow allowed"
@@ -7923,7 +7932,7 @@ FluidLoopDesignAndControl:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "divide the minimum by maximum. add to Equipment Summary - PlantLoop or CondenserLoop table"
     operation:
       Description: "Type of operation used by loop"
@@ -7940,7 +7949,7 @@ FluidLoopDesignAndControl:
       EPout Report: "Equipment Summary"
       EPout Table: "Pumps"
       EPout Column: "Control"
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "Pump Control Type will indicate Intermittent or Continous (. If continuous, then availability manager will indicate if it's scheduled or continuous."
     operation_schedule:
       Description: "Operation schedule"
@@ -7975,7 +7984,7 @@ FluidLoopDesignAndControl:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "Based on type of pump. Add new field Equipment Summary - Pumps for type."
     temperature_reset_type:
       Description: "Type of temperature reset used by loop"
@@ -8104,7 +8113,7 @@ FluidLoopDesignAndControl:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "If it's on the same branch as a chiller, then it's integrated, if on it's own branch, then it's non-integrated. Diff example files: WaterSideEconomizer_Integrated and WaterSideEconomizer_NonIntegrated. Add Plantloop branch name to Equipment Summary - Central Plant"
     
 
@@ -8280,8 +8289,8 @@ Pump:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Not used since using SIMPLE. Compliance parameter."
+      EPstatus: "ComplianceParameter"
+      EP Notes: "Not used since using SIMPLE."
     design_head:
       Description: "Head of the pump at design flow conditions"
       Data Type: "Numeric"
@@ -8318,8 +8327,8 @@ Pump:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Not used since using SIMPLE. Compliance parameter."
+      EPstatus: "ComplianceParameter"
+      EP Notes: "Not used since using SIMPLE."
     motor_efficiency:
       Description: "Full load efficiency of the pump motor"
       Data Type: "Numeric"
@@ -8596,8 +8605,8 @@ Boiler:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Compliance parameter. Perhaps could infer based on efficiency or performance curve"
+      EPstatus: "ComplianceParameter"
+      EP Notes: "Perhaps could infer based on efficiency or performance curve"
     energy_source_type:
       Description: "Source of energy for the boiler"
       Data Type: "<EnergySourceOptions>"
@@ -8912,8 +8921,8 @@ Chiller:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Can probably only be inferred by the type of object, should be a compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: "Can probably only be inferred by the type of object."
     energy_source_type:
       Description: "Source of energy for the chiller"
       Data Type: "<EnergySourceOptions>"
@@ -9203,7 +9212,7 @@ Chiller:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "Topology report. If it's a branch pump (same branch as the chiller), then it's interlocked."
     is_condenser_water_pump_interlocked:
       Description: "Indicates if the operation of the condenser water pump is interlocked with the operation of the chiller"
@@ -9221,7 +9230,7 @@ Chiller:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: "Topology report. It it's on the same branch as the cooling tower, then it's interlocked (but I don't think this is supported yet)."
     heat_recovery_loop:
       Description: "Recovered heat to fluid loop"
@@ -9559,8 +9568,8 @@ HeatRejection:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Would need to be compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     fluid:
       Description: "Fluid Cooled by Heat Rejection"
       Data Type: "<HeatRejectionFluidOptions>"
@@ -9631,8 +9640,8 @@ HeatRejection:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     fan_motor_efficiency:
       Description: "Efficiency of the fan motor at rating conditions"
       Data Type: "Numeric"
@@ -9649,8 +9658,8 @@ HeatRejection:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     fan_motor_nameplate_power:
       Description: "Fan Motor Nameplate Power"
       Data Type: "Numeric"
@@ -9740,8 +9749,8 @@ HeatRejection:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     leaving_water_setpoint_temperature:
       Description: "leaving water setpoint temperature"
       Data Type: "Numeric"
@@ -12021,8 +12030,8 @@ ExteriorLighting:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     area:
       Description: "Area of the exterior functional space."
       Data Type: "Numeric"
@@ -12041,8 +12050,8 @@ ExteriorLighting:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     length:
       Description: "Linear length measure for exterior functional space"
       Data Type: "Numeric"
@@ -12061,8 +12070,8 @@ ExteriorLighting:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     power:
       Description: "Nominal power  of exterior lighting fixtures"
       Data Type: "Numeric"
@@ -12099,8 +12108,8 @@ ExteriorLighting:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     is_exempt:
       Description: "Indicates whether the exterior lighting is exempted from requirements"
       Data Type: "Boolean"
@@ -12116,8 +12125,8 @@ ExteriorLighting:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
-      EP Notes: "Undeterminable compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
     multiplier_schedule:
       Description: "Reference to the schedule containing the multiplier for exterior lighting"
       Data Type: "Reference"
