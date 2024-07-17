@@ -1324,8 +1324,8 @@ class Translator:
             terminal = {'terminal_name': row_key,
                         'min_flow': float(min_flow),
                         'min_oa_flow': float(min_oa_flow),
-                        'supply_cool_set_point': supply_cool_set_point,
-                        'supply_heat_set_point': supply_heat_set_point,
+                        'supply_cool_set_point': float(supply_cool_set_point),
+                        'supply_heat_set_point': float(supply_heat_set_point),
                         'heating_capacity': float(heating_capacity),
                         'cooling_capacity': float(cooling_capacity),
                         'type_input': type_input,
@@ -1345,7 +1345,7 @@ class Translator:
             else:
                 terminal['max_flow_during_reheat'] = 0.
             air_terminal_by_zone[zone_name] = terminal
-        print(air_terminal_by_zone)
+        # print(air_terminal_by_zone)
         return air_terminal_by_zone
 
     def add_chillers(self):
