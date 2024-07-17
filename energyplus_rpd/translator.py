@@ -1247,7 +1247,8 @@ class Translator:
         purpose_column = cols.index('Purpose')
         is_autosized_column = cols.index('Is Autosized')
         motor_eff_column = cols.index('Motor Efficiency')
-        motor_heat_to_zone_column = cols.index('Motor Heat to Zone Fraction')
+        motor_heat_to_zone_frac_column = cols.index('Motor Heat to Zone Fraction')
+        motor_loss_zone_name_column = cols.index('Motor Loss Zone Name')
         airloop_name_column = cols.index('Airloop Name')
         for row_key in coil_row_keys:
             max_air_flow_rate = float(rows[row_key][max_air_flow_rate_column])
@@ -1257,7 +1258,8 @@ class Translator:
             total_efficiency = float(rows[row_key][total_efficiency_column])
             motor_eff = float(rows[row_key][motor_eff_column])
             motor_heat_in_air = float(rows[row_key][motor_heat_in_air_column])
-            motor_heat_to_zone = float(rows[row_key][motor_heat_to_zone_column])
+            motor_heat_to_zone_frac = float(rows[row_key][motor_heat_to_zone_frac_column])
+            motor_loss_zone_name = rows[row_key][motor_loss_zone_name_column]
             # extra columns of data not necessarily used now
             type = rows[row_key][type_column]
             fan_energy_index = float(rows[row_key][fan_energy_index_column])
@@ -1270,7 +1272,8 @@ class Translator:
                              'total_efficiency': total_efficiency,
                              'motor_efficiency': motor_eff,
                              'motor_heat_to_airflow_fraction': motor_heat_in_air,
-                             'motor_heat_to_zone_fraction': motor_heat_to_zone}
+                             'motor_heat_to_zone_fraction': motor_heat_to_zone_frac,
+                             'motor_location_zone': motor_loss_zone_name}
             fan_extra = {'type': type,
                          'fan_energy_index': fan_energy_index,
                          'purpose': purpose,
