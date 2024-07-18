@@ -141,6 +141,25 @@ def heat_rejection_fan_speed_convert(type_input_obj):
     return option
 
 
+def do_chiller_and_pump_share_branch(chiller_name, list_of_dict, side_of_loop):
+    answer = False
+    chiller_branch_name = ''
+    # find the branch used by the chiller
+    for row in list_of_dict:
+        if row['Side'] == side_of_loop:
+            if chiller_name.lower() == row['Component Name'].lower():
+                chiller_branch_name = row['Branch Name']
+                break
+    # find if a pump is on the same branch
+    if chiller_branch_name:
+        for row in list_of_dict:
+            if chiller_branch_name == row['Branch Name']:
+                if 'pump' in row['Component Type'].lower():
+                    answer = True
+                    break
+    return answer
+
+
 class Translator:
     """This class reads in the input files and does the heavy lifting to write output files"""
 
@@ -1056,6 +1075,9 @@ class Translator:
                             terminal['secondary_airflow'] = current_air_terminal['secondary_airflow_rate'] * 1000
                         if current_air_terminal['max_flow_during_reheat'] > 0:
                             terminal['max_heating_airflow'] = current_air_terminal['max_flow_during_reheat'] * 1000
+                        if current_air_terminal['min_oa_schedule_name'] != 'n/a':
+                            terminal['minimum_outdoor_airflow_multiplier_schedule'] = (
+                                current_air_terminal)['min_oa_schedule_name']
                         self.terminals_by_zone[zone.upper()] = [terminal, ]
         self.building_segment['heating_ventilating_air_conditioning_systems'] = hvac_systems
         # print(self.terminals_by_zone)
@@ -1086,6 +1108,25 @@ class Translator:
             connection_by_coil[row_key] = connection
         # print(connection_by_coil)
         return connection_by_coil
+
+    def gather_table_into_list(self, report_name, table_name):
+        # transform the rows and columns format into a list of dictionaries
+        list_of_dict = []
+        table = self.get_table(report_name, table_name)
+        if not table:
+            return list_of_dict
+        rows = table['Rows']
+        row_keys = list(rows.keys())
+        cols = table['Cols']
+        for row_key in row_keys:
+            arrangement = {}
+            for col in cols:
+                col_index = cols.index(col)
+                arrangement[col] = rows[row_key][col_index]
+            list_of_dict.append(arrangement)
+#        for item in list_of_dict:
+#            print(item)
+        return list_of_dict
 
     def gather_cooling_coil_efficiencies(self):
         coil_efficiencies = {}
@@ -1354,6 +1395,7 @@ class Translator:
     def add_chillers(self):
         chillers = []
         tabular_reports = self.json_results_object['TabularReports']
+        plant_loop_arrangement =  self.gather_table_into_list('HVACTopology', 'Plant Loop Component Arrangement')
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'EquipmentSummary':
                 tables = tabular_report['Tables']
@@ -1404,6 +1446,10 @@ class Translator:
                                     'part_load_efficiency': float(rows[chiller_name][part_load_efficiency_column]),
                                     'part_load_efficiency_metric': 'INTEGRATED_PART_LOAD_VALUE',
                                 }
+                                chiller['is_chilled_water_pump_interlocked'] = do_chiller_and_pump_share_branch(
+                                    chiller_name, plant_loop_arrangement, 'Supply')
+                                chiller['is_condenser_water_pump_interlocked'] = do_chiller_and_pump_share_branch(
+                                    chiller_name, plant_loop_arrangement, 'Demand')
                                 if rows[chiller_name][heat_recovery_loop_name_column] != 'N/A':
                                     chiller['heat_recovery_loop'] = rows[chiller_name][heat_recovery_loop_name_column]
                                     chiller['heat_recovery_fraction'] = (
