@@ -1424,32 +1424,33 @@ class Translator:
                         for chiller_name in chiller_names:
                             if chiller_name != 'None':
                                 fuel_type = rows[chiller_name][fuel_type_column].upper().replace(' ', '_')
-                                chiller = {
-                                    'id': chiller_name,
-                                    'cooling_loop': rows[chiller_name][plant_loop_name_column],
-                                    'condensing_loop': rows[chiller_name][condenser_loop_name_column],
-                                    'energy_source_type': fuel_type,
-                                    'design_capacity': float(rows[chiller_name][reference_capacity_column]),
-                                    'rated_capacity': float(rows[chiller_name][rated_capacity_column]),
-                                    'rated_entering_condenser_temperature':
-                                        float(rows[chiller_name][rated_enter_temp_column]),
-                                    'rated_leaving_evaporator_temperature':
-                                        float(rows[chiller_name][rated_leave_temp_column]),
-                                    'minimum_load_ratio': float(rows[chiller_name][min_plr_column]),
-                                    'design_flow_evaporator': float(rows[chiller_name][chilled_water_rate_column]),
-                                    'design_flow_condenser': float(rows[chiller_name][condenser_water_rate_column]),
-                                    'design_entering_condenser_temperature':
-                                        float(rows[chiller_name][ref_enter_temp_column]),
-                                    'design_leaving_evaporator_temperature':
-                                        float(rows[chiller_name][ref_leave_temp_column]),
-                                    'full_load_efficiency': float(rows[chiller_name][rated_efficiency_column]),
-                                    'part_load_efficiency': float(rows[chiller_name][part_load_efficiency_column]),
-                                    'part_load_efficiency_metric': 'INTEGRATED_PART_LOAD_VALUE',
-                                }
-                                chiller['is_chilled_water_pump_interlocked'] = do_chiller_and_pump_share_branch(
-                                    chiller_name, plant_loop_arrangement, 'Supply')
-                                chiller['is_condenser_water_pump_interlocked'] = do_chiller_and_pump_share_branch(
-                                    chiller_name, plant_loop_arrangement, 'Demand')
+                                chiller = {'id': chiller_name,
+                                           'cooling_loop': rows[chiller_name][plant_loop_name_column],
+                                           'condensing_loop': rows[chiller_name][condenser_loop_name_column],
+                                           'energy_source_type': fuel_type,
+                                           'design_capacity': float(rows[chiller_name][reference_capacity_column]),
+                                           'rated_capacity': float(rows[chiller_name][rated_capacity_column]),
+                                           'rated_entering_condenser_temperature': float(
+                                               rows[chiller_name][rated_enter_temp_column]),
+                                           'rated_leaving_evaporator_temperature': float(
+                                               rows[chiller_name][rated_leave_temp_column]),
+                                           'minimum_load_ratio': float(rows[chiller_name][min_plr_column]),
+                                           'design_flow_evaporator': float(
+                                               rows[chiller_name][chilled_water_rate_column]),
+                                           'design_flow_condenser': float(
+                                               rows[chiller_name][condenser_water_rate_column]),
+                                           'design_entering_condenser_temperature': float(
+                                               rows[chiller_name][ref_enter_temp_column]),
+                                           'design_leaving_evaporator_temperature': float(
+                                               rows[chiller_name][ref_leave_temp_column]),
+                                           'full_load_efficiency': float(rows[chiller_name][rated_efficiency_column]),
+                                           'part_load_efficiency': float(
+                                               rows[chiller_name][part_load_efficiency_column]),
+                                           'part_load_efficiency_metric': 'INTEGRATED_PART_LOAD_VALUE',
+                                           'is_chilled_water_pump_interlocked': do_chiller_and_pump_share_branch(
+                                               chiller_name, plant_loop_arrangement, 'Supply'),
+                                           'is_condenser_water_pump_interlocked': do_chiller_and_pump_share_branch(
+                                               chiller_name, plant_loop_arrangement, 'Demand')}
                                 if rows[chiller_name][heat_recovery_loop_name_column] != 'N/A':
                                     chiller['heat_recovery_loop'] = rows[chiller_name][heat_recovery_loop_name_column]
                                     chiller['heat_recovery_fraction'] = (
