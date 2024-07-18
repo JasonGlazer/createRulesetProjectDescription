@@ -1583,6 +1583,59 @@ class Translator:
         self.model_description['pumps'] = pumps
         return pumps
 
+    def add_fluid_loops(self):
+        fluid_loops = []
+        plant_loop_arrangements =  self.gather_table_into_list('HVACTopology', 'Plant Loop Component Arrangement')
+        loop_types = {}
+        for arrangement_row in plant_loop_arrangements:
+            name = arrangement_row['Loop Name']
+            likely_type = ''
+            if arrangement_row['Side'] == 'Supply':
+                if 'CHILLER' in arrangement_row['Component Type']:
+                    likely_type = 'COOLING'
+                elif 'BOILER' in arrangement_row['Component Type']:
+                    likely_type = 'HEATING'
+                elif 'TOWER' in arrangement_row['Component Type']:
+                    likely_type = 'CONDENSER'
+                elif 'FLUIDCOOLER' in arrangement_row['Component Type']:
+                    likely_type = 'CONDENSER'
+            if likely_type:
+                if name in loop_types:
+                    prev_type = loop_types[name]
+                    type_tuple = (likely_type, prev_type)
+                    if type_tuple == ('COOLING', 'HEATING') or type_tuple == ('HEATING', 'COOLING'):
+                        loop_types[name] = 'HEATING_AND_COOLING'
+                    elif  type_tuple == ('CONDENSER', 'HEATING') or type_tuple == ('HEATING', 'CONDENSER'):
+                        loop_types[name] = 'HEATING_AND_COOLING'
+                else:
+                    loop_types[name] = likely_type
+        for loop_name, loop_type in loop_types.items():
+            fluid_loop = {
+                'id': loop_name,
+                'type': loop_type
+            }
+            # go through and get all the pumps
+            pump_power = 0
+            pump_flow_rate = 0
+            pumps_from_rmd = self.model_description['pumps']
+            for arrangement_row in plant_loop_arrangements:
+                if loop_name == arrangement_row['Loop Name']:
+                    if 'PUMP' in arrangement_row['Component Type']:
+                        pump_name = arrangement_row['Component Name']
+                        for pump_from_rmd in pumps_from_rmd:
+                            if pump_name == pump_from_rmd['id']:
+                                pump_power = pump_power + pump_from_rmd['design_electric_power']
+                                if pump_from_rmd['design_flow'] > pump_flow_rate:
+                                    pump_flow_rate = pump_from_rmd['design_flow']
+            if pump_flow_rate > 0:
+                fluid_loop['pump_power_per_flow_rate'] = pump_power / pump_flow_rate
+
+            fluid_loops.append(fluid_loop)
+
+
+        self.model_description['fluid_loops'] = fluid_loops
+        return
+
     def add_simulation_outputs(self):
         source_map = {'Electricity': 'ELECTRICITY',
                       'Natural Gas': 'NATURAL_GAS',
@@ -1785,6 +1838,7 @@ class Translator:
         self.add_boilers()
         self.add_heat_rejection()
         self.add_pumps()
+        self.add_fluid_loops()
         self.add_zones()
         self.add_spaces()
         self.add_exterior_lighting()
