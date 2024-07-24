@@ -116,6 +116,7 @@ def terminal_config_convert(type_input_obj):
         option = "OTHER"
     return option
 
+
 def heat_rejection_type_convert(type_input_obj):
     lower_case_obj = type_input_obj.lower()
     if 'tower' in lower_case_obj:
@@ -127,6 +128,7 @@ def heat_rejection_type_convert(type_input_obj):
     else:
         option = 'OTHER'
     return option
+
 
 def heat_rejection_fan_speed_convert(type_input_obj):
     lower_case_obj = type_input_obj.lower()
@@ -196,6 +198,7 @@ class Translator:
         self.terminals_by_zone = {}
         self.serial_number = 0
         self.id_used = set()
+        self.pump_extra = {}
 
     @staticmethod
     def validate_input_contents(input_json: Dict):
@@ -1395,7 +1398,7 @@ class Translator:
     def add_chillers(self):
         chillers = []
         tabular_reports = self.json_results_object['TabularReports']
-        plant_loop_arrangement =  self.gather_table_into_list('HVACTopology', 'Plant Loop Component Arrangement')
+        plant_loop_arrangement = self.gather_table_into_list('HVACTopology', 'Plant Loop Component Arrangement')
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'EquipmentSummary':
                 tables = tabular_report['Tables']
@@ -1560,6 +1563,7 @@ class Translator:
                         type_column = cols.index('Type')
                         water_flow_column = cols.index('Water Flow [m3/s]')
                         is_autosized_column = cols.index('Is Autosized')
+                        control_column = cols.index('Control')
                         for pump_name in pump_names:
                             type_str = rows[pump_name][type_column]
                             speed_control = 'FIXED_SPEED'
@@ -1579,13 +1583,17 @@ class Translator:
                                 'design_flow': float(rows[pump_name][water_flow_column]) * 1000,
                                 'is_flow_sized_based_on_design_day': is_autosized
                             }
+                            pump_extra = {
+                                'control': rows[pump_name][control_column]
+                            }
+                            self.pump_extra[pump_name] = pump_extra
                             pumps.append(pump)
         self.model_description['pumps'] = pumps
         return pumps
 
     def add_fluid_loops(self):
         fluid_loops = []
-        plant_loop_arrangements =  self.gather_table_into_list('HVACTopology', 'Plant Loop Component Arrangement')
+        plant_loop_arrangements = self.gather_table_into_list('HVACTopology', 'Plant Loop Component Arrangement')
         loop_types = {}
         for arrangement_row in plant_loop_arrangements:
             name = arrangement_row['Loop Name']
@@ -1605,7 +1613,7 @@ class Translator:
                     type_tuple = (likely_type, prev_type)
                     if type_tuple == ('COOLING', 'HEATING') or type_tuple == ('HEATING', 'COOLING'):
                         loop_types[name] = 'HEATING_AND_COOLING'
-                    elif  type_tuple == ('CONDENSER', 'HEATING') or type_tuple == ('HEATING', 'CONDENSER'):
+                    elif type_tuple == ('CONDENSER', 'HEATING') or type_tuple == ('HEATING', 'CONDENSER'):
                         loop_types[name] = 'HEATING_AND_COOLING'
                 else:
                     loop_types[name] = likely_type
@@ -1617,6 +1625,8 @@ class Translator:
             # go through and get all the pumps
             pump_power = 0
             pump_flow_rate = 0
+            current_pump_control = ''
+            current_pump_speed = ''
             pumps_from_rmd = self.model_description['pumps']
             for arrangement_row in plant_loop_arrangements:
                 if loop_name == arrangement_row['Loop Name']:
@@ -1627,12 +1637,24 @@ class Translator:
                                 pump_power = pump_power + pump_from_rmd['design_electric_power']
                                 if pump_from_rmd['design_flow'] > pump_flow_rate:
                                     pump_flow_rate = pump_from_rmd['design_flow']
+                                current_pump_speed = pump_from_rmd['speed_control']
+                        if pump_name in self.pump_extra:
+                            current_pump_control = self.pump_extra[pump_name]['control']
             if pump_flow_rate > 0:
                 fluid_loop['pump_power_per_flow_rate'] = pump_power / pump_flow_rate
-
+            design_control = {
+                'id': loop_name + '-' + loop_type,
+                'operation': current_pump_control.upper()
+            }
+            if current_pump_speed == 'VARIABLE_SPEED':
+                design_control['flow_control'] = 'VARIABLE_FLOW'
+            else:
+                design_control['flow_control'] = 'FIXED_FLOW'
+            if 'COOLING' in loop_type or 'CONDENSER' == loop_type:
+                fluid_loop['cooling_or_condensing_design_and_control'] = design_control
+            if 'HEATING' in loop_type:
+                fluid_loop['heating_design_and_control'] = design_control
             fluid_loops.append(fluid_loop)
-
-
         self.model_description['fluid_loops'] = fluid_loops
         return
 
