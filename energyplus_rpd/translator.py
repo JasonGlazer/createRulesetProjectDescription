@@ -162,6 +162,24 @@ def do_chiller_and_pump_share_branch(chiller_name, list_of_dict, side_of_loop):
     return answer
 
 
+def do_share_branch(comp_a, comp_b, list_of_dict):
+    answer = False
+    comp_a_branch_names = []
+    # find the branches used by the component type A
+    for row in list_of_dict:
+        if comp_a.lower() == row['Component Type'].lower():
+            comp_a_branch_names.append(row['Branch Name'])
+    # find if component type B is on the same branch
+    if not comp_a_branch_names:
+        for row in list_of_dict:
+            if (row['Branch Name']
+                    in comp_a_branch_names):
+                if comp_b in row['Component Type'].lower():
+                    answer = True
+                    break
+    return answer
+
+
 class Translator:
     """This class reads in the input files and does the heavy lifting to write output files"""
 
@@ -1652,6 +1670,9 @@ class Translator:
                 design_control['flow_control'] = 'FIXED_FLOW'
             if 'COOLING' in loop_type or 'CONDENSER' == loop_type:
                 fluid_loop['cooling_or_condensing_design_and_control'] = design_control
+                design_control['has_integrated_waterside_economizer'] = do_share_branch('chiller',
+                                                                                        'heatexchanger',
+                                                                                        plant_loop_arrangements)
             if 'HEATING' in loop_type:
                 fluid_loop['heating_design_and_control'] = design_control
             fluid_loops.append(fluid_loop)

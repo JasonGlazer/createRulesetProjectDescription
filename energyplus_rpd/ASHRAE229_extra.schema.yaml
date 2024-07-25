@@ -7768,7 +7768,7 @@ FluidLoop:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "NotStarted"
       EP Notes: "from topology report"
     cooling_or_condensing_design_and_control:
       Description: "Fluid loop design and control used for cooling or condensing loops"
@@ -8109,12 +8109,12 @@ FluidLoopDesignAndControl:
       Used by RCT Test: False
       EPin Object: "HeatExchanger:FluidToFluid"
       EPin Field: ""
-      EPout File: ""
-      EPout Report: ""
-      EPout Table: ""
-      EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "If it's on the same branch as a chiller, then it's integrated, if on it's own branch, then it's non-integrated. Diff example files: WaterSideEconomizer_Integrated and WaterSideEconomizer_NonIntegrated. Add Plantloop branch name to Equipment Summary - Central Plant"
+      EPout File: "table.html"
+      EPout Report: "HVAC Topology"
+      EPout Table: "Plant Loop Component Arrangement"
+      EPout Column: "Component Type"
+      EPstatus: "DoneUsingOutput"
+      EP Notes: "If it's on the same branch as a chiller, then it's integrated, if on it's own branch, then it's non-integrated. Diff example files: WaterSideEconomizer_Integrated and WaterSideEconomizer_NonIntegrated. "
     
 
 FluidLoopFlowControlOptions:
