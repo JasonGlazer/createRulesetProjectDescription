@@ -1066,8 +1066,15 @@ class Translator:
                             if 'variable' not in equipment_fan_extra['type'].lower():
                                 fan_system['fan_control'] = 'CONSTANT'
                         # add exhaust fans
-                        # if hvac_name in exhaust_fan_names.values():
-                        #    for exh
+                        if hvac_name in exhaust_fan_names:
+                            fan_names = exhaust_fan_names[hvac_name]
+                            xfans = []
+                            for fan_name in fan_names:
+                                xfan = {'id': fan_name}
+                                equipment_fan, equipment_fan_extra = equipment_fans[fan_name]
+                                xfan.update(equipment_fan)
+                                xfans.append(xfan)
+                            fan_system['exhaust_fans'] = xfans
                         hvac_system['fan_system'] = fan_system
                 # print(hvac_system)
                 hvac_systems.append(hvac_system)
