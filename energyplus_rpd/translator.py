@@ -950,6 +950,7 @@ class Translator:
         heating_coil_efficiencies = self.gather_heating_coil_efficiencies()
         equipment_fans = self.gather_equipment_fans()
         air_terminals = self.gather_air_terminal()
+        exhaust_fan_names = self.gather_exhaust_fans_by_airloop()
         coils_table = self.get_table('CoilSizingDetails', 'Coils')
         if not coils_table:
             return hvac_systems
@@ -1064,6 +1065,9 @@ class Translator:
                         if 'type' in equipment_fan_extra:
                             if 'variable' not in equipment_fan_extra['type'].lower():
                                 fan_system['fan_control'] = 'CONSTANT'
+                        # add exhaust fans
+                        # if hvac_name in exhaust_fan_names.values():
+                        #    for exh
                         hvac_system['fan_system'] = fan_system
                 # print(hvac_system)
                 hvac_systems.append(hvac_system)
@@ -1144,10 +1148,40 @@ class Translator:
             for col in cols:
                 col_index = cols.index(col)
                 arrangement[col] = rows[row_key][col_index]
+            arrangement["first column"] = row_key
             list_of_dict.append(arrangement)
 #        for item in list_of_dict:
 #            print(item)
         return list_of_dict
+
+    def gather_exhaust_fans_by_airloop(self):
+        exh_fan_by_airloop = {}  # for each airloop name contains a list of exhaust fans
+        topology_zone_equips = self.gather_table_into_list('HVACTopology', "Zone Equipment Component Arrangement")
+        zone_name_exh_fan = []  # list of tuples of zone name and exhaust fans
+        for topology_zone_equip in topology_zone_equips:
+            current_zone_name = topology_zone_equip['Zone Name']
+            if topology_zone_equip['Component Type'] == 'FAN:ZONEEXHAUST':
+                zone_name_exh_fan.append((current_zone_name, topology_zone_equip['Component Name']))
+            elif topology_zone_equip['Sub-Component Type'] == 'FAN:ZONEEXHAUST':
+                zone_name_exh_fan.append((current_zone_name, topology_zone_equip['Sub-Component Name']))
+            elif topology_zone_equip['Sub-Sub-Component Type'] == 'FAN:ZONEEXHAUST':
+                zone_name_exh_fan.append((current_zone_name, topology_zone_equip['Sub-Sub-Component Name']))
+        topology_airloop_demands = self.gather_table_into_list('HVACTopology',
+                                                               "Air Loop Demand Side Component Arrangement")
+        airloop_by_zone = {}
+        for topology_airloop_demand in topology_airloop_demands:
+            if topology_airloop_demand['Zone Name']:
+                airloop_by_zone[topology_airloop_demand['Zone Name']] = topology_airloop_demand['Airloop Name']
+        if zone_name_exh_fan and airloop_by_zone:
+            for (zone_name, fan_name) in zone_name_exh_fan:
+                if zone_name in airloop_by_zone:
+                    airloop = airloop_by_zone[zone_name]
+                    if airloop not in exh_fan_by_airloop:
+                        exh_fan_by_airloop[airloop] = [fan_name, ]
+                        exh_fan_by_airloop[airloop] = [fan_name, ]
+                    else:
+                        exh_fan_by_airloop[airloop].append(fan_name)
+        return exh_fan_by_airloop
 
     def gather_cooling_coil_efficiencies(self):
         coil_efficiencies = {}
@@ -1183,7 +1217,9 @@ class Translator:
                 seer2017_string = dx_2017_rows[row_key][seer_2017_column]
                 if seer2017_string != 'N/A':
                     coil_efficiencies[row_key]['SEER2017'] = float(seer2017_string)
-                coil_efficiencies[row_key]['IEER2017'] = float(dx_2017_rows[row_key][ieer_2017_column])
+                ieer2017_string = dx_2017_rows[row_key][ieer_2017_column]
+                if ieer2017_string != 'N/A':
+                    coil_efficiencies[row_key]['IEER2017'] = float(ieer2017_string)
         dx_2023_table = self.get_table('EquipmentSummary', 'DX Cooling Coil Standard Ratings 2023')
         dx_2023_rows = dx_2023_table['Rows']
         dx_2023_row_keys = list(dx_2023_rows.keys())
