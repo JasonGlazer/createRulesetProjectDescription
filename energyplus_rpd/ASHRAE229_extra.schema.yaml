@@ -5965,7 +5965,7 @@ FanSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "NotStarted"
       EP Notes: "Add equipment summary report, fans table, add airloop and branch names, maybe easier in topology report. DisplacementVent_1ZoneOffice.idf is an example. Maybe look at the code in coil sizing details to see how supply fans are classified."
     exhaust_fans:
       Description: "List of exhaust fans"
@@ -5980,11 +5980,11 @@ FanSystem:
       EPin Object: "Fan:ZoneExhaust"
       EPin Field: "Name"
       EPout File: "table.html"
-      EPout Report: "Component Sizing Summary"
-      EPout Table: "Fan:ZoneExhaust"
-      EPout Column: "first column"
-      EPstatus: "ToDo"
-      EP Notes: "Usually found in zone equipment. Could be a problem if more than one airloop serving zone, TermReheatZoneExh.idf is example. shows up in fans table in equpment summary"
+      EPout Report: "HVACTopology"
+      EPout Table: "Zone Equipment Component Arrangement"
+      EPout Column: "Component Type, Sub-Component Type, Sub-Sub-Component Type"
+      EPstatus: "DoneUsingOutput"
+      EP Notes: "Could be a problem if more than one airloop serving zone, TermReheatZoneExh.idf is example. shows up in fans table in equpment summary"
     relief_fans:
       Description: "List of relief fans"
       Data Type: "[{Fan}]"
@@ -6001,7 +6001,7 @@ FanSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "NotStarted"
       EP Notes: "5ZoneAirCooledConvCoef.idf example has relief fan. No outdoor air equipment reporting currently. Easy to figure out if it's outlet is outdoors but more complex if through HX. The Annual Heat Emissions Report shows the HVAC Relief Air so perhaps an approach to identify relief already exists in the code."
     air_economizer:
       Description: "Air side economizer related to the fan system"
@@ -6069,7 +6069,7 @@ FanSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "NotStarted"
       EP Notes: "For unitary systems could see supply fan operating mode schedule. For central system no cycling except night-cycle avail manager. Add to Equipment Summary Fans"
     operation_during_unoccupied:
       Description: "Operation during unoccupied times type"
@@ -6086,7 +6086,7 @@ FanSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "NotStarted"
       EP Notes: "For unitary systems could see supply fan operating mode schedule. For central system no cycling except night-cycle avail manager.  Add to Equipment Summary Fans"
     has_lock_out_central_heat_during_unoccupied:
       Description: "Locks out the use of central heating during unoccupied hours"
@@ -6248,7 +6248,7 @@ FanSystem:
       EPout Report: "Standard 62.1 Summary"
       EPout Table: "System Ventilation Calculations for Cooling Design, Zone Ventilation Calculations for Heating Design"
       EPout Column: "Sum of Min Zone Primary Airflow - Vpz-min"
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "look for smaller of heating and cooling"
     minimum_outdoor_airflow:
       Description: "Minimum outdoor air volume airflow"
@@ -6264,11 +6264,11 @@ FanSystem:
       EPin Object: ""
       EPin Field: ""
       EPout File: "table.html"
-      EPout Report: "Component Sizing Summary"
-      EPout Table: "Controller:OutdoorAir"
-      EPout Column: "Minimum Outdoor Air Flow Rate "
-      EPstatus: "ToDo"
-      EP Notes: "This doesn't report correctly when DCV using Controller:MechanicalVentilation. Maybe look at the 62.1 summary instead "
+      EPout Report: "Standard 62.1 Summary"
+      EPout Table: "System Ventilation Calculations for Cooling Design, Zone Ventilation Calculations for Heating Design"
+      EPout Column: "Zone Outdoor Airflow Cooling - Voz-clg, Zone Outdoor Airflow heatling - Voz-htg"
+      EPstatus: "DoneUsingOutput"
+      EP Notes: "look for smaller of heating and cooling"
     maximum_outdoor_airflow:
       Description: "Maximum outdoor air volume airflow"
       Data Type: "Numeric"
@@ -6286,8 +6286,8 @@ FanSystem:
       EPout Report: "Component Sizing Summary"
       EPout Table: "Controller:OutdoorAir"
       EPout Column: "Maximum Outdoor Air Flow Rate "
-      EPstatus: "ToDo"
-      EP Notes: "The specified or autosized Max OA Flow Rate should be accurate here, but that doesn't mean it will ever operate at that flow. But EnergyPlus autosizing does not check for economizer operation and size this to match the min OA flow rate. So the Note above won't work with current EnergyPlus autosizing."
+      EPstatus: "NotStarted"
+      EP Notes: "The specified or autosized Max OA Flow Rate should be accurate here, but that doesn't mean it will ever operate at that flow. But EnergyPlus autosizing does not check for economizer operation and size this to match the min OA flow rate. So the Note above won't work with current EnergyPlus autosizing. No output report associates the Controller:OutdoorAir with a system so skip for now."
     air_filter_merv_rating:
       Description: "The MERV rating of the air filter"
       Data Type: "Numeric"
@@ -6338,7 +6338,7 @@ FanSystem:
       EPout Report: "System Summary"
       EPout Table: "Demand Controlled Ventilation using Controller:MechanicalVentilation"
       EPout Column: "New column"
-      EPstatus: "ToDo"
+      EPstatus: "NotStarted"
       EP Notes: "The only options currently supported are CO2 zone and Other. Need to add this info to the table output."
 
 AirEconomizer:

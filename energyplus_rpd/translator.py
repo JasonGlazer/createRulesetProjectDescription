@@ -951,6 +951,7 @@ class Translator:
         equipment_fans = self.gather_equipment_fans()
         air_terminals = self.gather_air_terminal()
         exhaust_fan_names = self.gather_exhaust_fans_by_airloop()
+        air_flows_62 = self.gather_airflows_from_62()
         coils_table = self.get_table('CoilSizingDetails', 'Coils')
         if not coils_table:
             return hvac_systems
@@ -1063,13 +1064,17 @@ class Translator:
                         fan.update(equipment_fan)
                         fan['specification_method'] = 'SIMPLE'
                         fans = [fan, ]
-                        fan_system = {'id': supply_fan_name_for_coil + '-fansystem',
-                                      'supply_fans': fans}
+                        fan_system = {'id': supply_fan_name_for_coil + '-fansystem'}
+                        if hvac_name in air_flows_62:
+                            min_primary, min_outdoor = air_flows_62[hvac_name]
+                            fan_system['minimum_airflow'] = min_primary
+                            fan_system['minimum_outdoor_airflow'] = min_outdoor
                         # note cannot differentiate between different types of variables flow fan (INLET_VANE,
                         # DISCHARGE_DAMPER, or VARIABLE_SPEED_DRIVE) so can only see if constant or not
                         if 'type' in equipment_fan_extra:
                             if 'variable' not in equipment_fan_extra['type'].lower():
                                 fan_system['fan_control'] = 'CONSTANT'
+                        fan_system['supply_fans'] = fans
                         # add exhaust fans
                         if hvac_name in exhaust_fan_names:
                             fan_names = exhaust_fan_names[hvac_name]
@@ -1194,6 +1199,27 @@ class Translator:
                     else:
                         exh_fan_by_airloop[airloop].append(fan_name)
         return exh_fan_by_airloop
+
+    def gather_airflows_from_62(self):
+        airflows_by_sys = {}
+        cool_airflows_by_sys = {}
+        cool_table = self.gather_table_into_list('Standard62.1Summary',
+                                                 'System Ventilation Calculations for Cooling Design')
+        heat_table = self.gather_table_into_list('Standard62.1Summary',
+                                                 'System Ventilation Calculations for Heating Design')
+        if not cool_table and heat_table:
+            return airflows_by_sys
+        for row in cool_table:
+            cool_min_primary = float(row['Sum of Min Zone Primary Airflow - Vpz-min [m3/s]']) * 1000
+            cool_outdoor = float(row['Zone Outdoor Airflow Cooling - Voz-clg [m3/s]']) * 1000
+            cool_airflows_by_sys[row['first column']] = (cool_min_primary, cool_outdoor)
+        # now use the values in the heating table if they are lower
+        for row in heat_table:
+            cool_min_primary, cool_outdoor = cool_airflows_by_sys[row['first column']]
+            min_primary = min(float(row['Sum of Min Zone Primary Airflow - Vpz-min [m3/s]']) * 1000, cool_min_primary)
+            outdoor = min(float(row['Zone Outdoor Airflow Heating - Voz-htg [m3/s]']) * 1000, cool_outdoor)
+            airflows_by_sys[row['first column']] = (min_primary, outdoor)
+        return airflows_by_sys
 
     def gather_cooling_coil_efficiencies(self):
         coil_efficiencies = {}
