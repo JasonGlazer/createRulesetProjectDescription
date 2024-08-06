@@ -976,6 +976,7 @@ class Translator:
             total_capacity = float(rows[row_key][total_capacity_column])
             if hvac_type == 'ZONEHVAC:AIRDISTRIBUTIONUNIT':
                 terminal_capacity_by_zone[zone_name] = total_capacity
+        previously_added_hvac_systems = []
         for row_key in row_keys:
             coil_type = rows[row_key][coil_type_column]
             hvac_type = rows[row_key][hvac_type_column]
@@ -1003,6 +1004,10 @@ class Translator:
             heating_system = {}
             cooling_system = {}
             if hvac_type == 'AirLoopHVAC':
+                if hvac_name in previously_added_hvac_systems:
+                    continue
+                else:
+                    previously_added_hvac_systems.append(hvac_name)
                 if 'HEATING' in coil_type.upper():
                     heating_system['id'] = hvac_name + '-heating'
                     heating_system['design_capacity'] = total_capacity
