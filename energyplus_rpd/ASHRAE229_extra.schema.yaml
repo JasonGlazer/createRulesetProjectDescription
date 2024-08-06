@@ -5083,7 +5083,7 @@ HeatingVentilatingAirConditioningSystem:
       EPout Report: "Coil Sizing Details"
       EPout Table: "Coils"
       EPout Column: "first column"
-      EPstatus: "ToDo"
+      EPstatus: "NotStarted"
       EP Notes: "Used by RCT. Would need to analyze structure of topology to determine if this is preheat system."
     status_type:
       Description: "Choice of new, existing, addition, alteration, etc. for each ruleset."
@@ -5789,7 +5789,7 @@ CoolingSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "NotStarted"
       EP Notes: "Based on the EnergyPlus input object, usually Mechanical cooling. Should be covered by new topology report"
     cooling_turndown_ratio:
       Description: "Cooling turndown ratio"
