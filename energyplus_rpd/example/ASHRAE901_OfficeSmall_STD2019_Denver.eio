@@ -1,4 +1,4 @@
-Program Version,EnergyPlus, Version 24.2.0-ae93d71df1, YMD=2024.06.03 13:42
+Program Version,EnergyPlus, Version 24.2.0-15f64911c8, YMD=2024.08.09 16:28
 ! <Version>, Version ID
  Version, 24.2
 ! <Timesteps per Hour>, #TimeSteps, Minutes per TimeStep {minutes}
@@ -657,9 +657,10 @@ Zone Volume Capacitance Multiplier,   1.000 ,   1.000,   1.000,   1.000
  Component Sizing Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:1 HEAT PUMP DX COOLING COIL, Design Size Rated Air Flow Rate [m3/s], 0.35074
  Component Sizing Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:1 HEAT PUMP DX COOLING COIL, Design Size Gross Rated Total Cooling Capacity [W], 5805.95849
  Component Sizing Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:1 HEAT PUMP DX COOLING COIL, Design Size Gross Rated Sensible Heat Ratio, 0.80066
-! <DX Cooling Coil Standard Rating Information>, Component Type, Component Name, Standard Rating (Net) Cooling Capacity {W}, Standard Rated Net COP {W/W}, EER {Btu/W-h}, SEER User {Btu/W-h}, SEER Standard {Btu/W-h}, IEER {Btu/W-h}
- DX Cooling Coil Standard Rating Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:1 HEAT PUMP DX COOLING COIL, 5531.1, 3.29, 11.22, 11.74, 11.10, 10.96
- DX Cooling Coil Standard Rating Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:1 HEAT PUMP DX COOLING COIL, 5474.6, 3.15, 10.75, 11.21, 10.91,  
+! <DX Cooling Coil Standard Rating Information>, Component Type, Component Name, Standard Rating (Net) Cooling Capacity {W}, Standard Rating Net COP {W/W}, EER {Btu/W-h}, SEER User {Btu/W-h}, SEER Standard {Btu/W-h}, IEER {Btu/W-h}
+ DX Cooling Coil Standard Rating Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:1 HEAT PUMP DX COOLING COIL, 5531.1, 3.29, 11.22, 11.74, 11.10, 11.0
+! <DX Cooling Coil AHRI 2023 Standard Rating Information>, Component Type, Component Name, Standard Rating (Net) Cooling Capacity {W}, Standard Rating Net COP2 {W/W}, EER2 {Btu/W-h}, SEER2 User {Btu/W-h}, SEER2 Standard {Btu/W-h}, IEER 2022 {Btu/W-h}
+ DX Cooling Coil AHRI 2023 Standard Rating Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:1 HEAT PUMP DX COOLING COIL, 5474.6, 3.15, 10.75, 11.21, 10.91, 10.3
  Component Sizing Information, AirLoopHVAC:UnitaryHeatPump:AirToAir, PSZ-AC:1_HEATPUMP, Supply Air Flow Rate [m3/s], 0.35074
  Component Sizing Information, AirLoopHVAC:UnitaryHeatPump:AirToAir, PSZ-AC:1_HEATPUMP, Supply Air Flow Rate During Heating Operation [m3/s], 0.35074
  Component Sizing Information, AirLoopHVAC:UnitaryHeatPump:AirToAir, PSZ-AC:1_HEATPUMP, Supply Air Flow Rate During Cooling Operation [m3/s], 0.35074
@@ -674,15 +675,16 @@ Zone Volume Capacitance Multiplier,   1.000 ,   1.000,   1.000,   1.000
  Component Sizing Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:1 HEAT PUMP DX HEATING COIL, Design Size Gross Rated Heating Capacity [W], 5805.95849
 ! <DX Heating Coil Standard Rating Information>, Component Type, Component Name, High Temperature Heating (net) Rating Capacity {W}, Low Temperature Heating (net) Rating Capacity {W}, HSPF {Btu/W-h}, Region Number
  DX Heating Coil Standard Rating Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:1 HEAT PUMP DX HEATING COIL, 6084.2, 3388.5, 7.33, 4
- DX Heating Coil Standard Rating Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:1 HEAT PUMP DX HEATING COIL, 6140.7, 3445.1, 6.63, 4
+! <DX Heating Coil AHRI 2023 Standard Rating Information>, Component Type, Component Name, High Temperature Heating (net) Rating Capacity {W}, Low Temperature Heating (net) Rating Capacity {W}, HSPF2 {Btu/W-h}, Region Number
+ DX Heating Coil AHRI 2023 Standard Rating Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:1 HEAT PUMP DX HEATING COIL, 6140.7, 3445.1, 6.63, 4
  Component Sizing Information, Coil:Heating:Fuel, PSZ-AC:1 HEAT PUMP DX SUPP HEATING COIL, Design Size Nominal Capacity [W], 3657.85147
  Component Sizing Information, Controller:OutdoorAir, PSZ-AC:2_OA_CONTROLLER, Maximum Outdoor Air Flow Rate [m3/s], 0.31874
  Component Sizing Information, Controller:OutdoorAir, PSZ-AC:2_OA_CONTROLLER, Minimum Outdoor Air Flow Rate [m3/s], 4.89846E-002
  Component Sizing Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:2 HEAT PUMP DX COOLING COIL, Design Size Rated Air Flow Rate [m3/s], 0.31874
  Component Sizing Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:2 HEAT PUMP DX COOLING COIL, Design Size Gross Rated Total Cooling Capacity [W], 5276.33100
  Component Sizing Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:2 HEAT PUMP DX COOLING COIL, Design Size Gross Rated Sensible Heat Ratio, 0.80066
- DX Cooling Coil Standard Rating Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:2 HEAT PUMP DX COOLING COIL, 5026.5, 3.29, 11.22, 11.74, 11.10, 10.96
- DX Cooling Coil Standard Rating Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:2 HEAT PUMP DX COOLING COIL, 4975.2, 3.15, 10.75, 11.21, 10.91,  
+ DX Cooling Coil Standard Rating Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:2 HEAT PUMP DX COOLING COIL, 5026.5, 3.29, 11.22, 11.74, 11.10, 11.0
+ DX Cooling Coil AHRI 2023 Standard Rating Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:2 HEAT PUMP DX COOLING COIL, 4975.2, 3.15, 10.75, 11.21, 10.91, 10.3
  Component Sizing Information, AirLoopHVAC:UnitaryHeatPump:AirToAir, PSZ-AC:2_HEATPUMP, Supply Air Flow Rate [m3/s], 0.31874
  Component Sizing Information, AirLoopHVAC:UnitaryHeatPump:AirToAir, PSZ-AC:2_HEATPUMP, Supply Air Flow Rate During Heating Operation [m3/s], 0.31874
  Component Sizing Information, AirLoopHVAC:UnitaryHeatPump:AirToAir, PSZ-AC:2_HEATPUMP, Supply Air Flow Rate During Cooling Operation [m3/s], 0.31874
@@ -696,15 +698,15 @@ Zone Volume Capacitance Multiplier,   1.000 ,   1.000,   1.000,   1.000
  Component Sizing Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:2 HEAT PUMP DX HEATING COIL, Design Size Rated Air Flow Rate [m3/s], 0.31874
  Component Sizing Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:2 HEAT PUMP DX HEATING COIL, Design Size Gross Rated Heating Capacity [W], 5276.33100
  DX Heating Coil Standard Rating Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:2 HEAT PUMP DX HEATING COIL, 5529.2, 3079.4, 7.32, 4
- DX Heating Coil Standard Rating Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:2 HEAT PUMP DX HEATING COIL, 5580.6, 3130.8, 6.63, 4
+ DX Heating Coil AHRI 2023 Standard Rating Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:2 HEAT PUMP DX HEATING COIL, 5580.6, 3130.8, 6.63, 4
  Component Sizing Information, Coil:Heating:Fuel, PSZ-AC:2 HEAT PUMP DX SUPP HEATING COIL, Design Size Nominal Capacity [W], 5198.07872
  Component Sizing Information, Controller:OutdoorAir, PSZ-AC:3_OA_CONTROLLER, Maximum Outdoor Air Flow Rate [m3/s], 0.25576
  Component Sizing Information, Controller:OutdoorAir, PSZ-AC:3_OA_CONTROLLER, Minimum Outdoor Air Flow Rate [m3/s], 2.90583E-002
  Component Sizing Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:3 HEAT PUMP DX COOLING COIL, Design Size Rated Air Flow Rate [m3/s], 0.25576
  Component Sizing Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:3 HEAT PUMP DX COOLING COIL, Design Size Gross Rated Total Cooling Capacity [W], 4233.68099
  Component Sizing Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:3 HEAT PUMP DX COOLING COIL, Design Size Gross Rated Sensible Heat Ratio, 0.80066
- DX Cooling Coil Standard Rating Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:3 HEAT PUMP DX COOLING COIL, 4033.2, 3.29, 11.22, 11.74, 11.10, 10.96
- DX Cooling Coil Standard Rating Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:3 HEAT PUMP DX COOLING COIL, 3992.0, 3.15, 10.75, 11.21, 10.91,  
+ DX Cooling Coil Standard Rating Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:3 HEAT PUMP DX COOLING COIL, 4033.2, 3.29, 11.22, 11.74, 11.10, 11.0
+ DX Cooling Coil AHRI 2023 Standard Rating Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:3 HEAT PUMP DX COOLING COIL, 3992.0, 3.15, 10.75, 11.21, 10.91, 10.3
  Component Sizing Information, AirLoopHVAC:UnitaryHeatPump:AirToAir, PSZ-AC:3_HEATPUMP, Supply Air Flow Rate [m3/s], 0.25576
  Component Sizing Information, AirLoopHVAC:UnitaryHeatPump:AirToAir, PSZ-AC:3_HEATPUMP, Supply Air Flow Rate During Heating Operation [m3/s], 0.25576
  Component Sizing Information, AirLoopHVAC:UnitaryHeatPump:AirToAir, PSZ-AC:3_HEATPUMP, Supply Air Flow Rate During Cooling Operation [m3/s], 0.25576
@@ -718,15 +720,15 @@ Zone Volume Capacitance Multiplier,   1.000 ,   1.000,   1.000,   1.000
  Component Sizing Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:3 HEAT PUMP DX HEATING COIL, Design Size Rated Air Flow Rate [m3/s], 0.25576
  Component Sizing Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:3 HEAT PUMP DX HEATING COIL, Design Size Gross Rated Heating Capacity [W], 4233.68099
  DX Heating Coil Standard Rating Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:3 HEAT PUMP DX HEATING COIL, 4436.6, 2470.9, 7.33, 4
- DX Heating Coil Standard Rating Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:3 HEAT PUMP DX HEATING COIL, 4477.8, 2512.1, 6.63, 4
+ DX Heating Coil AHRI 2023 Standard Rating Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:3 HEAT PUMP DX HEATING COIL, 4477.8, 2512.1, 6.63, 4
  Component Sizing Information, Coil:Heating:Fuel, PSZ-AC:3 HEAT PUMP DX SUPP HEATING COIL, Design Size Nominal Capacity [W], 3143.19554
  Component Sizing Information, Controller:OutdoorAir, PSZ-AC:4_OA_CONTROLLER, Maximum Outdoor Air Flow Rate [m3/s], 0.29197
  Component Sizing Information, Controller:OutdoorAir, PSZ-AC:4_OA_CONTROLLER, Minimum Outdoor Air Flow Rate [m3/s], 4.89846E-002
  Component Sizing Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:4 HEAT PUMP DX COOLING COIL, Design Size Rated Air Flow Rate [m3/s], 0.29197
  Component Sizing Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:4 HEAT PUMP DX COOLING COIL, Design Size Gross Rated Total Cooling Capacity [W], 4833.21820
  Component Sizing Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:4 HEAT PUMP DX COOLING COIL, Design Size Gross Rated Sensible Heat Ratio, 0.80066
- DX Cooling Coil Standard Rating Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:4 HEAT PUMP DX COOLING COIL, 4604.4, 3.29, 11.22, 11.74, 11.10, 10.96
- DX Cooling Coil Standard Rating Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:4 HEAT PUMP DX COOLING COIL, 4557.4, 3.15, 10.75, 11.21, 10.91,  
+ DX Cooling Coil Standard Rating Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:4 HEAT PUMP DX COOLING COIL, 4604.4, 3.29, 11.22, 11.74, 11.10, 11.0
+ DX Cooling Coil AHRI 2023 Standard Rating Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:4 HEAT PUMP DX COOLING COIL, 4557.4, 3.15, 10.75, 11.21, 10.91, 10.3
  Component Sizing Information, AirLoopHVAC:UnitaryHeatPump:AirToAir, PSZ-AC:4_HEATPUMP, Supply Air Flow Rate [m3/s], 0.29197
  Component Sizing Information, AirLoopHVAC:UnitaryHeatPump:AirToAir, PSZ-AC:4_HEATPUMP, Supply Air Flow Rate During Heating Operation [m3/s], 0.29197
  Component Sizing Information, AirLoopHVAC:UnitaryHeatPump:AirToAir, PSZ-AC:4_HEATPUMP, Supply Air Flow Rate During Cooling Operation [m3/s], 0.29197
@@ -740,15 +742,15 @@ Zone Volume Capacitance Multiplier,   1.000 ,   1.000,   1.000,   1.000
  Component Sizing Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:4 HEAT PUMP DX HEATING COIL, Design Size Rated Air Flow Rate [m3/s], 0.29197
  Component Sizing Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:4 HEAT PUMP DX HEATING COIL, Design Size Gross Rated Heating Capacity [W], 4833.21820
  DX Heating Coil Standard Rating Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:4 HEAT PUMP DX HEATING COIL, 5064.9, 2820.8, 7.34, 4
- DX Heating Coil Standard Rating Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:4 HEAT PUMP DX HEATING COIL, 5111.9, 2867.9, 6.63, 4
+ DX Heating Coil AHRI 2023 Standard Rating Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:4 HEAT PUMP DX HEATING COIL, 5111.9, 2867.9, 6.63, 4
  Component Sizing Information, Coil:Heating:Fuel, PSZ-AC:4 HEAT PUMP DX SUPP HEATING COIL, Design Size Nominal Capacity [W], 5131.92485
  Component Sizing Information, Controller:OutdoorAir, PSZ-AC:5_OA_CONTROLLER, Maximum Outdoor Air Flow Rate [m3/s], 0.31207
  Component Sizing Information, Controller:OutdoorAir, PSZ-AC:5_OA_CONTROLLER, Minimum Outdoor Air Flow Rate [m3/s], 2.90583E-002
  Component Sizing Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:5 HEAT PUMP DX COOLING COIL, Design Size Rated Air Flow Rate [m3/s], 0.31207
  Component Sizing Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:5 HEAT PUMP DX COOLING COIL, Design Size Gross Rated Total Cooling Capacity [W], 5165.83188
  Component Sizing Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:5 HEAT PUMP DX COOLING COIL, Design Size Gross Rated Sensible Heat Ratio, 0.80066
- DX Cooling Coil Standard Rating Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:5 HEAT PUMP DX COOLING COIL, 4921.3, 3.29, 11.22, 11.74, 11.10, 10.96
- DX Cooling Coil Standard Rating Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:5 HEAT PUMP DX COOLING COIL, 4871.0, 3.15, 10.75, 11.21, 10.91,  
+ DX Cooling Coil Standard Rating Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:5 HEAT PUMP DX COOLING COIL, 4921.3, 3.29, 11.22, 11.74, 11.10, 11.0
+ DX Cooling Coil AHRI 2023 Standard Rating Information, Coil:Cooling:DX:SingleSpeed, PSZ-AC:5 HEAT PUMP DX COOLING COIL, 4871.0, 3.15, 10.75, 11.21, 10.91, 10.3
  Component Sizing Information, AirLoopHVAC:UnitaryHeatPump:AirToAir, PSZ-AC:5_HEATPUMP, Supply Air Flow Rate [m3/s], 0.31207
  Component Sizing Information, AirLoopHVAC:UnitaryHeatPump:AirToAir, PSZ-AC:5_HEATPUMP, Supply Air Flow Rate During Heating Operation [m3/s], 0.31207
  Component Sizing Information, AirLoopHVAC:UnitaryHeatPump:AirToAir, PSZ-AC:5_HEATPUMP, Supply Air Flow Rate During Cooling Operation [m3/s], 0.31207
@@ -762,7 +764,7 @@ Zone Volume Capacitance Multiplier,   1.000 ,   1.000,   1.000,   1.000
  Component Sizing Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:5 HEAT PUMP DX HEATING COIL, Design Size Rated Air Flow Rate [m3/s], 0.31207
  Component Sizing Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:5 HEAT PUMP DX HEATING COIL, Design Size Gross Rated Heating Capacity [W], 5165.83188
  DX Heating Coil Standard Rating Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:5 HEAT PUMP DX HEATING COIL, 5413.4, 3015.0, 7.32, 4
- DX Heating Coil Standard Rating Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:5 HEAT PUMP DX HEATING COIL, 5463.7, 3065.2, 6.63, 4
+ DX Heating Coil AHRI 2023 Standard Rating Information, Coil:Heating:DX:SingleSpeed, PSZ-AC:5 HEAT PUMP DX HEATING COIL, 5463.7, 3065.2, 6.63, 4
  Component Sizing Information, Coil:Heating:Fuel, PSZ-AC:5 HEAT PUMP DX SUPP HEATING COIL, Design Size Nominal Capacity [W], 3143.19554
 Water Heater Information,WaterHeater:Mixed,SHWSYS1 WATER HEATER,0.1514,11722.8,1.754,0.5079
  Component Sizing Information, PlantLoop, SHWSYS1, Maximum Loop Flow Rate [m3/s], 4.04800E-006
@@ -771,6 +773,7 @@ Water Heater Information,WaterHeater:Mixed,SHWSYS1 WATER HEATER,0.1514,11722.8,1
  Component Sizing Information, PlantLoop, SHWSYS1, Design Return Temperature [C], 43.89000
  Component Sizing Information, PlantLoop, SHWSYS1, Sizing option (Coincident/NonCoincident), 1.00000
  Component Sizing Information, PlantLoop, SHWSYS1, Minimum Loop Flow Rate [m3/s], 0.00000
+ Component Sizing Information, PlantLoop, SHWSYS1, Design Capacity [W], 84.95744
  Component Sizing Information, Pump:ConstantSpeed, SHWSYS1 PUMP, Design Flow Rate [m3/s], 4.04800E-006
  Component Sizing Information, Pump:ConstantSpeed, SHWSYS1 PUMP, Design Power Consumption [W], 1.72991E-008
 ! <Environment>,Environment Name,Environment Type, Start Date, End Date, Start DayOfWeek, Duration {#days}, Source:Start DayOfWeek,  Use Daylight Saving, Use Holidays, Apply Weekend Holiday Rule,  Use Rain Values, Use Snow Values, Sky Temperature Model
