@@ -4466,7 +4466,8 @@ class TestTranslator(TestCase):
 
         expected = [{'id': 'HEAT PUMP LOOP FLUIDCOOLERTWOSPEED 4.0 GPM/HP', 'loop': 'HEAT PUMP LOOP', 'range': 26.07,
                      'fan_motor_nameplate_power': 53675.71, 'design_wetbulb_temperature': 25.6,
-                     'design_water_flowrate': 20.0, 'leaving_water_setpoint_temperature': 0.0, 'approach': 12.0}]
+                     'design_water_flowrate': 20.0, 'leaving_water_setpoint_temperature': 0.0, 'approach': 12.0,
+                     'type': 'DRY_COOLER', 'fluid': 'OTHER', 'fan_speed_control': 'TWO_SPEED'}]
 
         self.assertEqual(added_heat_rejection, expected)
 
@@ -4634,7 +4635,8 @@ class TestTranslator(TestCase):
                      'minimum_load_ratio': 0.0, 'design_flow_evaporator': 74.82, 'design_flow_condenser': 87.82,
                      'design_entering_condenser_temperature': 35.0, 'design_leaving_evaporator_temperature': 6.67,
                      'full_load_efficiency': 6.1, 'part_load_efficiency': 6.88,
-                     'part_load_efficiency_metric': 'INTEGRATED_PART_LOAD_VALUE'},
+                     'part_load_efficiency_metric': 'INTEGRATED_PART_LOAD_VALUE',
+                     'is_chilled_water_pump_interlocked': False, 'is_condenser_water_pump_interlocked': False},
                     {'id': '90.1-2004 WATERCOOLED  CENTRIFUGAL CHILLER 1 416TONS 0.6KW/TON',
                      'cooling_loop': 'CHILLED WATER LOOP', 'condensing_loop': 'CONDENSER WATER LOOP',
                      'energy_source_type': 'ELECTRICITY', 'design_capacity': 1762283.32, 'rated_capacity': 1762283.32,
@@ -4643,13 +4645,14 @@ class TestTranslator(TestCase):
                      'design_entering_condenser_temperature': 35.0, 'design_leaving_evaporator_temperature': 6.67,
                      'full_load_efficiency': 6.1, 'part_load_efficiency': 6.88,
                      'part_load_efficiency_metric': 'INTEGRATED_PART_LOAD_VALUE',
+                     'is_chilled_water_pump_interlocked': False, 'is_condenser_water_pump_interlocked': False,
                      'heat_recovery_loop': 'HeatRecoveryLoop1', 'heat_recovery_fraction': 0.67}]
-
         self.assertEqual(added_chillers, expected)
 
     def test_gather_equipment_fans(self):
         t = self.set_minimal_files()
 
+        # example from large_office_cz2-tampa_baseline_final.json
         t.json_results_object['TabularReports'] = [
             {
                 "For": "Entire Facility",
@@ -4672,6 +4675,7 @@ class TestTranslator(TestCase):
                             "Is Autosized",
                             "Motor Efficiency",
                             "Motor Heat to Zone Fraction",
+                            "Motor Loss Zone Name",
                             "Airloop Name"
                         ],
                         "Rows": {
@@ -4680,25 +4684,26 @@ class TestTranslator(TestCase):
                                 "0.64",
                                 "1363.04",
                                 "7.69",
-                                "16476.83",
+                                "16476.98",
                                 "2141.35",
                                 "1.00",
-                                "1.18",
+                                "1.17",
                                 "VAV System Fans",
                                 "TAMPA-MACDILL.AFB_FL_USA ANN CLG .4% CONDNS DB=>MWB",
                                 "8/21 08:20:00",
                                 "N/A",
                                 "Yes",
                                 "0.92",
-                                "1.00",
-                                "N/A"
+                                "0.00",
+                                "N/A",
+                                "BASEMENT STORY 0 VAV_PFP_BOXES (SYS8)"
                             ],
                             "BASEMENT ZN PFP TERM FAN": [
                                 "Fan:ConstantVolume",
                                 "0.49",
                                 "365.09",
                                 "7.67",
-                                "5688.72",
+                                "5688.78",
                                 "741.68",
                                 "1.00",
                                 "1.11",
@@ -4708,7 +4713,8 @@ class TestTranslator(TestCase):
                                 "N/A",
                                 "Yes",
                                 "0.90",
-                                "1.00",
+                                "0.00",
+                                "N/A",
                                 "N/A"
                             ],
                             "CORE_BOTTOM ZN PFP TERM FAN": [
@@ -4716,7 +4722,7 @@ class TestTranslator(TestCase):
                                 "0.49",
                                 "365.09",
                                 "7.94",
-                                "5888.97",
+                                "5888.98",
                                 "741.68",
                                 "1.00",
                                 "1.11",
@@ -4726,7 +4732,8 @@ class TestTranslator(TestCase):
                                 "N/A",
                                 "Yes",
                                 "0.90",
-                                "1.00",
+                                "0.00",
+                                "N/A",
                                 "N/A"
                             ],
                             "DATACENTER_BASEMENT_ZN_6 ZN PSZ-VAV FAN": [
@@ -4744,8 +4751,9 @@ class TestTranslator(TestCase):
                                 "N/A",
                                 "Yes",
                                 "0.94",
-                                "1.00",
-                                "N/A"
+                                "0.00",
+                                "N/A",
+                                "DATACENTER_BASEMENT_ZN_6 ZN PSZ-VAV"
                             ],
                             "PERIMETER_BOT_ZN_2 ZN PFP TERM FAN": [
                                 "Fan:ConstantVolume",
@@ -4762,7 +4770,8 @@ class TestTranslator(TestCase):
                                 "N/A",
                                 "Yes",
                                 "0.84",
-                                "1.00",
+                                "0.00",
+                                "N/A",
                                 "N/A"
                             ],
                         },
@@ -4775,29 +4784,32 @@ class TestTranslator(TestCase):
         gathered_equipment_fans = t.gather_equipment_fans()
 
         expected = {'BASEMENT STORY 0 VAV_PFP_BOXES (SYS8) FAN': (
-            {'design_airflow': 7.69, 'is_airflow_sized_based_on_design_day': True, 'design_electric_power': 16476.83,
+            {'design_airflow': 7.69, 'is_airflow_sized_based_on_design_day': True, 'design_electric_power': 16476.98,
              'design_pressure_rise': 1363.04, 'total_efficiency': 0.64, 'motor_efficiency': 0.92,
-             'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 1.0},
-            {'type': 'Fan:VariableVolume', 'fan_energy_index': 1.18, 'purpose': 'N/A', 'airloop_name': 'N/A'}),
-            'BASEMENT ZN PFP TERM FAN': (
-                {'design_airflow': 7.67, 'is_airflow_sized_based_on_design_day': True, 'design_electric_power': 5688.72,
-                 'design_pressure_rise': 365.09, 'total_efficiency': 0.49, 'motor_efficiency': 0.9,
-                 'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 1.0},
-                {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.11, 'purpose': 'N/A', 'airloop_name': 'N/A'}),
+             'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0, 'motor_location_zone': 'N/A'},
+            {'type': 'Fan:VariableVolume', 'fan_energy_index': 1.17, 'purpose': 'N/A',
+             'airloop_name': 'BASEMENT STORY 0 VAV_PFP_BOXES (SYS8)'}), 'BASEMENT ZN PFP TERM FAN': (
+            {'design_airflow': 7.67, 'is_airflow_sized_based_on_design_day': True, 'design_electric_power': 5688.78,
+             'design_pressure_rise': 365.09, 'total_efficiency': 0.49, 'motor_efficiency': 0.9,
+             'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0, 'motor_location_zone': 'N/A'},
+            {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.11, 'purpose': 'N/A', 'airloop_name': 'N/A'}),
             'CORE_BOTTOM ZN PFP TERM FAN': (
-                {'design_airflow': 7.94, 'is_airflow_sized_based_on_design_day': True, 'design_electric_power': 5888.97,
-                 'design_pressure_rise': 365.09, 'total_efficiency': 0.49, 'motor_efficiency': 0.9,
-                 'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 1.0},
+                {'design_airflow': 7.94, 'is_airflow_sized_based_on_design_day': True,
+                 'design_electric_power': 5888.98, 'design_pressure_rise': 365.09, 'total_efficiency': 0.49,
+                 'motor_efficiency': 0.9, 'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
+                 'motor_location_zone': 'N/A'},
                 {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.11, 'purpose': 'N/A', 'airloop_name': 'N/A'}),
             'DATACENTER_BASEMENT_ZN_6 ZN PSZ-VAV FAN': (
-                {'design_airflow': 30.36, 'is_airflow_sized_based_on_design_day': True, 'design_electric_power': 0.0,
-                 'design_pressure_rise': 0.0, 'total_efficiency': 0.57, 'motor_efficiency': 0.94,
-                 'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 1.0},
-                {'type': 'Fan:VariableVolume', 'fan_energy_index': 0.0, 'purpose': 'N/A', 'airloop_name': 'N/A'}),
-            'PERIMETER_BOT_ZN_2 ZN PFP TERM FAN': (
+                {'design_airflow': 30.36, 'is_airflow_sized_based_on_design_day': True,
+                 'design_electric_power': 0.0, 'design_pressure_rise': 0.0, 'total_efficiency': 0.57,
+                 'motor_efficiency': 0.94, 'motor_heat_to_airflow_fraction': 1.0,
+                 'motor_heat_to_zone_fraction': 0.0, 'motor_location_zone': 'N/A'},
+                {'type': 'Fan:VariableVolume', 'fan_energy_index': 0.0, 'purpose': 'N/A',
+                 'airloop_name': 'DATACENTER_BASEMENT_ZN_6 ZN PSZ-VAV'}), 'PERIMETER_BOT_ZN_2 ZN PFP TERM FAN': (
                 {'design_airflow': 1.53, 'is_airflow_sized_based_on_design_day': True, 'design_electric_power': 1137.67,
                  'design_pressure_rise': 342.66, 'total_efficiency': 0.46, 'motor_efficiency': 0.84,
-                 'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 1.0},
+                 'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
+                 'motor_location_zone': 'N/A'},
                 {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.23, 'purpose': 'N/A', 'airloop_name': 'N/A'})}
 
         self.assertEqual(gathered_equipment_fans, expected)
@@ -4834,6 +4846,7 @@ class TestTranslator(TestCase):
     def test_gather_heating_coil_efficiencies(self):
         t = self.set_minimal_files()
 
+        # test example extracted from SmallOffice-90.1-2013-ASHRAE 169-2013-5B-no_user_data-remove_transformer.json
         t.json_results_object['TabularReports'] = [
             {
                 "For": "Entire Facility",
@@ -4846,17 +4859,19 @@ class TestTranslator(TestCase):
                             "Low Temperature Heating (net) Rating Capacity [W]",
                             "HSPF [Btu/W-h]",
                             "Region Number",
-                            "Minimum Outdoor Dry-Bulb Temperature for Compressor Operation",
+                            "Minimum Outdoor Dry-Bulb Temperature for Compressor Operation [C]",
+                            "Supplemental Heat High Shutoff Temperature [C]",
                             "Airloop Name"
                         ],
                         "Rows": {
                             "CORE_ZN ZN HP HTG COIL 31 CLG KBTU/HR 8.0HSPF": [
                                 "Coil:Heating:DX:SingleSpeed",
-                                "9507.1",
+                                "9507.0",
                                 "5231.3",
                                 "7.53",
                                 "4",
                                 "-12.20",
+                                "4.44",
                                 "N/A"
                             ],
                             "PERIMETER_ZN_1 ZN HP HTG COIL 30 CLG KBTU/HR 8.0HSPF": [
@@ -4866,6 +4881,7 @@ class TestTranslator(TestCase):
                                 "7.51",
                                 "4",
                                 "-12.20",
+                                "4.44",
                                 "N/A"
                             ],
                             "PERIMETER_ZN_2 ZN HP HTG COIL 25 CLG KBTU/HR 8.0HSPF": [
@@ -4875,6 +4891,7 @@ class TestTranslator(TestCase):
                                 "7.51",
                                 "4",
                                 "-12.20",
+                                "4.44",
                                 "N/A"
                             ],
                             "PERIMETER_ZN_3 ZN HP HTG COIL 28 CLG KBTU/HR 8.0HSPF": [
@@ -4884,6 +4901,7 @@ class TestTranslator(TestCase):
                                 "7.50",
                                 "4",
                                 "-12.20",
+                                "4.44",
                                 "N/A"
                             ],
                             "PERIMETER_ZN_4 ZN HP HTG COIL 31 CLG KBTU/HR 8.0HSPF": [
@@ -4893,6 +4911,7 @@ class TestTranslator(TestCase):
                                 "7.52",
                                 "4",
                                 "-12.20",
+                                "4.44",
                                 "N/A"
                             ]
                         },
@@ -4904,46 +4923,58 @@ class TestTranslator(TestCase):
                             "High Temperature Heating (net) Rating Capacity [W]",
                             "Low Temperature Heating (net) Rating Capacity [W]",
                             "HSPF2 [Btu/W-h]",
-                            "Region Number"
+                            "Region Number",
+                            "Minimum Outdoor Dry-Bulb Temperature for Compressor Operation [C]",
+                            "Airloop Name"
                         ],
                         "Rows": {
                             "CORE_ZN ZN HP HTG COIL 31 CLG KBTU/HR 8.0HSPF": [
                                 "Coil:Heating:DX:SingleSpeed",
-                                "9507.1",
+                                "9507.0",
                                 "5231.3",
                                 "6.84",
-                                "4"
+                                "4",
+                                "-12.20",
+                                "N/A"
                             ],
                             "PERIMETER_ZN_1 ZN HP HTG COIL 30 CLG KBTU/HR 8.0HSPF": [
                                 "Coil:Heating:DX:SingleSpeed",
                                 "8797.2",
                                 "4840.7",
                                 "6.84",
-                                "4"
+                                "4",
+                                "-12.20",
+                                "N/A"
                             ],
                             "PERIMETER_ZN_2 ZN HP HTG COIL 25 CLG KBTU/HR 8.0HSPF": [
                                 "Coil:Heating:DX:SingleSpeed",
                                 "7386.5",
                                 "4064.5",
                                 "6.84",
-                                "4"
+                                "4",
+                                "-12.20",
+                                "N/A"
                             ],
                             "PERIMETER_ZN_3 ZN HP HTG COIL 28 CLG KBTU/HR 8.0HSPF": [
                                 "Coil:Heating:DX:SingleSpeed",
                                 "8200.4",
                                 "4512.3",
                                 "6.84",
-                                "4"
+                                "4",
+                                "-12.20",
+                                "N/A"
                             ],
                             "PERIMETER_ZN_4 ZN HP HTG COIL 31 CLG KBTU/HR 8.0HSPF": [
                                 "Coil:Heating:DX:SingleSpeed",
                                 "8944.9",
                                 "4922.0",
                                 "6.84",
-                                "4"
+                                "4",
+                                "-12.20",
+                                "N/A"
                             ]
                         },
-                        "TableName": "DX Heating Coils [ HSPF2 ]"
+                        "TableName": "DX Heating Coils AHRI 2023"
                     },
                     {
                         "Cols": [
@@ -4959,7 +4990,7 @@ class TestTranslator(TestCase):
                             "CORE_ZN ZN HP HTG COIL 31 CLG KBTU/HR 8.0HSPF": [
                                 "Coil:Heating:DX:SingleSpeed",
                                 "",
-                                "9209.12",
+                                "9209.10",
                                 "3.36",
                                 "No",
                                 "CORE_ZN ZN PSZ-AC-1",
@@ -4968,7 +4999,7 @@ class TestTranslator(TestCase):
                             "CORE_ZN ZN PSZ-AC-1 GAS BACKUP HTG COIL 31KBTU/HR 0.8 THERMAL EFF": [
                                 "Coil:Heating:Fuel",
                                 "",
-                                "9209.12",
+                                "9209.10",
                                 "0.80",
                                 "Yes",
                                 "CORE_ZN ZN PSZ-AC-1",
@@ -4995,7 +5026,7 @@ class TestTranslator(TestCase):
                             "PERIMETER_ZN_2 ZN HP HTG COIL 25 CLG KBTU/HR 8.0HSPF": [
                                 "Coil:Heating:DX:SingleSpeed",
                                 "",
-                                "7154.98",
+                                "7154.99",
                                 "3.36",
                                 "No",
                                 "PERIMETER_ZN_2 ZN PSZ-AC-3",
@@ -5004,7 +5035,7 @@ class TestTranslator(TestCase):
                             "PERIMETER_ZN_2 ZN PSZ-AC-3 GAS BACKUP HTG COIL 25KBTU/HR 0.8 THERMAL EFF": [
                                 "Coil:Heating:Fuel",
                                 "",
-                                "7154.98",
+                                "7154.99",
                                 "0.80",
                                 "Yes",
                                 "PERIMETER_ZN_2 ZN PSZ-AC-3",
@@ -5013,7 +5044,7 @@ class TestTranslator(TestCase):
                             "PERIMETER_ZN_3 ZN HP HTG COIL 28 CLG KBTU/HR 8.0HSPF": [
                                 "Coil:Heating:DX:SingleSpeed",
                                 "",
-                                "7943.45",
+                                "7943.43",
                                 "3.36",
                                 "No",
                                 "PERIMETER_ZN_3 ZN PSZ-AC-4",
@@ -5022,7 +5053,7 @@ class TestTranslator(TestCase):
                             "PERIMETER_ZN_3 ZN PSZ-AC-4 GAS BACKUP HTG COIL 28KBTU/HR 0.8 THERMAL EFF": [
                                 "Coil:Heating:Fuel",
                                 "",
-                                "7943.45",
+                                "7943.43",
                                 "0.80",
                                 "Yes",
                                 "PERIMETER_ZN_3 ZN PSZ-AC-4",
@@ -5059,7 +5090,7 @@ class TestTranslator(TestCase):
                                                                       'used_as_sup_heat': False, 'nominal_eff': 3.36,
                                                                       'HSPF': 7.53, 'HSPF_region': '4',
                                                                       'minimum_temperature_compressor': -12.2,
-                                                                      'HSPF2': 6.84, 'HSPF2_region': '4'},
+                                                                      'HSPF2': 6.84, 'Region Number': '4'},
                     'CORE_ZN ZN PSZ-AC-1 GAS BACKUP HTG COIL 31KBTU/HR 0.8 THERMAL EFF': {'type': 'Coil:Heating:Fuel',
                                                                                           'used_as_sup_heat': True,
                                                                                           'nominal_eff': 0.8},
@@ -5068,7 +5099,7 @@ class TestTranslator(TestCase):
                                                                              'nominal_eff': 3.36, 'HSPF': 7.51,
                                                                              'HSPF_region': '4',
                                                                              'minimum_temperature_compressor': -12.2,
-                                                                             'HSPF2': 6.84, 'HSPF2_region': '4'},
+                                                                             'HSPF2': 6.84, 'Region Number': '4'},
                     'PERIMETER_ZN_1 ZN PSZ-AC-2 GAS BACKUP HTG COIL 30KBTU/HR 0.8 THERMAL EFF': {
                         'type': 'Coil:Heating:Fuel', 'used_as_sup_heat': True, 'nominal_eff': 0.8},
                     'PERIMETER_ZN_2 ZN HP HTG COIL 25 CLG KBTU/HR 8.0HSPF': {'type': 'Coil:Heating:DX:SingleSpeed',
@@ -5076,7 +5107,7 @@ class TestTranslator(TestCase):
                                                                              'nominal_eff': 3.36, 'HSPF': 7.51,
                                                                              'HSPF_region': '4',
                                                                              'minimum_temperature_compressor': -12.2,
-                                                                             'HSPF2': 6.84, 'HSPF2_region': '4'},
+                                                                             'HSPF2': 6.84, 'Region Number': '4'},
                     'PERIMETER_ZN_2 ZN PSZ-AC-3 GAS BACKUP HTG COIL 25KBTU/HR 0.8 THERMAL EFF': {
                         'type': 'Coil:Heating:Fuel', 'used_as_sup_heat': True, 'nominal_eff': 0.8},
                     'PERIMETER_ZN_3 ZN HP HTG COIL 28 CLG KBTU/HR 8.0HSPF': {'type': 'Coil:Heating:DX:SingleSpeed',
@@ -5084,7 +5115,7 @@ class TestTranslator(TestCase):
                                                                              'nominal_eff': 3.36, 'HSPF': 7.5,
                                                                              'HSPF_region': '4',
                                                                              'minimum_temperature_compressor': -12.2,
-                                                                             'HSPF2': 6.84, 'HSPF2_region': '4'},
+                                                                             'HSPF2': 6.84, 'Region Number': '4'},
                     'PERIMETER_ZN_3 ZN PSZ-AC-4 GAS BACKUP HTG COIL 28KBTU/HR 0.8 THERMAL EFF': {
                         'type': 'Coil:Heating:Fuel', 'used_as_sup_heat': True, 'nominal_eff': 0.8},
                     'PERIMETER_ZN_4 ZN HP HTG COIL 31 CLG KBTU/HR 8.0HSPF': {'type': 'Coil:Heating:DX:SingleSpeed',
@@ -5092,7 +5123,7 @@ class TestTranslator(TestCase):
                                                                              'nominal_eff': 3.36, 'HSPF': 7.52,
                                                                              'HSPF_region': '4',
                                                                              'minimum_temperature_compressor': -12.2,
-                                                                             'HSPF2': 6.84, 'HSPF2_region': '4'},
+                                                                             'HSPF2': 6.84, 'Region Number': '4'},
                     'PERIMETER_ZN_4 ZN PSZ-AC-5 GAS BACKUP HTG COIL 31KBTU/HR 0.8 THERMAL EFF': {
                         'type': 'Coil:Heating:Fuel', 'used_as_sup_heat': True, 'nominal_eff': 0.8}}
 
@@ -5144,8 +5175,8 @@ class TestTranslator(TestCase):
                             "CORE_ZN ZN PSZ-AC-1 1SPD DX HP CLG COIL 31KBTU/HR 14.0SEER": [
                                 "Coil:Cooling:DX:SingleSpeed",
                                 "",
-                                "9209.12",
-                                "6456.36",
+                                "9209.10",
+                                "6456.35",
                                 "2752.76",
                                 "0.70",
                                 "4.12",
@@ -5166,9 +5197,9 @@ class TestTranslator(TestCase):
                             "PERIMETER_ZN_2 ZN PSZ-AC-3 1SPD DX HP CLG COIL 25KBTU/HR 14.0SEER": [
                                 "Coil:Cooling:DX:SingleSpeed",
                                 "",
-                                "7154.98",
-                                "5016.24",
-                                "2138.74",
+                                "7154.99",
+                                "5016.25",
+                                "2138.75",
                                 "0.70",
                                 "4.12",
                                 "",
@@ -5177,8 +5208,8 @@ class TestTranslator(TestCase):
                             "PERIMETER_ZN_3 ZN PSZ-AC-4 1SPD DX HP CLG COIL 28KBTU/HR 14.0SEER": [
                                 "Coil:Cooling:DX:SingleSpeed",
                                 "",
-                                "7943.45",
-                                "5569.02",
+                                "7943.43",
+                                "5569.01",
                                 "2374.43",
                                 "0.70",
                                 "4.12",
@@ -5202,17 +5233,17 @@ class TestTranslator(TestCase):
                     {
                         "Cols": [
                             "Cooling Coil Type #1",
-                            "Standard Rated Net Cooling Capacity [W] #2",
-                            "Standard Rated Net COP [W/W] #2",
-                            "EER [Btu/W-h] #2",
-                            "SEER User [Btu/W-h] #2,3",
-                            "SEER Standard [Btu/W-h] #2,3",
-                            "IEER [Btu/W-h] #2"
+                            "Standard Rated Net Cooling Capacity [W][2]",
+                            "Standard Rating Net COP [W/W][2]",
+                            "EER [Btu/W-h][2]",
+                            "SEER User [Btu/W-h][2,3]",
+                            "SEER Standard [Btu/W-h][2,3]",
+                            "IEER [Btu/W-h][2]"
                         ],
                         "Rows": {
                             "CORE_ZN ZN PSZ-AC-1 1SPD DX HP CLG COIL 31KBTU/HR 14.0SEER": [
                                 "",
-                                "8916.6",
+                                "8916.5",
                                 "3.53",
                                 "12.05",
                                 "11.97",
@@ -5261,12 +5292,12 @@ class TestTranslator(TestCase):
                     {
                         "Cols": [
                             "Cooling Coil Type #1",
-                            "Standard Rated Net Cooling Capacity [W] #2",
-                            "Standard Rated Net COP [W/W] #2,4",
-                            "EER [Btu/W-h] #2,4",
-                            "SEER User [Btu/W-h] #2,3",
-                            "SEER Standard [Btu/W-h] #2,3",
-                            "IEER [Btu/W-h] #2"
+                            "Standard Rated Net Cooling Capacity [W][2]",
+                            "Standard Rating Net COP2 [W/W][2,4]",
+                            "EER2 [Btu/W-h][2,4]",
+                            "SEER User [Btu/W-h][2,3]",
+                            "SEER2 Standard [Btu/W-h][2,3]",
+                            "IEER [Btu/W-h][2]"
                         ],
                         "Rows": {
                             "CORE_ZN ZN PSZ-AC-1 1SPD DX HP CLG COIL 31KBTU/HR 14.0SEER": [
@@ -5298,7 +5329,7 @@ class TestTranslator(TestCase):
                             ],
                             "PERIMETER_ZN_3 ZN PSZ-AC-4 1SPD DX HP CLG COIL 28KBTU/HR 14.0SEER": [
                                 "Coil:Cooling:DX:SingleSpeed",
-                                "7639.6",
+                                "7639.5",
                                 "3.43",
                                 "11.70",
                                 "11.59",
