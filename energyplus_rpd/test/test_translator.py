@@ -6383,3 +6383,159 @@ class TestTranslator(TestCase):
                     'PSZ-AC:5': (312.09999999999997, 29.1)}
 
         self.assertEqual(gathered, expected)
+
+    def test_gather_exhaust_fans_by_airloop(self):
+        t = self.set_minimal_files()
+
+        # example taken from ASHRAE901_SchoolPrimary_STD2019_DenverA.json
+        t.json_results_object['TabularReports'] = [{
+            'For': 'Entire Facility',
+            'ReportName': 'HVACTopology',
+            'Tables': [
+                {
+                    "Cols": [
+                        "Airloop Name",
+                        "Supply Branch Name",
+                        "Supply Branch Type",
+                        "Supply Path Component Type",
+                        "Supply Path Component Name",
+                        "Terminal Unit Type",
+                        "Terminal Unit Name",
+                        "Zone Name",
+                        "Return Path Component Type",
+                        "Return Path Component Name"
+                    ],
+                    "Rows": {
+                        "31": [
+                            "VAV_OTHER",
+                            "VAV_OTHER AIR LOOP MAIN BRANCH",
+                            "Main",
+                            "AIRLOOPHVAC:ZONESPLITTER",
+                            "VAV_OTHER SUPPLY AIR SPLITTER",
+                            "AIRTERMINAL:SINGLEDUCT:VAV:REHEAT",
+                            "BATH_ZN_1_FLR_1 VAV BOX COMPONENT",
+                            "BATH_ZN_1_FLR_1",
+                            "AIRLOOPHVAC:ZONEMIXER",
+                            "VAV_OTHER RETURN AIR MIXER"
+                        ],
+                        "33": [
+                            "VAV_OTHER",
+                            "VAV_OTHER AIR LOOP MAIN BRANCH",
+                            "Main",
+                            "AIRLOOPHVAC:ZONESPLITTER",
+                            "VAV_OTHER SUPPLY AIR SPLITTER",
+                            "AIRTERMINAL:SINGLEDUCT:VAV:REHEAT",
+                            "LIBRARY_MEDIA_CENTER_ZN_1_FLR_1 VAV BOX COMPONENT",
+                            "LIBRARY_MEDIA_CENTER_ZN_1_FLR_1",
+                            "AIRLOOPHVAC:ZONEMIXER",
+                            "VAV_OTHER RETURN AIR MIXER"
+                        ],
+                        "37": [
+                            "PSZ-AC_2:5",
+                            "PSZ-AC_2:5 AIR LOOP MAIN BRANCH",
+                            "Main",
+                            "AIRLOOPHVAC:ZONESPLITTER",
+                            "PSZ-AC_2:5 SUPPLY AIR SPLITTER",
+                            "AIRTERMINAL:SINGLEDUCT:CONSTANTVOLUME:NOREHEAT",
+                            "GYM_ZN_1_FLR_1 DIRECT AIR",
+                            "GYM_ZN_1_FLR_1",
+                            "AIRLOOPHVAC:ZONEMIXER",
+                            "PSZ-AC_2:5 RETURN AIR MIXER"
+                        ],
+                        "41": [
+                            "PSZ-AC_1:6",
+                            "PSZ-AC_1:6 AIR LOOP MAIN BRANCH",
+                            "Main",
+                            "AIRLOOPHVAC:ZONESPLITTER",
+                            "PSZ-AC_1:6 SUPPLY AIR SPLITTER",
+                            "AIRTERMINAL:SINGLEDUCT:CONSTANTVOLUME:NOREHEAT",
+                            "KITCHEN_ZN_1_FLR_1 DIRECT AIR",
+                            "KITCHEN_ZN_1_FLR_1",
+                            "AIRLOOPHVAC:ZONEMIXER",
+                            "PSZ-AC_1:6 RETURN AIR MIXER"
+                        ],
+                        "45": [
+                            "PSZ-AC_2:7",
+                            "PSZ-AC_2:7 AIR LOOP MAIN BRANCH",
+                            "Main",
+                            "AIRLOOPHVAC:ZONESPLITTER",
+                            "PSZ-AC_2:7 SUPPLY AIR SPLITTER",
+                            "AIRTERMINAL:SINGLEDUCT:CONSTANTVOLUME:NOREHEAT",
+                            "CAFETERIA_ZN_1_FLR_1 DIRECT AIR",
+                            "CAFETERIA_ZN_1_FLR_1",
+                            "AIRLOOPHVAC:ZONEMIXER",
+                            "PSZ-AC_2:7 RETURN AIR MIXER"
+                        ],
+                    },
+                    "TableName": "Air Loop Demand Side Component Arrangement"
+                },
+                {
+                    "Cols": [
+                        "Zone Name",
+                        "Component Type",
+                        "Component Name",
+                        "Sub-Component Type",
+                        "Sub-Component Name",
+                        "Sub-Sub-Component Type",
+                        "Sub-Sub-Component Name"
+                    ],
+                    "Rows": {
+                        "78": [
+                            "BATH_ZN_1_FLR_1",
+                            "FAN:ZONEEXHAUST",
+                            "BATH_ZN_1_FLR_1 EXHAUST FAN",
+                            "",
+                            "",
+                            "",
+                            ""
+                        ],
+                        "87": [
+                            "GYM_ZN_1_FLR_1",
+                            "FAN:ZONEEXHAUST",
+                            "GYM_ZN_1_FLR_1 DUMMY EXHAUST FAN",
+                            "",
+                            "",
+                            "",
+                            ""
+                        ],
+                        "91": [
+                            "KITCHEN_ZN_1_FLR_1",
+                            "FAN:ZONEEXHAUST",
+                            "KITCHEN_ZN_1_FLR_1 EXHAUST FAN",
+                            "",
+                            "",
+                            "",
+                            ""
+                        ],
+                        "95": [
+                            "CAFETERIA_ZN_1_FLR_1",
+                            "FAN:ZONEEXHAUST",
+                            "CAFETERIA_ZN_1_FLR_1 DUMMY EXHAUST FAN",
+                            "",
+                            "",
+                            "",
+                            ""
+                        ],
+                        "99": [
+                            "LIBRARY_MEDIA_CENTER_ZN_1_FLR_1",
+                            "FAN:ZONEEXHAUST",
+                            "LIBRARY_MEDIA_CENTER_ZN_1_FLR_1 DUMMY EXHAUST FAN",
+                            "",
+                            "",
+                            "",
+                            ""
+                        ],
+                    },
+                    "TableName": "Zone Equipment Component Arrangement"
+                },
+            ]
+        }]
+
+        gathered = t.gather_exhaust_fans_by_airloop()
+
+        expected = {'VAV_OTHER': ['BATH_ZN_1_FLR_1 EXHAUST FAN', 'LIBRARY_MEDIA_CENTER_ZN_1_FLR_1 DUMMY EXHAUST FAN'],
+                    'PSZ-AC_2:5': ['GYM_ZN_1_FLR_1 DUMMY EXHAUST FAN'],
+                    'PSZ-AC_1:6': ['KITCHEN_ZN_1_FLR_1 EXHAUST FAN'],
+                    'PSZ-AC_2:7': ['CAFETERIA_ZN_1_FLR_1 DUMMY EXHAUST FAN']}
+
+        self.assertEqual(gathered, expected)
