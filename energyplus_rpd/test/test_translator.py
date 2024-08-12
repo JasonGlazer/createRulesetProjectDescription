@@ -6024,3 +6024,56 @@ class TestTranslator(TestCase):
                     'TableName': 'Site and Source Energy'}
 
         self.assertEqual(table, expected)
+
+    def test_gather_table_into_list(self):
+        t = self.set_minimal_files()
+
+        t.json_results_object['TabularReports'] = [{
+            'For': 'Entire Facility',
+            'ReportName': 'AnnualBuildingUtilityPerformanceSummary',
+            'Tables': [
+                {
+                    "Cols": [
+                        "Total Energy [GJ]",
+                        "Energy Per Total Building Area [MJ/m2]",
+                        "Energy Per Conditioned Building Area [MJ/m2]"
+                    ],
+                    "Rows": {
+                        "Net Site Energy": [
+                            "143.11",
+                            "279.97",
+                            "279.97"
+                        ],
+                        "Net Source Energy": [
+                            "443.56",
+                            "867.76",
+                            "867.76"
+                        ],
+                        "Total Site Energy": [
+                            "143.11",
+                            "279.97",
+                            "279.97"
+                        ],
+                        "Total Source Energy": [
+                            "443.56",
+                            "867.76",
+                            "867.76"
+                        ]
+                    },
+                    "TableName": "Site and Source Energy"
+                },
+            ]
+        }]
+
+        table = t.gather_table_into_list('AnnualBuildingUtilityPerformanceSummary', 'Site and Source Energy')
+
+        expected = [{'Total Energy [GJ]': '143.11', 'Energy Per Total Building Area [MJ/m2]': '279.97',
+                     'Energy Per Conditioned Building Area [MJ/m2]': '279.97', 'first column': 'Net Site Energy'},
+                    {'Total Energy [GJ]': '443.56', 'Energy Per Total Building Area [MJ/m2]': '867.76',
+                     'Energy Per Conditioned Building Area [MJ/m2]': '867.76', 'first column': 'Net Source Energy'},
+                    {'Total Energy [GJ]': '143.11', 'Energy Per Total Building Area [MJ/m2]': '279.97',
+                     'Energy Per Conditioned Building Area [MJ/m2]': '279.97', 'first column': 'Total Site Energy'},
+                    {'Total Energy [GJ]': '443.56', 'Energy Per Total Building Area [MJ/m2]': '867.76',
+                     'Energy Per Conditioned Building Area [MJ/m2]': '867.76', 'first column': 'Total Source Energy'}]
+
+        self.assertEqual(table, expected)
