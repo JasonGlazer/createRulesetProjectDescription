@@ -14,6 +14,7 @@ from energyplus_rpd.translator import terminal_heating_source_convert
 from energyplus_rpd.translator import terminal_cooling_source_convert
 from energyplus_rpd.translator import terminal_config_convert
 from energyplus_rpd.translator import heat_rejection_type_convert
+from energyplus_rpd.translator import heat_rejection_fan_speed_convert
 
 
 class TestTranslator(TestCase):
@@ -5928,3 +5929,11 @@ class TestTranslator(TestCase):
                          'CLOSED_CIRCUIT_COOLING_TOWER')
         self.assertEqual(heat_rejection_type_convert('FluidCooler:SingleSpeed'), 'DRY_COOLER')
         self.assertEqual(heat_rejection_type_convert('GroundHeatExchanger:System'), 'OTHER')
+
+    def test_heat_rejection_fan_speed_convert(self):
+        self.assertEqual(heat_rejection_fan_speed_convert('CoolingTower:TwoSpeed'), 'TWO_SPEED')
+        self.assertEqual(heat_rejection_fan_speed_convert('CoolingTower:VariableSpeed'), 'VARIABLE_SPEED')
+        self.assertEqual(heat_rejection_fan_speed_convert('EvaporativeFluidCooler:SingleSpeed'),
+                         'CONSTANT')
+        self.assertEqual(heat_rejection_fan_speed_convert('FluidCooler:SingleSpeed'), 'CONSTANT')
+        self.assertEqual(heat_rejection_fan_speed_convert('GroundHeatExchanger:System'), 'OTHER')
