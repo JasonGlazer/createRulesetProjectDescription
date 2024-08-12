@@ -6256,3 +6256,130 @@ class TestTranslator(TestCase):
                                        'max_flow_during_reheat': 0.0}}
 
         self.assertEqual(gathered, expected)
+
+    def test_gather_airflows_from_62(self):
+        t = self.set_minimal_files()
+
+        # example taken from ASHRAE901_OfficeSmall_STD2019_Denver.json
+        t.json_results_object['TabularReports'] = [{
+            'For': 'Entire Facility',
+            'ReportName': 'Standard62.1Summary',
+            'Tables': [
+                {
+                    "Cols": [
+                        "Sum of Zone Primary Airflow - Vpz-sum [m3/s]",
+                        "System Primary Airflow - Vps [m3/s]",
+                        "Sum of Zone Discharge Airflow - Vdz-sum [m3/s]",
+                        "Sum of Min Zone Primary Airflow - Vpz-min [m3/s]",
+                        "Zone Outdoor Airflow Cooling - Voz-clg [m3/s]",
+                        "Zone Ventilation Efficiency - Evz-min"
+                    ],
+                    "Rows": {
+                        "PSZ-AC:1": [
+                            "0.3507",
+                            "0.3507",
+                            "0.3507",
+                            "0.3507",
+                            "0.0646",
+                            "1.0000"
+                        ],
+                        "PSZ-AC:2": [
+                            "0.3187",
+                            "0.3187",
+                            "0.3187",
+                            "0.3187",
+                            "0.0490",
+                            "1.0000"
+                        ],
+                        "PSZ-AC:3": [
+                            "0.2558",
+                            "0.2558",
+                            "0.2558",
+                            "0.2558",
+                            "0.0291",
+                            "1.0000"
+                        ],
+                        "PSZ-AC:4": [
+                            "0.2920",
+                            "0.2920",
+                            "0.2920",
+                            "0.2920",
+                            "0.0490",
+                            "1.0000"
+                        ],
+                        "PSZ-AC:5": [
+                            "0.3121",
+                            "0.3121",
+                            "0.3121",
+                            "0.3121",
+                            "0.0291",
+                            "1.0000"
+                        ]
+                    },
+                    "TableName": "System Ventilation Calculations for Cooling Design"
+                },
+                {
+                    "Cols": [
+                        "Sum of Zone Primary Airflow - Vpz-sum [m3/s]",
+                        "System Primary Airflow - Vps [m3/s]",
+                        "Sum of Zone Discharge Airflow - Vdz-sum [m3/s]",
+                        "Sum of Min Zone Primary Airflow - Vpz-min [m3/s]",
+                        "Zone Outdoor Airflow Heating - Voz-htg [m3/s]",
+                        "Zone Ventilation Efficiency - Evz-min"
+                    ],
+                    "Rows": {
+                        "PSZ-AC:1": [
+                            "0.3507",
+                            "0.3507",
+                            "0.3507",
+                            "0.3507",
+                            "0.0646",
+                            "1.0000"
+                        ],
+                        "PSZ-AC:2": [
+                            "0.3187",
+                            "0.3187",
+                            "0.3187",
+                            "0.3187",
+                            "0.0490",
+                            "1.0000"
+                        ],
+                        "PSZ-AC:3": [
+                            "0.2558",
+                            "0.2558",
+                            "0.2558",
+                            "0.2558",
+                            "0.0291",
+                            "1.0000"
+                        ],
+                        "PSZ-AC:4": [
+                            "0.2920",
+                            "0.2920",
+                            "0.2920",
+                            "0.2920",
+                            "0.0490",
+                            "1.0000"
+                        ],
+                        "PSZ-AC:5": [
+                            "0.3121",
+                            "0.3121",
+                            "0.3121",
+                            "0.3121",
+                            "0.0291",
+                            "1.0000"
+                        ]
+                    },
+                    "TableName": "System Ventilation Calculations for Heating Design"
+                }
+            ]
+        }]
+
+        gathered = t.gather_airflows_from_62()
+
+        expected = {'PSZ-AC:1': (350.7, 64.60000000000001),
+                    'PSZ-AC:2': (318.7, 49.0),
+                    'PSZ-AC:3': (255.80000000000004, 29.1),
+                    'PSZ-AC:4': (292.0, 49.0),
+                    'PSZ-AC:5': (312.09999999999997, 29.1)}
+
+        self.assertEqual(gathered, expected)
