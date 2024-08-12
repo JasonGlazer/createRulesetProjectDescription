@@ -13,6 +13,7 @@ from energyplus_rpd.translator import terminal_option_convert
 from energyplus_rpd.translator import terminal_heating_source_convert
 from energyplus_rpd.translator import terminal_cooling_source_convert
 from energyplus_rpd.translator import terminal_config_convert
+from energyplus_rpd.translator import heat_rejection_type_convert
 
 
 class TestTranslator(TestCase):
@@ -5920,3 +5921,10 @@ class TestTranslator(TestCase):
         self.assertEqual(terminal_config_convert('AirTerminal:SingleDuct:SeriesPIU:Reheat'), 'SERIES')
         self.assertEqual(terminal_config_convert('AirTerminal:SingleDuct:ParallelPIU:Reheat'), 'PARALLEL')
         self.assertEqual(terminal_config_convert('AirTerminal:SingleDuct:VAV:HeatAndCool:Reheat'), 'OTHER')
+
+    def test_heat_rejection_type_convert(self):
+        self.assertEqual(heat_rejection_type_convert('CoolingTower:TwoSpeed'), 'OPEN_CIRCUIT_COOLING_TOWER')
+        self.assertEqual(heat_rejection_type_convert('EvaporativeFluidCooler:SingleSpeed'),
+                         'CLOSED_CIRCUIT_COOLING_TOWER')
+        self.assertEqual(heat_rejection_type_convert('FluidCooler:SingleSpeed'), 'DRY_COOLER')
+        self.assertEqual(heat_rejection_type_convert('GroundHeatExchanger:System'), 'OTHER')
