@@ -5937,3 +5937,90 @@ class TestTranslator(TestCase):
                          'CONSTANT')
         self.assertEqual(heat_rejection_fan_speed_convert('FluidCooler:SingleSpeed'), 'CONSTANT')
         self.assertEqual(heat_rejection_fan_speed_convert('GroundHeatExchanger:System'), 'OTHER')
+
+    def test_get_table_single_column(self):
+        t = self.set_minimal_files()
+
+        t.json_results_object['TabularReports'] = [{
+            'For': 'Entire Facility',
+            'ReportName': 'AnnualBuildingUtilityPerformanceSummary',
+            'Tables': [
+                {
+                    "Cols": [
+                        "Area [m2]"
+                    ],
+                    "Rows": {
+                        "Net Conditioned Building Area": [
+                            "511.16"
+                        ],
+                        "Total Building Area": [
+                            "511.16"
+                        ],
+                        "Unconditioned Building Area": [
+                            "0.00"
+                        ]
+                    },
+                    "TableName": "Building Area"
+                },
+            ]
+        }]
+
+        table = t.get_table('AnnualBuildingUtilityPerformanceSummary', 'Building Area')
+
+        expected = {'Cols': ['Area [m2]'],
+                    'Rows': {'Net Conditioned Building Area': ['511.16'], 'Total Building Area': ['511.16'],
+                             'Unconditioned Building Area': ['0.00']}, 'TableName': 'Building Area'}
+
+        self.assertEqual(table, expected)
+
+    def test_get_table_multi_column(self):
+        t = self.set_minimal_files()
+
+        t.json_results_object['TabularReports'] = [{
+            'For': 'Entire Facility',
+            'ReportName': 'AnnualBuildingUtilityPerformanceSummary',
+            'Tables': [
+                {
+                    "Cols": [
+                        "Total Energy [GJ]",
+                        "Energy Per Total Building Area [MJ/m2]",
+                        "Energy Per Conditioned Building Area [MJ/m2]"
+                    ],
+                    "Rows": {
+                        "Net Site Energy": [
+                            "143.11",
+                            "279.97",
+                            "279.97"
+                        ],
+                        "Net Source Energy": [
+                            "443.56",
+                            "867.76",
+                            "867.76"
+                        ],
+                        "Total Site Energy": [
+                            "143.11",
+                            "279.97",
+                            "279.97"
+                        ],
+                        "Total Source Energy": [
+                            "443.56",
+                            "867.76",
+                            "867.76"
+                        ]
+                    },
+                    "TableName": "Site and Source Energy"
+                },
+            ]
+        }]
+
+        table = t.get_table('AnnualBuildingUtilityPerformanceSummary', 'Site and Source Energy')
+
+        expected = {'Cols': ['Total Energy [GJ]', 'Energy Per Total Building Area [MJ/m2]',
+                             'Energy Per Conditioned Building Area [MJ/m2]'],
+                    'Rows': {'Net Site Energy': ['143.11', '279.97', '279.97'],
+                             'Net Source Energy': ['443.56', '867.76', '867.76'],
+                             'Total Site Energy': ['143.11', '279.97', '279.97'],
+                             'Total Source Energy': ['443.56', '867.76', '867.76']},
+                    'TableName': 'Site and Source Energy'}
+
+        self.assertEqual(table, expected)
