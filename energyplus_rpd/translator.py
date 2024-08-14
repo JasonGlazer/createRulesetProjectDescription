@@ -167,10 +167,10 @@ def do_share_branch(comp_a, comp_b, list_of_dict):
     comp_a_branch_names = []
     # find the branches used by the component type A
     for row in list_of_dict:
-        if comp_a.lower() == row['Component Type'].lower():
+        if comp_a.lower() in row['Component Type'].lower():
             comp_a_branch_names.append(row['Branch Name'])
     # find if component type B is on the same branch
-    if not comp_a_branch_names:
+    if comp_a_branch_names:
         for row in list_of_dict:
             if (row['Branch Name']
                     in comp_a_branch_names):

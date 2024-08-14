@@ -15,6 +15,7 @@ from energyplus_rpd.translator import terminal_cooling_source_convert
 from energyplus_rpd.translator import terminal_config_convert
 from energyplus_rpd.translator import heat_rejection_type_convert
 from energyplus_rpd.translator import heat_rejection_fan_speed_convert
+from energyplus_rpd.translator import do_share_branch
 
 
 class TestTranslator(TestCase):
@@ -6539,3 +6540,56 @@ class TestTranslator(TestCase):
                     'PSZ-AC_2:7': ['CAFETERIA_ZN_1_FLR_1 DUMMY EXHAUST FAN']}
 
         self.assertEqual(gathered, expected)
+
+    def test_do_share_branch(self):
+        t = self.set_minimal_files()
+
+        # example taken from large_office_cz2-tampa_proposed_final.json
+        # but modified to provide a working example
+        t.json_results_object['TabularReports'] = [{
+            'For': 'Entire Facility',
+            'ReportName': 'HVACTopology',
+            'Tables': [
+                {
+                    "Cols": [
+                        "Loop Type",
+                        "Loop Name",
+                        "Side",
+                        "Splitter Name",
+                        "Branch Name",
+                        "Component Type",
+                        "Component Name",
+                        "Mixer Name"
+                    ],
+                    "Rows": {
+                        "4": [
+                            "PlantLoop",
+                            "CHILLED WATER LOOP",
+                            "Supply",
+                            "CHILLED WATER LOOP SUPPLY SPLITTER",
+                            "CHILLED WATER LOOP SUPPLY BRANCH",
+                            "CHILLER:ELECTRIC:EIR",
+                            "90.1-2004 WATERCOOLED  CENTRIFUGAL CHILLER 1 416TONS 0.6KW/TON",
+                            "CHILLED WATER LOOP DEMAND INLET"
+                        ],
+                        "9": [
+                            "PlantLoop",
+                            "CHILLED WATER LOOP",
+                            "Supply",
+                            "",
+                            "CHILLED WATER LOOP SUPPLY BRANCH",
+                            "HeatExchanger:FluidToFluid",
+                            "CHILLED WATER LOOP SECONDARY PUMP",
+                            ""
+                        ],
+                    },
+                    "TableName": "Plant Loop Component Arrangement"
+                }
+            ]
+        }]
+
+        plant_loop_arrangements = t.gather_table_into_list('HVACTopology',
+                                                           'Plant Loop Component Arrangement')
+
+        self.assertTrue(do_share_branch('chiller', 'heatexchanger', plant_loop_arrangements))
+        self.assertFalse(do_share_branch('chiller', 'tower', plant_loop_arrangements))
