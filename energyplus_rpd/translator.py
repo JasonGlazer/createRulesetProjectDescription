@@ -148,7 +148,7 @@ def do_chiller_and_pump_share_branch(chiller_name, list_of_dict, side_of_loop):
     chiller_branch_name = ''
     # find the branch used by the chiller
     for row in list_of_dict:
-        if row['Side'] == side_of_loop:
+        if row['Side'].lower() == side_of_loop.lower():
             if chiller_name.lower() == row['Component Name'].lower():
                 chiller_branch_name = row['Branch Name']
                 break
