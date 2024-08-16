@@ -117,6 +117,7 @@ class ComplianceParameterHandler:
                         self.mirror_nested(item_in, new_dict)
                 if found:
                     out_dict[key_in] = list_out
+        return out_dict
 
     def add_compliance_parameters(self, in_key, dict_new):
         if in_key in self.compliance_group_element:

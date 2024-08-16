@@ -40,16 +40,35 @@ class TestComplianceParameterHandler(TestCase):
         self.assertEqual(return_dict,  expected)
 
     def test_mirror_nested(self):
-        original_dict = {'id': 'Name1',
-                         'a': 1,
-                         'b': [
-                             {'id': 'Name2', 'c': 8},
-                             {'id': 'Name3', 'd': 9},
-                             ],
-                         'e': {'id': 'Name4', 'f': 3, 'g': 'h'}}
+        original_dict = {'id': 'CORE_ZN ZN PSZ-AC-1',
+                         'heating_system': {'id': 'CORE_ZN ZN PSZ-AC-1-heating', 'design_capacity': 9209.104,
+                                            'type': 'HEAT_PUMP', 'energy_source_type': 'ELECTRICITY',
+                                            'rated_capacity': 9221.21, 'oversizing_factor': 1.000000434352977,
+                                            'is_sized_based_on_design_day': True, 'heating_coil_setpoint': 46.8,
+                                            'efficiency_metric_values': [7.53, 6.84],
+                                            'efficiency_metric_types': ['HEATING_SEASONAL_PERFORMANCE_FACTOR',
+                                                                        'HEATING_SEASONAL_PERFORMANCE_FACTOR_2'],
+                                            'heatpump_low_shutoff_temperature': -12.2},
+                         'fan_system': {'id': 'CORE_ZN ZN PSZ-AC-1 FAN-fansystem',
+                                        'minimum_airflow': 370.90000000000003,
+                                        'minimum_outdoor_airflow': 64.60000000000001, 'fan_control': 'CONSTANT',
+                                        'supply_fans': [{'id': 'CORE_ZN ZN PSZ-AC-1 FAN', 'design_airflow': 0.37,
+                                                         'is_airflow_sized_based_on_design_day': True,
+                                                         'design_electric_power': 415.54,
+                                                         'design_pressure_rise': 622.72, 'total_efficiency': 0.56,
+                                                         'motor_efficiency': 0.85,
+                                                         'motor_heat_to_airflow_fraction': 1.0,
+                                                         'motor_heat_to_zone_fraction': 0.0,
+                                                         'motor_location_zone': 'N/A',
+                                                         'specification_method': 'SIMPLE'}]}}
         result_dict = {}
         self.cph.mirror_nested(original_dict, result_dict)
-        self.assertEqual(original_dict, result_dict)
+
+        expected = {'fan_system': {'id': 'CORE_ZN ZN PSZ-AC-1 FAN-fansystem',
+                                   'supply_fans': [{'id': 'CORE_ZN ZN PSZ-AC-1 FAN'}]},
+                    'heating_system': {'id': 'CORE_ZN ZN PSZ-AC-1-heating'}, 'id': 'CORE_ZN ZN PSZ-AC-1'}
+
+        self.assertEqual(result_dict, expected)
 
     def test_merge_in_compliance_parameters(self):
         pass
