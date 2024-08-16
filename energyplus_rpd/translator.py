@@ -1751,7 +1751,7 @@ class Translator:
                 fluid_loop['heating_design_and_control'] = design_control
             fluid_loops.append(fluid_loop)
         self.model_description['fluid_loops'] = fluid_loops
-        return
+        return fluid_loops
 
     def add_simulation_outputs(self):
         source_map = {'Electricity': 'ELECTRICITY',

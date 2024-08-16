@@ -6661,3 +6661,238 @@ class TestTranslator(TestCase):
 
         self.assertFalse(do_chiller_and_pump_share_branch('MainChiller', plant_loop_arrangements,
                                                           'SUPPLY'))
+
+    def test_add_fluid_loops(self):
+        t = self.set_minimal_files()
+
+        # example taken from large_office_cz2-tampa_proposed_final.json
+        # but modified to provide a working example
+        t.json_results_object['TabularReports'] = [{
+            'For': 'Entire Facility',
+            'ReportName': 'HVACTopology',
+            'Tables': [
+                {
+                    "Cols": [
+                        "Loop Type",
+                        "Loop Name",
+                        "Side",
+                        "Splitter Name",
+                        "Branch Name",
+                        "Component Type",
+                        "Component Name",
+                        "Mixer Name"
+                    ],
+                    "Rows": {
+                        "2": [
+                            "PlantLoop",
+                            "CHILLED WATER LOOP",
+                            "Supply",
+                            "",
+                            "CHILLED WATER LOOP SUPPLY INLET BRANCH",
+                            "PUMP:CONSTANTSPEED",
+                            "CHILLED WATER LOOP PRIMARY PUMP",
+                            ""
+                        ],
+                        "3": [
+                            "PlantLoop",
+                            "CHILLED WATER LOOP",
+                            "Supply",
+                            "CHILLED WATER LOOP SUPPLY SPLITTER",
+                            "CHILLED WATER LOOP SUPPLY BRANCH 1",
+                            "CHILLER:ELECTRIC:EIR",
+                            "90.1-2004 WATERCOOLED  CENTRIFUGAL CHILLER 0 416TONS 0.6KW/TON",
+                            "CHILLED WATER LOOP SUPPLY MIXER"
+                        ],
+                        "4": [
+                            "PlantLoop",
+                            "CHILLED WATER LOOP",
+                            "Supply",
+                            "CHILLED WATER LOOP SUPPLY SPLITTER",
+                            "CHILLED WATER LOOP SUPPLY BRANCH 2",
+                            "CHILLER:ELECTRIC:EIR",
+                            "90.1-2004 WATERCOOLED  CENTRIFUGAL CHILLER 1 416TONS 0.6KW/TON",
+                            "CHILLED WATER LOOP SUPPLY MIXER"
+                        ],
+                        "9": [
+                            "PlantLoop",
+                            "CHILLED WATER LOOP",
+                            "Demand",
+                            "",
+                            "CHILLED WATER LOOP DEMAND INLET BRANCH",
+                            "PUMP:VARIABLESPEED",
+                            "CHILLED WATER LOOP SECONDARY PUMP",
+                            ""
+                        ],
+                        "18": [
+                            "PlantLoop",
+                            "CONDENSER WATER LOOP",
+                            "Supply",
+                            "",
+                            "CONDENSER WATER LOOP SUPPLY INLET BRANCH",
+                            "PUMP:CONSTANTSPEED",
+                            "CONDENSER WATER LOOP CONSTANT PUMP",
+                            ""
+                        ],
+                        "19": [
+                            "PlantLoop",
+                            "CONDENSER WATER LOOP",
+                            "Supply",
+                            "CONDENSER WATER LOOP SUPPLY SPLITTER",
+                            "CONDENSER WATER LOOP SUPPLY BRANCH 1",
+                            "COOLINGTOWER:VARIABLESPEED",
+                            "CENTRIFUGAL VARIABLE SPEED FAN OPEN COOLING TOWER 20.0 GPM/HP",
+                            "CONDENSER WATER LOOP SUPPLY MIXER"
+                        ],
+                        "25": [
+                            "PlantLoop",
+                            "CONDENSER WATER LOOP",
+                            "Demand",
+                            "CONDENSER WATER LOOP DEMAND SPLITTER",
+                            "CONDENSER WATER LOOP DEMAND BRANCH 2",
+                            "CHILLER:ELECTRIC:EIR",
+                            "90.1-2004 WATERCOOLED  CENTRIFUGAL CHILLER 0 416TONS 0.6KW/TON",
+                            "CONDENSER WATER LOOP DEMAND MIXER"
+                        ],
+                        "26": [
+                            "PlantLoop",
+                            "CONDENSER WATER LOOP",
+                            "Demand",
+                            "CONDENSER WATER LOOP DEMAND SPLITTER",
+                            "CONDENSER WATER LOOP DEMAND BRANCH 3",
+                            "CHILLER:ELECTRIC:EIR",
+                            "90.1-2004 WATERCOOLED  CENTRIFUGAL CHILLER 1 416TONS 0.6KW/TON",
+                            "CONDENSER WATER LOOP DEMAND MIXER"
+                        ],
+                        "30": [
+                            "PlantLoop",
+                            "HEAT PUMP LOOP",
+                            "Supply",
+                            "",
+                            "HEAT PUMP LOOP SUPPLY INLET BRANCH",
+                            "PUMP:CONSTANTSPEED",
+                            "HEAT PUMP LOOP PUMP",
+                            ""
+                        ],
+                        "31": [
+                            "PlantLoop",
+                            "HEAT PUMP LOOP",
+                            "Supply",
+                            "HEAT PUMP LOOP SUPPLY SPLITTER",
+                            "HEAT PUMP LOOP SUPPLY BRANCH 1",
+                            "FLUIDCOOLER:TWOSPEED",
+                            "HEAT PUMP LOOP FLUIDCOOLERTWOSPEED 4.0 GPM/HP",
+                            "HEAT PUMP LOOP SUPPLY MIXER"
+                        ],
+                        "32": [
+                            "PlantLoop",
+                            "HEAT PUMP LOOP",
+                            "Supply",
+                            "HEAT PUMP LOOP SUPPLY SPLITTER",
+                            "HEAT PUMP LOOP SUPPLY BRANCH 2",
+                            "BOILER:HOTWATER",
+                            "HEAT PUMP LOOP SUPPLEMENTAL BOILER 2669KBTU/HR 0.75 THERMAL EFF",
+                            "HEAT PUMP LOOP SUPPLY MIXER"
+                        ],
+                        "49": [
+                            "PlantLoop",
+                            "HOT WATER LOOP",
+                            "Supply",
+                            "",
+                            "HOT WATER LOOP SUPPLY INLET BRANCH",
+                            "PUMP:VARIABLESPEED",
+                            "HOT WATER LOOP PUMP",
+                            ""
+                        ],
+                        "50": [
+                            "PlantLoop",
+                            "HOT WATER LOOP",
+                            "Supply",
+                            "HOT WATER LOOP SUPPLY SPLITTER",
+                            "HOT WATER LOOP SUPPLY BRANCH 1",
+                            "BOILER:HOTWATER",
+                            "BOILER 5939KBTU/HR 0.75 THERMAL EFF",
+                            "HOT WATER LOOP SUPPLY MIXER"
+                        ],
+                        "79": [
+                            "PlantLoop",
+                            "MAIN SERVICE WATER LOOP",
+                            "Supply",
+                            "",
+                            "MAIN SERVICE WATER LOOP SUPPLY INLET BRANCH",
+                            "PUMP:CONSTANTSPEED",
+                            "MAIN SERVICE WATER LOOP CIRCULATOR PUMP",
+                            ""
+                        ],
+                        "80": [
+                            "PlantLoop",
+                            "MAIN SERVICE WATER LOOP",
+                            "Supply",
+                            "MAIN SERVICE WATER LOOP SUPPLY SPLITTER",
+                            "MAIN SERVICE WATER LOOP SUPPLY BRANCH 1",
+                            "WATERHEATER:MIXED",
+                            "300GAL NATURAL GAS WATER HEATER - 300KBTU/HR 0.804 THERM EFF",
+                            "MAIN SERVICE WATER LOOP SUPPLY MIXER"
+                        ],
+                    },
+                    "TableName": "Plant Loop Component Arrangement"
+                }
+            ]
+        }]
+
+        t.model_description['pumps'] = [
+            {'id': 'CHILLED WATER LOOP PRIMARY PUMP', 'loop_or_piping': 'CHILLED WATER LOOP',
+             'specification_method': 'SIMPLE', 'design_electric_power': 9611.29, 'design_head': 44836.0,
+             'motor_efficiency': 0.9, 'speed_control': 'FIXED_SPEED', 'design_flow': 149.649,
+             'is_flow_sized_based_on_design_day': True},
+            {'id': 'CHILLED WATER LOOP SECONDARY PUMP', 'loop_or_piping': 'CHILLED WATER LOOP',
+             'specification_method': 'SIMPLE', 'design_electric_power': 27928.92, 'design_head': 134508.01,
+             'motor_efficiency': 0.92, 'speed_control': 'VARIABLE_SPEED', 'design_flow': 149.649,
+             'is_flow_sized_based_on_design_day': True},
+            {'id': 'CONDENSER WATER LOOP CONSTANT PUMP', 'loop_or_piping': 'CONDENSER WATER LOOP',
+             'specification_method': 'SIMPLE', 'design_electric_power': 37844.02, 'design_head': 148556.63,
+             'motor_efficiency': 0.93, 'speed_control': 'FIXED_SPEED', 'design_flow': 184.792,
+             'is_flow_sized_based_on_design_day': True},
+            {'id': 'HEAT PUMP LOOP PUMP', 'loop_or_piping': 'HEAT PUMP LOOP', 'specification_method': 'SIMPLE',
+             'design_electric_power': 4464.57, 'design_head': 179344.02, 'motor_efficiency': 0.9,
+             'speed_control': 'FIXED_SPEED', 'design_flow': 17.378, 'is_flow_sized_based_on_design_day': True},
+            {'id': 'HOT WATER LOOP PUMP', 'loop_or_piping': 'HOT WATER LOOP', 'specification_method': 'SIMPLE',
+             'design_electric_power': 10528.37, 'design_head': 179344.02, 'motor_efficiency': 0.91,
+             'speed_control': 'VARIABLE_SPEED', 'design_flow': 41.669, 'is_flow_sized_based_on_design_day': True},
+            {'id': 'MAIN SERVICE WATER LOOP CIRCULATOR PUMP', 'loop_or_piping': 'MAIN SERVICE WATER LOOP',
+             'specification_method': 'SIMPLE', 'design_electric_power': 20.4, 'design_head': 29891.0,
+             'motor_efficiency': 0.82, 'speed_control': 'FIXED_SPEED', 'design_flow': 0.439,
+             'is_flow_sized_based_on_design_day': True}]
+
+        t.pump_extra = {'CHILLED WATER LOOP PRIMARY PUMP': {'control': 'Intermittent'},
+                        'CHILLED WATER LOOP SECONDARY PUMP': {'control': 'Intermittent'},
+                        'CONDENSER WATER LOOP CONSTANT PUMP': {'control': 'Intermittent'},
+                        'HEAT PUMP LOOP PUMP': {'control': 'Intermittent'},
+                        'HOT WATER LOOP PUMP': {'control': 'Intermittent'},
+                        'MAIN SERVICE WATER LOOP CIRCULATOR PUMP': {'control': 'Intermittent'}}
+
+        gathered = t.add_fluid_loops()
+
+        expected = [{'id': 'CHILLED WATER LOOP', 'type': 'COOLING', 'pump_power_per_flow_rate': 250.8550675246744,
+                     'cooling_or_condensing_design_and_control': {'id': 'CHILLED WATER LOOP-COOLING',
+                                                                  'operation': 'INTERMITTENT',
+                                                                  'flow_control': 'VARIABLE_FLOW',
+                                                                  'has_integrated_waterside_economizer': False}},
+                    {'id': 'CONDENSER WATER LOOP', 'type': 'CONDENSER', 'pump_power_per_flow_rate': 204.79252348586516,
+                     'cooling_or_condensing_design_and_control': {'id': 'CONDENSER WATER LOOP-CONDENSER',
+                                                                  'operation': 'INTERMITTENT',
+                                                                  'flow_control': 'FIXED_FLOW',
+                                                                  'has_integrated_waterside_economizer': False}},
+                    {'id': 'HEAT PUMP LOOP', 'type': 'HEATING_AND_COOLING',
+                     'pump_power_per_flow_rate': 256.90931062262626,
+                     'cooling_or_condensing_design_and_control': {'id': 'HEAT PUMP LOOP-HEATING_AND_COOLING',
+                                                                  'operation': 'INTERMITTENT',
+                                                                  'flow_control': 'FIXED_FLOW',
+                                                                  'has_integrated_waterside_economizer': False},
+                     'heating_design_and_control': {'id': 'HEAT PUMP LOOP-HEATING_AND_COOLING',
+                                                    'operation': 'INTERMITTENT', 'flow_control': 'FIXED_FLOW',
+                                                    'has_integrated_waterside_economizer': False}},
+                    {'id': 'HOT WATER LOOP', 'type': 'HEATING', 'pump_power_per_flow_rate': 252.66673066308292,
+                     'heating_design_and_control': {'id': 'HOT WATER LOOP-HEATING', 'operation': 'INTERMITTENT',
+                                                    'flow_control': 'VARIABLE_FLOW'}}]
+
+        self.assertEqual(gathered, expected)
