@@ -1417,7 +1417,7 @@ class TestTranslator(TestCase):
             {'For': 'Entire Facility', 'ReportName': 'EquipmentSummary',
              'Tables':
                  [
-                    {
+                     {
                          "Cols": [
                              "Zone Name",
                              "Minimum Flow [m3/s]",
@@ -6666,7 +6666,6 @@ class TestTranslator(TestCase):
         t = self.set_minimal_files()
 
         # example taken from large_office_cz2-tampa_proposed_final.json
-        # but modified to provide a working example
         t.json_results_object['TabularReports'] = [{
             'For': 'Entire Facility',
             'ReportName': 'HVACTopology',
@@ -6894,5 +6893,1297 @@ class TestTranslator(TestCase):
                     {'id': 'HOT WATER LOOP', 'type': 'HEATING', 'pump_power_per_flow_rate': 252.66673066308292,
                      'heating_design_and_control': {'id': 'HOT WATER LOOP-HEATING', 'operation': 'INTERMITTENT',
                                                     'flow_control': 'VARIABLE_FLOW'}}]
+
+        self.assertEqual(gathered, expected)
+
+    def test_add_simulation_outputs_b(self):
+        t = self.set_minimal_files()
+
+        # example taken from ASHRAE901_OfficeSmall_STD2019_Denver.epJSON
+        t.json_results_object['TabularReports'] = [{
+            "For": "Entire Facility",
+            "ReportName": "AnnualBuildingUtilityPerformanceSummary",
+            'Tables': [
+                {
+                    "Cols": [
+                        "Electricity [GJ]",
+                        "Natural Gas [GJ]",
+                        "Gasoline [GJ]",
+                        "Diesel [GJ]",
+                        "Coal [GJ]",
+                        "Fuel Oil No 1 [GJ]",
+                        "Fuel Oil No 2 [GJ]",
+                        "Propane [GJ]",
+                        "Other Fuel 1 [GJ]",
+                        "Other Fuel 2 [GJ]",
+                        "District Cooling [GJ]",
+                        "District Heating Water [GJ]",
+                        "District Heating Steam [GJ]",
+                        "Water [m3]"
+                    ],
+                    "Rows": {
+                        "": [
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            ""
+                        ],
+                        "Cooling": [
+                            "12.08",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00"
+                        ],
+                        "Exterior Equipment": [
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00"
+                        ],
+                        "Exterior Lighting": [
+                            "5.68",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00"
+                        ],
+                        "Fans": [
+                            "19.66",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00"
+                        ],
+                        "Generators": [
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00"
+                        ],
+                        "Heat Recovery": [
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00"
+                        ],
+                        "Heat Rejection": [
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00"
+                        ],
+                        "Heating": [
+                            "9.13",
+                            "4.64",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00"
+                        ],
+                        "Humidification": [
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00"
+                        ],
+                        "Interior Equipment": [
+                            "48.30",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00"
+                        ],
+                        "Interior Lighting": [
+                            "25.61",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00"
+                        ],
+                        "Pumps": [
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00"
+                        ],
+                        "Refrigeration": [
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00"
+                        ],
+                        "Total End Uses": [
+                            "138.47",
+                            "4.64",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "58.31"
+                        ],
+                        "Water Systems": [
+                            "18.01",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "0.00",
+                            "58.31"
+                        ]
+                    },
+                    "TableName": "End Uses"
+                },
+            ]
+        },
+            {
+                "For": "Entire Facility",
+                "ReportName": "DemandEndUseComponentsSummary",
+                "Tables": [
+                    {
+                        "Cols": [
+                            "Electricity [W]",
+                            "Natural Gas [W]",
+                            "Gasoline [W]",
+                            "Diesel [W]",
+                            "Coal [W]",
+                            "Fuel Oil No 1 [W]",
+                            "Fuel Oil No 2 [W]",
+                            "Propane [W]",
+                            "Other Fuel 1 [W]",
+                            "Other Fuel 2 [W]",
+                            "District Cooling [W]",
+                            "District Heating Water [W]",
+                            "District Heating Steam [W]",
+                            "Water [m3/s]"
+                        ],
+                        "Rows": {
+                            "": [
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                ""
+                            ],
+                            "Cooling": [
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00"
+                            ],
+                            "Exterior Equipment": [
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00"
+                            ],
+                            "Exterior Lighting": [
+                                "611.30",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00"
+                            ],
+                            "Fans": [
+                                "1712.96",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00"
+                            ],
+                            "Generators": [
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00"
+                            ],
+                            "Heat Recovery": [
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00"
+                            ],
+                            "Heat Rejection": [
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00"
+                            ],
+                            "Heating": [
+                                "6277.68",
+                                "25029.93",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00"
+                            ],
+                            "Humidification": [
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00"
+                            ],
+                            "Interior Equipment": [
+                                "3325.31",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00"
+                            ],
+                            "Interior Lighting": [
+                                "2461.51",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00"
+                            ],
+                            "Pumps": [
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00"
+                            ],
+                            "Refrigeration": [
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00"
+                            ],
+                            "Time of Peak": [
+                                "02-JAN-17:00",
+                                "02-JAN-06:30",
+                                "-",
+                                "-",
+                                "-",
+                                "-",
+                                "-",
+                                "-",
+                                "-",
+                                "-",
+                                "-",
+                                "-",
+                                "-",
+                                "02-JAN-12:30"
+                            ],
+                            "Total End Uses": [
+                                "14959.75",
+                                "25029.93",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00"
+                            ],
+                            "Water Systems": [
+                                "571.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00"
+                            ]
+                        },
+                        "TableName": "End Uses"
+                    }]
+            },
+            {
+                "For": "Entire Facility",
+                "ReportName": "EnergyMeters",
+                "Tables": [
+                    {
+                        "Cols": [
+                            "Electricity Annual Value [GJ]",
+                            "Electricity Minimum Value [W]",
+                            "Timestamp of Minimum {TIMESTAMP}",
+                            "Electricity Maximum Value [W]",
+                            "Timestamp of Maximum {TIMESTAMP}"
+                        ],
+                        "Rows": {
+                            "Cogeneration:ElectricityNet": [
+                                "138.47",
+                                "1248.68",
+                                "07-JAN-09:30",
+                                "14959.75",
+                                "02-JAN-16:45"
+                            ],
+                            "Cogeneration:ElectricityPurchased": [
+                                "138.47",
+                                "1248.68",
+                                "07-JAN-09:30",
+                                "14959.75",
+                                "02-JAN-16:45"
+                            ],
+                            "Cogeneration:ElectricitySurplusSold": [
+                                "0.00",
+                                "0.00",
+                                "01-JAN-00:15",
+                                "0.00",
+                                "01-JAN-00:15"
+                            ],
+                            "Cooling:Electricity": [
+                                "12.08",
+                                "0.00",
+                                "01-JAN-00:15",
+                                "5318.53",
+                                "05-SEP-15:15"
+                            ],
+                            "Electricity:Building": [
+                                "73.91",
+                                "677.68",
+                                "01-JAN-00:15",
+                                "5786.82",
+                                "02-JAN-16:45"
+                            ],
+                            "Electricity:Facility": [
+                                "138.47",
+                                "1248.68",
+                                "07-JAN-09:30",
+                                "14959.75",
+                                "02-JAN-16:45"
+                            ],
+                            "Electricity:HVAC": [
+                                "40.88",
+                                "0.00",
+                                "05-JAN-03:30",
+                                "8764.53",
+                                "21-FEB-07:15"
+                            ],
+                            "Electricity:Plant": [
+                                "18.01",
+                                "571.00",
+                                "02-MAY-02:45",
+                                "571.00",
+                                "02-JAN-07:15"
+                            ],
+                            "Electricity:SpaceType:LOBBY_ALL_OTHERS": [
+                                "15.94",
+                                "150.41",
+                                "01-JAN-00:15",
+                                "1284.37",
+                                "02-JAN-16:45"
+                            ],
+                            "Electricity:SpaceType:OFFICE_ENCLOSED": [
+                                "35.34",
+                                "328.86",
+                                "01-JAN-00:15",
+                                "2808.18",
+                                "02-JAN-16:45"
+                            ],
+                            "Electricity:SpaceType:OFFICE_OPEN_PLAN": [
+                                "22.63",
+                                "198.41",
+                                "01-JAN-00:15",
+                                "1694.27",
+                                "02-JAN-08:15"
+                            ],
+                            "Electricity:Zone:CORE_ZN": [
+                                "22.63",
+                                "198.41",
+                                "01-JAN-00:15",
+                                "1694.27",
+                                "02-JAN-08:15"
+                            ],
+                            "Electricity:Zone:PERIMETER_ZN_1": [
+                                "15.94",
+                                "150.41",
+                                "01-JAN-00:15",
+                                "1284.37",
+                                "02-JAN-16:45"
+                            ],
+                            "Electricity:Zone:PERIMETER_ZN_2": [
+                                "9.55",
+                                "89.23",
+                                "01-JAN-00:15",
+                                "761.90",
+                                "02-JAN-16:45"
+                            ],
+                            "Electricity:Zone:PERIMETER_ZN_3": [
+                                "16.24",
+                                "150.41",
+                                "01-JAN-00:15",
+                                "1284.37",
+                                "02-JAN-16:45"
+                            ],
+                            "Electricity:Zone:PERIMETER_ZN_4": [
+                                "9.55",
+                                "89.23",
+                                "01-JAN-00:15",
+                                "761.90",
+                                "02-JAN-16:45"
+                            ],
+                            "ElectricityNet:Facility": [
+                                "138.47",
+                                "1248.68",
+                                "07-JAN-09:30",
+                                "14959.75",
+                                "02-JAN-16:45"
+                            ],
+                            "ElectricityNet:Plant": [
+                                "138.47",
+                                "1248.68",
+                                "07-JAN-09:30",
+                                "14959.75",
+                                "02-JAN-16:45"
+                            ],
+                            "ElectricityPurchased:Facility": [
+                                "138.47",
+                                "1248.68",
+                                "07-JAN-09:30",
+                                "14959.75",
+                                "02-JAN-16:45"
+                            ],
+                            "ElectricityPurchased:Plant": [
+                                "138.47",
+                                "1248.68",
+                                "07-JAN-09:30",
+                                "14959.75",
+                                "02-JAN-16:45"
+                            ],
+                            "ElectricitySurplusSold:Facility": [
+                                "0.00",
+                                "0.00",
+                                "01-JAN-00:15",
+                                "0.00",
+                                "01-JAN-00:15"
+                            ],
+                            "ElectricitySurplusSold:Plant": [
+                                "0.00",
+                                "0.00",
+                                "01-JAN-00:15",
+                                "0.00",
+                                "01-JAN-00:15"
+                            ],
+                            "ExteriorLights:Electricity": [
+                                "5.68",
+                                "0.00",
+                                "01-JAN-07:30",
+                                "611.30",
+                                "01-JAN-06:15"
+                            ],
+                            "Fans:Electricity": [
+                                "19.66",
+                                "0.00",
+                                "01-JAN-08:30",
+                                "1712.96",
+                                "02-JAN-06:15"
+                            ],
+                            "General:Cogeneration:ElectricityNet": [
+                                "138.47",
+                                "1248.68",
+                                "07-JAN-09:30",
+                                "14959.75",
+                                "02-JAN-16:45"
+                            ],
+                            "General:Cogeneration:ElectricityPurchased": [
+                                "138.47",
+                                "1248.68",
+                                "07-JAN-09:30",
+                                "14959.75",
+                                "02-JAN-16:45"
+                            ],
+                            "General:Cogeneration:ElectricitySurplusSold": [
+                                "0.00",
+                                "0.00",
+                                "01-JAN-00:15",
+                                "0.00",
+                                "01-JAN-00:15"
+                            ],
+                            "General:Cooling:Electricity": [
+                                "12.08",
+                                "0.00",
+                                "01-JAN-00:15",
+                                "5318.53",
+                                "05-SEP-15:15"
+                            ],
+                            "General:ExteriorLights:Electricity": [
+                                "5.68",
+                                "0.00",
+                                "01-JAN-07:30",
+                                "611.30",
+                                "01-JAN-06:15"
+                            ],
+                            "General:Fans:Electricity": [
+                                "19.66",
+                                "0.00",
+                                "01-JAN-08:30",
+                                "1712.96",
+                                "02-JAN-06:15"
+                            ],
+                            "General:Heating:Electricity": [
+                                "9.13",
+                                "0.00",
+                                "05-JAN-03:30",
+                                "7051.57",
+                                "21-FEB-07:15"
+                            ],
+                            "General:Pumps:Electricity": [
+                                "0.00",
+                                "0.00",
+                                "01-JAN-00:15",
+                                "0.00",
+                                "02-JAN-07:15"
+                            ],
+                            "Heating:Electricity": [
+                                "9.13",
+                                "0.00",
+                                "05-JAN-03:30",
+                                "7051.57",
+                                "21-FEB-07:15"
+                            ],
+                            "InteriorEquipment:Electricity": [
+                                "48.30",
+                                "567.64",
+                                "01-JAN-00:15",
+                                "3325.31",
+                                "02-JAN-08:15"
+                            ],
+                            "InteriorEquipment:Electricity:SpaceType:LOBBY_ALL_OTHERS": [
+                                "10.72",
+                                "125.99",
+                                "01-JAN-00:15",
+                                "738.04",
+                                "02-JAN-08:15"
+                            ],
+                            "InteriorEquipment:Electricity:SpaceType:OFFICE_ENCLOSED": [
+                                "23.44",
+                                "275.46",
+                                "01-JAN-00:15",
+                                "1613.68",
+                                "02-JAN-08:15"
+                            ],
+                            "InteriorEquipment:Electricity:SpaceType:OFFICE_OPEN_PLAN": [
+                                "14.14",
+                                "166.20",
+                                "01-JAN-00:15",
+                                "973.59",
+                                "02-JAN-08:15"
+                            ],
+                            "InteriorEquipment:Electricity:Zone:CORE_ZN": [
+                                "14.14",
+                                "166.20",
+                                "01-JAN-00:15",
+                                "973.59",
+                                "02-JAN-08:15"
+                            ],
+                            "InteriorEquipment:Electricity:Zone:PERIMETER_ZN_1": [
+                                "10.72",
+                                "125.99",
+                                "01-JAN-00:15",
+                                "738.04",
+                                "02-JAN-08:15"
+                            ],
+                            "InteriorEquipment:Electricity:Zone:PERIMETER_ZN_2": [
+                                "6.36",
+                                "74.74",
+                                "01-JAN-00:15",
+                                "437.82",
+                                "02-JAN-08:15"
+                            ],
+                            "InteriorEquipment:Electricity:Zone:PERIMETER_ZN_3": [
+                                "10.72",
+                                "125.99",
+                                "01-JAN-00:15",
+                                "738.04",
+                                "02-JAN-08:15"
+                            ],
+                            "InteriorEquipment:Electricity:Zone:PERIMETER_ZN_4": [
+                                "6.36",
+                                "74.74",
+                                "01-JAN-00:15",
+                                "437.82",
+                                "02-JAN-08:15"
+                            ],
+                            "InteriorLights:Electricity": [
+                                "25.61",
+                                "110.04",
+                                "01-JAN-00:15",
+                                "2461.51",
+                                "02-JAN-16:45"
+                            ],
+                            "InteriorLights:Electricity:SpaceType:LOBBY_ALL_OTHERS": [
+                                "5.22",
+                                "24.42",
+                                "01-JAN-00:15",
+                                "546.33",
+                                "02-JAN-16:45"
+                            ],
+                            "InteriorLights:Electricity:SpaceType:OFFICE_ENCLOSED": [
+                                "11.91",
+                                "53.40",
+                                "01-JAN-00:15",
+                                "1194.50",
+                                "02-JAN-16:45"
+                            ],
+                            "InteriorLights:Electricity:SpaceType:OFFICE_OPEN_PLAN": [
+                                "8.49",
+                                "32.22",
+                                "01-JAN-00:15",
+                                "720.68",
+                                "02-JAN-08:15"
+                            ],
+                            "InteriorLights:Electricity:Zone:CORE_ZN": [
+                                "8.49",
+                                "32.22",
+                                "01-JAN-00:15",
+                                "720.68",
+                                "02-JAN-08:15"
+                            ],
+                            "InteriorLights:Electricity:Zone:PERIMETER_ZN_1": [
+                                "5.22",
+                                "24.42",
+                                "01-JAN-00:15",
+                                "546.33",
+                                "02-JAN-16:45"
+                            ],
+                            "InteriorLights:Electricity:Zone:PERIMETER_ZN_2": [
+                                "3.20",
+                                "14.49",
+                                "01-JAN-00:15",
+                                "324.09",
+                                "02-JAN-16:45"
+                            ],
+                            "InteriorLights:Electricity:Zone:PERIMETER_ZN_3": [
+                                "5.52",
+                                "24.42",
+                                "01-JAN-00:15",
+                                "546.33",
+                                "02-JAN-16:45"
+                            ],
+                            "InteriorLights:Electricity:Zone:PERIMETER_ZN_4": [
+                                "3.19",
+                                "14.49",
+                                "01-JAN-00:15",
+                                "324.09",
+                                "02-JAN-16:45"
+                            ],
+                            "LightsWired:InteriorLights:Electricity": [
+                                "25.61",
+                                "110.04",
+                                "01-JAN-00:15",
+                                "2461.51",
+                                "02-JAN-16:45"
+                            ],
+                            "LightsWired:InteriorLights:Electricity:SpaceType:LOBBY_ALL_OTHERS": [
+                                "5.22",
+                                "24.42",
+                                "01-JAN-00:15",
+                                "546.33",
+                                "02-JAN-16:45"
+                            ],
+                            "LightsWired:InteriorLights:Electricity:SpaceType:OFFICE_ENCLOSED": [
+                                "11.91",
+                                "53.40",
+                                "01-JAN-00:15",
+                                "1194.50",
+                                "02-JAN-16:45"
+                            ],
+                            "LightsWired:InteriorLights:Electricity:SpaceType:OFFICE_OPEN_PLAN": [
+                                "8.49",
+                                "32.22",
+                                "01-JAN-00:15",
+                                "720.68",
+                                "02-JAN-08:15"
+                            ],
+                            "LightsWired:InteriorLights:Electricity:Zone:CORE_ZN": [
+                                "8.49",
+                                "32.22",
+                                "01-JAN-00:15",
+                                "720.68",
+                                "02-JAN-08:15"
+                            ],
+                            "LightsWired:InteriorLights:Electricity:Zone:PERIMETER_ZN_1": [
+                                "5.22",
+                                "24.42",
+                                "01-JAN-00:15",
+                                "546.33",
+                                "02-JAN-16:45"
+                            ],
+                            "LightsWired:InteriorLights:Electricity:Zone:PERIMETER_ZN_2": [
+                                "3.20",
+                                "14.49",
+                                "01-JAN-00:15",
+                                "324.09",
+                                "02-JAN-16:45"
+                            ],
+                            "LightsWired:InteriorLights:Electricity:Zone:PERIMETER_ZN_3": [
+                                "5.52",
+                                "24.42",
+                                "01-JAN-00:15",
+                                "546.33",
+                                "02-JAN-16:45"
+                            ],
+                            "LightsWired:InteriorLights:Electricity:Zone:PERIMETER_ZN_4": [
+                                "3.19",
+                                "14.49",
+                                "01-JAN-00:15",
+                                "324.09",
+                                "02-JAN-16:45"
+                            ],
+                            "MiscPlug:InteriorEquipment:Electricity": [
+                                "48.30",
+                                "567.64",
+                                "01-JAN-00:15",
+                                "3325.31",
+                                "02-JAN-08:15"
+                            ],
+                            "MiscPlug:InteriorEquipment:Electricity:SpaceType:LOBBY_ALL_OTHERS": [
+                                "10.72",
+                                "125.99",
+                                "01-JAN-00:15",
+                                "738.04",
+                                "02-JAN-08:15"
+                            ],
+                            "MiscPlug:InteriorEquipment:Electricity:SpaceType:OFFICE_ENCLOSED": [
+                                "23.44",
+                                "275.46",
+                                "01-JAN-00:15",
+                                "1613.68",
+                                "02-JAN-08:15"
+                            ],
+                            "MiscPlug:InteriorEquipment:Electricity:SpaceType:OFFICE_OPEN_PLAN": [
+                                "14.14",
+                                "166.20",
+                                "01-JAN-00:15",
+                                "973.59",
+                                "02-JAN-08:15"
+                            ],
+                            "MiscPlug:InteriorEquipment:Electricity:Zone:CORE_ZN": [
+                                "14.14",
+                                "166.20",
+                                "01-JAN-00:15",
+                                "973.59",
+                                "02-JAN-08:15"
+                            ],
+                            "MiscPlug:InteriorEquipment:Electricity:Zone:PERIMETER_ZN_1": [
+                                "10.72",
+                                "125.99",
+                                "01-JAN-00:15",
+                                "738.04",
+                                "02-JAN-08:15"
+                            ],
+                            "MiscPlug:InteriorEquipment:Electricity:Zone:PERIMETER_ZN_2": [
+                                "6.36",
+                                "74.74",
+                                "01-JAN-00:15",
+                                "437.82",
+                                "02-JAN-08:15"
+                            ],
+                            "MiscPlug:InteriorEquipment:Electricity:Zone:PERIMETER_ZN_3": [
+                                "10.72",
+                                "125.99",
+                                "01-JAN-00:15",
+                                "738.04",
+                                "02-JAN-08:15"
+                            ],
+                            "MiscPlug:InteriorEquipment:Electricity:Zone:PERIMETER_ZN_4": [
+                                "6.36",
+                                "74.74",
+                                "01-JAN-00:15",
+                                "437.82",
+                                "02-JAN-08:15"
+                            ],
+                            "Pumps:Electricity": [
+                                "0.00",
+                                "0.00",
+                                "01-JAN-00:15",
+                                "0.00",
+                                "02-JAN-07:15"
+                            ],
+                            "Water Heater:WaterSystems:Electricity": [
+                                "18.01",
+                                "571.00",
+                                "02-MAY-02:45",
+                                "571.00",
+                                "14-JAN-04:30"
+                            ],
+                            "WaterSystems:Electricity": [
+                                "18.01",
+                                "571.00",
+                                "02-MAY-02:45",
+                                "571.00",
+                                "14-JAN-04:30"
+                            ]
+                        },
+                        "TableName": "Annual and Peak Values - Electricity"
+                    },
+                    {
+                        "Cols": [
+                            "Natural Gas Annual Value [GJ]",
+                            "Natural Gas Minimum Value [W]",
+                            "Timestamp of Minimum {TIMESTAMP}",
+                            "Natural Gas Maximum Value [W]",
+                            "Timestamp of Maximum {TIMESTAMP}"
+                        ],
+                        "Rows": {
+                            "General:Heating:NaturalGas": [
+                                "4.64",
+                                "0.00",
+                                "01-JAN-00:15",
+                                "25029.93",
+                                "02-JAN-06:15"
+                            ],
+                            "Heating:NaturalGas": [
+                                "4.64",
+                                "0.00",
+                                "01-JAN-00:15",
+                                "25029.93",
+                                "02-JAN-06:15"
+                            ],
+                            "NaturalGas:Facility": [
+                                "4.64",
+                                "0.00",
+                                "01-JAN-00:15",
+                                "25029.93",
+                                "02-JAN-06:15"
+                            ],
+                            "NaturalGas:HVAC": [
+                                "4.64",
+                                "0.00",
+                                "01-JAN-00:15",
+                                "25029.93",
+                                "02-JAN-06:15"
+                            ]
+                        },
+                        "TableName": "Annual and Peak Values - Natural Gas"
+                    }]
+            },
+            {
+                "For": "Entire Facility",
+                "ReportName": "LEEDsummary",
+                "Tables": [
+                    {
+                        "Cols": [
+                            "Data"
+                        ],
+                        "Rows": {
+                            "Number of hours cooling loads not met": [
+                                "31.75"
+                            ],
+                            "Number of hours heating loads not met": [
+                                "33.50"
+                            ],
+                            "Number of hours not met": [
+                                "65.25"
+                            ]
+                        },
+                        "TableName": "EAp2-2. Advisory Messages"
+                    }]
+            },
+            {
+                "For": "Entire Facility",
+                "ReportName": "SystemSummary",
+                "Tables": [
+                    {
+                        "Cols": [
+                            "During Heating [hr]",
+                            "During Cooling [hr]",
+                            "During Occupied Heating [hr]",
+                            "During Occupied Cooling [hr]"
+                        ],
+                        "Rows": {
+                            "ATTIC": [
+                                "0.00",
+                                "0.00",
+                                "0.00",
+                                "0.00"
+                            ],
+                            "CORE_ZN": [
+                                "4.00",
+                                "10.75",
+                                "4.00",
+                                "10.75"
+                            ],
+                            "Facility": [
+                                "71.00",
+                                "33.75",
+                                "33.50",
+                                "31.75"
+                            ],
+                            "PERIMETER_ZN_1": [
+                                "29.00",
+                                "24.00",
+                                "19.00",
+                                "22.25"
+                            ],
+                            "PERIMETER_ZN_2": [
+                                "40.50",
+                                "3.00",
+                                "25.50",
+                                "2.75"
+                            ],
+                            "PERIMETER_ZN_3": [
+                                "44.25",
+                                "0.25",
+                                "24.75",
+                                "0.25"
+                            ],
+                            "PERIMETER_ZN_4": [
+                                "42.00",
+                                "3.25",
+                                "26.00",
+                                "3.25"
+                            ]
+                        },
+                        "TableName": "Time Setpoint Not Met"
+                    }]
+            },
+        ]
+
+        gathered = t.add_simulation_outputs()
+
+        expected = {
+            'id': 'output_1',
+            'output_instance':
+                {'id': 'output_instance_1', 'ruleset_model_type': 'PROPOSED',
+                 'rotation_angle': 0, 'unmet_load_hours': 65.25,
+                 'unmet_load_hours_heating': 33.5,
+                 'unmet_occupied_load_hours_heating': 33.5,
+                 'unmet_load_hours_cooling': 31.75,
+                 'unmet_occupied_load_hours_cooling': 31.75,
+                 'annual_source_results': [{'id': 'source_results_ELECTRICITY',
+                                            'energy_source': 'ELECTRICITY',
+                                            'annual_consumption': 138.47,
+                                            'annual_demand': 14959.75,
+                                            'annual_cost': -1.0},
+                                           {'id': 'source_results_NATURAL_GAS',
+                                            'energy_source': 'NATURAL_GAS',
+                                            'annual_consumption': 4.64,
+                                            'annual_demand': 25029.93,
+                                            'annual_cost': -1.0}],
+                 'building_peak_cooling_load': -1,
+                 'annual_end_use_results': [
+                     {'id': 'end_use_ELECTRICITY-Cooling',
+                      'type': 'SPACE_COOLING',
+                      'energy_source': 'ELECTRICITY',
+                      'annual_site_energy_use': 12.08,
+                      'annual_site_coincident_demand': 0.0,
+                      'annual_site_non_coincident_demand': 5318.53,
+                      'is_regulated': True},
+                     {'id': 'end_use_ELECTRICITY-Exterior Lighting', 'type': 'EXTERIOR_LIGHTING',
+                      'energy_source': 'ELECTRICITY', 'annual_site_energy_use': 5.68,
+                      'annual_site_coincident_demand': 611.3,
+                      'annual_site_non_coincident_demand': 611.3, 'is_regulated': True},
+                     {'id': 'end_use_ELECTRICITY-Fans', 'type': 'FANS_INTERIOR_VENTILATION',
+                      'energy_source': 'ELECTRICITY',
+                      'annual_site_energy_use': 19.66, 'annual_site_coincident_demand': 1712.96,
+                      'annual_site_non_coincident_demand': 1712.96, 'is_regulated': True},
+                     {'id': 'end_use_ELECTRICITY-Heating', 'type': 'SPACE_HEATING',
+                      'energy_source': 'ELECTRICITY',
+                      'annual_site_energy_use': 9.13, 'annual_site_coincident_demand': 6277.68,
+                      'annual_site_non_coincident_demand': 7051.57, 'is_regulated': True},
+                     {'id': 'end_use_ELECTRICITY-Interior Equipment', 'type': 'MISC_EQUIPMENT',
+                      'energy_source': 'ELECTRICITY', 'annual_site_energy_use': 48.3,
+                      'annual_site_coincident_demand': 3325.31, 'annual_site_non_coincident_demand': 3325.31,
+                      'is_regulated': True},
+                     {'id': 'end_use_ELECTRICITY-Interior Lighting', 'type': 'INTERIOR_LIGHTING',
+                      'energy_source': 'ELECTRICITY', 'annual_site_energy_use': 25.61,
+                      'annual_site_coincident_demand': 2461.51,
+                      'annual_site_non_coincident_demand': 2461.51, 'is_regulated': True},
+                     {'id': 'end_use_NATURAL_GAS-Heating', 'type': 'SPACE_HEATING',
+                      'energy_source': 'NATURAL_GAS',
+                      'annual_site_energy_use': 4.64, 'annual_site_coincident_demand': 25029.93,
+                      'annual_site_non_coincident_demand': 25029.93, 'is_regulated': True}]},
+            'performance_cost_index': -1.0,
+            'baseline_building_unregulated_energy_cost': -1.0, 'baseline_building_regulated_energy_cost': -1.0,
+            'baseline_building_performance_energy_cost': -1.0,
+            'total_area_weighted_building_performance_factor': -1.0, 'performance_cost_index_target': -1.0,
+            'total_proposed_building_energy_cost_including_renewable_energy': -1.0,
+            'total_proposed_building_energy_cost_excluding_renewable_energy': -1.0,
+            'percent_renewable_energy_savings': -1.0}
 
         self.assertEqual(gathered, expected)
