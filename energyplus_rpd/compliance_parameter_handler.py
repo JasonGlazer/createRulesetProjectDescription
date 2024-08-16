@@ -29,10 +29,7 @@ class ComplianceParameterHandler:
                  'aggregation_factor': 1},
             'spaces':
                 {'status_type': 'NEW',
-                 'function': 'OTHER',
-                 'lighting_space_type': '',
-                 'ventilation_space_type': '',
-                 'service_water_heating_space_type': ''},
+                 'function': 'OTHER'},
             'infiltration':
                 {'measured_air_leakage_rate': 0},
             'surfaces':
@@ -93,9 +90,11 @@ class ComplianceParameterHandler:
         }
 
     def create_empty_compliance_json(self, json_dict: Dict):
+        # this is one of the main entry points
         created_dict = {}
         self.mirror_nested(json_dict, created_dict)
         self.cp_empty_file_path.write_text(dumps(created_dict, indent=2))
+        return created_dict
 
     def mirror_nested(self, in_dict: Dict, out_dict: Dict):
         for key_in, value_in in in_dict.items():
@@ -122,10 +121,13 @@ class ComplianceParameterHandler:
     def add_compliance_parameters(self, in_key, dict_new):
         if in_key in self.compliance_group_element:
             dict_new.update(self.compliance_group_element[in_key])
+        return dict_new
 
     def merge_in_compliance_parameters(self, rpd_dict):
+        # this is one of the main entry points
         self._load_cp_file()
         rpd_dict = self.update_dict(rpd_dict, self.cp_file)
+        return rpd_dict
 
     def _load_cp_file(self):
         if not self.cp_file_path.exists():
