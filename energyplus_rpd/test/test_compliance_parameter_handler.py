@@ -367,3 +367,58 @@ class TestComplianceParameterHandler(TestCase):
         expected = [{'the': 3, 'quick': 9}, 'orange', 'bear']
 
         self.assertEqual(list1, expected)
+
+    def test_update_dict(self):
+        dict1 = {}
+        update = {'a': 1}
+        self.cph.update_dict(dict1, update)
+        expected = {'a': 1}
+        self.assertEqual(dict1, expected)
+
+        dict1 = {'n': 9}
+        update = {'a': 1}
+        self.cph.update_dict(dict1, update)
+        expected = {'n': 9, 'a': 1}
+        self.assertEqual(dict1, expected)
+
+        dict1 = {'n': 9, 'brown': 'bear'}
+        update = {'a': 1}
+        self.cph.update_dict(dict1, update)
+        expected = {'n': 9, 'brown': 'bear', 'a': 1}
+        self.assertEqual(dict1, expected)
+
+        dict1 = {'n': 9, 'brown': 'bear'}
+        update = {'a': 1, 'lazy': 'fox'}
+        self.cph.update_dict(dict1, update)
+        expected = {'n': 9, 'brown': 'bear', 'a': 1, 'lazy': 'fox'}
+        self.assertEqual(dict1, expected)
+
+        dict1 = {'n': 9, 'brown': 'bear'}
+        update = {'a': 1, 'george': {'lazy': 'fox', 'orange': 8}}
+        self.cph.update_dict(dict1, update)
+        expected = {'n': 9, 'brown': 'bear', 'a': 1, 'george': {'lazy': 'fox', 'orange': 8}}
+        self.assertEqual(dict1, expected)
+
+        dict1 = {'n': 9, 'brown': ['bear', 'dog']}
+        update = {'a': 1, 'brown': ['sun', 'song']}
+        self.cph.update_dict(dict1, update)
+        expected = {'n': 9, 'brown': ['sun', 'song'], 'a': 1}
+        self.assertEqual(dict1, expected)
+
+        dict1 = {'n': 9, 'brown': {'bear': 7, 'dog': 9}}
+        update = {'a': 1, 'brown': {'bear': 6, 'song': 4}}
+        self.cph.update_dict(dict1, update)
+        expected = {'n': 9, 'brown': {'bear': 6, 'song': 4, 'dog': 9}, 'a': 1}
+        self.assertEqual(dict1, expected)
+
+        dict1 = {'n': 9, 'brown': {'bear': 7, 'dog': {'food': 2, 'walk': 1}}}
+        update = {'a': 1, 'brown': {'bear': 6, 'song': 4, 'dog': {'food': 3, 'bark': 11}}}
+        self.cph.update_dict(dict1, update)
+        expected = {'n': 9, 'brown': {'bear': 6, 'song': 4, 'dog': {'food': 3, 'walk': 1, 'bark': 11}}, 'a': 1}
+        self.assertEqual(dict1, expected)
+
+        dict1 = {'n': 9, 'brown': ['bear', {'dog': 9, 'cat': 8}]}
+        update = {'a': 1, 'brown': ['sun', {'dog': 0, 'space': 2}]}
+        self.cph.update_dict(dict1, update)
+        expected = {'n': 9, 'brown': ['sun', {'dog': 0, 'cat': 8, 'space': 2}], 'a': 1}
+        self.assertEqual(dict1, expected)
