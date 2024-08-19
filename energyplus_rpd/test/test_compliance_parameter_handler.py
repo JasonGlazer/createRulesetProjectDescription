@@ -1,6 +1,7 @@
 from pathlib import Path
 from tempfile import mkdtemp
 from unittest import TestCase
+from json import dumps
 
 from energyplus_rpd.compliance_parameter_handler import ComplianceParameterHandler
 
@@ -422,3 +423,18 @@ class TestComplianceParameterHandler(TestCase):
         self.cph.update_dict(dict1, update)
         expected = {'n': 9, 'brown': ['sun', {'dog': 0, 'cat': 8, 'space': 2}], 'a': 1}
         self.assertEqual(dict1, expected)
+
+    def test_merge_in_compliance_parameters(self):
+
+        dict1 = {'n': 9, 'brown': {'bear': 7, 'dog': {'food': 2, 'walk': 1}}}
+
+        self.cph.cp_file_path = self.run_dir_path / 'test_merge.comp-param.json'
+        self.cph.cp_file_path.write_text(dumps(
+            {'a': 1, 'brown': {'bear': 6, 'song': 4, 'dog': {'food': 3, 'bark': 11}}}
+        ))
+
+        result = self.cph.merge_in_compliance_parameters(dict1)
+
+        expected = {'n': 9, 'brown': {'bear': 6, 'song': 4, 'dog': {'food': 3, 'walk': 1, 'bark': 11}}, 'a': 1}
+
+        self.assertEqual(result, expected)
