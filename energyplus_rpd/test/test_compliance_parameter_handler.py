@@ -342,3 +342,28 @@ class TestComplianceParameterHandler(TestCase):
              'weather': {'data_source_type': 'HISTORIC_AGGREGATION'}, 'calendar': {}}
 
         self.assertEqual(result, expected)
+
+    def test_update_list(self):
+        list1 = ['the', 'quick', 'brown', 'fox']
+        update = ['the', 'quick', 'orange', 'bear']
+        self.cph.update_list(list1, update)
+
+        expected = ['the', 'quick', 'orange', 'bear']
+
+        self.assertEqual(list1, expected)
+
+        list1 = ['the', 'quick', ['brown', 'fox']]
+        update = ['the', 'quick', ['orange', 'bear']]
+        self.cph.update_list(list1, update)
+
+        expected = ['the', 'quick', ['orange', 'bear']]
+
+        self.assertEqual(list1, expected)
+
+        list1 = [{'the': 1, 'quick': 2}, 'brown', 'fox']
+        update = [{'the': 3, 'quick': 9}, 'orange', 'bear']
+        self.cph.update_list(list1, update)
+
+        expected = [{'the': 3, 'quick': 9}, 'orange', 'bear']
+
+        self.assertEqual(list1, expected)
