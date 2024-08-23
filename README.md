@@ -238,5 +238,7 @@ Data groups that have not started to be implemented are:
  - ServiceWaterHeatingUse
  - RefrigeratedCase
 
-The [energyplus_implementatio_report.txt](https://github.com/JasonGlazer/createRulesetProjectDescription/blob/main/energyplus_implementation_report.txt) provides additional details. 
+If the the ASHRAE229_extra.schema.yaml with extra EnergyPlus tags are included in the energyplus_rpd folder, then an energyplus_implementation_report.txt file is generated which provides additional details. An example of the extra tags is shown here:
+
+https://github.com/open229/ruleset-model-description-schema/blob/EPtags/schema-source/ASHRAE229_extra.schema.yaml
 
