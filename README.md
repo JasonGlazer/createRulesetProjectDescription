@@ -238,5 +238,5 @@ Data groups that have not started to be implemented are:
  - ServiceWaterHeatingUse
  - RefrigeratedCase
 
-The [energyplus_implementatio_report.txt](https://github.com/JasonGlazer/createRulesetProjectDescription/blob/main/energyplus_rpd/energyplus_implementation_report.txt) provides additional details. 
+The [energyplus_implementatio_report.txt](https://github.com/JasonGlazer/createRulesetProjectDescription/blob/main/energyplus_implementation_report.txt) provides additional details. 
 
