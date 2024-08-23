@@ -24,13 +24,13 @@ def build_argument_parser():
         '--add_cp',
         '-a',
         action="store_true",
-        help='Add the compliance parameters located in the <filename>.cp.json file'
+        help='Add the compliance parameters located in the <filename>.comp-param.json file'
     )
     parser.add_argument(
         '--create_empty_cp',
         '-c',
         action="store_true",
-        help='Create an empty compliance parameter file using the name <filename>.cp.json'
+        help='Create an empty compliance parameter file using the name <filename>.comp-param-empty.json'
     )
     return parser
 

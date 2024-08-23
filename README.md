@@ -31,12 +31,38 @@ https://github.com/open229/ruleset-model-description-schema
 The utility is intended to be used at a command line prompt:
 
 ```
-  energyplus_create_rpd in.epJSON
+  createRulesetProjectDescription in.epJSON
 ```
 
 where in.epJSON is the name of the EnergyPlus input file with the file path, in the epJSON format. 
 
-EnergyPlus version 23.2.0 or newer is required to use the utility.
+EnergyPlus version 24.2.0 or newer is required to use the utility.
+
+## Command Line Options
+
+To create an RPD file using the same name as the .epJSON file but with the .rpd extension, call 
+
+```
+  createRulesetProjectDescription filename.epJSON
+```
+
+Since many compliance parameters are needed, to create an JSON file with the correct fields for each corresponding EnergyPlus object call with the --create_empty_cp or -c parameter
+
+```
+  createRulesetProjectDescription --create_empty_cp filename.epJSON
+```
+
+That will create a file named filename.comp-param-empty.json that is like an RPD file but only contains compliance parameters. The user should then rename the file to filename.comp-param.json and edit the file with the correct compliance parameters in each field. When that is complete the command with --add_cp or -a will merge the compliance parameters provided by the user with the data elements populated from EnergyPlus. Here is an example:
+
+```
+  createRulesetProjectDescription --add_cp filename.epJSON
+```
+
+For help with the command line options use the parameter -h or --help without a filename.
+
+```
+  createRulesetProjectDescription --help
+```
 
 ## epJSON Format
 
@@ -176,6 +202,8 @@ The data groups that are partially populated include:
  - FanSystem
  - Fan
  - Terminal
+ - FluidLoop
+ - FluidLoopDesignAndControl
  - Pump
  - Boiler
  - Chiller
@@ -194,8 +222,7 @@ Data groups that have not started to be implemented are:
  - AirEconomizer
  - AirEnergyRecovery
  - FanOutputValidationPoint
- - FluidLoop
- - FluidLoopDesignAndControl
+ - PumpOutputValidationPoint
  - BoilerOutputValidationPoint
  - ChillerCapacityValidationPoint
  - ChillerPowerValidationPoint
