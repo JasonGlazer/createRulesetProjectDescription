@@ -13,15 +13,28 @@ jobs:
         os: [ windows-latest, macos-12, macos-latest, ubuntu-20.04, ubuntu-latest ]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8  # v2
-      - name: Set up Python 3.8
-        uses: actions/setup-python@d27e3f3d7c64b4bbf8e4abfb9b63b83e846e0435  # v4.5.0
+
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
         with:
-          python-version: 3.8
+          python-version: 3.9
+
+      - name: Cache Pip Dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       - name: Install Pip Dependencies
         run: pip install -r requirements.txt
+
       - name: Run Tests
         run: nosetests
+
 #      - name: Coveralls
 #        if: ${{ matrix.os == 'ubuntu-22.04' }}
 #        run: coveralls --service=github
