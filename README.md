@@ -38,6 +38,8 @@ where in.epJSON is the name of the EnergyPlus input file with the file path, in 
 
 EnergyPlus version 24.2.0 or newer is required to use the utility.
 
+An [overview video](https://youtu.be/p1vHqsraR8g) is also available.
+
 ## Command Line Options
 
 To create an RPD file using the same name as the .epJSON file but with the .rpd extension, call 
