@@ -45,5 +45,6 @@ def run() -> int:
         print('An epJSON file name must be specified.')
         return 1
 
+
 if __name__ == "__main__":
     exit(run())
