@@ -1,0 +1,936 @@
+============= Generated Report ==============
+Updated at: 2024-10-25 06:41:12.138970 
+
+RulesetProjectDescription  #elements: 10
+  note    DoneUsingConstant        id
+  note    NotRequired              reporting_name
+  null    DoneUsingConstant        notes
+  note    DoneUsingOutput          data_timestamp
+  note    DoneUsingConstant        data_version
+  note    DoneUsingConstant        ruleset_model_descriptions
+  note    DoneUsingConstant        calendar
+  note    DoneUsingConstant        weather
+  null    ComplianceParameter      compliance_path
+  note    DoneUsingConstant        output_format_type
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 8, 'null  ': 2}
+     DoneUsingOutput          :  1
+     DoneUsingConstant        :  7
+     NotRequired              :  1
+     ComplianceParameter      :  1
+
+RulesetModelDescription  #elements: 19
+  note    DoneUsingConstant        id
+  note    NotRequired              reporting_name
+  null    DoneUsingConstant        notes
+  note    ComplianceParameter      type
+  input   NotStarted               transformers
+  inout   DoneUsingConstant        buildings
+  inout   DoneUsingConstant        schedules
+  null    ComplianceParameter      measured_infiltration_pressure_difference
+  null    ComplianceParameter      is_measured_infiltration_based_on_test
+  inout   DoneUsingOutput          fluid_loops
+  note    NotStarted               service_water_heating_distribution_systems
+  note    NotStarted               service_water_heating_equipment
+  output  DoneUsingOutput          pumps
+  output  DoneUsingOutput          boilers
+  output  DoneUsingOutput          chillers
+  output  DoneUsingOutput          heat_rejections
+  note    NotStarted               external_fluid_sources
+  null    ComplianceParameter      site_zone_type
+  null    NotStarted               output
+  counts:  {'inout ': 3, 'input ': 1, 'output': 4, 'note  ': 6, 'null  ': 5}
+     DoneUsingOutput          :  5
+     DoneUsingConstant        :  4
+     NotRequired              :  1
+     NotStarted               :  5
+     ComplianceParameter      :  4
+
+Building  #elements: 11
+  inout   DoneUsingInput           id
+  null    NotRequired              reporting_name
+  null    DoneUsingConstant        notes
+  note    DoneUsingConstant        building_segments
+  note    NotStarted               elevators
+  inout   DoneUsingConstant        exterior_lighting
+  note    NotStarted               refrigerated_cases
+  note    ComplianceParameter      building_open_schedule
+  inout   DoneUsingOutput          has_site_shading
+  note    NotStarted               number_of_floors_above_grade
+  note    NotStarted               number_of_floors_below_grade
+  counts:  {'inout ': 3, 'input ': 0, 'output': 0, 'note  ': 6, 'null  ': 2}
+     DoneUsingInput           :  1
+     DoneUsingOutput          :  1
+     DoneUsingConstant        :  3
+     NotRequired              :  1
+     NotStarted               :  4
+     ComplianceParameter      :  1
+
+BuildingSegment  #elements: 11
+  note    DoneUsingConstant        id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  note    NotStarted               number_of_floors_above_grade
+  note    NotStarted               number_of_floors_below_grade
+  null    ComplianceParameter      is_all_new
+  inout   DoneUsingConstant        zones
+  output  DoneUsingOutput          heating_ventilating_air_conditioning_systems
+  null    ComplianceParameter      area_type_vertical_fenestration
+  null    ComplianceParameter      lighting_building_area_type
+  null    ComplianceParameter      area_type_heating_ventilating_air_conditioning_system
+  counts:  {'inout ': 1, 'input ': 0, 'output': 1, 'note  ': 3, 'null  ': 6}
+     DoneUsingOutput          :  1
+     DoneUsingConstant        :  2
+     NotRequired              :  2
+     NotStarted               :  2
+     ComplianceParameter      :  4
+
+Zone  #elements: 26
+  inout   DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   DoneUsingConstant        spaces
+  note    NotStarted               floor_name
+  output  DoneUsingOutput          volume
+  input   DoneUsingConstant        surfaces
+  note    ComplianceParameter      conditioning_type
+  inout   DoneUsingConstant        infiltration
+  input   NotStarted               design_thermostat_cooling_setpoint
+  input   DoneUsingOutput          thermostat_cooling_setpoint_schedule
+  input   NotStarted               design_thermostat_heating_setpoint
+  input   DoneUsingOutput          thermostat_heating_setpoint_schedule
+  input   NotStarted               minimum_humidity_setpoint_schedule
+  input   NotStarted               maximum_humidity_setpoint_schedule
+  output  DoneUsingOutput          terminals
+  note    NotStarted               served_by_service_water_heating_system
+  null    NotStarted               transfer_airflow_rate
+  null    NotStarted               transfer_airflow_source_zone
+  input   NotStarted               zonal_exhaust_fan
+  input   NotStarted               exhaust_airflow_rate_multiplier_schedule
+  null    NotStarted               makeup_airflow_rate
+  note    NotStarted               non_mechanical_cooling_fan_power
+  null    NotStarted               non_mechanical_cooling_fan_airflow
+  input   NotStarted               air_distribution_effectiveness
+  null    ComplianceParameter      aggregation_factor
+  counts:  {'inout ': 3, 'input ': 10, 'output': 2, 'note  ': 4, 'null  ': 7}
+     DoneUsingOutput          :  5
+     DoneUsingConstant        :  3
+     NotRequired              :  2
+     NotStarted               :  14
+     ComplianceParameter      :  2
+
+Space  #elements: 17
+  inout   DoneUsingOutput          id
+  inout   NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   DoneUsingConstant        interior_lighting
+  inout   DoneUsingConstant        miscellaneous_equipment
+  output  DoneUsingOutput          floor_area
+  inout   DoneUsingOutput          number_of_occupants
+  inout   DoneUsingOutput          occupant_multiplier_schedule
+  input   NotStarted               occupant_sensible_heat_gain
+  input   NotStarted               occupant_latent_heat_gain
+  null    ComplianceParameter      status_type
+  null    ComplianceParameter      function
+  null    NotStarted               envelope_space_type
+  note    DoneUsingOutput          lighting_space_type
+  note    DoneUsingOutput          ventilation_space_type
+  note    DoneUsingOutput          service_water_heating_space_type
+  input   NotStarted               service_water_heating_uses
+  counts:  {'inout ': 6, 'input ': 3, 'output': 1, 'note  ': 3, 'null  ': 4}
+     DoneUsingOutput          :  7
+     DoneUsingConstant        :  2
+     NotRequired              :  2
+     NotStarted               :  4
+     ComplianceParameter      :  2
+
+Infiltration  #elements: 8
+  inout   DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  note    PartialUsingConstant     modeling_method
+  note    PartialUsingConstant     algorithm_name
+  null    ComplianceParameter      measured_air_leakage_rate
+  inout   PartialUsingOutput       flow_rate
+  inout   PartialUsingOutput       multiplier_schedule
+  counts:  {'inout ': 3, 'input ': 0, 'output': 0, 'note  ': 2, 'null  ': 3}
+     DoneUsingOutput          :  1
+     PartialUsingOutput       :  2
+     PartialUsingConstant     :  2
+     NotRequired              :  2
+     ComplianceParameter      :  1
+
+Surface  #elements: 14
+  inout   DoneUsingOutput          id
+  inout   NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   DoneUsingConstant        subsurfaces
+  inout   DoneUsingOutput          classification
+  output  DoneUsingOutput          area
+  output  DoneUsingOutput          tilt
+  output  DoneUsingOutput          azimuth
+  inout   PartialUsingOutput       adjacent_to
+  inout   DoneUsingInput           adjacent_zone
+  inout   DoneUsingOutput          does_cast_shade
+  inout   DoneUsingConstant        construction
+  input   NotStarted               optical_properties
+  null    ComplianceParameter      status_type
+  counts:  {'inout ': 8, 'input ': 1, 'output': 3, 'note  ': 0, 'null  ': 2}
+     DoneUsingInput           :  1
+     DoneUsingOutput          :  6
+     DoneUsingConstant        :  2
+     PartialUsingOutput       :  1
+     NotRequired              :  2
+     NotStarted               :  1
+     ComplianceParameter      :  1
+
+Construction  #elements: 15
+  inout   PartialUsingInput        id
+  inout   NotRequired              reporting_name
+  null    NotRequired              notes
+  note    ComplianceParameter      classification
+  note    DoneUsingConstant        surface_construction_input_option
+  note    NotRequired              fraction_framing
+  input   DoneUsingConstant        primary_layers
+  note    NotRequired              framing_layers
+  note    NotRequired              insulation_locations
+  output  DoneUsingOutput          u_factor
+  note    NotStarted               c_factor
+  note    NotStarted               f_factor
+  note    NotStarted               r_values
+  input   NotStarted               has_radiant_heating
+  input   NotStarted               has_radiant_cooling
+  counts:  {'inout ': 2, 'input ': 3, 'output': 1, 'note  ': 8, 'null  ': 1}
+     DoneUsingOutput          :  1
+     DoneUsingConstant        :  2
+     PartialUsingInput        :  1
+     NotRequired              :  5
+     NotStarted               :  5
+     ComplianceParameter      :  1
+
+Material  #elements: 8
+  inout   PartialUsingInput        id
+  inout   NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   PartialUsingInput        thickness
+  inout   PartialUsingInput        thermal_conductivity
+  inout   PartialUsingInput        density
+  inout   PartialUsingInput        specific_heat
+  inout   PartialUsingInput        r_value
+  counts:  {'inout ': 7, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 1}
+     PartialUsingInput        :  6
+     NotRequired              :  2
+
+SurfaceOpticalProperties  #elements: 9
+  input   NotStarted               id
+  null    NotStarted               reporting_name
+  null    NotStarted               notes
+  input   NotStarted               absorptance_thermal_exterior
+  input   NotStarted               absorptance_solar_exterior
+  input   NotStarted               absorptance_visible_exterior
+  input   NotStarted               absorptance_thermal_interior
+  input   NotStarted               absorptance_solar_interior
+  input   NotStarted               absorptance_visible_interior
+  counts:  {'inout ': 0, 'input ': 7, 'output': 0, 'note  ': 0, 'null  ': 2}
+     NotStarted               :  9
+
+Subsurface  #elements: 24
+  inout   PartialUsingOutput       id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   PartialUsingOutput       classification
+  null    ComplianceParameter      subclassification
+  null    ComplianceParameter      is_operable
+  null    ComplianceParameter      has_open_sensor
+  null    ComplianceParameter      framing_type
+  output  PartialUsingOutput       glazed_area
+  output  PartialUsingOutput       opaque_area
+  output  PartialUsingOutput       u_factor
+  input   NotStarted               dynamic_glazing_type
+  output  DoneUsingOutput          solar_heat_gain_coefficient
+  output  NotStarted               maximum_solar_heat_gain_coefficient
+  output  DoneUsingOutput          visible_transmittance
+  output  NotStarted               minimum_visible_transmittance
+  input   NotStarted               depth_of_overhang
+  input   NotStarted               has_shading_overhang
+  input   NotStarted               has_shading_sidefins
+  null    ComplianceParameter      has_manual_interior_shades
+  note    NotStarted               solar_transmittance_multiplier_summer
+  note    NotStarted               solar_transmittance_multiplier_winter
+  output  DoneUsingOutput          has_automatic_shades
+  null    ComplianceParameter      status_type
+  counts:  {'inout ': 2, 'input ': 4, 'output': 8, 'note  ': 2, 'null  ': 8}
+     DoneUsingOutput          :  3
+     PartialUsingOutput       :  5
+     NotRequired              :  2
+     NotStarted               :  8
+     ComplianceParameter      :  6
+
+InteriorLighting  #elements: 10
+  inout   DoneUsingOutput          id
+  inout   NotRequired              reporting_name
+  null    NotRequired              notes
+  null    ComplianceParameter      purpose_type
+  inout   DoneUsingOutput          power_per_area
+  inout   DoneUsingOutput          lighting_multiplier_schedule
+  null    ComplianceParameter      occupancy_control_type
+  inout   DoneUsingOutput          daylighting_control_type
+  note    DoneUsingConstant        are_schedules_used_for_modeling_occupancy_control
+  note    DoneUsingConstant        are_schedules_used_for_modeling_daylighting_control
+  counts:  {'inout ': 5, 'input ': 0, 'output': 0, 'note  ': 2, 'null  ': 3}
+     DoneUsingOutput          :  4
+     DoneUsingConstant        :  2
+     NotRequired              :  2
+     ComplianceParameter      :  2
+
+MiscellaneousEquipment  #elements: 12
+  inout   DoneUsingOutput          id
+  inout   NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   DoneUsingConstant        energy_type
+  inout   DoneUsingOutput          power
+  inout   DoneUsingOutput          multiplier_schedule
+  inout   DoneUsingOutput          sensible_fraction
+  inout   DoneUsingOutput          latent_fraction
+  input   NotStarted               remaining_fraction_to_loop
+  null    NotStarted               energy_from_loop
+  note    ComplianceParameter      type
+  null    ComplianceParameter      has_automatic_control
+  counts:  {'inout ': 7, 'input ': 1, 'output': 0, 'note  ': 1, 'null  ': 3}
+     DoneUsingOutput          :  5
+     DoneUsingConstant        :  1
+     NotRequired              :  2
+     NotStarted               :  2
+     ComplianceParameter      :  2
+
+Transformer  #elements: 8
+  input   NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  null    ComplianceParameter      type
+  input   NotStarted               phase
+  input   NotStarted               efficiency
+  input   NotStarted               capacity
+  input   NotStarted               peak_load
+  counts:  {'inout ': 0, 'input ': 5, 'output': 0, 'note  ': 0, 'null  ': 3}
+     NotRequired              :  2
+     NotStarted               :  5
+     ComplianceParameter      :  1
+
+Schedule  #elements: 17
+  output  DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  note    NotStarted               purpose
+  note    DoneUsingConstant        sequence_type
+  output  DoneUsingOutput          hourly_values
+  null    NotStarted               hourly_heating_design_day
+  null    NotStarted               hourly_cooling_design_day
+  null    NotRequired              event_times
+  null    NotRequired              event_values
+  null    NotRequired              event_times_heating_design_day
+  null    NotRequired              event_values_heating_design_day
+  null    NotRequired              event_times_cooling_design_day
+  null    NotRequired              event_values_cooling_design_day
+  output  NotStarted               type
+  null    ComplianceParameter      prescribed_type
+  null    ComplianceParameter      is_modified_for_workaround
+  counts:  {'inout ': 0, 'input ': 0, 'output': 3, 'note  ': 2, 'null  ': 12}
+     DoneUsingOutput          :  2
+     DoneUsingConstant        :  1
+     NotRequired              :  8
+     NotStarted               :  4
+     ComplianceParameter      :  2
+
+Calendar  #elements: 4
+  output  DoneUsingOutput          notes
+  inout   DoneUsingOutput          day_of_week_for_january_1
+  output  DoneUsingOutput          is_leap_year
+  inout   DoneUsingOutput          has_daylight_saving_time
+  counts:  {'inout ': 2, 'input ': 0, 'output': 2, 'note  ': 0, 'null  ': 0}
+     DoneUsingOutput          :  4
+
+Weather  #elements: 7
+  null    NotRequired              notes
+  input   NotStarted               ground_temperature_schedule
+  output  DoneUsingOutput          file_name
+  note    DoneUsingConstant        data_source_type
+  output  DoneUsingOutput          climate_zone
+  input   PartialUsingOutput       cooling_design_day_type
+  input   PartialUsingOutput       heating_design_day_type
+  counts:  {'inout ': 0, 'input ': 3, 'output': 2, 'note  ': 1, 'null  ': 1}
+     DoneUsingOutput          :  2
+     DoneUsingConstant        :  1
+     PartialUsingOutput       :  2
+     NotRequired              :  1
+     NotStarted               :  1
+
+Elevator  #elements: 21
+  null    NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  null    NotStarted               type
+  null    NotStarted               motor_location_zone
+  null    NotStarted               motor_heat_fraction
+  null    NotStarted               cab_location_zone
+  null    NotStarted               cab_heat_fraction
+  null    NotStarted               is_variable_speed_motor
+  null    NotStarted               motor_power
+  null    NotStarted               cab_counterweight
+  null    NotStarted               cab_weight
+  null    NotStarted               design_load
+  null    NotStarted               speed
+  null    NotStarted               cab_area
+  null    NotStarted               cab_lighting_power
+  null    NotStarted               cab_ventilation_fan_power
+  null    NotStarted               cab_ventilation_fan_flow
+  null    NotStarted               cab_motor_multiplier_schedule
+  null    NotStarted               cab_ventilation_fan_multiplier_schedule
+  null    NotStarted               cab_lighting_multiplier_schedule
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 21}
+     NotRequired              :  2
+     NotStarted               :  19
+
+HeatingVentilatingAirConditioningSystem  #elements: 8
+  note    DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   DoneUsingOutput          fan_system
+  inout   DoneUsingOutput          heating_system
+  inout   DoneUsingOutput          cooling_system
+  inout   NotStarted               preheat_system
+  null    ComplianceParameter      status_type
+  counts:  {'inout ': 4, 'input ': 0, 'output': 0, 'note  ': 1, 'null  ': 3}
+     DoneUsingOutput          :  4
+     NotRequired              :  2
+     NotStarted               :  1
+     ComplianceParameter      :  1
+
+HeatingSystem  #elements: 18
+  inout   DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   DoneUsingOutput          type
+  inout   DoneUsingOutput          energy_source_type
+  inout   DoneUsingOutput          hot_water_loop
+  input   NotStarted               water_source_heat_pump_loop
+  inout   DoneUsingOutput          design_capacity
+  output  DoneUsingOutput          rated_capacity
+  output  DoneUsingOutput          oversizing_factor
+  inout   DoneUsingOutput          is_sized_based_on_design_day
+  output  DoneUsingOutput          heating_coil_setpoint
+  output  PartialUsingOutput       efficiency_metric_values
+  output  PartialUsingOutput       efficiency_metric_types
+  input   NotStarted               heatpump_auxilliary_heat_type
+  input   NotStarted               heatpump_auxilliary_heat_high_shutoff_temperature
+  inout   DoneUsingOutput          heatpump_low_shutoff_temperature
+  note    NotStarted               humidification_type
+  counts:  {'inout ': 7, 'input ': 3, 'output': 5, 'note  ': 1, 'null  ': 2}
+     DoneUsingOutput          :  10
+     PartialUsingOutput       :  2
+     NotRequired              :  2
+     NotStarted               :  4
+
+CoolingSystem  #elements: 16
+  inout   DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   DoneUsingOutput          type
+  inout   DoneUsingOutput          design_total_cool_capacity
+  inout   DoneUsingOutput          design_sensible_cool_capacity
+  output  DoneUsingOutput          rated_total_cool_capacity
+  output  DoneUsingOutput          rated_sensible_cool_capacity
+  output  DoneUsingOutput          oversizing_factor
+  inout   DoneUsingOutput          is_sized_based_on_design_day
+  inout   DoneUsingOutput          chilled_water_loop
+  input   NotStarted               condenser_water_loop
+  output  DoneUsingOutput          efficiency_metric_values
+  output  DoneUsingOutput          efficiency_metric_types
+  input   NotStarted               dehumidification_type
+  inout   NotStarted               cooling_turndown_ratio
+  counts:  {'inout ': 7, 'input ': 2, 'output': 5, 'note  ': 0, 'null  ': 2}
+     DoneUsingOutput          :  11
+     NotRequired              :  2
+     NotStarted               :  3
+
+FanSystem  #elements: 26
+  inout   DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   DoneUsingOutput          supply_fans
+  input   NotStarted               return_fans
+  inout   DoneUsingOutput          exhaust_fans
+  input   NotStarted               relief_fans
+  inout   NotStarted               air_economizer
+  inout   NotStarted               air_energy_recovery
+  input   NotStarted               temperature_control
+  note    NotStarted               operation_during_occupied
+  note    NotStarted               operation_during_unoccupied
+  note    NotStarted               has_lock_out_central_heat_during_unoccupied
+  inout   PartialUsingOutput       fan_control
+  input   NotStarted               reset_differential_temperature
+  input   NotStarted               supply_air_temperature_reset_load_fraction
+  input   NotStarted               supply_air_temperature_reset_schedule
+  note    NotStarted               fan_volume_reset_type
+  note    NotStarted               fan_volume_reset_fraction
+  input   NotStarted               operating_schedule
+  output  DoneUsingOutput          minimum_airflow
+  output  DoneUsingOutput          minimum_outdoor_airflow
+  output  NotStarted               maximum_outdoor_airflow
+  null    ComplianceParameter      air_filter_merv_rating
+  null    ComplianceParameter      has_fully_ducted_return
+  inout   NotStarted               demand_control_ventilation_control
+  counts:  {'inout ': 7, 'input ': 7, 'output': 3, 'note  ': 5, 'null  ': 4}
+     DoneUsingOutput          :  5
+     PartialUsingOutput       :  1
+     NotRequired              :  2
+     NotStarted               :  16
+     ComplianceParameter      :  2
+
+AirEconomizer  #elements: 6
+  inout   NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   NotStarted               type
+  inout   NotStarted               high_limit_shutoff_temperature
+  null    NotStarted               is_integrated
+  counts:  {'inout ': 3, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 3}
+     NotRequired              :  2
+     NotStarted               :  4
+
+AirEnergyRecovery  #elements: 11
+  inout   NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  input   NotStarted               type
+  null    ComplianceParameter      enthalpy_recovery_ratio
+  inout   NotStarted               energy_recovery_operation
+  inout   NotStarted               energy_recovery_supply_air_temperature_control
+  input   NotStarted               design_sensible_effectiveness
+  input   NotStarted               design_latent_effectiveness
+  inout   NotStarted               outdoor_airflow
+  input   NotStarted               exhaust_airflow
+  counts:  {'inout ': 4, 'input ': 4, 'output': 0, 'note  ': 0, 'null  ': 3}
+     NotRequired              :  2
+     NotStarted               :  8
+     ComplianceParameter      :  1
+
+Fan  #elements: 17
+  inout   DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   DoneUsingOutput          design_airflow
+  inout   DoneUsingOutput          is_airflow_sized_based_on_design_day
+  note    DoneUsingOutput          specification_method
+  inout   DoneUsingOutput          design_electric_power
+  inout   DoneUsingOutput          design_pressure_rise
+  null    ComplianceParameter      motor_nameplate_power
+  null    ComplianceParameter      shaft_power
+  inout   DoneUsingOutput          total_efficiency
+  inout   DoneUsingOutput          motor_efficiency
+  inout   DoneUsingOutput          motor_heat_to_airflow_fraction
+  inout   DoneUsingOutput          motor_heat_to_zone_fraction
+  inout   DoneUsingOutput          motor_location_zone
+  null    ComplianceParameter      status_type
+  input   NotStarted               output_validation_points
+  counts:  {'inout ': 10, 'input ': 1, 'output': 0, 'note  ': 1, 'null  ': 5}
+     DoneUsingOutput          :  11
+     NotRequired              :  2
+     NotStarted               :  1
+     ComplianceParameter      :  3
+
+FanOutputValidationPoint  #elements: 2
+  input   NotStarted               airflow
+  input   NotStarted               result
+  counts:  {'inout ': 0, 'input ': 2, 'output': 0, 'note  ': 0, 'null  ': 0}
+     NotStarted               :  2
+
+Terminal  #elements: 25
+  inout   DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   PartialUsingOutput       type
+  inout   PartialUsingOutput       served_by_heating_ventilating_air_conditioning_system
+  inout   DoneUsingOutput          heating_source
+  inout   DoneUsingOutput          heating_from_loop
+  inout   DoneUsingOutput          cooling_source
+  inout   DoneUsingOutput          cooling_from_loop
+  inout   DoneUsingOutput          fan
+  inout   DoneUsingOutput          fan_configuration
+  inout   DoneUsingOutput          primary_airflow
+  inout   DoneUsingOutput          secondary_airflow
+  inout   DoneUsingOutput          max_heating_airflow
+  inout   DoneUsingOutput          supply_design_heating_setpoint_temperature
+  output  DoneUsingOutput          supply_design_cooling_setpoint_temperature
+  note    NotStarted               temperature_control
+  inout   DoneUsingOutput          minimum_airflow
+  output  DoneUsingOutput          minimum_outdoor_airflow
+  input   DoneUsingOutput          minimum_outdoor_airflow_multiplier_schedule
+  inout   PartialUsingOutput       heating_capacity
+  inout   PartialUsingOutput       cooling_capacity
+  null    ComplianceParameter      is_supply_ducted
+  input   NotStarted               has_demand_control_ventilation
+  null    NotStarted               is_fan_first_stage_heat
+  counts:  {'inout ': 16, 'input ': 2, 'output': 2, 'note  ': 1, 'null  ': 4}
+     DoneUsingOutput          :  15
+     PartialUsingOutput       :  4
+     NotRequired              :  2
+     NotStarted               :  3
+     ComplianceParameter      :  1
+
+FluidLoop  #elements: 8
+  inout   DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   DoneUsingOutput          type
+  inout   DoneUsingOutput          pump_power_per_flow_rate
+  note    NotStarted               child_loops
+  output  DoneUsingOutput          cooling_or_condensing_design_and_control
+  output  DoneUsingOutput          heating_design_and_control
+  counts:  {'inout ': 3, 'input ': 0, 'output': 2, 'note  ': 1, 'null  ': 2}
+     DoneUsingOutput          :  5
+     NotRequired              :  2
+     NotStarted               :  1
+
+FluidLoopDesignAndControl  #elements: 17
+  inout   DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  note    NotStarted               design_supply_temperature
+  note    NotStarted               design_return_temperature
+  input   NotStarted               is_sized_using_coincident_load
+  input   NotStarted               minimum_flow_fraction
+  inout   DoneUsingOutput          operation
+  input   NotStarted               operation_schedule
+  inout   DoneUsingOutput          flow_control
+  input   NotStarted               temperature_reset_type
+  input   NotStarted               outdoor_high_for_loop_supply_reset_temperature
+  input   NotStarted               outdoor_low_for_loop_supply_reset_temperature
+  input   NotStarted               loop_supply_temperature_at_outdoor_high
+  input   NotStarted               loop_supply_temperature_at_outdoor_low
+  input   NotStarted               loop_supply_temperature_at_low_load
+  inout   DoneUsingOutput          has_integrated_waterside_economizer
+  counts:  {'inout ': 4, 'input ': 9, 'output': 0, 'note  ': 2, 'null  ': 2}
+     DoneUsingOutput          :  4
+     NotRequired              :  2
+     NotStarted               :  11
+
+Pump  #elements: 14
+  inout   DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   DoneUsingOutput          loop_or_piping
+  note    DoneUsingConstant        specification_method
+  inout   DoneUsingOutput          design_electric_power
+  note    ComplianceParameter      motor_nameplate_power
+  inout   DoneUsingOutput          design_head
+  note    ComplianceParameter      impeller_efficiency
+  inout   DoneUsingOutput          motor_efficiency
+  inout   DoneUsingOutput          speed_control
+  inout   DoneUsingOutput          design_flow
+  inout   DoneUsingOutput          is_flow_sized_based_on_design_day
+  null    NotStarted               output_validation_points
+  counts:  {'inout ': 8, 'input ': 0, 'output': 0, 'note  ': 3, 'null  ': 3}
+     DoneUsingOutput          :  8
+     DoneUsingConstant        :  1
+     NotRequired              :  2
+     NotStarted               :  1
+     ComplianceParameter      :  2
+
+PumpOutputValidationPoint  #elements: 2
+  null                             flow
+  null                             result
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 2}
+
+Boiler  #elements: 15
+  inout   DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   DoneUsingOutput          loop
+  inout   DoneUsingOutput          design_capacity
+  output  DoneUsingOutput          rated_capacity
+  inout   DoneUsingOutput          minimum_load_ratio
+  note    ComplianceParameter      draft_type
+  inout   DoneUsingOutput          energy_source_type
+  note    DoneUsingConstant        efficiency_metric
+  inout   DoneUsingOutput          efficiency
+  input   NotStarted               output_validation_points
+  inout   DoneUsingOutput          auxiliary_power
+  input   NotStarted               operation_lower_limit
+  input   NotStarted               operation_upper_limit
+  counts:  {'inout ': 7, 'input ': 3, 'output': 1, 'note  ': 2, 'null  ': 2}
+     DoneUsingOutput          :  8
+     DoneUsingConstant        :  1
+     NotRequired              :  2
+     NotStarted               :  3
+     ComplianceParameter      :  1
+
+BoilerOutputValidationPoint  #elements: 3
+  null    NotStarted               load
+  null    NotStarted               entering_water_temperature
+  null    NotStarted               result
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 3}
+     NotStarted               :  3
+
+Chiller  #elements: 25
+  inout   DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   DoneUsingOutput          cooling_loop
+  inout   DoneUsingOutput          condensing_loop
+  note    ComplianceParameter      compressor_type
+  inout   PartialUsingOutput       energy_source_type
+  inout   DoneUsingOutput          design_capacity
+  output  DoneUsingOutput          rated_capacity
+  output  DoneUsingOutput          rated_entering_condenser_temperature
+  output  DoneUsingOutput          rated_leaving_evaporator_temperature
+  inout   DoneUsingOutput          minimum_load_ratio
+  inout   DoneUsingOutput          design_flow_evaporator
+  inout   DoneUsingOutput          design_flow_condenser
+  inout   DoneUsingOutput          design_entering_condenser_temperature
+  inout   DoneUsingOutput          design_leaving_evaporator_temperature
+  inout   DoneUsingOutput          full_load_efficiency
+  output  DoneUsingOutput          part_load_efficiency
+  note    DoneUsingConstant        part_load_efficiency_metric
+  input   NotStarted               capacity_validation_points
+  input   NotStarted               power_validation_points
+  inout   DoneUsingOutput          is_chilled_water_pump_interlocked
+  inout   DoneUsingOutput          is_condenser_water_pump_interlocked
+  inout   DoneUsingOutput          heat_recovery_loop
+  inout   DoneUsingOutput          heat_recovery_fraction
+  counts:  {'inout ': 15, 'input ': 2, 'output': 4, 'note  ': 2, 'null  ': 2}
+     DoneUsingOutput          :  18
+     DoneUsingConstant        :  1
+     PartialUsingOutput       :  1
+     NotRequired              :  2
+     NotStarted               :  2
+     ComplianceParameter      :  1
+
+ChillerCapacityValidationPoint  #elements: 3
+  null    NotStarted               chilled_water_supply_temperature
+  null    NotStarted               condenser_temperature
+  null    NotStarted               result
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 3}
+     NotStarted               :  3
+
+ChillerPowerValidationPoint  #elements: 5
+  null    NotStarted               chilled_water_supply_temperature
+  null    NotStarted               condenser_temperature
+  null    NotStarted               load
+  null    NotStarted               is_at_full_capacity
+  null    NotStarted               result
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 5}
+     NotStarted               :  5
+
+HeatRejection  #elements: 17
+  inout   DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  inout   DoneUsingOutput          loop
+  inout   DoneUsingOutput          type
+  null    ComplianceParameter      fan_type
+  inout   DoneUsingOutput          fluid
+  inout   DoneUsingOutput          range
+  inout   DoneUsingOutput          approach
+  null    ComplianceParameter      fan_shaft_power
+  null    ComplianceParameter      fan_motor_efficiency
+  inout   DoneUsingOutput          fan_motor_nameplate_power
+  inout   DoneUsingOutput          fan_speed_control
+  inout   DoneUsingOutput          design_wetbulb_temperature
+  inout   DoneUsingOutput          design_water_flowrate
+  null    ComplianceParameter      rated_water_flowrate
+  inout   DoneUsingOutput          leaving_water_setpoint_temperature
+  counts:  {'inout ': 11, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 6}
+     DoneUsingOutput          :  11
+     NotRequired              :  2
+     ComplianceParameter      :  4
+
+ExternalFluidSource  #elements: 6
+  null    NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  null    NotStarted               loop
+  null    NotStarted               type
+  null    NotStarted               energy_source_type
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 6}
+     NotRequired              :  2
+     NotStarted               :  4
+
+ServiceWaterHeatingDistributionSystem  #elements: 17
+  null    NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  null    NotStarted               design_supply_temperature
+  null    NotStarted               design_supply_temperature_difference
+  null    NotStarted               tanks
+  null    NotStarted               is_central_system
+  null    NotStarted               service_water_piping
+  null    NotStarted               distribution_compactness
+  null    NotStarted               control_type
+  null    NotStarted               configuration_type
+  null    NotStarted               is_recovered_heat_from_drain_used_by_water_heater
+  null    NotStarted               drain_heat_recovery_efficiency
+  null    NotStarted               drain_heat_recovery_type
+  null    NotStarted               flow_multiplier_schedule
+  null    NotStarted               entering_water_mains_temperature_schedule
+  null    NotStarted               is_ground_temperature_used_for_entering_water
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 17}
+     NotRequired              :  2
+     NotStarted               :  15
+
+ServiceWaterPiping  #elements: 10
+  null    NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  null    NotStarted               is_recirculation_loop
+  null    NotStarted               insulation_thickness
+  null    NotStarted               loop_pipe_location
+  null    NotStarted               location_zone
+  null    NotStarted               length
+  null    NotStarted               diameter
+  null    NotStarted               child
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 10}
+     NotRequired              :  2
+     NotStarted               :  8
+
+SolarThermal  #elements: 9
+  null    NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  null    NotStarted               angle_from_true_north
+  null    NotStarted               solar_savings_fraction
+  null    NotStarted               collector_area
+  null    NotStarted               collector_type_description
+  null    NotStarted               collector_slope
+  null    NotStarted               tank
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 9}
+     NotRequired              :  2
+     NotStarted               :  7
+
+ServiceWaterHeatingEquipment  #elements: 29
+  null    NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  null    NotStarted               heater_fuel_type
+  null    NotStarted               distribution_system
+  null    NotStarted               energy_factor
+  null    NotStarted               thermal_efficiency
+  null    NotStarted               standby_loss_fraction
+  null    NotStarted               uniform_energy_factor
+  null    NotStarted               first_hour_rating
+  null    NotStarted               output_validation_points
+  null    NotStarted               input_power
+  null    NotStarted               rated_capacity
+  null    NotStarted               minimum_capacity
+  null    NotStarted               recovery_efficiency
+  null    NotStarted               setpoint_temperature
+  null    NotStarted               compressor_location
+  null    NotStarted               compressor_zone
+  null    NotStarted               compressor_heat_rejection_source
+  null    NotStarted               compressor_heat_rejection_zone
+  null    NotStarted               compressor_capacity_validation_points
+  null    NotStarted               compressor_power_validation_points
+  null    NotStarted               draft_fan_power
+  null    NotStarted               has_electrical_ignition
+  null    NotStarted               heater_type
+  null    NotStarted               tank
+  null    NotStarted               status_type
+  null    NotStarted               solar_thermal_systems
+  null    NotStarted               hot_water_loop
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 29}
+     NotRequired              :  2
+     NotStarted               :  27
+
+ServiceWaterHeaterValidationPoint  #elements: 2
+  null    NotStarted               load
+  null    NotStarted               result
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 2}
+     NotStarted               :  2
+
+HeatPumpWaterHeaterCapacityValidationPoint  #elements: 5
+  null    NotStarted               evaporator_air_temperature
+  null    NotStarted               condenser_water_temperature
+  null    NotStarted               evaporator_air_flow
+  null    NotStarted               condenser_water_flow
+  null    NotStarted               result
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 5}
+     NotStarted               :  5
+
+HeatPumpWaterHeaterPowerValidationPoint  #elements: 6
+  null    NotStarted               evaporator_air_temperature
+  null    NotStarted               condenser_water_temperature
+  null    NotStarted               evaporator_air_flow
+  null    NotStarted               condenser_water_flow
+  null    NotStarted               load
+  null    NotStarted               result
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 6}
+     NotStarted               :  6
+
+Tank  #elements: 10
+  null    NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  null    NotStarted               storage_capacity
+  null    NotStarted               type
+  null    NotStarted               height
+  null    NotStarted               interior_insulation
+  null    NotStarted               exterior_insulation
+  null    NotStarted               location
+  null    NotStarted               location_zone
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 10}
+     NotRequired              :  2
+     NotStarted               :  8
+
+ServiceWaterHeatingUse  #elements: 12
+  null    NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  null    NotStarted               area_type
+  null    NotStarted               water_serves_type
+  null    NotStarted               served_by_distribution_system
+  null    NotStarted               use
+  null    NotStarted               use_units
+  null    NotStarted               use_multiplier_schedule
+  null    NotStarted               temperature_at_fixture
+  null    NotStarted               is_heat_recovered_by_drain
+  null    NotStarted               is_recovered_heat_used_by_cold_side_feed
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 12}
+     NotRequired              :  2
+     NotStarted               :  10
+
+ExteriorLighting  #elements: 10
+  inout   DoneUsingOutput          id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  null    ComplianceParameter      type
+  null    ComplianceParameter      area
+  null    ComplianceParameter      length
+  inout   DoneUsingOutput          power
+  null    ComplianceParameter      fixture_height
+  null    ComplianceParameter      is_exempt
+  inout   PartialUsingOutput       multiplier_schedule
+  counts:  {'inout ': 3, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 7}
+     DoneUsingOutput          :  2
+     PartialUsingOutput       :  1
+     NotRequired              :  2
+     ComplianceParameter      :  5
+
+RefrigeratedCase  #elements: 14
+  null    NotStarted               id
+  null    NotRequired              reporting_name
+  null    NotRequired              notes
+  null    NotStarted               type
+  null    NotStarted               equipment_category
+  null    NotStarted               is_self_contained
+  null    NotStarted               application_temperature
+  null    NotStarted               power
+  null    NotStarted               power_multiplier_schedule
+  null    NotStarted               sensible_fraction
+  null    NotStarted               heat_gain_fraction
+  null    NotStarted               volume
+  null    NotStarted               total_display_area
+  null    NotStarted               zone
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 14}
+     NotRequired              :  2
+     NotStarted               :  12
+
+============== To Do ==============

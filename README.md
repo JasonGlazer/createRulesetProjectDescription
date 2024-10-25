@@ -1,13 +1,13 @@
-# createRulesetModelDescription
+# Creating ASHRAE Standard 229 Ruleset Project Description Files for EnergyPlus 
 
-[![Test/Package Status](https://github.com/JasonGlazer/createRulesetModelDescription/actions/workflows/flake8.yml/badge.svg)](https://github.com/JasonGlazer/createRulesetModelDescription/actions/workflows/flake8.yml)
-[![Build Package and Run Tests](https://github.com/JasonGlazer/createRulesetModelDescription/actions/workflows/build_and_test.yml/badge.svg?branch=main)](https://github.com/JasonGlazer/createRulesetModelDescription/actions/workflows/build_and_test.yml)
+[![Test/Package Status](https://github.com/JasonGlazer/createRulesetProjectDescription/actions/workflows/flake8.yml/badge.svg)](https://github.com/JasonGlazer/createRulesetProjectDescription/actions/workflows/flake8.yml)
+[![Build Package and Run Tests](https://github.com/JasonGlazer/createRulesetProjectDescription/actions/workflows/build_and_test.yml/badge.svg?branch=main)](https://github.com/JasonGlazer/createRulesetProjectDescription/actions/workflows/build_and_test.yml)
 
-An EnergyPlus utility that creates a Ruleset Model Description (RMD) file based on output (and some input) from a simulation. 
+An EnergyPlus utility that creates a Ruleset Project Description (RPD) file based on output (and some input) from a simulation. 
 
 ## Background
 
-The RMD file is based on a schema being developed as part of the writing of ASHRAE Standard 229P:
+The RPD file is based on a schema being developed as part of the writing of ASHRAE Standard 229P:
 
 Title:
 
@@ -22,7 +22,7 @@ Scope:
  - This standard applies to building performance modeling software that implements rulesets.
  - This standard applies to rulesets associated with new or existing buildings and their systems, system controls, their sites, and other aspects of buildings described by the ruleset implementation being evaluated.
 
-The development of the RMD schema to support the standard is going on here:
+The development of the RPD schema to support the standard is going on here:
 
 https://github.com/open229/ruleset-model-description-schema
 
@@ -31,12 +31,40 @@ https://github.com/open229/ruleset-model-description-schema
 The utility is intended to be used at a command line prompt:
 
 ```
-  energyplus_create_rmd in.epJSON
+  createRulesetProjectDescription in.epJSON
 ```
 
 where in.epJSON is the name of the EnergyPlus input file with the file path, in the epJSON format. 
 
-EnergyPlus version 23.2.0 or newer is required to use the utility.
+EnergyPlus version 24.2.0 or newer is required to use the utility.
+
+An [overview video](https://youtu.be/p1vHqsraR8g) is also available.
+
+## Command Line Options
+
+To create an RPD file using the same name as the .epJSON file but with the .rpd extension, call 
+
+```
+  createRulesetProjectDescription filename.epJSON
+```
+
+Since many compliance parameters are needed, to create an JSON file with the correct fields for each corresponding EnergyPlus object call with the --create_empty_cp or -c parameter
+
+```
+  createRulesetProjectDescription --create_empty_cp filename.epJSON
+```
+
+That will create a file named filename.comp-param-empty.json that is like an RPD file but only contains compliance parameters. The user should then rename the file to filename.comp-param.json and edit the file with the correct compliance parameters in each field. When that is complete the command with --add_cp or -a will merge the compliance parameters provided by the user with the data elements populated from EnergyPlus. Here is an example:
+
+```
+  createRulesetProjectDescription --add_cp filename.epJSON
+```
+
+For help with the command line options use the parameter -h or --help without a filename.
+
+```
+  createRulesetProjectDescription --help
+```
 
 ## epJSON Format
 
@@ -59,7 +87,7 @@ For additional help with ConvertInputFormat at the command prompt in the directo
 
 ## Required Input File Changes
 
-The EnergyPlus input file has some added requirements to be used with the createRulesetModelDescription utility.
+The EnergyPlus input file has some added requirements to be used with the createRulesetProjectDescription utility.
 
  - many tabular output reports are used, so the Output:Table:SummaryReports should be set to AllSummary, AllSummaryMonthly, or AllSummaryMonthlyAndSizingPeriod:
 
@@ -149,9 +177,9 @@ report, which is used to identify the ASHRAE climate zone.
 
 ## Output
 
-The resulting Ruleset Model Description file will be created in the same directory as the epJSON file with the same name and the file extension .rmd
+The resulting Ruleset Project Description file will be created in the same directory as the epJSON file with the same name and the file extension .rpd
 
-The Ruleset Model Description file is not complete but can be used to test many aspects of the building model transformation due to the ruleset. 
+The Ruleset Project Description file is not complete but can be used to test many aspects of the building model transformation due to the ruleset. 
 The data groups that are partially populated include:
 
  - RulesetProjectDescription
@@ -176,6 +204,8 @@ The data groups that are partially populated include:
  - FanSystem
  - Fan
  - Terminal
+ - FluidLoop
+ - FluidLoopDesignAndControl
  - Pump
  - Boiler
  - Chiller
@@ -194,8 +224,7 @@ Data groups that have not started to be implemented are:
  - AirEconomizer
  - AirEnergyRecovery
  - FanOutputValidationPoint
- - FluidLoop
- - FluidLoopDesignAndControl
+ - PumpOutputValidationPoint
  - BoilerOutputValidationPoint
  - ChillerCapacityValidationPoint
  - ChillerPowerValidationPoint
@@ -211,5 +240,7 @@ Data groups that have not started to be implemented are:
  - ServiceWaterHeatingUse
  - RefrigeratedCase
 
-The [energyplus_implementatio_report.txt](https://github.com/JasonGlazer/createRulesetModelDescription/blob/main/energyplus_rmd/energyplus_implementation_report.txt) provides additional details. 
+If the the ASHRAE229_extra.schema.yaml with extra EnergyPlus tags are included in the energyplus_rpd folder, then an energyplus_implementation_report.txt file is generated which provides additional details. An example of the extra tags is shown here:
+
+https://github.com/open229/ruleset-model-description-schema/blob/EPtags/schema-source/ASHRAE229_extra.schema.yaml
 

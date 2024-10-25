@@ -133,3 +133,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+# internal reporting file from status_reporter.py
+# energyplus_implementation_report.txt

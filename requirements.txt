@@ -1,11 +1,12 @@
 # user-facing requirements, these need to be declared in setup.py install_requires
-jsonschema
+jsonschema<=4.17
 pyyaml
 
 # developer requirements for running tests
 coveralls
 flake8
 nose
+pytest
 
 # developer requirements to generate documentation
 sphinx

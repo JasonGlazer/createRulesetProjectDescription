@@ -1,0 +1,14 @@
+Fri 08/09/2024 16:28:32.24 ReadVars 
+ ReadVarsESO
+ getting all vars from:eplusout.eso
+  number variables requested for output=          49
+ ReadVars Run Time=00hr 00min  1.59sec
+ ReadVarsESO program completed successfully.
+ ReadVarsESO
+ processing:test.mvi
+ input file:eplusout.mtr
+ output file:eplusmtr.csv
+ getting all vars from:eplusout.mtr
+  number variables requested for output=           3
+ ReadVars Run Time=00hr 00min  0.20sec
+ ReadVarsESO program completed successfully.
