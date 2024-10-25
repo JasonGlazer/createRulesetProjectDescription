@@ -1,4 +1,4 @@
-# createRulesetProjectDescription
+# Creating ASHRAE Standard 229 Ruleset Project Description Files for EnergyPlus 
 
 [![Test/Package Status](https://github.com/JasonGlazer/createRulesetProjectDescription/actions/workflows/flake8.yml/badge.svg)](https://github.com/JasonGlazer/createRulesetProjectDescription/actions/workflows/flake8.yml)
 [![Build Package and Run Tests](https://github.com/JasonGlazer/createRulesetProjectDescription/actions/workflows/build_and_test.yml/badge.svg?branch=main)](https://github.com/JasonGlazer/createRulesetProjectDescription/actions/workflows/build_and_test.yml)

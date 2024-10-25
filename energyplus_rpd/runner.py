@@ -43,7 +43,7 @@ def run() -> int:
         return run_with_path(epjson_input_file_path, args.add_cp, args.create_empty_cp)
     else:
         print('An epJSON file name must be specified.')
-
+        return 1
 
 if __name__ == "__main__":
     exit(run())
