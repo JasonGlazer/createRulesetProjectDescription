@@ -98,8 +98,17 @@ class ComplianceParameterHandler:
 
     def mirror_nested(self, in_dict: Dict, out_dict: Dict):
         for key_in, value_in in in_dict.items():
-            if key_in == 'id':
-                out_dict['id'] = value_in
+            required_data_elements = [
+                'id',
+                'data_timestamp',
+                'loop', 
+                'loop_or_piping',
+                'cooling_loop',
+                'distribution_system',
+                'served_by_distribution_system'
+            ]
+            if key_in in required_data_elements:
+                out_dict[key_in] = value_in
             if isinstance(value_in, dict):
                 new_dict = {}
                 out_dict[key_in] = new_dict
