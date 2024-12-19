@@ -203,6 +203,7 @@ class Translator:
 
         self.do_use_compliance_parameters = add_cp
         self.do_create_empty_compliance_parameters = empty_cp
+
         self.compliance_parameter = ComplianceParameterHandler(epjson_file_path)
         if self.do_use_compliance_parameters or self.do_create_empty_compliance_parameters:
             print(f"File with compliance parameter information is: {self.compliance_parameter.cp_empty_file_path}")
@@ -1491,11 +1492,14 @@ class Translator:
         chillers = []
         tabular_reports = self.json_results_object['TabularReports']
         plant_loop_arrangement = self.gather_table_into_list('HVACTopology', 'Plant Loop Component Arrangement')
+        
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'EquipmentSummary':
+                
                 tables = tabular_report['Tables']
                 for table in tables:
                     if table['TableName'] == 'Chillers':
+                        
                         rows = table['Rows']
                         chiller_names = list(rows.keys())
                         cols = table['Cols']
@@ -1517,6 +1521,7 @@ class Translator:
                         heat_recovery_loop_name_column = cols.index('Heat Recovery Plantloop Name')
                         heat_recovery_fraction_column = cols.index('Recovery Relative Capacity Fraction')
                         for chiller_name in chiller_names:
+                            
                             if chiller_name != 'None':
                                 fuel_type = rows[chiller_name][fuel_type_column].upper().replace(' ', '_')
                                 chiller = {'id': chiller_name,
@@ -1557,6 +1562,7 @@ class Translator:
     def add_boilers(self):
         boilers = []
         tabular_reports = self.json_results_object['TabularReports']
+        
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'EquipmentSummary':
                 tables = tabular_report['Tables']
@@ -1657,6 +1663,8 @@ class Translator:
                         is_autosized_column = cols.index('Is Autosized')
                         control_column = cols.index('Control')
                         for pump_name in pump_names:
+                            if pump_name == 'None':
+                                continue
                             type_str = rows[pump_name][type_column]
                             speed_control = 'FIXED_SPEED'
                             if 'vari' in type_str.lower():
@@ -1664,6 +1672,7 @@ class Translator:
                             is_autosized = False
                             if 'Y' in rows[pump_name][is_autosized_column]:
                                 is_autosized = True
+                                
                             pump = {
                                 'id': pump_name,
                                 'loop_or_piping': rows[pump_name][plant_loop_name_column],
@@ -1962,6 +1971,7 @@ class Translator:
         self.add_simulation_outputs()
         self.add_schedules()
         self.ensure_all_id_unique()
+        
         if self.do_use_compliance_parameters:
             self.compliance_parameter.merge_in_compliance_parameters(self.project_description)
         elif self.do_create_empty_compliance_parameters:
