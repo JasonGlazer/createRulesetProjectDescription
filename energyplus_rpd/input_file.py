@@ -48,9 +48,13 @@ class InputFile:
         if not self.json_hourly_results_input_path.exists():
             self.json_hourly_results_input_path = epjson_file_path.with_name(epjson_file_path.stem + "out_hourly.json")
             if not self.json_hourly_results_input_path.exists():
-                raise Exception(
-                    f"Could not find EnergyPlus hourly results json file at path: "
-                    f"{self.json_hourly_results_input_path}")
+                eplusout_path = epjson_file_path.parent / "eplusout_hourly.json"
+                if eplusout_path.exists():
+                    self.json_hourly_results_input_path = eplusout_path
+                else:
+                    raise Exception(
+                        f"Could not find EnergyPlus hourly results json file at path: "
+                        f"{self.json_hourly_results_input_path}")
         try:
             self.json_hourly_result_file_contents = self.json_hourly_results_input_path.read_text()
             self.json_hourly_results_object = loads(self.json_hourly_result_file_contents)
