@@ -21,12 +21,21 @@ class InputFile:
 
     def _load_output_json(self, epjson_file_path: Path):
         self.json_results_input_path = epjson_file_path.with_suffix(".json")
+
         if not self.json_results_input_path.exists():
-            # try with the out.json suffix
+            # Try with the "out.json" suffix
             self.json_results_input_path = epjson_file_path.with_name(epjson_file_path.stem + "out.json")
             if not self.json_results_input_path.exists():
-                raise Exception(
-                    f"Could not find EnergyPlus results json file at path: {self.json_results_input_path}")
+                # Finally, check for the "eplusout.json" file
+                eplusout_path = epjson_file_path.parent / "eplusout.json"
+                if eplusout_path.exists():
+                    self.json_results_input_path = eplusout_path
+                else:
+                    raise Exception(
+                        f"Could not find EnergyPlus results JSON file at path: {self.json_results_input_path}"
+                    )
+
+        # Try to read and parse the JSON file
         try:
             self.json_result_file_contents = self.json_results_input_path.read_text()
             self.json_results_object = loads(self.json_result_file_contents)
