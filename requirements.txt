@@ -1,5 +1,5 @@
 # user-facing requirements, these need to be declared in setup.py install_requires
-jsonschema<=4.17
+jsonschema=4.23
 pyyaml
 
 # developer requirements for running tests
