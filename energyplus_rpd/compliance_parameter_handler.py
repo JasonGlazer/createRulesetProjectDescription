@@ -59,7 +59,8 @@ class ComplianceParameterHandler:
                 {'prescribed_type': 'NOT_APPLICABLE',
                  'is_modified_for_workaround': False},
             'weather':
-                {'data_source_type': 'HISTORIC_AGGREGATION'},
+                {'data_source_type': 'HISTORIC_AGGREGATION',
+                 'climate_zone': 'CZ0A'},
             'heating_ventilating_air_conditioning_systems':
                 {'status_type': 'NEW'},
             'fan_system':
