@@ -97,6 +97,8 @@ class ComplianceParameterHandler:
         return created_dict
 
     def mirror_nested(self, in_dict: Dict, out_dict: Dict):
+        self.add_compliance_parameters('root', out_dict)
+
         for key_in, value_in in in_dict.items():
             required_data_elements = [
                 'id',
