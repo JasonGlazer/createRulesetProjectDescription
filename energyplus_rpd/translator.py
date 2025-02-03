@@ -1249,6 +1249,8 @@ class Translator:
         seer_2017_column = dx_2017_cols.index('SEER Standard [Btu/W-h][2,3]')
         ieer_2017_column = dx_2017_cols.index('IEER [Btu/W-h][2]')
         for row_key in row_keys:
+            if row_key == 'None':
+                continue
             if row_key in dx_2017_row_keys:
                 coil_efficiencies[row_key]['StandardRatedNetCOP2017'] = float(
                     dx_2017_rows[row_key][net_cop_2017_column])
@@ -1269,6 +1271,8 @@ class Translator:
         ieer_2023_column = dx_2023_cols.index('IEER [Btu/W-h][2]')
         for row_key in row_keys:
             if row_key in dx_2023_row_keys:
+                if row_key == 'None':
+                    continue
                 coil_efficiencies[row_key]['StandardRatedNetCOP2023'] = float(
                     dx_2023_rows[row_key][net_cop_2023_column])
                 coil_efficiencies[row_key]['EER2023'] = float(dx_2023_rows[row_key][eer_2023_column])
