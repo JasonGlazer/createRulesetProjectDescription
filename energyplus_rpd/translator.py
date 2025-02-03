@@ -203,6 +203,7 @@ class Translator:
 
         self.do_use_compliance_parameters = add_cp
         self.do_create_empty_compliance_parameters = empty_cp
+
         self.compliance_parameter = ComplianceParameterHandler(epjson_file_path)
         if self.do_use_compliance_parameters or self.do_create_empty_compliance_parameters:
             print(f"File with compliance parameter information is: {self.compliance_parameter.cp_empty_file_path}")
@@ -1657,6 +1658,8 @@ class Translator:
                         is_autosized_column = cols.index('Is Autosized')
                         control_column = cols.index('Control')
                         for pump_name in pump_names:
+                            if pump_name == 'None':
+                                continue
                             type_str = rows[pump_name][type_column]
                             speed_control = 'FIXED_SPEED'
                             if 'vari' in type_str.lower():
@@ -1962,6 +1965,7 @@ class Translator:
         self.add_simulation_outputs()
         self.add_schedules()
         self.ensure_all_id_unique()
+
         if self.do_use_compliance_parameters:
             self.compliance_parameter.merge_in_compliance_parameters(self.project_description)
         elif self.do_create_empty_compliance_parameters:
