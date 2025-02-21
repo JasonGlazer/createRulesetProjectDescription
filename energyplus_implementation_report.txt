@@ -1,5 +1,5 @@
 ============= Generated Report ==============
-Updated at: 2025-02-03 11:28:46.327981 
+Updated at: 2025-02-20 10:19:03.071799 
 
 RulesetProjectDescription  #elements: 8
   note    DoneUsingConstant        id
@@ -9,8 +9,8 @@ RulesetProjectDescription  #elements: 8
   note    ToDo                     metadata
   null    ComplianceParameter      compliance_path
   note    DoneUsingConstant        output_format_type
-  null    ToDo                     output
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 5, 'null  ': 3}
+  note    ToDo                     output
+  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 6, 'null  ': 2}
      DoneUsingConstant        :  4
      NotRequired              :  1
      ToDo                     :  2
@@ -18,18 +18,18 @@ RulesetProjectDescription  #elements: 8
 
 Metadata  #elements: 12
   note    ToDo                     id
-  null    NotRequired              schema_author
-  null    NotRequired              schema_name
-  null    NotRequired              schema_version
-  null    NotRequired              schema_url
-  null    NotRequired              author
-  null    NotRequired              description
+  note    NotRequired              schema_author
+  note    NotRequired              schema_name
+  note    NotRequired              schema_version
+  note    NotRequired              schema_url
+  note    NotRequired              author
+  note    NotRequired              description
   note    ToDo                     time_of_creation
   note    ToDo                     version
-  null    NotRequired              source
-  null    NotRequired              disclaimer
-  null    NotRequired              notes
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 3, 'null  ': 9}
+  output  NotRequired              source
+  note    NotRequired              disclaimer
+  note    NotRequired              notes
+  counts:  {'inout ': 0, 'input ': 0, 'output': 1, 'note  ': 11, 'null  ': 0}
      NotRequired              :  9
      ToDo                     :  3
 
@@ -51,12 +51,12 @@ RulesetModelDescription  #elements: 22
   output  DoneUsingOutput          boilers
   output  DoneUsingOutput          chillers
   output  DoneUsingOutput          heat_rejections
-  null    ToDo                     external_fluid_sources
+  inout   ToDo                     external_fluid_sources
   null    ComplianceParameter      site_zone_type
   note    ToDo                     calendar
   note    ToDo                     weather
   note    ToDo                     model_output
-  counts:  {'inout ': 3, 'input ': 1, 'output': 4, 'note  ': 7, 'null  ': 7}
+  counts:  {'inout ': 4, 'input ': 1, 'output': 4, 'note  ': 7, 'null  ': 6}
      DoneUsingOutput          :  5
      DoneUsingConstant        :  4
      NotRequired              :  1
@@ -110,7 +110,7 @@ Zone  #elements: 26
   null    NotRequired              reporting_name
   null    NotRequired              notes
   inout   DoneUsingConstant        spaces
-  note    ToDo                     floor_name
+  output  ToDo                     floor_name
   output  DoneUsingOutput          volume
   input   DoneUsingConstant        surfaces
   note    ComplianceParameter      conditioning_type
@@ -125,14 +125,14 @@ Zone  #elements: 26
   note    NotRequired              served_by_service_water_heating_system
   null    NotRequired              transfer_airflow_rate
   null    NotRequired              transfer_airflow_source_zone
-  input   ToDo                     zonal_exhaust_fan
+  inout   ToDo                     zonal_exhaust_fan
   input   NotRequired              exhaust_airflow_rate_multiplier_schedule
   null    NotRequired              makeup_airflow_rate
   note    NotRequired              non_mechanical_cooling_fan_power
-  null    ToDo                     non_mechanical_cooling_fan_airflow
-  input   ToDo                     air_distribution_effectiveness
+  note    ToDo                     non_mechanical_cooling_fan_airflow
+  inout   ToDo                     air_distribution_effectiveness
   null    ComplianceParameter      aggregation_factor
-  counts:  {'inout ': 3, 'input ': 10, 'output': 2, 'note  ': 4, 'null  ': 7}
+  counts:  {'inout ': 5, 'input ': 8, 'output': 3, 'note  ': 4, 'null  ': 6}
      DoneUsingOutput          :  5
      DoneUsingConstant        :  3
      NotRequired              :  8
@@ -194,9 +194,9 @@ Surface  #elements: 14
   inout   DoneUsingInput           adjacent_zone
   inout   DoneUsingOutput          does_cast_shade
   inout   DoneUsingConstant        construction
-  input   ToDo                     optical_properties
+  inout   ToDo                     optical_properties
   null    ComplianceParameter      status_type
-  counts:  {'inout ': 8, 'input ': 1, 'output': 3, 'note  ': 0, 'null  ': 2}
+  counts:  {'inout ': 9, 'input ': 0, 'output': 3, 'note  ': 0, 'null  ': 2}
      DoneUsingInput           :  1
      DoneUsingOutput          :  6
      DoneUsingConstant        :  2
@@ -215,12 +215,12 @@ Construction  #elements: 14
   note    NotRequired              framing_layers
   note    NotRequired              insulation_locations
   output  DoneUsingOutput          u_factor
-  note    ToDo                     c_factor
-  note    ToDo                     f_factor
+  input   ToDo                     c_factor
+  input   ToDo                     f_factor
   note    NotRequired              r_values
   input   NotRequired              has_radiant_heating
   input   NotRequired              has_radiant_cooling
-  counts:  {'inout ': 2, 'input ': 3, 'output': 1, 'note  ': 7, 'null  ': 1}
+  counts:  {'inout ': 2, 'input ': 5, 'output': 1, 'note  ': 5, 'null  ': 1}
      DoneUsingOutput          :  1
      DoneUsingConstant        :  1
      PartialUsingInput        :  1
@@ -242,16 +242,16 @@ Material  #elements: 8
      NotRequired              :  2
 
 SurfaceOpticalProperties  #elements: 9
-  input   ToDo                     id
+  inout   ToDo                     id
   null    NotRequired              reporting_name
   null    NotRequired              notes
-  input   ToDo                     absorptance_thermal_exterior
-  input   NotRequired              absorptance_solar_exterior
-  input   NotRequired              absorptance_visible_exterior
-  input   NotRequired              absorptance_thermal_interior
-  input   NotRequired              absorptance_solar_interior
-  input   NotRequired              absorptance_visible_interior
-  counts:  {'inout ': 0, 'input ': 7, 'output': 0, 'note  ': 0, 'null  ': 2}
+  inout   ToDo                     absorptance_thermal_exterior
+  inout   NotRequired              absorptance_solar_exterior
+  inout   NotRequired              absorptance_visible_exterior
+  inout   NotRequired              absorptance_thermal_interior
+  inout   NotRequired              absorptance_solar_interior
+  inout   NotRequired              absorptance_visible_interior
+  counts:  {'inout ': 7, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 2}
      NotRequired              :  7
      ToDo                     :  2
 
@@ -267,7 +267,7 @@ Subsurface  #elements: 24
   output  PartialUsingOutput       glazed_area
   output  PartialUsingOutput       opaque_area
   output  PartialUsingOutput       u_factor
-  input   ToDo                     dynamic_glazing_type
+  inout   ToDo                     dynamic_glazing_type
   output  DoneUsingOutput          solar_heat_gain_coefficient
   output  NotRequired              maximum_solar_heat_gain_coefficient
   output  DoneUsingOutput          visible_transmittance
@@ -280,7 +280,7 @@ Subsurface  #elements: 24
   note    NotRequired              solar_transmittance_multiplier_winter
   output  DoneUsingOutput          has_automatic_shades
   null    ComplianceParameter      status_type
-  counts:  {'inout ': 2, 'input ': 4, 'output': 8, 'note  ': 2, 'null  ': 8}
+  counts:  {'inout ': 3, 'input ': 3, 'output': 8, 'note  ': 2, 'null  ': 8}
      DoneUsingOutput          :  3
      PartialUsingOutput       :  5
      NotRequired              :  7
@@ -316,13 +316,12 @@ MiscellaneousEquipment  #elements: 12
   input   NotRequired              remaining_fraction_to_loop
   null    NotRequired              energy_from_loop
   note    ComplianceParameter      type
-  note    ToDo                     automatic_controlled_percentage
+  note    ComplianceParameter      automatic_controlled_percentage
   counts:  {'inout ': 7, 'input ': 1, 'output': 0, 'note  ': 2, 'null  ': 2}
      DoneUsingOutput          :  5
      DoneUsingConstant        :  1
      NotRequired              :  4
-     ToDo                     :  1
-     ComplianceParameter      :  1
+     ComplianceParameter      :  2
 
 Transformer  #elements: 8
   input   NotStarted               id
@@ -375,13 +374,13 @@ Calendar  #elements: 4
 
 Weather  #elements: 7
   null    NotRequired              notes
-  input   ToDo                     ground_temperature_schedule
+  inout   ToDo                     ground_temperature_schedule
   output  DoneUsingOutput          file_name
   note    DoneUsingConstant        data_source_type
   output  DoneUsingOutput          climate_zone
   input   PartialUsingOutput       cooling_design_day_type
   input   PartialUsingOutput       heating_design_day_type
-  counts:  {'inout ': 0, 'input ': 3, 'output': 2, 'note  ': 1, 'null  ': 1}
+  counts:  {'inout ': 1, 'input ': 2, 'output': 2, 'note  ': 1, 'null  ': 1}
      DoneUsingOutput          :  2
      DoneUsingConstant        :  1
      PartialUsingOutput       :  2
@@ -446,10 +445,10 @@ HeatingSystem  #elements: 17
   output  DoneUsingOutput          heating_coil_setpoint
   output  PartialUsingOutput       efficiency_metric_values
   output  PartialUsingOutput       efficiency_metric_types
-  null    ToDo                     heatpump_auxiliary_heat_type
+  output  ToDo                     heatpump_auxiliary_heat_type
   input   ToDo                     heatpump_auxiliary_heat_high_shutoff_temperature
   inout   DoneUsingOutput          heatpump_low_shutoff_temperature
-  counts:  {'inout ': 7, 'input ': 2, 'output': 5, 'note  ': 0, 'null  ': 3}
+  counts:  {'inout ': 7, 'input ': 2, 'output': 6, 'note  ': 0, 'null  ': 2}
      DoneUsingOutput          :  10
      PartialUsingOutput       :  2
      NotRequired              :  2
@@ -471,9 +470,9 @@ CoolingSystem  #elements: 16
   input   NotRequired              condenser_water_loop
   output  DoneUsingOutput          efficiency_metric_values
   output  DoneUsingOutput          efficiency_metric_types
-  input   ToDo                     dehumidification_type
+  inout   ToDo                     dehumidification_type
   inout   NotRequired              cooling_turndown_ratio
-  counts:  {'inout ': 7, 'input ': 2, 'output': 5, 'note  ': 0, 'null  ': 2}
+  counts:  {'inout ': 8, 'input ': 1, 'output': 5, 'note  ': 0, 'null  ': 2}
      DoneUsingOutput          :  11
      NotRequired              :  4
      ToDo                     :  1
@@ -483,9 +482,9 @@ FanSystem  #elements: 26
   null    NotRequired              reporting_name
   null    NotRequired              notes
   inout   DoneUsingOutput          supply_fans
-  input   ToDo                     return_fans
+  inout   ToDo                     return_fans
   inout   DoneUsingOutput          exhaust_fans
-  input   ToDo                     relief_fans
+  inout   ToDo                     relief_fans
   inout   ToDo                     air_economizer
   inout   ToDo                     air_energy_recovery
   input   ToDo                     temperature_control
@@ -505,7 +504,7 @@ FanSystem  #elements: 26
   null    ComplianceParameter      air_filter_merv_rating
   null    ComplianceParameter      has_fully_ducted_return
   inout   ToDo                     demand_control_ventilation_control
-  counts:  {'inout ': 7, 'input ': 7, 'output': 3, 'note  ': 5, 'null  ': 4}
+  counts:  {'inout ': 9, 'input ': 5, 'output': 3, 'note  ': 5, 'null  ': 4}
      DoneUsingOutput          :  5
      PartialUsingOutput       :  1
      NotRequired              :  4
@@ -527,15 +526,15 @@ AirEnergyRecovery  #elements: 11
   inout   ToDo                     id
   null    NotRequired              reporting_name
   null    NotRequired              notes
-  input   NotRequired              type
+  inout   NotRequired              type
   null    ComplianceParameter      enthalpy_recovery_ratio
   inout   ToDo                     energy_recovery_operation
   inout   NotRequired              energy_recovery_supply_air_temperature_control
-  input   ToDo                     design_sensible_effectiveness
-  input   ToDo                     design_latent_effectiveness
+  inout   ToDo                     design_sensible_effectiveness
+  inout   ToDo                     design_latent_effectiveness
   inout   ToDo                     outdoor_airflow
-  input   ToDo                     exhaust_airflow
-  counts:  {'inout ': 4, 'input ': 4, 'output': 0, 'note  ': 0, 'null  ': 3}
+  inout   ToDo                     exhaust_airflow
+  counts:  {'inout ': 8, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 3}
      NotRequired              :  4
      ToDo                     :  6
      ComplianceParameter      :  1
@@ -595,8 +594,8 @@ Terminal  #elements: 25
   inout   PartialUsingOutput       cooling_capacity
   null    ComplianceParameter      is_supply_ducted
   input   ToDo                     has_demand_control_ventilation
-  null    ToDo                     is_fan_first_stage_heat
-  counts:  {'inout ': 16, 'input ': 2, 'output': 2, 'note  ': 1, 'null  ': 4}
+  note    ToDo                     is_fan_first_stage_heat
+  counts:  {'inout ': 16, 'input ': 2, 'output': 2, 'note  ': 2, 'null  ': 3}
      DoneUsingOutput          :  15
      PartialUsingOutput       :  4
      NotRequired              :  3
@@ -609,10 +608,10 @@ FluidLoop  #elements: 8
   null    NotRequired              notes
   inout   DoneUsingOutput          type
   inout   DoneUsingOutput          pump_power_per_flow_rate
-  note    ToDo                     child_loops
+  output  ToDo                     child_loops
   output  DoneUsingOutput          cooling_or_condensing_design_and_control
   output  DoneUsingOutput          heating_design_and_control
-  counts:  {'inout ': 3, 'input ': 0, 'output': 2, 'note  ': 1, 'null  ': 2}
+  counts:  {'inout ': 3, 'input ': 0, 'output': 3, 'note  ': 0, 'null  ': 2}
      DoneUsingOutput          :  5
      NotRequired              :  2
      ToDo                     :  1
@@ -621,9 +620,9 @@ FluidLoopDesignAndControl  #elements: 17
   inout   DoneUsingOutput          id
   null    NotRequired              reporting_name
   null    NotRequired              notes
-  note    ToDo                     design_supply_temperature
-  note    ToDo                     design_return_temperature
-  input   ToDo                     is_sized_using_coincident_load
+  output  ToDo                     design_supply_temperature
+  output  ToDo                     design_return_temperature
+  inout   ToDo                     is_sized_using_coincident_load
   input   ToDo                     minimum_flow_fraction
   inout   DoneUsingOutput          operation
   input   NotRequired              operation_schedule
@@ -635,7 +634,7 @@ FluidLoopDesignAndControl  #elements: 17
   input   ToDo                     loop_supply_temperature_at_outdoor_low
   input   ToDo                     loop_supply_temperature_at_low_load
   inout   DoneUsingOutput          has_integrated_waterside_economizer
-  counts:  {'inout ': 4, 'input ': 9, 'output': 0, 'note  ': 2, 'null  ': 2}
+  counts:  {'inout ': 5, 'input ': 8, 'output': 2, 'note  ': 0, 'null  ': 2}
      DoneUsingOutput          :  4
      NotRequired              :  3
      ToDo                     :  10
@@ -715,20 +714,20 @@ Chiller  #elements: 26
   null    NotRequired              design_flow_condenser
   inout   DoneUsingOutput          design_entering_condenser_temperature
   inout   DoneUsingOutput          design_leaving_evaporator_temperature
-  inout   DoneUsingOutput          efficiency_metric_values
-  null    ToDo                     efficiency_metric_types
+  inout   ToDo                     efficiency_metric_values
+  note    ToDo                     efficiency_metric_types
   input   NotRequired              capacity_validation_points
   input   NotRequired              power_validation_points
   inout   DoneUsingOutput          is_chilled_water_pump_interlocked
   inout   DoneUsingOutput          is_condenser_water_pump_interlocked
   inout   DoneUsingOutput          heat_recovery_loop
   inout   DoneUsingOutput          heat_recovery_fraction
-  counts:  {'inout ': 14, 'input ': 2, 'output': 3, 'note  ': 1, 'null  ': 6}
-     DoneUsingOutput          :  16
+  counts:  {'inout ': 14, 'input ': 2, 'output': 3, 'note  ': 2, 'null  ': 5}
+     DoneUsingOutput          :  15
      PartialUsingOutput       :  1
      NotRequired              :  5
      NotStarted               :  2
-     ToDo                     :  1
+     ToDo                     :  2
      ComplianceParameter      :  1
 
 ChillerCapacityValidationPoint  #elements: 3
@@ -758,7 +757,7 @@ HeatRejection  #elements: 19
   null    NotStarted               number_of_cells
   inout   DoneUsingOutput          range
   inout   DoneUsingOutput          approach
-  note    ToDo                     fan_design_electric_power
+  output  ToDo                     fan_design_electric_power
   null    ComplianceParameter      fan_shaft_power
   null    ComplianceParameter      fan_motor_efficiency
   inout   DoneUsingOutput          fan_motor_nameplate_power
@@ -767,7 +766,7 @@ HeatRejection  #elements: 19
   inout   DoneUsingOutput          design_water_flowrate
   null    ComplianceParameter      rated_water_flowrate
   inout   DoneUsingOutput          leaving_water_setpoint_temperature
-  counts:  {'inout ': 11, 'input ': 0, 'output': 0, 'note  ': 1, 'null  ': 7}
+  counts:  {'inout ': 11, 'input ': 0, 'output': 1, 'note  ': 0, 'null  ': 7}
      DoneUsingOutput          :  11
      NotRequired              :  2
      NotStarted               :  1
@@ -775,13 +774,13 @@ HeatRejection  #elements: 19
      ComplianceParameter      :  4
 
 ExternalFluidSource  #elements: 6
-  null    ToDo                     id
+  inout   ToDo                     id
   null    NotRequired              reporting_name
   null    NotRequired              notes
-  null    ToDo                     loop
-  null    ToDo                     type
+  inout   ToDo                     loop
+  inout   ToDo                     type
   null    NotRequired              energy_source_type
-  counts:  {'inout ': 0, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 6}
+  counts:  {'inout ': 3, 'input ': 0, 'output': 0, 'note  ': 0, 'null  ': 3}
      NotRequired              :  3
      ToDo                     :  3
 
@@ -990,7 +989,6 @@ RefrigeratedCase  #elements: 14
 ('Subsurface', 'dynamic_glazing_type')
 ('Subsurface', 'has_shading_overhang')
 ('Subsurface', 'has_shading_sidefins')
-('MiscellaneousEquipment', 'automatic_controlled_percentage')
 ('Schedule', 'hourly_heating_design_day')
 ('Schedule', 'hourly_heating_design_year')
 ('Schedule', 'hourly_cooling_design_day')
@@ -1043,6 +1041,7 @@ RefrigeratedCase  #elements: 14
 ('FluidLoopDesignAndControl', 'loop_supply_temperature_at_low_load')
 ('Boiler', 'operation_lower_limit')
 ('Boiler', 'operation_upper_limit')
+('Chiller', 'efficiency_metric_values')
 ('Chiller', 'efficiency_metric_types')
 ('HeatRejection', 'fan_design_electric_power')
 ('ExternalFluidSource', 'id')
