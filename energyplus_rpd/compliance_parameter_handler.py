@@ -102,7 +102,7 @@ class ComplianceParameterHandler:
             required_data_elements = [
                 'id',
                 'data_timestamp',
-                'loop', 
+                'loop',
                 'loop_or_piping',
                 'cooling_loop',
                 'distribution_system',
