@@ -92,14 +92,24 @@ class ComplianceParameterHandler:
     def create_empty_compliance_json(self, json_dict: Dict):
         # this is one of the main entry points
         created_dict = {}
+        self.add_compliance_parameters('root', created_dict)
         self.mirror_nested(json_dict, created_dict)
         self.cp_empty_file_path.write_text(dumps(created_dict, indent=2))
         return created_dict
 
     def mirror_nested(self, in_dict: Dict, out_dict: Dict):
         for key_in, value_in in in_dict.items():
-            if key_in == 'id':
-                out_dict['id'] = value_in
+            required_data_elements = [
+                'id',
+                'data_timestamp',
+                'loop',
+                'loop_or_piping',
+                'cooling_loop',
+                'distribution_system',
+                'served_by_distribution_system'
+            ]
+            if key_in in required_data_elements:
+                out_dict[key_in] = value_in
             if isinstance(value_in, dict):
                 new_dict = {}
                 out_dict[key_in] = new_dict
