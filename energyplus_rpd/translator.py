@@ -203,6 +203,7 @@ class Translator:
 
         self.do_use_compliance_parameters = add_cp
         self.do_create_empty_compliance_parameters = empty_cp
+
         self.compliance_parameter = ComplianceParameterHandler(epjson_file_path)
         if self.do_use_compliance_parameters or self.do_create_empty_compliance_parameters:
             print(f"File with compliance parameter information is: {self.compliance_parameter.cp_empty_file_path}")
@@ -1248,6 +1249,8 @@ class Translator:
         seer_2017_column = dx_2017_cols.index('SEER Standard [Btu/W-h][2,3]')
         ieer_2017_column = dx_2017_cols.index('IEER [Btu/W-h][2]')
         for row_key in row_keys:
+            if row_key == 'None':
+                continue
             if row_key in dx_2017_row_keys:
                 coil_efficiencies[row_key]['StandardRatedNetCOP2017'] = float(
                     dx_2017_rows[row_key][net_cop_2017_column])
@@ -1268,6 +1271,8 @@ class Translator:
         ieer_2023_column = dx_2023_cols.index('IEER [Btu/W-h][2]')
         for row_key in row_keys:
             if row_key in dx_2023_row_keys:
+                if row_key == 'None':
+                    continue
                 coil_efficiencies[row_key]['StandardRatedNetCOP2023'] = float(
                     dx_2023_rows[row_key][net_cop_2023_column])
                 coil_efficiencies[row_key]['EER2023'] = float(dx_2023_rows[row_key][eer_2023_column])
@@ -1657,6 +1662,8 @@ class Translator:
                         is_autosized_column = cols.index('Is Autosized')
                         control_column = cols.index('Control')
                         for pump_name in pump_names:
+                            if pump_name == 'None':
+                                continue
                             type_str = rows[pump_name][type_column]
                             speed_control = 'FIXED_SPEED'
                             if 'vari' in type_str.lower():
@@ -1962,6 +1969,7 @@ class Translator:
         self.add_simulation_outputs()
         self.add_schedules()
         self.ensure_all_id_unique()
+
         if self.do_use_compliance_parameters:
             self.compliance_parameter.merge_in_compliance_parameters(self.project_description)
         elif self.do_create_empty_compliance_parameters:

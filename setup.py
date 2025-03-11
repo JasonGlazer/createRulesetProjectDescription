@@ -15,7 +15,7 @@ setup(
     author='Jason Glazer',
     description='A Python tool for generating RPDs.',
     package_data={
-        "eplus_rpd": [
+        "energyplus_rpd": [
             "example/*",
             "*.json",
             "*.yaml",
@@ -26,10 +26,10 @@ setup(
     long_description=readme_contents,
     long_description_content_type='text/markdown',
     keywords='energyplus',
-    install_requires=['jsonschema<=4.17', 'pyyaml'],
+    install_requires=['jsonschema==4.17', 'pyyaml'],
     entry_points={
         'console_scripts': [
-            'energyplus_create_rpd=energyplus_rpd.runner:run',
+            'createRulesetProjectDescription=energyplus_rpd.runner:run',
         ],
     },
     python_requires='>=3.7',
