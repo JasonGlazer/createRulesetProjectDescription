@@ -136,4 +136,7 @@ dmypy.json
 
 
 # internal reporting file from status_reporter.py
-# energyplus_implementation_report.txt
+energyplus_implementation_report.txt
+energyplus_rpd/example/ASHRAE901_OfficeSmall_STD2019_Denver.rpd
+energyplus_rpd/test/resources/test_input.rpd
+

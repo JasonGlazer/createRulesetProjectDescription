@@ -9,6 +9,7 @@ from energyplus_rpd.compliance_parameter_handler import ComplianceParameterHandl
 class TestComplianceParameterHandler(TestCase):
 
     def setUp(self) -> None:
+        self.maxDiff = None
         self.run_dir_path = Path(mkdtemp())
         input_file_path = self.run_dir_path / 'in.epJSON'
         self.cph = ComplianceParameterHandler(input_file_path)
@@ -65,9 +66,16 @@ class TestComplianceParameterHandler(TestCase):
         result_dict = {}
         self.cph.mirror_nested(original_dict, result_dict)
 
-        expected = {'fan_system': {'id': 'CORE_ZN ZN PSZ-AC-1 FAN-fansystem',
-                                   'supply_fans': [{'id': 'CORE_ZN ZN PSZ-AC-1 FAN'}]},
-                    'heating_system': {'id': 'CORE_ZN ZN PSZ-AC-1-heating'}, 'id': 'CORE_ZN ZN PSZ-AC-1'}
+        expected = {'id': 'CORE_ZN ZN PSZ-AC-1',
+                    'heating_system': {'id': 'CORE_ZN ZN PSZ-AC-1-heating'},
+                    'fan_system': {'air_filter_merv_rating': 8,
+                                   'has_fully_ducted_return': False,
+                                   'id': 'CORE_ZN ZN PSZ-AC-1 FAN-fansystem',
+                                   'supply_fans': [
+                                       {'motor_nameplate_power': 0.0,
+                                        'shaft_power': 0.0,
+                                        'status_type': 'NEW',
+                                        'id': 'CORE_ZN ZN PSZ-AC-1 FAN'}]}}
 
         self.assertEqual(result_dict, expected)
 
@@ -284,63 +292,73 @@ class TestComplianceParameterHandler(TestCase):
         result = self.cph.create_empty_compliance_json(json_dict)
 
         expected = \
-            {'id': 'project description root', 'ruleset_model_descriptions': [
-                {'type': 'PROPOSED', 'measured_infiltration_pressure_difference': 0,
-                 'is_measured_infiltration_based_on_test': False,
-                 'site_zone_type': 'ZONE_4_HIGH_ACTIVITY_COMMERCIAL',
-                 'id': 'Only model description',
-                 'buildings': [
-                     {'id': '-SmallOffice-ASHRAE 169-2013-5B created: 2022-05-03 14:28:47 -0700',
-                      'building_segments': [
-                          {'is_all_new': True,
-                           'area_type_vertical_fenestration': 'OFFICE_MEDIUM',
-                           'lighting_building_area_type': 'OFFICE',
-                           'area_type_heating_ventilating_air_conditioning_system': 'OTHER_NON_RESIDENTIAL',
-                           'id': 'segment 1',
-                           'heating_ventilating_air_conditioning_systems': [
-                               {'status_type': 'NEW',
-                                'id': 'CORE_ZN ZN PSZ-AC-1',
-                                'heating_system':
-                                    {'id': 'CORE_ZN ZN PSZ-AC-1-heating'},
-                                'fan_system': {'id': 'CORE_ZN ZN PSZ-AC-1 FAN-fansystem',
-                                               'supply_fans': [
-                                                   {'id': 'CORE_ZN ZN PSZ-AC-1 FAN'}]}}],
-                           'zones': [
-                               {'conditioning_type': 'HEATED_AND_COOLED',
-                                'aggregation_factor': 1,
-                                'id': 'ATTIC ZN',
-                                'surfaces': [
-                                    {'status_type': 'NEW',
-                                     'id': 'ATTIC_FLOOR_CORE',
-                                     'construction':
-                                         {'classification': 'STEEL_FRAMED',
-                                          'id': 'Typical Wood Joist Attic Floor R-47.62 1',
-                                          'primary_layers': [
-                                              {'id': 'Typical Insulation R-45.98 1'},
-                                              {'id': '5/8 in. Gypsum Board'}]}}],
-                                'infiltration':
-                                    {'measured_air_leakage_rate': 0,
-                                     'id': 'ATTIC INFILTRATION'},
-                                'spaces': [
-                                    {'status_type': 'NEW',
-                                     'function': 'OTHER',
-                                     'id': 'ATTIC_SPACE'}]}]}],
-                      'exterior_lighting': [
-                          {'id': 'NONDIMMING EXTERIOR LIGHTS DEF'}]}],
-                 'pumps': [
-                     {'motor_nameplate_power': 0.0,
-                      'impeller_efficiency': 0.0,
-                      'id': 'MAIN SERVICE WATER LOOP WATER MAINS PRESSURE DRIVEN'}],
-                 'output': {'id': 'output_1',
-                            'output_instance': {
-                                'id': 'output_instance_1',
-                                'annual_source_results': [
-                                    {
-                                        'id': 'source_results_ELECTRICITY'}],
-                                'annual_end_use_results': [
-                                    {
-                                        'id': 'end_use_ELECTRICITY-Cooling'}]}}}],
-             'weather': {'data_source_type': 'HISTORIC_AGGREGATION'}, 'calendar': {}}
+            {'compliance_path': 'CODE_COMPLIANT',
+             'id': 'project description root',
+             'data_timestamp': '2024-08-16T20:10Z',
+             'ruleset_model_descriptions': [
+                 {'type': 'PROPOSED',
+                  'measured_infiltration_pressure_difference': 0,
+                  'is_measured_infiltration_based_on_test': False,
+                  'site_zone_type': 'ZONE_4_HIGH_ACTIVITY_COMMERCIAL',
+                  'id': 'Only model description',
+                  'buildings': [
+                      {'id': '-SmallOffice-ASHRAE 169-2013-5B created: 2022-05-03 14:28:47 -0700',
+                       'building_segments': [
+                           {'is_all_new': True,
+                            'area_type_vertical_fenestration': 'OFFICE_MEDIUM',
+                            'lighting_building_area_type': 'OFFICE',
+                            'area_type_heating_ventilating_air_conditioning_system': 'OTHER_NON_RESIDENTIAL',
+                            'id': 'segment 1',
+                            'heating_ventilating_air_conditioning_systems': [
+                                {'status_type': 'NEW',
+                                 'id': 'CORE_ZN ZN PSZ-AC-1',
+                                 'heating_system': {'id': 'CORE_ZN ZN PSZ-AC-1-heating'},
+                                 'fan_system':
+                                     {'air_filter_merv_rating': 8,
+                                      'has_fully_ducted_return': False,
+                                      'id': 'CORE_ZN ZN PSZ-AC-1 FAN-fansystem',
+                                      'supply_fans': [
+                                          {'motor_nameplate_power': 0.0,
+                                           'shaft_power': 0.0,
+                                           'status_type': 'NEW',
+                                           'id': 'CORE_ZN ZN PSZ-AC-1 FAN'}]}}],
+                            'zones': [
+                                {'conditioning_type': 'HEATED_AND_COOLED',
+                                 'aggregation_factor': 1,
+                                 'id': 'ATTIC ZN',
+                                 'surfaces': [
+                                     {'status_type': 'NEW', 'id': 'ATTIC_FLOOR_CORE',
+                                      'construction':
+                                          {'classification': 'STEEL_FRAMED',
+                                           'id': 'Typical Wood Joist Attic Floor R-47.62 1',
+                                           'primary_layers': [
+                                               {'id': 'Typical Insulation R-45.98 1'},
+                                               {'id': '5/8 in. Gypsum Board'}]}}],
+                                 'infiltration': {'measured_air_leakage_rate': 0, 'id': 'ATTIC INFILTRATION'},
+                                 'spaces': [
+                                     {'status_type': 'NEW',
+                                      'function': 'OTHER',
+                                      'envelope_space_type': 'NONRESIDENTIAL_CONDITIONED',
+                                      'lighting_space_type': 'OFFICE_ENCLOSED',
+                                      'ventilation_space_type': 'OFFICE_BUILDINGS_OFFICE_SPACE',
+                                      'service_water_heating_area_type': 'OFFICE',
+                                      'id': 'ATTIC_SPACE'}]}]}],
+                       'exterior_lighting': [
+                           {'id': 'NONDIMMING EXTERIOR LIGHTS DEF'}]}],
+                  'pumps': [
+                      {'motor_nameplate_power': 0.0,
+                       'impeller_efficiency': 0.0,
+                       'id': 'MAIN SERVICE WATER LOOP WATER MAINS PRESSURE DRIVEN',
+                       'loop_or_piping': 'MAIN SERVICE WATER LOOP'}],
+                  'output': {'id': 'output_1', 'output_instance': {
+                      'id': 'output_instance_1', 'annual_source_results': [
+                          {'id': 'source_results_ELECTRICITY'}],
+                      'annual_end_use_results': [
+                          {'id': 'end_use_ELECTRICITY-Cooling'}]}}}],
+             'weather':
+                 {'data_source_type': 'HISTORIC_AGGREGATION',
+                  'climate_zone': 'CZ0A'},
+             'calendar': {}}
 
         self.assertEqual(result, expected)
 
