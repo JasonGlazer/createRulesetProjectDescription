@@ -1222,7 +1222,8 @@ class Translator:
             if not heat_table[0]['first column'] == 'None':
                 for row in heat_table:
                     cool_min_primary, cool_outdoor = cool_airflows_by_sys[row['first column']]
-                    min_primary = min(float(row['Sum of Min Zone Primary Airflow - Vpz-min [m3/s]']) * 1000, cool_min_primary)
+                    min_primary = min(float(row['Sum of Min Zone Primary Airflow - Vpz-min [m3/s]']) * 1000,
+                                      cool_min_primary)
                     outdoor = min(float(row['Zone Outdoor Airflow Heating - Voz-htg [m3/s]']) * 1000, cool_outdoor)
                     airflows_by_sys[row['first column']] = (min_primary, outdoor)
 
