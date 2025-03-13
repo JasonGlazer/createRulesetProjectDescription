@@ -1210,16 +1210,23 @@ class Translator:
                                                  'System Ventilation Calculations for Heating Design')
         if not cool_table and heat_table:
             return airflows_by_sys
-        for row in cool_table:
-            cool_min_primary = float(row['Sum of Min Zone Primary Airflow - Vpz-min [m3/s]']) * 1000
-            cool_outdoor = float(row['Zone Outdoor Airflow Cooling - Voz-clg [m3/s]']) * 1000
-            cool_airflows_by_sys[row['first column']] = (cool_min_primary, cool_outdoor)
+
+        if cool_table:
+            if not cool_table[0]['first column'] == 'None':
+                for row in cool_table:
+                    cool_min_primary = float(row['Sum of Min Zone Primary Airflow - Vpz-min [m3/s]']) * 1000
+                    cool_outdoor = float(row['Zone Outdoor Airflow Cooling - Voz-clg [m3/s]']) * 1000
+                    cool_airflows_by_sys[row['first column']] = (cool_min_primary, cool_outdoor)
         # now use the values in the heating table if they are lower
-        for row in heat_table:
-            cool_min_primary, cool_outdoor = cool_airflows_by_sys[row['first column']]
-            min_primary = min(float(row['Sum of Min Zone Primary Airflow - Vpz-min [m3/s]']) * 1000, cool_min_primary)
-            outdoor = min(float(row['Zone Outdoor Airflow Heating - Voz-htg [m3/s]']) * 1000, cool_outdoor)
-            airflows_by_sys[row['first column']] = (min_primary, outdoor)
+        if heat_table:
+            if not heat_table[0]['first column'] == 'None':
+                for row in heat_table:
+                    cool_min_primary, cool_outdoor = cool_airflows_by_sys[row['first column']]
+                    min_primary = min(float(row['Sum of Min Zone Primary Airflow - Vpz-min [m3/s]']) * 1000,
+                                      cool_min_primary)
+                    outdoor = min(float(row['Zone Outdoor Airflow Heating - Voz-htg [m3/s]']) * 1000, cool_outdoor)
+                    airflows_by_sys[row['first column']] = (min_primary, outdoor)
+
         return airflows_by_sys
 
     def gather_cooling_coil_efficiencies(self):
@@ -1448,6 +1455,8 @@ class Translator:
         max_flow_during_reheat_column = cols.index('Maximum Flow During Reheat [m3/s]')
         min_oa_schedule_name_column = cols.index('Minimum Outdoor Flow Schedule Name')
         for row_key in row_keys:
+            if row_key == 'None':
+                continue
             zone_name = rows[row_key][zone_name_column].upper()
             min_flow = rows[row_key][min_flow_column]
             min_oa_flow = rows[row_key][min_oa_flow_column]
