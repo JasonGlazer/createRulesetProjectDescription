@@ -249,6 +249,14 @@ class Translator:
                 adjacent_by_surface[surface_name.upper()] = fields['outside_boundary_condition_object'].upper()
         return adjacent_by_surface
 
+    def get_outside_boundary_condition_for_each_surface(self):
+        building_surface_detailed = self.epjson_object['BuildingSurface:Detailed']
+        boundary_by_surface = {}
+        for surface_name, fields in building_surface_detailed.items():
+            if 'outside_boundary_condition' in fields:
+                boundary_by_surface[surface_name.upper()] = fields['outside_boundary_condition'].upper()
+        return boundary_by_surface
+
     def get_constructions_and_materials(self):
         constructions_in = {}
         if 'Construction' in self.epjson_object:
@@ -775,6 +783,8 @@ class Translator:
         constructions = self.get_constructions_and_materials()
         subsurface_by_surface = self.gather_subsurface()
         do_surfaces_cast_shadows = self.are_shadows_cast_from_surfaces()
+        adjacent_surfaces = self.get_adjacent_surface_for_each_surface()
+        outside_boundary_conditions = self.get_outside_boundary_condition_for_each_surface()
         # print(constructions)
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'EnvelopeSummary':
@@ -807,6 +817,10 @@ class Translator:
                                 surface_classification = 'CEILING'
                             if is_exterior:
                                 adjacent_to = 'EXTERIOR'
+                                if surface_name in outside_boundary_conditions:
+                                    outside_boundary_condition = outside_boundary_conditions[surface_name]
+                                    if 'GROUND' in outside_boundary_condition:
+                                        adjacent_to = 'GROUND'
                             else:
                                 adjacent_to = 'INTERIOR'
                             surface = {
@@ -819,9 +833,8 @@ class Translator:
                                 'does_cast_shade': do_surfaces_cast_shadows
                             }
                             if not is_exterior:
-                                adjacent_surface = self.get_adjacent_surface_for_each_surface()
-                                if surface_name in adjacent_surface:
-                                    adjacent_surface = adjacent_surface[surface_name]
+                                if surface_name in adjacent_surfaces:
+                                    adjacent_surface = adjacent_surfaces[surface_name]
                                     if adjacent_surface in self.surfaces_by_zone:
                                         surface['adjacent_zone'] = self.surfaces_by_zone[adjacent_surface]
                             if surface_name in subsurface_by_surface:
