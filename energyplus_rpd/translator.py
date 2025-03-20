@@ -1938,7 +1938,7 @@ class Translator:
         self.model_description['output'] = simulation_output
         return simulation_output
 
-    def get_epjson_by_uc_name(self, epjson_object_name, specific_name_uc ):
+    def get_epjson_by_uc_name(self, epjson_object_name, specific_name_uc):
         specific_epjson_input_object = {}
         if epjson_object_name in self.epjson_object:
             if specific_name_uc in self.epjson_object[epjson_object_name]:
