@@ -1072,8 +1072,13 @@ class Translator:
                             fan_system['minimum_outdoor_airflow'] = min_outdoor
                         # note cannot differentiate between different types of variables flow fan (INLET_VANE,
                         # DISCHARGE_DAMPER, or VARIABLE_SPEED_DRIVE) so can only see if constant or not
+                        # for Fan:SystemModel need to get info from epJSON
                         if 'type' in equipment_fan_extra:
-                            if 'variable' not in equipment_fan_extra['type'].lower():
+                            if equipment_fan_extra['type'] == 'Fan:SystemModel':
+                                if (equipment_fan_extra['speed_control_method'] == 'Discrete' and
+                                        equipment_fan_extra['number_of_speeds'] == 1):
+                                    fan_system['fan_control'] = 'CONSTANT'
+                            elif 'variable' not in equipment_fan_extra['type'].lower():
                                 fan_system['fan_control'] = 'CONSTANT'
                         fan_system['supply_fans'] = fans
                         # add exhaust fans
@@ -1426,6 +1431,13 @@ class Translator:
                          'fan_energy_index': fan_energy_index,
                          'purpose': purpose,
                          'airloop_name': airloop_name}
+            #  for Fan:SystemModel need to add some additional fields to understand later if variable speed or not
+            if type == 'Fan:SystemModel':
+                fan_system_model = self.get_epjson_by_uc_name('Fan:SystemModel', row_key)
+                if 'speed_control_method' in fan_system_model:
+                    fan_extra['speed_control_method'] = fan_system_model['speed_control_method']
+                if 'number_of_speeds' in fan_system_model:
+                    fan_extra['number_of_speeds'] = fan_system_model['number_of_speeds']
             equipment_fans[row_key] = (equipment_fan, fan_extra)
         return equipment_fans
 
@@ -1925,6 +1937,18 @@ class Translator:
         }
         self.model_description['output'] = simulation_output
         return simulation_output
+
+    def get_epjson_by_uc_name(self, epjson_object_name, specific_name_uc ):
+        specific_epjson_input_object = {}
+        if epjson_object_name in self.epjson_object:
+            if specific_name_uc in self.epjson_object[epjson_object_name]:
+                specific_epjson_input_object = self.epjson_object[specific_name_uc]
+            else:
+                for key, val in self.epjson_object[epjson_object_name].items():
+                    if key.upper() == specific_name_uc:
+                        specific_epjson_input_object = val
+                        break
+        return specific_epjson_input_object
 
     def ensure_all_id_unique(self):
         self.add_serial_number_nested(self.model_description, 'id')
