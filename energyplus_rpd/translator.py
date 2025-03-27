@@ -242,19 +242,21 @@ class Translator:
         return surfaces_to_zone
 
     def get_adjacent_surface_for_each_surface(self):
-        building_surface_detailed = self.epjson_object['BuildingSurface:Detailed']
         adjacent_by_surface = {}
-        for surface_name, fields in building_surface_detailed.items():
-            if 'outside_boundary_condition_object' in fields:
-                adjacent_by_surface[surface_name.upper()] = fields['outside_boundary_condition_object'].upper()
+        if 'BuildingSurface:Detailed' in self.epjson_object:
+            building_surface_detailed = self.epjson_object['BuildingSurface:Detailed']
+            for surface_name, fields in building_surface_detailed.items():
+                if 'outside_boundary_condition_object' in fields:
+                    adjacent_by_surface[surface_name.upper()] = fields['outside_boundary_condition_object'].upper()
         return adjacent_by_surface
 
     def get_outside_boundary_condition_for_each_surface(self):
-        building_surface_detailed = self.epjson_object['BuildingSurface:Detailed']
         boundary_by_surface = {}
-        for surface_name, fields in building_surface_detailed.items():
-            if 'outside_boundary_condition' in fields:
-                boundary_by_surface[surface_name.upper()] = fields['outside_boundary_condition'].upper()
+        if 'BuildingSurface:Detailed' in self.epjson_object:
+            building_surface_detailed = self.epjson_object['BuildingSurface:Detailed']
+            for surface_name, fields in building_surface_detailed.items():
+                if 'outside_boundary_condition' in fields:
+                    boundary_by_surface[surface_name.upper()] = fields['outside_boundary_condition'].upper()
         return boundary_by_surface
 
     def get_constructions_and_materials(self):
