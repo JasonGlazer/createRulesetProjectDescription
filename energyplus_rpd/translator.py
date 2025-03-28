@@ -536,6 +536,15 @@ class Translator:
                             zone['surfaces'] = surfaces
                             if zone_name in infiltration_by_zone:
                                 zone['infiltration'] = infiltration_by_zone[zone_name]
+                            else:
+                                infiltration_zero = {
+                                    'id': 'infiltration-' + zone_name,
+                                    'modeling_method': 'WEATHER_DRIVEN',
+                                    'algorithm_name': 'ZoneInfiltration',
+                                    'flow_rate': 0.0,
+                                    'multiplier_schedule': 'always_1'
+                                }
+                                zone['infiltration'] = infiltration_zero
                             if zone_name.upper() in self.terminals_by_zone:
                                 zone['terminals'] = self.terminals_by_zone[zone_name.upper()]
                 break
