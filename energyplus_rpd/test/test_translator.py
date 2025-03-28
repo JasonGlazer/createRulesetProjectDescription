@@ -1058,13 +1058,32 @@ class TestTranslator(TestCase):
                  }
             ]
         added_zones = t.add_zones()
+
         expected = [
-            {'id': 'ATTIC', 'volume': 720.19, 'surfaces': []},
-            {'id': 'CORE_ZN', 'volume': 456.46, 'surfaces': []},
-            {'id': 'PERIMETER_ZN_1', 'volume': 346.02, 'surfaces': []},
-            {'id': 'PERIMETER_ZN_2', 'volume': 205.26, 'surfaces': []},
-            {'id': 'PERIMETER_ZN_3', 'volume': 346.02, 'surfaces': []},
-            {'id': 'PERIMETER_ZN_4', 'volume': 205.26, 'surfaces': []}
+            {'id': 'ATTIC', 'infiltration':
+                {'algorithm_name': 'ZoneInfiltration', 'flow_rate': 0.0, 'id': 'infiltration-ATTIC',
+                 'modeling_method': 'WEATHER_DRIVEN', 'multiplier_schedule': 'always_1'},
+             'surfaces': [], 'volume': 720.19},
+            {'id': 'CORE_ZN', 'infiltration':
+                {'algorithm_name': 'ZoneInfiltration', 'flow_rate': 0.0, 'id': 'infiltration-CORE_ZN',
+                 'modeling_method': 'WEATHER_DRIVEN', 'multiplier_schedule': 'always_1'},
+             'surfaces': [], 'volume': 456.46},
+            {'id': 'PERIMETER_ZN_1', 'infiltration':
+                {'algorithm_name': 'ZoneInfiltration', 'flow_rate': 0.0, 'id': 'infiltration-PERIMETER_ZN_1',
+                 'modeling_method': 'WEATHER_DRIVEN', 'multiplier_schedule': 'always_1'},
+             'surfaces': [], 'volume': 346.02},
+            {'id': 'PERIMETER_ZN_2', 'infiltration':
+                {'algorithm_name': 'ZoneInfiltration', 'flow_rate': 0.0, 'id': 'infiltration-PERIMETER_ZN_2',
+                 'modeling_method': 'WEATHER_DRIVEN', 'multiplier_schedule': 'always_1'},
+             'surfaces': [], 'volume': 205.26},
+            {'id': 'PERIMETER_ZN_3', 'infiltration':
+                {'algorithm_name': 'ZoneInfiltration', 'flow_rate': 0.0, 'id': 'infiltration-PERIMETER_ZN_3',
+                 'modeling_method': 'WEATHER_DRIVEN', 'multiplier_schedule': 'always_1'},
+             'surfaces': [], 'volume': 346.02},
+            {'id': 'PERIMETER_ZN_4', 'infiltration':
+                {'algorithm_name': 'ZoneInfiltration', 'flow_rate': 0.0, 'id': 'infiltration-PERIMETER_ZN_4',
+                 'modeling_method': 'WEATHER_DRIVEN', 'multiplier_schedule': 'always_1'},
+             'surfaces': [], 'volume': 205.26}
         ]
 
         self.assertEqual(added_zones, expected)
