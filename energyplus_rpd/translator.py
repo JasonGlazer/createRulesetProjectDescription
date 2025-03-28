@@ -340,6 +340,8 @@ class Translator:
                         zone_name_column = cols.index('Zone Name')
                         schedule_name_column = cols.index('Schedule Name')
                         for row_key in row_keys:
+                            if row_key == 'None':
+                                continue
                             zone_name = rows[row_key][zone_name_column]
                             schedule_name = rows[row_key][schedule_name_column]
                             people_schedule_by_zone[zone_name.upper()] = schedule_name
@@ -431,6 +433,8 @@ class Translator:
                         start_day_of_week_column = cols.index('Start DayOfWeek')
                         duration_column = cols.index('Duration {#days}')
                         for row_key in row_keys:
+                            if row_key == 'None':
+                                continue
                             environment_name = rows[row_key][environment_name_column]
                             start_date = rows[row_key][start_date_column]
                             duration = float(rows[row_key][duration_column])
@@ -451,6 +455,8 @@ class Translator:
                         cols = table['Cols']
                         daylight_savings_column = cols.index('Daylight Saving Indicator')
                         for row_key in row_keys:
+                            if row_key == 'None':
+                                continue
                             daylight_savings = rows[row_key][daylight_savings_column]
                             calendar['has_daylight_saving_time'] = daylight_savings == 'Yes'
         return calendar
@@ -471,6 +477,8 @@ class Translator:
                         schedule_column = cols.index('Schedule Name')
                         type_column = cols.index('Astronomical Clock/Schedule')
                         for exterior_light_name in exterior_light_names:
+                            if exterior_light_name == 'None':
+                                continue
                             exterior_light = {
                                 'id': exterior_light_name,
                                 'power': float(rows[exterior_light_name][total_watt_column]),
@@ -506,6 +514,8 @@ class Translator:
                         volume_column = cols.index('Volume [m3]')
                         # print(volume_column)
                         for zone_name in zone_names:
+                            if zone_name == 'None':
+                                continue
                             zone = {'id': zone_name,
                                     'volume': float(rows[zone_name][volume_column]),
                                     }
@@ -561,6 +571,8 @@ class Translator:
                         space_type_column = cols.index('Space Type')
                         tags_column = cols.index('Tags')
                         for space_name in space_names:
+                            if space_name == 'None':
+                                continue
                             floor_area = float(rows[space_name][area_column])
                             people_density = float(rows[space_name][people_density_column])
                             zone_name = rows[space_name][zone_name_column]
@@ -631,6 +643,8 @@ class Translator:
                         zone_name_column = cols.index('Zone')
                         daylighting_method_column = cols.index('Daylighting Method')
                         for daylighting_name in daylighting_names:
+                            if daylighting_name == 'None':
+                                continue
                             zone_name = rows[daylighting_name][zone_name_column]
                             daylighting_method_dict[zone_name] = rows[daylighting_name][daylighting_method_column]
 
@@ -646,6 +660,8 @@ class Translator:
                         schedule_name_column = cols.index('Schedule Name')
                         power_density_column = cols.index('Lighting Power Density [W/m2]')
                         for int_light_name in int_light_names:
+                            if int_light_name == 'None':
+                                continue
                             power_density = float(rows[int_light_name][power_density_column])
                             space_name = rows[int_light_name][space_name_column]
                             zone_name = rows[int_light_name][zone_name_column]
@@ -690,6 +706,8 @@ class Translator:
                         latent_column = cols.index('Fraction Latent')
                         lost_column = cols.index('Fraction Lost')
                         for row_key in row_keys:
+                            if row_key == 'None':
+                                continue
                             equipment_name = rows[row_key][equipment_name_column]
                             zone_name = rows[row_key][zone_name_column]
                             power_density = float(rows[row_key][power_density_column])
@@ -742,6 +760,8 @@ class Translator:
                         assembly_visible_trans_column = cols.index('Assembly Visible Transmittance')
                         shade_control_column = cols.index('Shade Control')
                         for fenestration_name in fenestration_names:
+                            if fenestration_name == 'None':
+                                continue
                             glass_area = float(rows[fenestration_name][glass_area_column])
                             parent_surface_name = rows[fenestration_name][parent_surface_column]
                             frame_area = float(rows[fenestration_name][frame_area_column])
@@ -807,6 +827,8 @@ class Translator:
                         tilt_column = cols.index('Tilt [deg]')
                         u_factor_with_film_column = cols.index('U-Factor with Film [W/m2-K]')
                         for surface_name in surface_names:
+                            if surface_name == 'None':
+                                continue
                             construction_name = rows[surface_name][construction_name_column]
                             gross_area = float(rows[surface_name][gross_area_column])
                             azimuth = float(rows[surface_name][azimuth_column])
@@ -869,6 +891,8 @@ class Translator:
                         design_volume_flow_rate_column = cols.index('Design Volume Flow Rate {m3/s}')
                         schedule_name_column = cols.index('Schedule Name')
                         for row_key in row_keys:
+                            if row_key == 'None':
+                                continue
                             infiltration_name = rows[row_key][infiltration_name_column]
                             zone_name = rows[row_key][zone_name_column]
                             design_volume_flow_rate = float(rows[row_key][design_volume_flow_rate_column])
@@ -992,6 +1016,8 @@ class Translator:
         supply_fan_name_for_coil_column = cols.index('Supply Fan Name for Coil')
         terminal_capacity_by_zone = dict()
         for row_key in row_keys:
+            if row_key == 'None':
+                continue
             hvac_type = rows[row_key][hvac_type_column]
             zone_name = rows[row_key][zone_names_column]
             total_capacity = float(rows[row_key][total_capacity_column])
@@ -999,6 +1025,8 @@ class Translator:
                 terminal_capacity_by_zone[zone_name] = total_capacity
         previously_added_hvac_systems = []
         for row_key in row_keys:
+            if row_key == 'None':
+                continue
             coil_type = rows[row_key][coil_type_column]
             hvac_type = rows[row_key][hvac_type_column]
             hvac_name = rows[row_key][hvac_name_column]
@@ -1170,6 +1198,8 @@ class Translator:
         cols = table['Cols']
         plant_loop_name_column = cols.index('Plant Loop Name')
         for row_key in row_keys:
+            if row_key == 'None':
+                continue
             plant_loop_name = rows[row_key][plant_loop_name_column]
             connection = {'plant_loop_name': plant_loop_name}
             connection_by_coil[row_key] = connection
@@ -1212,8 +1242,9 @@ class Translator:
                                                                "Air Loop Demand Side Component Arrangement")
         airloop_by_zone = {}
         for topology_airloop_demand in topology_airloop_demands:
-            if topology_airloop_demand['Zone Name']:
-                airloop_by_zone[topology_airloop_demand['Zone Name']] = topology_airloop_demand['Airloop Name']
+            if not topology_airloop_demands[0]['first column'] == 'None':
+                if topology_airloop_demand['Zone Name']:
+                    airloop_by_zone[topology_airloop_demand['Zone Name']] = topology_airloop_demand['Airloop Name']
         if zone_name_exh_fan and airloop_by_zone:
             for (zone_name, fan_name) in zone_name_exh_fan:
                 if zone_name in airloop_by_zone:
@@ -1264,6 +1295,8 @@ class Translator:
         type_column = cooling_coils_cols.index('Type')
         nominal_efficiency_column = cooling_coils_cols.index('Nominal Efficiency [W/W]')
         for row_key in row_keys:
+            if row_key == 'None':
+                continue
             coil_type = cooling_coils_rows[row_key][type_column]
             coil_efficiency = {'type': coil_type}
             nominal_efficiency_string = cooling_coils_rows[row_key][nominal_efficiency_column]
@@ -1344,6 +1377,8 @@ class Translator:
         nominal_efficiency_column = heating_coils_cols.index('Nominal Efficiency [W/W]')
         used_as_sup_heat_column = heating_coils_cols.index('Used as Supplementary Heat')
         for row_key in coil_row_keys:
+            if row_key == 'None':
+                continue
             coil_type = heating_coils_rows[row_key][type_column]
             used_as_sup_heat = 'Y' in heating_coils_rows[row_key][used_as_sup_heat_column]
             coil_efficiency = {'type': coil_type,
@@ -1361,6 +1396,8 @@ class Translator:
         hspf_region_column = dx_cols.index('Region Number')
         minimum_temperature_column = dx_cols.index('Minimum Outdoor Dry-Bulb Temperature for Compressor Operation [C]')
         for row_key in dx_row_keys:
+            if row_key == 'None':
+                continue
             if row_key in coil_row_keys:
                 try:
                     coil_efficiencies[row_key]['HSPF'] = float(dx_rows[row_key][hspf_column])
@@ -1379,6 +1416,8 @@ class Translator:
         hspf2_column = dx2_cols.index('HSPF2 [Btu/W-h]')
         hspf2_region_column = dx2_cols.index('Region Number')
         for row_key in dx2_row_keys:
+            if row_key == 'None':
+                continue
             if row_key in coil_row_keys:
                 coil_efficiencies[row_key]['HSPF2'] = float(dx2_rows[row_key][hspf2_column])
                 coil_efficiencies[row_key]['Region Number'] = dx2_rows[row_key][hspf2_region_column]
@@ -1423,6 +1462,8 @@ class Translator:
         motor_loss_zone_name_column = cols.index('Motor Loss Zone Name')
         airloop_name_column = cols.index('Airloop Name')
         for row_key in coil_row_keys:
+            if row_key == 'None':
+                continue
             max_air_flow_rate = float(rows[row_key][max_air_flow_rate_column])
             is_autosized = 'Y' in rows[row_key][is_autosized_column]
             rated_electricity_rate = float(rows[row_key][rated_electricity_rate_column])
@@ -1734,6 +1775,9 @@ class Translator:
         fluid_loops = []
         plant_loop_arrangements = self.gather_table_into_list('HVACTopology', 'Plant Loop Component Arrangement')
         loop_types = {}
+        if plant_loop_arrangements:
+            if plant_loop_arrangements[0]['first column'] == 'None':
+                return fluid_loops
         for arrangement_row in plant_loop_arrangements:
             name = arrangement_row['Loop Name']
             likely_type = ''
