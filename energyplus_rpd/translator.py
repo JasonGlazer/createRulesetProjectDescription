@@ -274,7 +274,11 @@ class Translator:
         constructions = {}
         for construction_name, layer_dict in constructions_in.items():
             materials = []
-            for layer_name, material_name in layer_dict.items():
+            # fix the order of the dictionary because the use of 'outside_layer' messes it up
+            if 'outside_layer' in layer_dict and 'layer_1' not in layer_dict:
+                layer_dict['layer_1'] = layer_dict.pop('outside_layer')
+            sorted_layer_dict = dict(sorted(layer_dict.items()))
+            for layer_name, material_name in sorted_layer_dict.items():
                 if material_name in materials_in:
                     material_in = materials_in[material_name]
                     material = {

@@ -405,6 +405,11 @@ class TestTranslator(TestCase):
                  'surface_construction_input_option':
                      'LAYERS', 'primary_layers':
                      [
+                         {'id': 'F07 25mm stucco',
+                          'thickness': 0.0254,
+                          'thermal_conductivity': 0.72,
+                          'density': 1856,
+                          'specific_heat': 840},
                          {'id': 'G01 16mm gypsum board',
                           'thickness': 0.0159,
                           'thermal_conductivity': 0.16,
@@ -416,12 +421,7 @@ class TestTranslator(TestCase):
                           'thickness': 0.0159,
                           'thermal_conductivity': 0.16,
                           'density': 800,
-                          'specific_heat': 1090},
-                         {'id': 'F07 25mm stucco',
-                          'thickness': 0.0254,
-                          'thermal_conductivity': 0.72,
-                          'density': 1856,
-                          'specific_heat': 840}
+                          'specific_heat': 1090}
                      ]
                  }
         }
