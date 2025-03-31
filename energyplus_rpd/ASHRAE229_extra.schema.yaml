@@ -1401,8 +1401,8 @@ Zone:
       EPout Report: "Initialization Summary"
       EPout Table: "Zone Information"
       EPout Column: "Minimum Z"
-      EPstatus: "ToDo"
-      EP Notes: "Could use Z height of surface as proxy for this."
+      EPstatus: "DoneUsingOutput"
+      EP Notes: "Just used in the height of the floor (the minimum Z for the zone) it will increaase with increasing height but not by one for each level."
     volume:
       Description: "Volume of the space"
       Data Type: "Numeric"

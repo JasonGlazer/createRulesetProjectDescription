@@ -530,6 +530,8 @@ class Translator:
         zones = []
         surfaces_by_surface = self.gather_surfaces()
         setpoint_schedules = self.gather_thermostat_setpoint_schedules()
+        zone_info_init_summary = self.get_table_dictionary('InitializationSummary', 'Zone Information',
+                                                           ignore_first_column=True)
         infiltration_by_zone = self.gather_infiltration()
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'InputVerificationandResultsSummary':
@@ -580,6 +582,9 @@ class Translator:
                                 zone['infiltration'] = infiltration_zero
                             if zone_name.upper() in self.terminals_by_zone:
                                 zone['terminals'] = self.terminals_by_zone[zone_name.upper()]
+                            if zone_name.upper() in zone_info_init_summary:
+                                zone['floor_name'] = 'Floor at Height ' + zone_info_init_summary[zone_name.upper()][
+                                    'Minimum Z {m}']
                 break
         self.building_segment['zones'] = zones
         return zones
