@@ -141,6 +141,15 @@ This will create filenameout_hourly.json files when EnergyPlus is run at the com
 This produces a summary report in the EIO file and the Initialization Summary related to schedules. While it is not currently used by the script it probably will be used 
 in the future.
 
+ -  add construction and material details
+
+```
+  Output:Constructions,
+   Constructions,            !- Details Type 1
+   Materials;                !- Details Type 2
+```
+
+This produces summary reports in the EIO file and the Initialization Summary related to constructions and materials.
 
  - add space type tags by using the Space input object
 
