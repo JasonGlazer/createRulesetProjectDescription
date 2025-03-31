@@ -303,6 +303,39 @@ class Translator:
             constructions[construction_name.upper()] = deepcopy(construction)
         return constructions
 
+    def gather_surface_optical(self):
+        optical_by_construction = {}
+        # return a dictionary of optical SurfaceOpticalProperties by construction
+        material_dict = self.get_table_dictionary('InitializationSummary', "Material Details", ignore_first_column=True)
+        opaque_layers_dict = self.get_table_dictionary('EnvelopeSummary', "Opaque Construction Layers")
+        for construction_name, layers in opaque_layers_dict.items():
+            first_layer, last_layer = self.first_last_layer(layers)
+            if first_layer in material_dict and last_layer in material_dict:
+                optical = {
+                    'id': construction_name + '-SurfaceOpticalProperties',
+                    'absorptance_thermal_exterior': float(material_dict[last_layer]['Absorptance:Thermal']),
+                    'absorptance_solar_exterior': float(material_dict[last_layer]['Absorptance:Solar']),
+                    'absorptance_visible_exterior': float(material_dict[last_layer]['Absorptance:Visible']),
+                    'absorptance_thermal_interior': float(material_dict[first_layer]['Absorptance:Thermal']),
+                    'absorptance_solar_interior': float(material_dict[first_layer]['Absorptance:Solar']),
+                    'absorptance_visible_interior': float(material_dict[first_layer]['Absorptance:Visible'])
+                }
+                optical_by_construction[construction_name] = optical
+        return optical_by_construction
+
+    def first_last_layer(self, layer_dict):
+        first_layer = ''
+        last_layer = ''
+        layer_names = [f'Layer {x}' for x in range(10, 1, -1)]  # list of layers in reverse order
+        if 'Layer 1' in layer_dict:
+            first_layer = layer_dict['Layer 1']
+        for layer_name in layer_names:
+            if layer_name in layer_dict:
+                if layer_dict[layer_name]:
+                    last_layer = layer_dict[layer_name]
+                    break
+        return first_layer, last_layer
+
     def gather_thermostat_setpoint_schedules(self):
         zone_control_thermostats_in = {}
         if 'ZoneControl:Thermostat' in self.epjson_object:
@@ -820,6 +853,7 @@ class Translator:
         do_surfaces_cast_shadows = self.are_shadows_cast_from_surfaces()
         adjacent_surfaces = self.get_adjacent_surface_for_each_surface()
         outside_boundary_conditions = self.get_outside_boundary_condition_for_each_surface()
+        optical_by_construction = self.gather_surface_optical()
         # print(constructions)
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'EnvelopeSummary':
@@ -881,6 +915,8 @@ class Translator:
                                 surface['construction'] = deepcopy(constructions[construction_name])
                                 if u_factor_with_film_string:
                                     surface['construction']['u_factor'] = u_factor_with_film
+                            if construction_name in optical_by_construction:
+                                surface['optical_properties'] = optical_by_construction[construction_name]
         # print(surfaces)
         return surfaces
 
@@ -1234,6 +1270,34 @@ class Translator:
 #        for item in list_of_dict:
 #            print(item)
         return list_of_dict
+
+    def get_table_dictionary(self, report_name, table_name, ignore_first_column=False):
+        # transform the rows and columns format into a dictionary of dictionaries
+        dict_of_dict = {}
+        table = self.get_table(report_name, table_name)
+        if not table:
+            return dict_of_dict
+        rows = table['Rows']
+        row_keys = list(rows.keys())
+        cols = table['Cols']
+        if not ignore_first_column:
+            for row_key in row_keys:
+                arrangement = {}
+                for col in cols:
+                    col_index = cols.index(col)
+                    arrangement[col] = rows[row_key][col_index]
+                dict_of_dict[row_key] = arrangement
+        else:
+            if cols:
+                for row_key in row_keys:
+                    arrangement = {}
+                    for col in cols[1:]:
+                        col_index = cols.index(col)
+                        arrangement[col] = rows[row_key][col_index]
+                    dict_of_dict[rows[row_key][0]] = arrangement
+#        for item in dict_of_dict.items():
+#            print(item)
+        return dict_of_dict
 
     def gather_exhaust_fans_by_airloop(self):
         exh_fan_by_airloop = {}  # for each airloop name contains a list of exhaust fans
