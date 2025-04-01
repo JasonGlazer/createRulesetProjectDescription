@@ -532,6 +532,7 @@ class Translator:
         setpoint_schedules = self.gather_thermostat_setpoint_schedules()
         zone_info_init_summary = self.get_table_dictionary('InitializationSummary', 'Zone Information',
                                                            ignore_first_column=True)
+        setpoint_by_zone = self.gather_thermostat_setpoints()
         infiltration_by_zone = self.gather_infiltration()
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'InputVerificationandResultsSummary':
@@ -563,6 +564,10 @@ class Translator:
                             if zone_name in setpoint_schedules:
                                 zone['thermostat_cooling_setpoint_schedule'] = setpoint_schedules[zone_name]['cool']
                                 zone['thermostat_heating_setpoint_schedule'] = setpoint_schedules[zone_name]['heat']
+                            if zone_name in setpoint_by_zone:
+                                heat_setpoint, cool_setpoint = setpoint_by_zone[zone_name]
+                                zone['design_thermostat_heating_setpoint'] = heat_setpoint
+                                zone['design_thermostat_cooling_setpoint'] = cool_setpoint
                             surfaces = []
                             for key, value in self.surfaces_by_zone.items():
                                 if zone_name == value:
@@ -588,6 +593,20 @@ class Translator:
                 break
         self.building_segment['zones'] = zones
         return zones
+
+    def gather_thermostat_setpoints(self):
+        setpoint_by_zone = {}
+        zone_sensible_cooling_table = self.get_table_dictionary('HVACSizingSummary', 'Zone Sensible Cooling')
+        zone_sensible_heating_table = self.get_table_dictionary('HVACSizingSummary', 'Zone Sensible Heating')
+        for zone_name, table in zone_sensible_heating_table.items():
+            heat_setpoint = float(zone_sensible_heating_table[zone_name]
+                                  ['Thermostat Setpoint Temperature at Peak Load [C]'])
+            cool_setpoint = heat_setpoint
+            if zone_name in zone_sensible_cooling_table:
+                cool_setpoint = float(zone_sensible_cooling_table[zone_name]
+                                      ['Thermostat Setpoint Temperature at Peak Load [C]'])
+            setpoint_by_zone[zone_name] = (heat_setpoint, cool_setpoint)
+        return setpoint_by_zone
 
     def add_spaces(self):
         tabular_reports = self.json_results_object['TabularReports']
