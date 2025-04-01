@@ -1019,6 +1019,7 @@ class Translator:
             if output_variable_name in unique_schedule_names_used:
                 selected_names[output_variable_name] = count
         # print(selected_names)
+        type_by_name = self.gather_schedule_type()
         rows = {}
         if 'Rows' in self.json_hourly_results_object:
             rows = self.json_hourly_results_object['Rows']
@@ -1046,8 +1047,34 @@ class Translator:
                 'hourly_heating_design_day': design_heating_hourly,
                 'hourly_cooling_design_day': design_cooling_hourly,
             }
+            if schedule_name in type_by_name:
+                if type_by_name[schedule_name]:
+                    schedule['type'] = type_by_name[schedule_name]
             schedules.append(schedule)
         self.model_description['schedules'] = schedules
+
+    def gather_schedule_type(self):
+        raw_to_final_map = {
+            'FRACTIONAL': 'MULTIPLIER_DIMENSIONLESS',
+            'DIMENSIONLESS': 'MULTIPLIER_DIMENSIONLESS',
+            'TEMPERATURE': 'TEMPERATURE',
+            'DELTATEMPERATURE': 'TEMPERATURE',
+            'POWER': 'POWER',
+            'CAPACITY': 'POWER'
+        }
+        type_by_name = {}
+        init_schedule_table = self.get_table_dictionary('InitializationSummary', 'Schedule', True)
+        for name, row in init_schedule_table.items():
+            raw_type = row['ScheduleType']
+            if raw_type in raw_to_final_map:
+                type_by_name[name] = raw_to_final_map[raw_type]
+            elif 'TEMPERATURE' in raw_type:
+                type_by_name[name] = 'TEMPERATURE'
+            elif 'THERMOSTAT' in raw_type:
+                type_by_name[name] = 'TEMPERATURE'
+            else:
+                type_by_name[name] = ''
+        return type_by_name
 
     def is_site_shaded(self):
         tabular_reports = self.json_results_object['TabularReports']

@@ -4601,8 +4601,8 @@ Schedule:
       EPout Report: "Intialization Summary"
       EPout Table: "Schedule"
       EPout Column: "ScheduleType"
-      EPstatus: "ToDo"
-      EP Notes: "Fraction => MULTIPLIER_DIMENSIONLESS, Temperature => TEMPERATURE, Units of W => POWER, Units of kg/s => FLOW_RATE, anything else => MULTIPLIER_DIMENSIONLESS"
+      EPstatus: "DoneUsingOutput"
+      EP Notes: "See code for mapping used in gather_schedule_type()"
     prescribed_type:
       Description: "Options when any schedule values have changed from what appears in the schedule library"
       Data Type: "<PrescribedScheduleOptions2019ASHRAE901>"
