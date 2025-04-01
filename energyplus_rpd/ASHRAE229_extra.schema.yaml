@@ -1768,8 +1768,8 @@ Zone:
       EPout Report: "Standard 62.1 Summary"
       EPout Table: "Zone Ventilation Parameters"
       EPout Column: "Cooling Zone Air Distribution Effectiveness, Heating Zone Air Distribution Effectiveness - Ez-htg"
-      EPstatus: "ToDo"
-      EP Notes: ""
+      EPstatus: "DoneUsingOutput"
+      EP Notes: "Used minimum of heating and cooling."
     aggregation_factor:
       Description: "Aggregation factor"
       Data Type: "Numeric"

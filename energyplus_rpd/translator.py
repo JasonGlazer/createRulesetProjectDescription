@@ -531,6 +531,7 @@ class Translator:
         surfaces_by_surface = self.gather_surfaces()
         setpoint_schedules = self.gather_thermostat_setpoint_schedules()
         humid_sch_name_by_zone = self.gather_humidity_schedules()
+        effective_by_zone = self.gather_air_dist_effectiveness()
         zone_info_init_summary = self.get_table_dictionary('InitializationSummary', 'Zone Information',
                                                            ignore_first_column=True)
         setpoint_by_zone = self.gather_thermostat_setpoints()
@@ -573,6 +574,8 @@ class Translator:
                                 humid_sch, dehumid_sch = humid_sch_name_by_zone[zone_name]
                                 zone['minimum_humidity_setpoint_schedule'] = humid_sch
                                 zone['maximum_humidity_setpoint_schedule'] = dehumid_sch
+                            if zone_name in effective_by_zone:
+                                zone['air_distribution_effectiveness'] = effective_by_zone[zone_name]
                             surfaces = []
                             for key, value in self.surfaces_by_zone.items():
                                 if zone_name == value:
@@ -623,6 +626,16 @@ class Translator:
                     dehumid_schedule = fields['dehumidifying_relative_humidity_setpoint_schedule_name']
                     humid_sch_name_by_zone[fields['zone_name'].upper()] = (humid_schedule, dehumid_schedule)
         return humid_sch_name_by_zone
+
+    def gather_air_dist_effectiveness(self):
+        effective_by_zone = {}
+        zone_vent_param_table = self.get_table_dictionary('Standard62.1Summary', 'Zone Ventilation Parameters')
+        for zone_name, row in zone_vent_param_table.items():
+            cooling_eff = row['Cooling Zone Air Distribution Effectiveness - Ez-clg']
+            heating_eff = row['Cooling Zone Air Distribution Effectiveness - Ez-clg']
+            eff = min(float(cooling_eff), float(heating_eff))
+            effective_by_zone[zone_name] = eff
+        return effective_by_zone
 
     def add_spaces(self):
         tabular_reports = self.json_results_object['TabularReports']
