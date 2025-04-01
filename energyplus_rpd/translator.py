@@ -530,6 +530,7 @@ class Translator:
         zones = []
         surfaces_by_surface = self.gather_surfaces()
         setpoint_schedules = self.gather_thermostat_setpoint_schedules()
+        humid_sch_name_by_zone = self.gather_humidity_schedules()
         zone_info_init_summary = self.get_table_dictionary('InitializationSummary', 'Zone Information',
                                                            ignore_first_column=True)
         setpoint_by_zone = self.gather_thermostat_setpoints()
@@ -568,6 +569,10 @@ class Translator:
                                 heat_setpoint, cool_setpoint = setpoint_by_zone[zone_name]
                                 zone['design_thermostat_heating_setpoint'] = heat_setpoint
                                 zone['design_thermostat_cooling_setpoint'] = cool_setpoint
+                            if zone_name.upper() in humid_sch_name_by_zone:
+                                humid_sch, dehumid_sch = humid_sch_name_by_zone[zone_name]
+                                zone['minimum_humidity_setpoint_schedule'] = humid_sch
+                                zone['maximum_humidity_setpoint_schedule'] = dehumid_sch
                             surfaces = []
                             for key, value in self.surfaces_by_zone.items():
                                 if zone_name == value:
@@ -607,6 +612,17 @@ class Translator:
                                       ['Thermostat Setpoint Temperature at Peak Load [C]'])
             setpoint_by_zone[zone_name] = (heat_setpoint, cool_setpoint)
         return setpoint_by_zone
+
+    def gather_humidity_schedules(self):
+        humid_sch_name_by_zone = {}
+        if 'ZoneControl:Humidistat' in self.epjson_object:
+            zone_control_humidistats = self.epjson_object['ZoneControl:Humidistat']
+            for stat_name, fields in zone_control_humidistats.items():
+                if fields['zone_name']:
+                    humid_schedule = fields['humidifying_relative_humidity_setpoint_schedule_name']
+                    dehumid_schedule = fields['dehumidifying_relative_humidity_setpoint_schedule_name']
+                    humid_sch_name_by_zone[fields['zone_name'].upper()] = (humid_schedule, dehumid_schedule)
+        return humid_sch_name_by_zone
 
     def add_spaces(self):
         tabular_reports = self.json_results_object['TabularReports']

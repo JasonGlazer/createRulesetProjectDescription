@@ -1566,8 +1566,8 @@ Zone:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Could examine schedule looking for humidity setpoint that corresonds to when occupancy is high. "
+      EPstatus: "DoneUsingInput"
+      EP Notes: ""
     maximum_humidity_setpoint_schedule:
       Description: "ID of the Schedule containing the maximum relative humidity setpoint"
       Data Type: "Reference"
@@ -1585,8 +1585,8 @@ Zone:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Could examine schedule looking for humidity setpoint that corresonds to when occupancy is high. "
+      EPstatus: "DoneUsingInput"
+      EP Notes: ""
     terminals:
       Description: "List of terminals"
       Data Type: "[{Terminal}]"
