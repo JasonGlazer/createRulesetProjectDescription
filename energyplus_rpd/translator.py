@@ -1076,6 +1076,46 @@ class Translator:
                 type_by_name[name] = ''
         return type_by_name
 
+    def add_ground_schedule(self):
+        ground_schedule = {}
+        empty_list = []
+        monthly_table = self.get_table_dictionary('InitializationSummary', 'Site:GroundTemperature:BuildingSurface')
+        # for debugging purposes the following has difference values for each month for the SmallOffice
+        # monthly_table = self.get_table_dictionary('InitializationSummary', 'Site:GroundTemperature:FCfactorMethod')
+        if '1' in monthly_table:
+            monthly_table_dict = monthly_table['1']
+            monthly_table_numbers = [float(x) for _, x in monthly_table_dict.items()]
+            ground_temps = self.twelve_to_8760(monthly_table_numbers)
+            ground_schedule = {
+                'id': 'schedule_of_ground_temperatures',
+                'sequence_type': 'HOURLY',
+                'hourly_heating_design_day': empty_list,
+                'hourly_cooling_design_day': empty_list,
+                'type': 'TEMPERATURE',
+                'hourly_values': ground_temps,
+            }
+            self.model_description['schedules'].append(ground_schedule)
+            self.project_description['weather']['ground_temperature_schedule'] = 'schedule_of_ground_temperatures'
+        return ground_schedule
+
+    def twelve_to_8760(self, list_of_twelve):
+        list_of_8760 = []
+        number_of_days_in_month = [31,  # January
+                                   28,  # February
+                                   31,  # March
+                                   30,  # April
+                                   31,  # May
+                                   30,  # June
+                                   31,  # July
+                                   31,  # August
+                                   30,  # September
+                                   31,  # October
+                                   30,  # November
+                                   31]  # December
+        for indx, item in enumerate(list_of_twelve):
+            list_of_8760.extend([item] * number_of_days_in_month[indx] * 24)
+        return list_of_8760
+
     def is_site_shaded(self):
         tabular_reports = self.json_results_object['TabularReports']
         total_detached = 0  # assume no shading surfaces
@@ -2217,6 +2257,7 @@ class Translator:
         self.add_exterior_lighting()
         self.add_simulation_outputs()
         self.add_schedules()
+        self.add_ground_schedule()
         self.ensure_all_id_unique()
 
         if self.do_use_compliance_parameters:

@@ -4791,8 +4791,8 @@ Weather:
       EPout Report: "Initialization Summary"
       EPout Table: "Site:GroundTemperature:BuildingSurface"
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "would need to create a schedule based on the 12 monthly values."
+      EPstatus: "DoneUsingOutput"
+      EP Notes: "The created schedule is based on the 12 monthly values."
     file_name:
       Description: "The file name for the weather file including extension."
       Data Type: "String"
