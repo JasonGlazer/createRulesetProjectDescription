@@ -303,6 +303,39 @@ class Translator:
             constructions[construction_name.upper()] = deepcopy(construction)
         return constructions
 
+    def gather_surface_optical(self):
+        optical_by_construction = {}
+        # return a dictionary of optical SurfaceOpticalProperties by construction
+        material_dict = self.get_table_dictionary('InitializationSummary', "Material Details", ignore_first_column=True)
+        opaque_layers_dict = self.get_table_dictionary('EnvelopeSummary', "Opaque Construction Layers")
+        for construction_name, layers in opaque_layers_dict.items():
+            first_layer, last_layer = self.first_last_layer(layers)
+            if first_layer in material_dict and last_layer in material_dict:
+                optical = {
+                    'id': construction_name + '-SurfaceOpticalProperties',
+                    'absorptance_thermal_exterior': float(material_dict[last_layer]['Absorptance:Thermal']),
+                    'absorptance_solar_exterior': float(material_dict[last_layer]['Absorptance:Solar']),
+                    'absorptance_visible_exterior': float(material_dict[last_layer]['Absorptance:Visible']),
+                    'absorptance_thermal_interior': float(material_dict[first_layer]['Absorptance:Thermal']),
+                    'absorptance_solar_interior': float(material_dict[first_layer]['Absorptance:Solar']),
+                    'absorptance_visible_interior': float(material_dict[first_layer]['Absorptance:Visible'])
+                }
+                optical_by_construction[construction_name] = optical
+        return optical_by_construction
+
+    def first_last_layer(self, layer_dict):
+        first_layer = ''
+        last_layer = ''
+        layer_names = [f'Layer {x}' for x in range(10, 1, -1)]  # list of layers in reverse order
+        if 'Layer 1' in layer_dict:
+            first_layer = layer_dict['Layer 1']
+        for layer_name in layer_names:
+            if layer_name in layer_dict:
+                if layer_dict[layer_name]:
+                    last_layer = layer_dict[layer_name]
+                    break
+        return first_layer, last_layer
+
     def gather_thermostat_setpoint_schedules(self):
         zone_control_thermostats_in = {}
         if 'ZoneControl:Thermostat' in self.epjson_object:
@@ -497,6 +530,11 @@ class Translator:
         zones = []
         surfaces_by_surface = self.gather_surfaces()
         setpoint_schedules = self.gather_thermostat_setpoint_schedules()
+        humid_sch_name_by_zone = self.gather_humidity_schedules()
+        effective_by_zone = self.gather_air_dist_effectiveness()
+        zone_info_init_summary = self.get_table_dictionary('InitializationSummary', 'Zone Information',
+                                                           ignore_first_column=True)
+        setpoint_by_zone = self.gather_thermostat_setpoints()
         infiltration_by_zone = self.gather_infiltration()
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'InputVerificationandResultsSummary':
@@ -528,6 +566,16 @@ class Translator:
                             if zone_name in setpoint_schedules:
                                 zone['thermostat_cooling_setpoint_schedule'] = setpoint_schedules[zone_name]['cool']
                                 zone['thermostat_heating_setpoint_schedule'] = setpoint_schedules[zone_name]['heat']
+                            if zone_name in setpoint_by_zone:
+                                heat_setpoint, cool_setpoint = setpoint_by_zone[zone_name]
+                                zone['design_thermostat_heating_setpoint'] = heat_setpoint
+                                zone['design_thermostat_cooling_setpoint'] = cool_setpoint
+                            if zone_name.upper() in humid_sch_name_by_zone:
+                                humid_sch, dehumid_sch = humid_sch_name_by_zone[zone_name]
+                                zone['minimum_humidity_setpoint_schedule'] = humid_sch
+                                zone['maximum_humidity_setpoint_schedule'] = dehumid_sch
+                            if zone_name in effective_by_zone:
+                                zone['air_distribution_effectiveness'] = effective_by_zone[zone_name]
                             surfaces = []
                             for key, value in self.surfaces_by_zone.items():
                                 if zone_name == value:
@@ -547,9 +595,47 @@ class Translator:
                                 zone['infiltration'] = infiltration_zero
                             if zone_name.upper() in self.terminals_by_zone:
                                 zone['terminals'] = self.terminals_by_zone[zone_name.upper()]
+                            if zone_name.upper() in zone_info_init_summary:
+                                zone['floor_name'] = 'Floor at Height ' + zone_info_init_summary[zone_name.upper()][
+                                    'Minimum Z {m}']
                 break
         self.building_segment['zones'] = zones
         return zones
+
+    def gather_thermostat_setpoints(self):
+        setpoint_by_zone = {}
+        zone_sensible_cooling_table = self.get_table_dictionary('HVACSizingSummary', 'Zone Sensible Cooling')
+        zone_sensible_heating_table = self.get_table_dictionary('HVACSizingSummary', 'Zone Sensible Heating')
+        for zone_name, table in zone_sensible_heating_table.items():
+            heat_setpoint = float(zone_sensible_heating_table[zone_name]
+                                  ['Thermostat Setpoint Temperature at Peak Load [C]'])
+            cool_setpoint = heat_setpoint
+            if zone_name in zone_sensible_cooling_table:
+                cool_setpoint = float(zone_sensible_cooling_table[zone_name]
+                                      ['Thermostat Setpoint Temperature at Peak Load [C]'])
+            setpoint_by_zone[zone_name] = (heat_setpoint, cool_setpoint)
+        return setpoint_by_zone
+
+    def gather_humidity_schedules(self):
+        humid_sch_name_by_zone = {}
+        if 'ZoneControl:Humidistat' in self.epjson_object:
+            zone_control_humidistats = self.epjson_object['ZoneControl:Humidistat']
+            for stat_name, fields in zone_control_humidistats.items():
+                if fields['zone_name']:
+                    humid_schedule = fields['humidifying_relative_humidity_setpoint_schedule_name']
+                    dehumid_schedule = fields['dehumidifying_relative_humidity_setpoint_schedule_name']
+                    humid_sch_name_by_zone[fields['zone_name'].upper()] = (humid_schedule, dehumid_schedule)
+        return humid_sch_name_by_zone
+
+    def gather_air_dist_effectiveness(self):
+        effective_by_zone = {}
+        zone_vent_param_table = self.get_table_dictionary('Standard62.1Summary', 'Zone Ventilation Parameters')
+        for zone_name, row in zone_vent_param_table.items():
+            cooling_eff = row['Cooling Zone Air Distribution Effectiveness - Ez-clg']
+            heating_eff = row['Cooling Zone Air Distribution Effectiveness - Ez-clg']
+            eff = min(float(cooling_eff), float(heating_eff))
+            effective_by_zone[zone_name] = eff
+        return effective_by_zone
 
     def add_spaces(self):
         tabular_reports = self.json_results_object['TabularReports']
@@ -820,6 +906,7 @@ class Translator:
         do_surfaces_cast_shadows = self.are_shadows_cast_from_surfaces()
         adjacent_surfaces = self.get_adjacent_surface_for_each_surface()
         outside_boundary_conditions = self.get_outside_boundary_condition_for_each_surface()
+        optical_by_construction = self.gather_surface_optical()
         # print(constructions)
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'EnvelopeSummary':
@@ -881,6 +968,8 @@ class Translator:
                                 surface['construction'] = deepcopy(constructions[construction_name])
                                 if u_factor_with_film_string:
                                     surface['construction']['u_factor'] = u_factor_with_film
+                            if construction_name in optical_by_construction:
+                                surface['optical_properties'] = optical_by_construction[construction_name]
         # print(surfaces)
         return surfaces
 
@@ -930,6 +1019,7 @@ class Translator:
             if output_variable_name in unique_schedule_names_used:
                 selected_names[output_variable_name] = count
         # print(selected_names)
+        type_by_name = self.gather_schedule_type()
         rows = {}
         if 'Rows' in self.json_hourly_results_object:
             rows = self.json_hourly_results_object['Rows']
@@ -957,8 +1047,74 @@ class Translator:
                 'hourly_heating_design_day': design_heating_hourly,
                 'hourly_cooling_design_day': design_cooling_hourly,
             }
+            if schedule_name in type_by_name:
+                if type_by_name[schedule_name]:
+                    schedule['type'] = type_by_name[schedule_name]
             schedules.append(schedule)
         self.model_description['schedules'] = schedules
+
+    def gather_schedule_type(self):
+        raw_to_final_map = {
+            'FRACTIONAL': 'MULTIPLIER_DIMENSIONLESS',
+            'DIMENSIONLESS': 'MULTIPLIER_DIMENSIONLESS',
+            'TEMPERATURE': 'TEMPERATURE',
+            'DELTATEMPERATURE': 'TEMPERATURE',
+            'POWER': 'POWER',
+            'CAPACITY': 'POWER'
+        }
+        type_by_name = {}
+        init_schedule_table = self.get_table_dictionary('InitializationSummary', 'Schedule', True)
+        for name, row in init_schedule_table.items():
+            raw_type = row['ScheduleType']
+            if raw_type in raw_to_final_map:
+                type_by_name[name] = raw_to_final_map[raw_type]
+            elif 'TEMPERATURE' in raw_type:
+                type_by_name[name] = 'TEMPERATURE'
+            elif 'THERMOSTAT' in raw_type:
+                type_by_name[name] = 'TEMPERATURE'
+            else:
+                type_by_name[name] = ''
+        return type_by_name
+
+    def add_ground_schedule(self):
+        ground_schedule = {}
+        empty_list = []
+        monthly_table = self.get_table_dictionary('InitializationSummary', 'Site:GroundTemperature:BuildingSurface')
+        # for debugging purposes the following has difference values for each month for the SmallOffice
+        # monthly_table = self.get_table_dictionary('InitializationSummary', 'Site:GroundTemperature:FCfactorMethod')
+        if '1' in monthly_table:
+            monthly_table_dict = monthly_table['1']
+            monthly_table_numbers = [float(x) for _, x in monthly_table_dict.items()]
+            ground_temps = self.twelve_to_8760(monthly_table_numbers)
+            ground_schedule = {
+                'id': 'schedule_of_ground_temperatures',
+                'sequence_type': 'HOURLY',
+                'hourly_heating_design_day': empty_list,
+                'hourly_cooling_design_day': empty_list,
+                'type': 'TEMPERATURE',
+                'hourly_values': ground_temps,
+            }
+            self.model_description['schedules'].append(ground_schedule)
+            self.project_description['weather']['ground_temperature_schedule'] = 'schedule_of_ground_temperatures'
+        return ground_schedule
+
+    def twelve_to_8760(self, list_of_twelve):
+        list_of_8760 = []
+        number_of_days_in_month = [31,  # January
+                                   28,  # February
+                                   31,  # March
+                                   30,  # April
+                                   31,  # May
+                                   30,  # June
+                                   31,  # July
+                                   31,  # August
+                                   30,  # September
+                                   31,  # October
+                                   30,  # November
+                                   31]  # December
+        for indx, item in enumerate(list_of_twelve):
+            list_of_8760.extend([item] * number_of_days_in_month[indx] * 24)
+        return list_of_8760
 
     def is_site_shaded(self):
         tabular_reports = self.json_results_object['TabularReports']
@@ -1234,6 +1390,34 @@ class Translator:
 #        for item in list_of_dict:
 #            print(item)
         return list_of_dict
+
+    def get_table_dictionary(self, report_name, table_name, ignore_first_column=False):
+        # transform the rows and columns format into a dictionary of dictionaries
+        dict_of_dict = {}
+        table = self.get_table(report_name, table_name)
+        if not table:
+            return dict_of_dict
+        rows = table['Rows']
+        row_keys = list(rows.keys())
+        cols = table['Cols']
+        if not ignore_first_column:
+            for row_key in row_keys:
+                arrangement = {}
+                for col in cols:
+                    col_index = cols.index(col)
+                    arrangement[col] = rows[row_key][col_index]
+                dict_of_dict[row_key] = arrangement
+        else:
+            if cols:
+                for row_key in row_keys:
+                    arrangement = {}
+                    for col in cols[1:]:
+                        col_index = cols.index(col)
+                        arrangement[col] = rows[row_key][col_index]
+                    dict_of_dict[rows[row_key][0]] = arrangement
+#        for item in dict_of_dict.items():
+#            print(item)
+        return dict_of_dict
 
     def gather_exhaust_fans_by_airloop(self):
         exh_fan_by_airloop = {}  # for each airloop name contains a list of exhaust fans
@@ -2073,6 +2257,7 @@ class Translator:
         self.add_exterior_lighting()
         self.add_simulation_outputs()
         self.add_schedules()
+        self.add_ground_schedule()
         self.ensure_all_id_unique()
 
         if self.do_use_compliance_parameters:
