@@ -297,7 +297,6 @@ class Translator:
                     }
                     materials.append(deepcopy(material))
             construction = {'id': construction_name,
-                            'surface_construction_input_option': 'LAYERS',
                             'primary_layers': materials
                             }
             constructions[construction_name.upper()] = deepcopy(construction)
@@ -1232,7 +1231,7 @@ class Translator:
                     if rated_capacity != -999:
                         heating_system['rated_capacity'] = rated_capacity
                     heating_system['oversizing_factor'] = oversize_ratio
-                    heating_system['is_sized_based_on_design_day'] = is_autosized_coil == 'Yes'
+                    heating_system['is_calculated_size'] = is_autosized_coil == 'Yes'
                     if leaving_drybulb != -999:
                         heating_system['heating_coil_setpoint'] = leaving_drybulb
                     metric_types, metric_values = self.process_heating_metrics(row_key, heating_coil_efficiencies)
@@ -1252,7 +1251,7 @@ class Translator:
                     if rated_sensible_capacity != -999:
                         cooling_system['rated_sensible_cool_capacity'] = rated_sensible_capacity
                     cooling_system['oversizing_factor'] = oversize_ratio
-                    cooling_system['is_sized_based_on_design_day'] = is_autosized_coil == 'Yes'
+                    cooling_system['is_calculated_size'] = is_autosized_coil == 'Yes'
                     if 'WATER' in coil_type.upper():
                         cooling_system['chilled_water_loop'] = coil_connections[row_key]['plant_loop_name']
                     metric_types, metric_values = self.process_cooling_metrics(row_key, cooling_coil_efficiencies)
@@ -1672,7 +1671,7 @@ class Translator:
             purpose = rows[row_key][purpose_column]
             airloop_name = rows[row_key][airloop_name_column]
             equipment_fan = {'design_airflow': max_air_flow_rate,
-                             'is_airflow_sized_based_on_design_day': is_autosized,
+                             'is_airflow_calculated': is_autosized,
                              'design_electric_power': rated_electricity_rate,
                              'design_pressure_rise': delta_pressure,
                              'total_efficiency': total_efficiency,
@@ -1954,7 +1953,7 @@ class Translator:
                                 'motor_efficiency': float(rows[pump_name][motor_efficiency_column]),
                                 'speed_control': speed_control,
                                 'design_flow': float(rows[pump_name][water_flow_column]) * 1000,
-                                'is_flow_sized_based_on_design_day': is_autosized
+                                'is_flow_calculated': is_autosized
                             }
                             pump_extra = {
                                 'control': rows[pump_name][control_column]

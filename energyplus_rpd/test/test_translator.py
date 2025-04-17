@@ -402,8 +402,7 @@ class TestTranslator(TestCase):
         expected = {
             'NONRES_EXT_WALL':
                 {'id': 'nonres_ext_wall',
-                 'surface_construction_input_option':
-                     'LAYERS', 'primary_layers':
+                 'primary_layers':
                      [
                          {'id': 'F07 25mm stucco',
                           'thickness': 0.0254,
@@ -1495,7 +1494,7 @@ class TestTranslator(TestCase):
                  'rated_total_cool_capacity': 12345.67,
                  'rated_sensible_cool_capacity': 12345.67,
                  'oversizing_factor': 7.950141547603329,
-                 'is_sized_based_on_design_day': True}
+                 'is_calculated_size': True}
         }]
 
         expected_terminals = {'PERIMETER_MID_ZN_1 ZN': [
@@ -3866,14 +3865,14 @@ class TestTranslator(TestCase):
                           'heating_system': {'id': 'CORE_ZN ZN PSZ-AC-1-heating', 'design_capacity': 9209.104,
                                              'type': 'HEAT_PUMP', 'energy_source_type': 'ELECTRICITY',
                                              'rated_capacity': 9221.21, 'oversizing_factor': 1.000000434352977,
-                                             'is_sized_based_on_design_day': True, 'heating_coil_setpoint': 46.8,
+                                             'is_calculated_size': True, 'heating_coil_setpoint': 46.8,
                                              'efficiency_metric_values': [7.53, 6.84],
                                              'efficiency_metric_types': ['HEATING_SEASONAL_PERFORMANCE_FACTOR',
                                                                          'HEATING_SEASONAL_PERFORMANCE_FACTOR_2'],
                                              'heatpump_low_shutoff_temperature': -12.2},
                           'fan_system': {'id': 'CORE_ZN ZN PSZ-AC-1 FAN-fansystem', 'fan_control': 'CONSTANT',
                                          'supply_fans': [{'id': 'CORE_ZN ZN PSZ-AC-1 FAN', 'design_airflow': 0.37,
-                                                          'is_airflow_sized_based_on_design_day': True,
+                                                          'is_airflow_calculated': True,
                                                           'design_electric_power': 415.54,
                                                           'design_pressure_rise': 622.72, 'total_efficiency': 0.56,
                                                           'motor_efficiency': 0.85,
@@ -3885,7 +3884,7 @@ class TestTranslator(TestCase):
                           'heating_system': {'id': 'PERIMETER_ZN_1 ZN PSZ-AC-2-heating', 'design_capacity': 8521.475,
                                              'type': 'HEAT_PUMP', 'energy_source_type': 'ELECTRICITY',
                                              'rated_capacity': 8532.67, 'oversizing_factor': 0.9999994132474641,
-                                             'is_sized_based_on_design_day': True, 'heating_coil_setpoint': 46.8,
+                                             'is_calculated_size': True, 'heating_coil_setpoint': 46.8,
                                              'efficiency_metric_values': [7.51, 6.84],
                                              'efficiency_metric_types': ['HEATING_SEASONAL_PERFORMANCE_FACTOR',
                                                                          'HEATING_SEASONAL_PERFORMANCE_FACTOR_2'],
@@ -3893,7 +3892,7 @@ class TestTranslator(TestCase):
                           'fan_system': {'id': 'PERIMETER_ZN_1 ZN PSZ-AC-2 FAN-fansystem', 'fan_control': 'CONSTANT',
                                          'supply_fans': [
                                              {'id': 'PERIMETER_ZN_1 ZN PSZ-AC-2 FAN', 'design_airflow': 0.34,
-                                              'is_airflow_sized_based_on_design_day': True,
+                                              'is_airflow_calculated': True,
                                               'design_electric_power': 384.51, 'design_pressure_rise': 622.72,
                                               'total_efficiency': 0.56, 'motor_efficiency': 0.85,
                                               'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
@@ -3902,7 +3901,7 @@ class TestTranslator(TestCase):
                           'heating_system': {'id': 'PERIMETER_ZN_2 ZN PSZ-AC-3-heating', 'design_capacity': 7154.994,
                                              'type': 'HEAT_PUMP', 'energy_source_type': 'ELECTRICITY',
                                              'rated_capacity': 7164.4, 'oversizing_factor': 1.000000559050397,
-                                             'is_sized_based_on_design_day': True, 'heating_coil_setpoint': 46.8,
+                                             'is_calculated_size': True, 'heating_coil_setpoint': 46.8,
                                              'efficiency_metric_values': [7.51, 6.84],
                                              'efficiency_metric_types': ['HEATING_SEASONAL_PERFORMANCE_FACTOR',
                                                                          'HEATING_SEASONAL_PERFORMANCE_FACTOR_2'],
@@ -3910,7 +3909,7 @@ class TestTranslator(TestCase):
                           'fan_system': {'id': 'PERIMETER_ZN_2 ZN PSZ-AC-3 FAN-fansystem', 'fan_control': 'CONSTANT',
                                          'supply_fans': [
                                              {'id': 'PERIMETER_ZN_2 ZN PSZ-AC-3 FAN', 'design_airflow': 0.29,
-                                              'is_airflow_sized_based_on_design_day': True,
+                                              'is_airflow_calculated': True,
                                               'design_electric_power': 322.85, 'design_pressure_rise': 622.72,
                                               'total_efficiency': 0.56, 'motor_efficiency': 0.85,
                                               'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
@@ -3919,7 +3918,7 @@ class TestTranslator(TestCase):
                           'heating_system': {'id': 'PERIMETER_ZN_3 ZN PSZ-AC-4-heating', 'design_capacity': 7943.433,
                                              'type': 'HEAT_PUMP', 'energy_source_type': 'ELECTRICITY',
                                              'rated_capacity': 7953.87, 'oversizing_factor': 1.0000003776706032,
-                                             'is_sized_based_on_design_day': True, 'heating_coil_setpoint': 46.8,
+                                             'is_calculated_size': True, 'heating_coil_setpoint': 46.8,
                                              'efficiency_metric_values': [7.5, 6.84],
                                              'efficiency_metric_types': ['HEATING_SEASONAL_PERFORMANCE_FACTOR',
                                                                          'HEATING_SEASONAL_PERFORMANCE_FACTOR_2'],
@@ -3927,7 +3926,7 @@ class TestTranslator(TestCase):
                           'fan_system': {'id': 'PERIMETER_ZN_3 ZN PSZ-AC-4 FAN-fansystem', 'fan_control': 'CONSTANT',
                                          'supply_fans': [
                                              {'id': 'PERIMETER_ZN_3 ZN PSZ-AC-4 FAN', 'design_airflow': 0.32,
-                                              'is_airflow_sized_based_on_design_day': True,
+                                              'is_airflow_calculated': True,
                                               'design_electric_power': 358.43, 'design_pressure_rise': 622.72,
                                               'total_efficiency': 0.56, 'motor_efficiency': 0.85,
                                               'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
@@ -3936,7 +3935,7 @@ class TestTranslator(TestCase):
                           'heating_system': {'id': 'PERIMETER_ZN_4 ZN PSZ-AC-5-heating', 'design_capacity': 8664.576,
                                              'type': 'HEAT_PUMP', 'energy_source_type': 'ELECTRICITY',
                                              'rated_capacity': 8675.96, 'oversizing_factor': 0.9999995383503874,
-                                             'is_sized_based_on_design_day': True, 'heating_coil_setpoint': 46.8,
+                                             'is_calculated_size': True, 'heating_coil_setpoint': 46.8,
                                              'efficiency_metric_values': [7.52, 6.84],
                                              'efficiency_metric_types': ['HEATING_SEASONAL_PERFORMANCE_FACTOR',
                                                                          'HEATING_SEASONAL_PERFORMANCE_FACTOR_2'],
@@ -3944,7 +3943,7 @@ class TestTranslator(TestCase):
                           'fan_system': {'id': 'PERIMETER_ZN_4 ZN PSZ-AC-5 FAN-fansystem', 'fan_control': 'CONSTANT',
                                          'supply_fans': [
                                              {'id': 'PERIMETER_ZN_4 ZN PSZ-AC-5 FAN', 'design_airflow': 0.35,
-                                              'is_airflow_sized_based_on_design_day': True,
+                                              'is_airflow_calculated': True,
                                               'design_electric_power': 390.97, 'design_pressure_rise': 622.72,
                                               'total_efficiency': 0.56, 'motor_efficiency': 0.85,
                                               'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
@@ -4142,23 +4141,23 @@ class TestTranslator(TestCase):
         expected = [{'id': '90.1-PRM-2019 WATERCOOLED  ROTARY SCREW CHILLER 0 1 PRIMARY PUMP',
                      'loop_or_piping': 'CHILLED WATER LOOP_PRIMARY', 'specification_method': 'SIMPLE',
                      'design_electric_power': 2095.21, 'design_head': 21635.69, 'motor_efficiency': 0.88,
-                     'speed_control': 'FIXED_SPEED', 'design_flow': 66.094, 'is_flow_sized_based_on_design_day': True},
+                     'speed_control': 'FIXED_SPEED', 'design_flow': 66.094, 'is_flow_calculated': True},
                     {'id': '90.1-PRM-2019 WATERCOOLED  ROTARY SCREW CHILLER 0 PRIMARY PUMP',
                      'loop_or_piping': 'CHILLED WATER LOOP_PRIMARY', 'specification_method': 'SIMPLE',
                      'design_electric_power': 4190.42, 'design_head': 44260.44, 'motor_efficiency': 0.9,
-                     'speed_control': 'FIXED_SPEED', 'design_flow': 66.094, 'is_flow_sized_based_on_design_day': True},
+                     'speed_control': 'FIXED_SPEED', 'design_flow': 66.094, 'is_flow_calculated': True},
                     {'id': 'CHILLED WATER LOOP PUMP', 'loop_or_piping': 'CHILLED WATER LOOP',
                      'specification_method': 'SIMPLE', 'design_electric_power': 3479.58, 'design_head': 134508.01,
                      'motor_efficiency': 0.9, 'speed_control': 'VARIABLE_SPEED', 'design_flow': 18.16,
-                     'is_flow_sized_based_on_design_day': True},
+                     'is_flow_calculated': True},
                     {'id': 'CONDENSER WATER LOOP CONSTANT PUMP BANK OF 2', 'loop_or_piping': 'CONDENSER WATER LOOP',
                      'specification_method': 'SIMPLE', 'design_electric_power': 63518.6, 'design_head': 219868.07,
                      'motor_efficiency': 0.94, 'speed_control': 'VARIABLE_SPEED', 'design_flow': 210.916,
-                     'is_flow_sized_based_on_design_day': True},
+                     'is_flow_calculated': True},
                     {'id': 'MAIN SERVICE WATER LOOP CIRCULATOR PUMP', 'loop_or_piping': 'SERVICE WATER HEATING LOOP',
                      'specification_method': 'SIMPLE', 'design_electric_power': 20.4, 'design_head': 29891.0,
                      'motor_efficiency': 0.82, 'speed_control': 'FIXED_SPEED', 'design_flow': 0.439,
-                     'is_flow_sized_based_on_design_day': True}]
+                     'is_flow_calculated': True}]
 
         self.assertEqual(added_pumps, expected)
 
@@ -4525,29 +4524,29 @@ class TestTranslator(TestCase):
         gathered_equipment_fans = t.gather_equipment_fans()
 
         expected = {'BASEMENT STORY 0 VAV_PFP_BOXES (SYS8) FAN': (
-            {'design_airflow': 7.69, 'is_airflow_sized_based_on_design_day': True, 'design_electric_power': 16476.98,
+            {'design_airflow': 7.69, 'is_airflow_calculated': True, 'design_electric_power': 16476.98,
              'design_pressure_rise': 1363.04, 'total_efficiency': 0.64, 'motor_efficiency': 0.92,
              'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0, 'motor_location_zone': 'N/A'},
             {'type': 'Fan:VariableVolume', 'fan_energy_index': 1.17, 'purpose': 'N/A',
              'airloop_name': 'BASEMENT STORY 0 VAV_PFP_BOXES (SYS8)'}), 'BASEMENT ZN PFP TERM FAN': (
-            {'design_airflow': 7.67, 'is_airflow_sized_based_on_design_day': True, 'design_electric_power': 5688.78,
+            {'design_airflow': 7.67, 'is_airflow_calculated': True, 'design_electric_power': 5688.78,
              'design_pressure_rise': 365.09, 'total_efficiency': 0.49, 'motor_efficiency': 0.9,
              'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0, 'motor_location_zone': 'N/A'},
             {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.11, 'purpose': 'N/A', 'airloop_name': 'N/A'}),
             'CORE_BOTTOM ZN PFP TERM FAN': (
-                {'design_airflow': 7.94, 'is_airflow_sized_based_on_design_day': True,
+                {'design_airflow': 7.94, 'is_airflow_calculated': True,
                  'design_electric_power': 5888.98, 'design_pressure_rise': 365.09, 'total_efficiency': 0.49,
                  'motor_efficiency': 0.9, 'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
                  'motor_location_zone': 'N/A'},
                 {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.11, 'purpose': 'N/A', 'airloop_name': 'N/A'}),
             'DATACENTER_BASEMENT_ZN_6 ZN PSZ-VAV FAN': (
-                {'design_airflow': 30.36, 'is_airflow_sized_based_on_design_day': True,
+                {'design_airflow': 30.36, 'is_airflow_calculated': True,
                  'design_electric_power': 0.0, 'design_pressure_rise': 0.0, 'total_efficiency': 0.57,
                  'motor_efficiency': 0.94, 'motor_heat_to_airflow_fraction': 1.0,
                  'motor_heat_to_zone_fraction': 0.0, 'motor_location_zone': 'N/A'},
                 {'type': 'Fan:VariableVolume', 'fan_energy_index': 0.0, 'purpose': 'N/A',
                  'airloop_name': 'DATACENTER_BASEMENT_ZN_6 ZN PSZ-VAV'}), 'PERIMETER_BOT_ZN_2 ZN PFP TERM FAN': (
-                {'design_airflow': 1.53, 'is_airflow_sized_based_on_design_day': True, 'design_electric_power': 1137.67,
+                {'design_airflow': 1.53, 'is_airflow_calculated': True, 'design_electric_power': 1137.67,
                  'design_pressure_rise': 342.66, 'total_efficiency': 0.46, 'motor_efficiency': 0.84,
                  'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
                  'motor_location_zone': 'N/A'},
