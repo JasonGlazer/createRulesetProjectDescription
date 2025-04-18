@@ -726,7 +726,7 @@ class Translator:
                                 second_tag = tag_list.pop(0)
                                 if self.validator.is_in_901_enumeration('ServiceWaterHeatingSpaceOptions2019ASHRAE901',
                                                                         second_tag.upper()):
-                                    space['service_water_heating_space_type'] = second_tag
+                                    space['service_water_heating_area_type'] = second_tag
                             spaces[zone_name] = space
         # insert the space into the corresponding Zone
         for zone in self.building_segment['zones']:
@@ -1348,7 +1348,7 @@ class Translator:
                         if current_air_terminal['secondary_airflow_rate'] > 0:
                             terminal['secondary_airflow'] = current_air_terminal['secondary_airflow_rate'] * 1000
                         if current_air_terminal['max_flow_during_reheat'] > 0:
-                            terminal['max_heating_airflow'] = current_air_terminal['max_flow_during_reheat'] * 1000
+                            terminal['maximum_heating_airflow'] = current_air_terminal['max_flow_during_reheat'] * 1000
                         if current_air_terminal['min_oa_schedule_name'] != 'n/a':
                             terminal['minimum_outdoor_airflow_multiplier_schedule'] = (
                                 current_air_terminal)['min_oa_schedule_name']
