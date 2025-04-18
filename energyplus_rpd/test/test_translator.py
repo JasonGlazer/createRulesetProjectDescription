@@ -962,10 +962,12 @@ class TestTranslator(TestCase):
                       'TableName': 'Weather Statistics File'}]}
             ]
         added_weather = t.add_weather()
-        expected = {
-            'file_name': 'Denver-Aurora-Buckley AFB CO USA TMY3 WMO#=724695', 'data_source_type': 'OTHER',
-            'climate_zone': 'CZ5B', 'cooling_design_day_type': 'COOLING_0_4',
-            'heating_design_day_type': 'HEATING_99_6'}
+
+        expected = {'file_name': 'Denver-Aurora-Buckley AFB CO USA TMY3 WMO#=724695',
+                    'data_source_type': 'OTHER',
+                    'climate_zone': 'CZ5B',
+                    'cooling_dry_bulb_design_day_type': 'COOLING_0_4',
+                    'heating_dry_bulb_design_day_type': 'HEATING_99_6'}
 
         self.assertEqual(added_weather, expected)
 

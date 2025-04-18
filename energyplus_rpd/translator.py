@@ -443,9 +443,9 @@ class Translator:
             'climate_zone': climate_zone
         }
         if cooling_design_day_option:
-            weather['cooling_design_day_type'] = cooling_design_day_option
+            weather['cooling_dry_bulb_design_day_type'] = cooling_design_day_option
         if heating_design_day_option:
-            weather['heating_design_day_type'] = heating_design_day_option
+            weather['heating_dry_bulb_design_day_type'] = heating_design_day_option
         self.model_description['weather'] = weather
         return weather
 
