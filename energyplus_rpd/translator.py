@@ -1812,6 +1812,10 @@ class Translator:
                         for chiller_name in chiller_names:
                             if chiller_name != 'None':
                                 fuel_type = rows[chiller_name][fuel_type_column].upper().replace(' ', '_')
+                                metric_types = ['FULL_LOAD_EFFICIENCY_RATED',
+                                                'INTEGRATED_PART_LOAD_VALUE']
+                                metric_values = [float(rows[chiller_name][rated_efficiency_column]),
+                                                 float(rows[chiller_name][part_load_efficiency_column])]
                                 chiller = {'id': chiller_name,
                                            'cooling_loop': rows[chiller_name][plant_loop_name_column],
                                            'condensing_loop': rows[chiller_name][condenser_loop_name_column],
@@ -1831,10 +1835,8 @@ class Translator:
                                                rows[chiller_name][ref_enter_temp_column]),
                                            'design_leaving_evaporator_temperature': float(
                                                rows[chiller_name][ref_leave_temp_column]),
-                                           'full_load_efficiency': float(rows[chiller_name][rated_efficiency_column]),
-                                           'part_load_efficiency': float(
-                                               rows[chiller_name][part_load_efficiency_column]),
-                                           'part_load_efficiency_metric': 'INTEGRATED_PART_LOAD_VALUE',
+                                           'efficiency_metric_values': metric_values,
+                                           'efficiency_metric_types': metric_types,
                                            'is_chilled_water_pump_interlocked': do_chiller_and_pump_share_branch(
                                                chiller_name, plant_loop_arrangement, 'Supply'),
                                            'is_condenser_water_pump_interlocked': do_chiller_and_pump_share_branch(

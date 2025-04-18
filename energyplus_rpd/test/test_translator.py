@@ -4371,25 +4371,28 @@ class TestTranslator(TestCase):
 
         added_chillers = t.add_chillers()
 
-        expected = [{'id': '90.1-2004 WATERCOOLED  CENTRIFUGAL CHILLER 0 416TONS 0.6KW/TON',
-                     'cooling_loop': 'CHILLED WATER LOOP', 'condensing_loop': 'CONDENSER WATER LOOP',
-                     'energy_source_type': 'ELECTRICITY', 'design_capacity': 1762283.32, 'rated_capacity': 1762283.32,
-                     'rated_entering_condenser_temperature': 35.0, 'rated_leaving_evaporator_temperature': 6.67,
-                     'minimum_load_ratio': 0.0, 'design_flow_evaporator': 74.82, 'design_flow_condenser': 87.82,
-                     'design_entering_condenser_temperature': 35.0, 'design_leaving_evaporator_temperature': 6.67,
-                     'full_load_efficiency': 6.1, 'part_load_efficiency': 6.88,
-                     'part_load_efficiency_metric': 'INTEGRATED_PART_LOAD_VALUE',
-                     'is_chilled_water_pump_interlocked': False, 'is_condenser_water_pump_interlocked': False},
-                    {'id': '90.1-2004 WATERCOOLED  CENTRIFUGAL CHILLER 1 416TONS 0.6KW/TON',
-                     'cooling_loop': 'CHILLED WATER LOOP', 'condensing_loop': 'CONDENSER WATER LOOP',
-                     'energy_source_type': 'ELECTRICITY', 'design_capacity': 1762283.32, 'rated_capacity': 1762283.32,
-                     'rated_entering_condenser_temperature': 35.0, 'rated_leaving_evaporator_temperature': 6.67,
-                     'minimum_load_ratio': 0.0, 'design_flow_evaporator': 74.82, 'design_flow_condenser': 87.82,
-                     'design_entering_condenser_temperature': 35.0, 'design_leaving_evaporator_temperature': 6.67,
-                     'full_load_efficiency': 6.1, 'part_load_efficiency': 6.88,
-                     'part_load_efficiency_metric': 'INTEGRATED_PART_LOAD_VALUE',
+        expected = [{'condensing_loop': 'CONDENSER WATER LOOP', 'cooling_loop': 'CHILLED WATER LOOP',
+                     'design_capacity': 1762283.32, 'design_entering_condenser_temperature': 35.0,
+                     'design_flow_condenser': 87.82, 'design_flow_evaporator': 74.82,
+                     'design_leaving_evaporator_temperature': 6.67,
+                     'efficiency_metric_types': ['FULL_LOAD_EFFICIENCY_RATED', 'INTEGRATED_PART_LOAD_VALUE'],
+                     'efficiency_metric_values': [6.1, 6.88], 'energy_source_type': 'ELECTRICITY',
+                     'id': '90.1-2004 WATERCOOLED  CENTRIFUGAL CHILLER 0 416TONS 0.6KW/TON',
                      'is_chilled_water_pump_interlocked': False, 'is_condenser_water_pump_interlocked': False,
-                     'heat_recovery_loop': 'HeatRecoveryLoop1', 'heat_recovery_fraction': 0.67}]
+                     'minimum_load_ratio': 0.0, 'rated_capacity': 1762283.32,
+                     'rated_entering_condenser_temperature': 35.0, 'rated_leaving_evaporator_temperature': 6.67},
+                    {'condensing_loop': 'CONDENSER WATER LOOP', 'cooling_loop': 'CHILLED WATER LOOP',
+                     'design_capacity': 1762283.32, 'design_entering_condenser_temperature': 35.0,
+                     'design_flow_condenser': 87.82, 'design_flow_evaporator': 74.82,
+                     'design_leaving_evaporator_temperature': 6.67,
+                     'efficiency_metric_types': ['FULL_LOAD_EFFICIENCY_RATED', 'INTEGRATED_PART_LOAD_VALUE'],
+                     'efficiency_metric_values': [6.1, 6.88], 'energy_source_type': 'ELECTRICITY',
+                     'heat_recovery_fraction': 0.67, 'heat_recovery_loop': 'HeatRecoveryLoop1',
+                     'id': '90.1-2004 WATERCOOLED  CENTRIFUGAL CHILLER 1 416TONS 0.6KW/TON',
+                     'is_chilled_water_pump_interlocked': False, 'is_condenser_water_pump_interlocked': False,
+                     'minimum_load_ratio': 0.0, 'rated_capacity': 1762283.32,
+                     'rated_entering_condenser_temperature': 35.0, 'rated_leaving_evaporator_temperature': 6.67}]
+
         self.assertEqual(added_chillers, expected)
 
     def test_gather_equipment_fans(self):
