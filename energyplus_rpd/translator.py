@@ -446,7 +446,7 @@ class Translator:
             weather['cooling_design_day_type'] = cooling_design_day_option
         if heating_design_day_option:
             weather['heating_design_day_type'] = heating_design_day_option
-        self.project_description['weather'] = weather
+        self.model_description['weather'] = weather
         return weather
 
     def add_calendar(self):
@@ -480,7 +480,7 @@ class Translator:
                                 calendar['is_leap_year'] = False
                             elif duration == 366:
                                 calendar['is_leap_year'] = True
-                            self.project_description['calendar'] = calendar
+                            self.model_description['calendar'] = calendar
                     if table['TableName'] == 'Environment:Daylight Saving':
                         rows = table['Rows']
                         row_keys = list(rows.keys())
@@ -1094,7 +1094,7 @@ class Translator:
                 'hourly_values': ground_temps,
             }
             self.model_description['schedules'].append(ground_schedule)
-            self.project_description['weather']['ground_temperature_schedule'] = 'schedule_of_ground_temperatures'
+            self.model_description['weather']['ground_temperature_schedule'] = 'schedule_of_ground_temperatures'
         return ground_schedule
 
     def twelve_to_8760(self, list_of_twelve):
