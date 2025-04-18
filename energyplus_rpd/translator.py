@@ -2165,8 +2165,6 @@ class Translator:
         if ea_advisory_messages_table and time_setpoint_not_met_table:
             output_instance = {
                 'id': 'output_instance_1',
-                'ruleset_model_type': 'PROPOSED',
-                'rotation_angle': 0,
                 'unmet_load_hours': float(ea_rows['Number of hours not met'][ea_data_column]),
                 'unmet_load_hours_heating': float(ea_rows['Number of hours heating loads not met'][ea_data_column]),
                 'unmet_occupied_load_hours_heating': float(time_rows['Facility'][time_heat_occupied_column]),
@@ -2177,9 +2175,8 @@ class Translator:
                 'annual_end_use_results': end_use_results
             }
 
-        simulation_output = {
+        project_output = {
             'id': 'output_1',
-            'output_instance': output_instance,
             'performance_cost_index': -1.,
             'baseline_building_unregulated_energy_cost': -1.,
             'baseline_building_regulated_energy_cost': -1.,
@@ -2190,8 +2187,9 @@ class Translator:
             'total_proposed_building_energy_cost_excluding_renewable_energy': -1.,
             'percent_renewable_energy_savings': -1.
         }
-        self.model_description['output'] = simulation_output
-        return simulation_output
+        self.model_description['model_output'] = output_instance
+        self.project_description['output'] = project_output
+        return project_output, output_instance
 
     def get_epjson_by_uc_name(self, epjson_object_name, specific_name_uc):
         specific_epjson_input_object = {}
