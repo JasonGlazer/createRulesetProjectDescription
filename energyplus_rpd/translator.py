@@ -1908,11 +1908,15 @@ class Translator:
                         leaving_setpoint_column = cols.index('Leaving Water Setpoint Temperature [C]')
                         for heat_rejection_name in heat_rejection_names:
                             if heat_rejection_name != 'None':
+                                fan = {
+                                    'id': heat_rejection_name + '_fan',
+                                    'motor_nameplate_power': float(rows[heat_rejection_name][fan_power_column])
+                                }
                                 heat_rejection = {
                                     'id': heat_rejection_name,
                                     'loop': rows[heat_rejection_name][loop_name_column],
                                     'range': float(rows[heat_rejection_name][range_column]),
-                                    'fan_motor_nameplate_power': float(rows[heat_rejection_name][fan_power_column]),
+                                    'fan': fan,
                                     'design_wetbulb_temperature': float(rows[heat_rejection_name][wet_bulb_column]),
                                     'design_water_flowrate': float(rows[heat_rejection_name][flow_rate_column]) * 1000,
                                     'leaving_water_setpoint_temperature':

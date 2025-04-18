@@ -4206,10 +4206,18 @@ class TestTranslator(TestCase):
 
         added_heat_rejection = t.add_heat_rejection()
 
-        expected = [{'id': 'HEAT PUMP LOOP FLUIDCOOLERTWOSPEED 4.0 GPM/HP', 'loop': 'HEAT PUMP LOOP', 'range': 26.07,
-                     'fan_motor_nameplate_power': 53675.71, 'design_wetbulb_temperature': 25.6,
-                     'design_water_flowrate': 20.0, 'leaving_water_setpoint_temperature': 0.0, 'approach': 12.0,
-                     'type': 'DRY_COOLER', 'fluid': 'OTHER', 'fan_speed_control': 'TWO_SPEED'}]
+        expected = [{'approach': 12.0,
+                     'design_water_flowrate': 20.0,
+                     'design_wetbulb_temperature': 25.6,
+                     'fan': {
+                         'id': 'HEAT PUMP LOOP FLUIDCOOLERTWOSPEED 4.0 GPM/HP_fan',
+                         'motor_nameplate_power': 53675.71},
+                     'fan_speed_control': 'TWO_SPEED',
+                     'fluid': 'OTHER',
+                     'id': 'HEAT PUMP LOOP FLUIDCOOLERTWOSPEED 4.0 GPM/HP',
+                     'leaving_water_setpoint_temperature': 0.0,
+                     'loop': 'HEAT PUMP LOOP', 'range': 26.07,
+                     'type': 'DRY_COOLER'}]
 
         self.assertEqual(added_heat_rejection, expected)
 
