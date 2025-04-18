@@ -1875,8 +1875,9 @@ class Translator:
                                     'rated_capacity': float(rows[boiler_name][rated_capacity_column]),
                                     'minimum_load_ratio': float(rows[boiler_name][min_plr_column]),
                                     'energy_source_type': fuel_type,
-                                    'efficiency_metric': 'THERMAL',
-                                    'efficiency': float(rows[boiler_name][reference_efficiency_column]),
+                                    'efficiency_metric_types': ['THERMAL', ],
+                                    'efficiency_metric_values':
+                                        [float(rows[boiler_name][reference_efficiency_column]), ],
                                     'auxiliary_power': float(rows[boiler_name][parasitic_load_column]),
                                 }
                                 boilers.append(boiler)

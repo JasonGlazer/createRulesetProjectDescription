@@ -4269,13 +4269,14 @@ class TestTranslator(TestCase):
         added_boilers = t.add_boilers()
 
         expected = [
-            {'id': 'BOILER 5939KBTU/HR 0.75 THERMAL EFF', 'loop': 'HOT WATER LOOP', 'design_capacity': 1891644.33,
-             'rated_capacity': 1891644.33, 'minimum_load_ratio': 0.0, 'energy_source_type': 'NATURAL_GAS',
-             'efficiency_metric': 'THERMAL', 'efficiency': 0.75, 'auxiliary_power': 0.0},
-            {'id': 'HEAT PUMP LOOP SUPPLEMENTAL BOILER 2669KBTU/HR 0.75 THERMAL EFF', 'loop': 'HEAT PUMP LOOP',
-             'design_capacity': 715840.29, 'rated_capacity': 715840.29, 'minimum_load_ratio': 0.0,
-             'energy_source_type': 'NATURAL_GAS', 'efficiency_metric': 'THERMAL', 'efficiency': 0.75,
-             'auxiliary_power': 0.0}]
+            {'auxiliary_power': 0.0, 'design_capacity': 1891644.33, 'efficiency_metric_types': ['THERMAL'],
+             'efficiency_metric_values': [0.75], 'energy_source_type': 'NATURAL_GAS',
+             'id': 'BOILER 5939KBTU/HR 0.75 THERMAL EFF', 'loop': 'HOT WATER LOOP', 'minimum_load_ratio': 0.0,
+             'rated_capacity': 1891644.33},
+            {'auxiliary_power': 0.0, 'design_capacity': 715840.29, 'efficiency_metric_types': ['THERMAL'],
+             'efficiency_metric_values': [0.75], 'energy_source_type': 'NATURAL_GAS',
+             'id': 'HEAT PUMP LOOP SUPPLEMENTAL BOILER 2669KBTU/HR 0.75 THERMAL EFF', 'loop': 'HEAT PUMP LOOP',
+             'minimum_load_ratio': 0.0, 'rated_capacity': 715840.29}]
 
         self.assertEqual(added_boilers, expected)
 
