@@ -181,8 +181,8 @@ RulesetProjectDescription:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Not needed now but will be needed. Should be a constant reference to a sub data group."
+      EPstatus: "DoneUsingConstant"
+      EP Notes: ""
     compliance_path:
       Description: "Indicates the chosen compliance path if the ruleset has multiple compliance paths such as 90.1 Appendix G has code compliance and beyond code"
       Data Type: "<CompliancePathOptions2019ASHRAE901>"
@@ -232,8 +232,8 @@ RulesetProjectDescription:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Should be a constant reference to a sub data group."
+      EPstatus: "DoneUsingConstant"
+      EP Notes: ""
       
 CommonOutputSchemaOptions:
   Object Type: "Enumeration"
@@ -260,8 +260,8 @@ Metadata:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Will be required. Should be constant name"
+      EPstatus: "DoneUsingConstant"
+      EP Notes: ""
     schema_author:
       Description: "Name of the organization that published the schema"
       Data Type: "String"
@@ -279,7 +279,7 @@ Metadata:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotRequired"
+      EPstatus: "DoneUsingConstant"
       EP Notes: "Set to a constant for now. ASHRAE SPC 229 Schema Working Group"
     schema_name:
       Description: "Schema name or identifier"
@@ -298,7 +298,7 @@ Metadata:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotRequired"
+      EPstatus: "DoneUsingConstant"
       EP Notes: "Set to a constant for now. ASHRAE Standard 229P Ruleset Evaluation Schema"
     schema_version:
       Description: "The version of the schema the data complies with"
@@ -317,8 +317,8 @@ Metadata:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotRequired"
-      EP Notes: "Set to a constant based on schema version supported"
+      EPstatus: "DoneUsingConstant"
+      EP Notes: "Set to a constant based on schema version supported 0.1.5"
     schema_url:
       Description: "The Uniform Resource Locator (url) for the schema definition and/or documentation"
       Data Type: "String"
@@ -335,7 +335,7 @@ Metadata:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotRequired"
+      EPstatus: "DoneUsingConstant"
       EP Notes: "Set to a constant: https://github.com/open229/ruleset-model-description-schema"
     author:
       Description: "Name of the entity creating the serialization"
@@ -354,8 +354,8 @@ Metadata:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotRequired"
-      EP Notes: "Could be an optional compliance parameter"
+      EPstatus: "DoneUsingConstant"
+      EP Notes: "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE."
     description:
       Description: "Description of data content (suitable for display)"
       Data Type: "String"
@@ -372,8 +372,8 @@ Metadata:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotRequired"
-      EP Notes: "Could be an optional compliance parameter"
+      EPstatus: "DoneUsingConstant"
+      EP Notes: "Just set to blank"
     time_of_creation:
       Description: "Timestamp indicating when the serialization was created"
       Data Type: "Timestamp"
@@ -391,8 +391,8 @@ Metadata:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Was RulesetProjectDescription.data_timestamp in 0.0.36"
+      EPstatus: "DoneUsingOutput"
+      EP Notes: "It is based on time the RPD was generated so not really DoneUsingOutput"
     version:
       Description: "Integer version identifier for the data"
       Data Type: "Version"
@@ -409,8 +409,8 @@ Metadata:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Was RulesetProjectDescription.data_timestamp in 0.0.36"
+      EPstatus: "DoneUsingConstant"
+      EP Notes: "Set to 1.0.0"
     source:
       Description: "Source(s) of the data"
       Data Type: "String"
@@ -423,12 +423,12 @@ Metadata:
       Used by RCT Test: False
       EPin Object: ""
       EPin Field: ""
-      EPout File: "table.html"
-      EPout Report: "Input Verification and Results Summary"
-      EPout Table: "General"
-      EPout Column: "Program Version and Build 	EnergyPlus"
-      EPstatus: "NotRequired"
-      EP Notes: ""
+      EPout File: ""
+      EPout Report: ""
+      EPout Table: ""
+      EPout Column: ""
+      EPstatus: "DoneUsingConstant"
+      EP Notes: "created by createRulesetProjectDescription script"
     disclaimer:
       Description: "Characterization of accuracy, limitations, and applicability of this data"
       Data Type: "String"
@@ -823,8 +823,8 @@ RulesetModelDescription:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Previously completed but has changed locations."
+      EPstatus: "DoneUsingOutput"
+      EP Notes: ""
     weather:
       Description: "Information on the local weather conditions used with the simulation."
       Data Type: "{Weather}"
@@ -840,8 +840,8 @@ RulesetModelDescription:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Previously completed but has changed locations."
+      EPstatus: "DoneUsingOutput"
+      EP Notes: ""
     model_output:
       Description: "Model output for a single instance"
       Data Type: "({OutputInstance2019ASHRAE901})"
@@ -857,8 +857,8 @@ RulesetModelDescription:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "May already be implemented. Probably a constant. Maybe based on RulesetModelDescription.type name which is compliance parameter."
+      EPstatus: "DoneUsingConstant"
+      EP Notes: ""
 
 CommonRulesetModelOptions:
   Object Type: "Enumeration"
@@ -1676,7 +1676,7 @@ Zone:
       EPout Report: "HVAC Topology"
       EPout Table: "Zone Equipment Component Arrangement, Air Loop Supply Side Component Arrangement"
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: ""
     exhaust_airflow_rate_multiplier_schedules:
       Description: "A list of IDs for Schedules containing the multipliers for the zonal supply airflow rates"
@@ -1694,7 +1694,7 @@ Zone:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: ""
     zonal_exhaust_fans:
       Description: "A list of zonal exhaust fans"
@@ -1730,7 +1730,7 @@ Zone:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: ""
     makeup_airflow_rate:
       Description: "Airflow rate for makeup air"

@@ -1007,7 +1007,7 @@ class Translator:
                                 continue
                             infiltration_name = rows[row_key][infiltration_name_column]
                             zone_name = rows[row_key][zone_name_column]
-                            design_volume_flow_rate = float(rows[row_key][design_volume_flow_rate_column])
+                            design_volume_flow_rate = 1000 * float(rows[row_key][design_volume_flow_rate_column])
                             schedule_name = rows[row_key][schedule_name_column]
                             infiltration = {
                                 'id': infiltration_name,
