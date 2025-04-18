@@ -9330,7 +9330,7 @@ Chiller:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "ToDo"
       EP Notes: ""
     energy_source_type:
       Description: "Source of energy for the chiller"
