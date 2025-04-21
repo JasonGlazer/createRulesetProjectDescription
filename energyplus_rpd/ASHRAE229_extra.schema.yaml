@@ -1955,7 +1955,7 @@ Space:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "NotStarted"
       EP Notes: "Often calculated internally. "
     occupant_latent_heat_gain:
       Description: "Latent heat gain of each occupant."
@@ -1974,7 +1974,7 @@ Space:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "NotStarted"
       EP Notes: "One minus the sensible. Often calculated internally."
     status_type:
       Description: "Choice of new, existing, addition, alteration, etc."
@@ -2756,7 +2756,7 @@ Construction:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "NotStarted"
       EP Notes: "Always leave entry blank since using layers. Only available when user is using this input object."
     f_factor:
       Description: "surface F-factor"
@@ -2776,7 +2776,7 @@ Construction:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "NotStarted"
       EP Notes: "Always leave entry blank since using layers. Only available when user is using this input object."
     r_values:
       Description: "List of r-value of the insulation for the surface that correspond to values in the insulation_locations list"
@@ -3553,7 +3553,7 @@ Subsurface:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "NotStarted"
       EP Notes: ""
     has_shading_sidefins:
       Description: "Identifies whether subsurface has sidefins"
@@ -3570,7 +3570,7 @@ Subsurface:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "NotStarted"
       EP Notes: ""
     has_manual_interior_shades:
       Description: "Are there manually-operated interior shading such as blinds, curtains or shades"
@@ -10019,7 +10019,7 @@ HeatRejection:
       EPout Report: "Equipment Summary"
       EPout Table: "Cooling Towers and Fluid Coolers"
       EPout Column: "Design Fan Power"
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     fluid:
       Description: "Fluid Cooled by Heat Rejection"
