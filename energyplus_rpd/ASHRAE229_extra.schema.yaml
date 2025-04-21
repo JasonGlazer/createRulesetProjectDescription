@@ -9330,8 +9330,8 @@ Chiller:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: ""
+      EPstatus: "PartialWithConstant"
+      EP Notes: "For now, set to CHILLED_WATER_ONLY"
     energy_source_type:
       Description: "Source of energy for the chiller"
       Data Type: "<EnergySourceOptions>"
@@ -9553,8 +9553,8 @@ Chiller:
       EPout Report: "Equipment Summary"
       EPout Table: "Chiller"
       EPout Column: "Rated Efficiency "
-      EPstatus: "ToDo"
-      EP Notes: "Previously done some of these and need to revise"
+      EPstatus: "DoneUsingOutput"
+      EP Notes: ""
     efficiency_metric_types:
       Description: "List of efficiency metrics that correspond to the values in efficiency_metric_values list"
       Data Type: "[<ChillerEfficiencyMetricOptions>]"
@@ -9570,8 +9570,8 @@ Chiller:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Previously done some of these and need to revise"
+      EPstatus: "DoneUsingOutput"
+      EP Notes: ""
     capacity_validation_points:
       Description: "Capacity validation points"
       Data Type: "[{ChillerCapacityValidationPoint}]"
@@ -10048,14 +10048,14 @@ HeatRejection:
       AppG B_RMD Equals P_RMD: False
       AppG B_RMDs Same: True
       Used by RCT Test: "unknown"
-      EPin Object: ""
-      EPin Field: ""
+      EPin Object: "CoolingTower:*"
+      EPin Field: "Number of Cells"
       EPout File: ""
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
       EPstatus: "NotStarted"
-      EP Notes: ""
+      EP Notes: "Not in output table"
     range:
       Description: "Heat rejection Range"
       Data Type: "Numeric"

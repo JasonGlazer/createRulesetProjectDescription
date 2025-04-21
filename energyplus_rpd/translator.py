@@ -1820,6 +1820,7 @@ class Translator:
                                            'cooling_loop': rows[chiller_name][plant_loop_name_column],
                                            'condensing_loop': rows[chiller_name][condenser_loop_name_column],
                                            'energy_source_type': fuel_type,
+                                           'chiller_function': 'CHILLED_WATER_ONLY',
                                            'design_capacity': float(rows[chiller_name][reference_capacity_column]),
                                            'rated_capacity': float(rows[chiller_name][rated_capacity_column]),
                                            'rated_entering_condenser_temperature': float(
