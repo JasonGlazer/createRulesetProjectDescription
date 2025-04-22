@@ -1,8 +1,9 @@
 import json
 import sys
+from pathlib import Path
 
 filename_in = sys.argv[1]
-filename_out = filename_in + '_added'
+filename_out = Path(filename_in).with_suffix(".added.epjson")
 
 
 def get_tags_by_name(name):
@@ -80,23 +81,12 @@ with open(filename_in, "r") as f_in:
     with open(filename_out, 'w') as f_out:
         content = json.load(f_in)
 
-        changes = [
-            ('Output:Table:SummaryReports', 'report_name', 'AllSummaryMonthly'),
-        ]
-
-        for change in changes:
-            obj_name, field_name, field_value = change
-            if content[obj_name]:
-                ep_object = content[obj_name]
-                for obj_name, obj_dict in ep_object.items():
-                    pass
-
         #  Output:Table:SummaryReports
         if 'Output:Table:SummaryReports' in content:
             report = content['Output:Table:SummaryReports']
             if 'Output:Table:SummaryReports 1' in report:
                 report_list = report['Output:Table:SummaryReports 1']['reports']
-                report_list[0] = {'report_name': 'AllSummaryMonthly', }
+                report_list[0] = {'report_name': 'AllSummaryAndMonthly', }
 
         # Output:JSON
         field_dict = {
