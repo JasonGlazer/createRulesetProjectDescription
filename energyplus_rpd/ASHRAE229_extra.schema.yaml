@@ -9330,7 +9330,7 @@ Chiller:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "PartialWithConstant"
+      EPstatus: "PartialUsingConstant"
       EP Notes: "For now, set to CHILLED_WATER_ONLY"
     energy_source_type:
       Description: "Source of energy for the chiller"
