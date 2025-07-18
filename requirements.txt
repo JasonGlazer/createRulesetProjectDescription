@@ -3,7 +3,6 @@ jsonschema==4.23
 pyyaml
 
 # developer requirements for running tests
-coveralls
 flake8
 nose
 pytest

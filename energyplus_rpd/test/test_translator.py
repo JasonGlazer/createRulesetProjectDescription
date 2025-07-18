@@ -284,7 +284,7 @@ class TestTranslator(TestCase):
                                         'PERIMETER_ZN_1',
                                         '113.45',
                                         '6.8',
-                                        '4.805E-002'
+                                        '0.004810'
                                     ],
                                 '4':
                                     [
@@ -293,7 +293,7 @@ class TestTranslator(TestCase):
                                         'PERIMETER_ZN_2',
                                         '67.30',
                                         '4.1',
-                                        '3.203E-002'
+                                        '0.003230'
                                     ],
                                 '5':
                                     [
@@ -302,7 +302,7 @@ class TestTranslator(TestCase):
                                         'PERIMETER_ZN_3',
                                         '113.45',
                                         '6.8',
-                                        '4.805E-002'
+                                        '0.004810'
                                     ],
                                 '6':
                                     [
@@ -311,7 +311,7 @@ class TestTranslator(TestCase):
                                         'PERIMETER_ZN_4',
                                         '67.30',
                                         '4.1',
-                                        '3.203E-002'
+                                        '0.003230'
                                     ]
                             },
                         'TableName': 'ZoneInfiltration Airflow Stats Nominal'
@@ -325,7 +325,7 @@ class TestTranslator(TestCase):
                 'id': 'ATTIC_INFILTRATION',
                 'modeling_method': 'WEATHER_DRIVEN',
                 'algorithm_name': 'ZoneInfiltration',
-                'flow_rate': 0.2,
+                'flow_rate': 200.,
                 'multiplier_schedule': 'ALWAYS_ON'
             },
             'PERIMETER_ZN_1':
@@ -333,7 +333,7 @@ class TestTranslator(TestCase):
                     'id': 'PERIMETER_ZN_1_INFILTRATION',
                     'modeling_method': 'WEATHER_DRIVEN',
                     'algorithm_name': 'ZoneInfiltration',
-                    'flow_rate': 0.04805,
+                    'flow_rate': 4.81,
                     'multiplier_schedule': 'INFIL_QUARTER_ON_SCH'
                 },
             'PERIMETER_ZN_2':
@@ -341,7 +341,7 @@ class TestTranslator(TestCase):
                     'id': 'PERIMETER_ZN_2_INFILTRATION',
                     'modeling_method': 'WEATHER_DRIVEN',
                     'algorithm_name': 'ZoneInfiltration',
-                    'flow_rate': 0.03203,
+                    'flow_rate': 3.23,
                     'multiplier_schedule': 'INFIL_QUARTER_ON_SCH'
                 },
             'PERIMETER_ZN_3':
@@ -349,7 +349,7 @@ class TestTranslator(TestCase):
                     'id': 'PERIMETER_ZN_3_INFILTRATION',
                     'modeling_method': 'WEATHER_DRIVEN',
                     'algorithm_name': 'ZoneInfiltration',
-                    'flow_rate': 0.04805,
+                    'flow_rate': 4.81,
                     'multiplier_schedule': 'INFIL_QUARTER_ON_SCH'
                 },
             'PERIMETER_ZN_4':
@@ -357,7 +357,7 @@ class TestTranslator(TestCase):
                     'id': 'PERIMETER_ZN_4_INFILTRATION',
                     'modeling_method': 'WEATHER_DRIVEN',
                     'algorithm_name': 'ZoneInfiltration',
-                    'flow_rate': 0.03203,
+                    'flow_rate': 3.23,
                     'multiplier_schedule': 'INFIL_QUARTER_ON_SCH'
                 }
         }
@@ -402,8 +402,7 @@ class TestTranslator(TestCase):
         expected = {
             'NONRES_EXT_WALL':
                 {'id': 'nonres_ext_wall',
-                 'surface_construction_input_option':
-                     'LAYERS', 'primary_layers':
+                 'primary_layers':
                      [
                          {'id': 'F07 25mm stucco',
                           'thickness': 0.0254,
@@ -963,10 +962,12 @@ class TestTranslator(TestCase):
                       'TableName': 'Weather Statistics File'}]}
             ]
         added_weather = t.add_weather()
-        expected = {
-            'file_name': 'Denver-Aurora-Buckley AFB CO USA TMY3 WMO#=724695', 'data_source_type': 'OTHER',
-            'climate_zone': 'CZ5B', 'cooling_design_day_type': 'COOLING_0_4',
-            'heating_design_day_type': 'HEATING_99_6'}
+
+        expected = {'file_name': 'Denver-Aurora-Buckley AFB CO USA TMY3 WMO#=724695',
+                    'data_source_type': 'OTHER',
+                    'climate_zone': 'CZ5B',
+                    'cooling_dry_bulb_design_day_type': 'COOLING_0_4',
+                    'heating_dry_bulb_design_day_type': 'HEATING_99_6'}
 
         self.assertEqual(added_weather, expected)
 
@@ -1495,7 +1496,7 @@ class TestTranslator(TestCase):
                  'rated_total_cool_capacity': 12345.67,
                  'rated_sensible_cool_capacity': 12345.67,
                  'oversizing_factor': 7.950141547603329,
-                 'is_sized_based_on_design_day': True}
+                 'is_calculated_size': True}
         }]
 
         expected_terminals = {'PERIMETER_MID_ZN_1 ZN': [
@@ -3866,14 +3867,14 @@ class TestTranslator(TestCase):
                           'heating_system': {'id': 'CORE_ZN ZN PSZ-AC-1-heating', 'design_capacity': 9209.104,
                                              'type': 'HEAT_PUMP', 'energy_source_type': 'ELECTRICITY',
                                              'rated_capacity': 9221.21, 'oversizing_factor': 1.000000434352977,
-                                             'is_sized_based_on_design_day': True, 'heating_coil_setpoint': 46.8,
+                                             'is_calculated_size': True, 'heating_coil_setpoint': 46.8,
                                              'efficiency_metric_values': [7.53, 6.84],
                                              'efficiency_metric_types': ['HEATING_SEASONAL_PERFORMANCE_FACTOR',
                                                                          'HEATING_SEASONAL_PERFORMANCE_FACTOR_2'],
                                              'heatpump_low_shutoff_temperature': -12.2},
                           'fan_system': {'id': 'CORE_ZN ZN PSZ-AC-1 FAN-fansystem', 'fan_control': 'CONSTANT',
                                          'supply_fans': [{'id': 'CORE_ZN ZN PSZ-AC-1 FAN', 'design_airflow': 0.37,
-                                                          'is_airflow_sized_based_on_design_day': True,
+                                                          'is_airflow_calculated': True,
                                                           'design_electric_power': 415.54,
                                                           'design_pressure_rise': 622.72, 'total_efficiency': 0.56,
                                                           'motor_efficiency': 0.85,
@@ -3885,7 +3886,7 @@ class TestTranslator(TestCase):
                           'heating_system': {'id': 'PERIMETER_ZN_1 ZN PSZ-AC-2-heating', 'design_capacity': 8521.475,
                                              'type': 'HEAT_PUMP', 'energy_source_type': 'ELECTRICITY',
                                              'rated_capacity': 8532.67, 'oversizing_factor': 0.9999994132474641,
-                                             'is_sized_based_on_design_day': True, 'heating_coil_setpoint': 46.8,
+                                             'is_calculated_size': True, 'heating_coil_setpoint': 46.8,
                                              'efficiency_metric_values': [7.51, 6.84],
                                              'efficiency_metric_types': ['HEATING_SEASONAL_PERFORMANCE_FACTOR',
                                                                          'HEATING_SEASONAL_PERFORMANCE_FACTOR_2'],
@@ -3893,7 +3894,7 @@ class TestTranslator(TestCase):
                           'fan_system': {'id': 'PERIMETER_ZN_1 ZN PSZ-AC-2 FAN-fansystem', 'fan_control': 'CONSTANT',
                                          'supply_fans': [
                                              {'id': 'PERIMETER_ZN_1 ZN PSZ-AC-2 FAN', 'design_airflow': 0.34,
-                                              'is_airflow_sized_based_on_design_day': True,
+                                              'is_airflow_calculated': True,
                                               'design_electric_power': 384.51, 'design_pressure_rise': 622.72,
                                               'total_efficiency': 0.56, 'motor_efficiency': 0.85,
                                               'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
@@ -3902,7 +3903,7 @@ class TestTranslator(TestCase):
                           'heating_system': {'id': 'PERIMETER_ZN_2 ZN PSZ-AC-3-heating', 'design_capacity': 7154.994,
                                              'type': 'HEAT_PUMP', 'energy_source_type': 'ELECTRICITY',
                                              'rated_capacity': 7164.4, 'oversizing_factor': 1.000000559050397,
-                                             'is_sized_based_on_design_day': True, 'heating_coil_setpoint': 46.8,
+                                             'is_calculated_size': True, 'heating_coil_setpoint': 46.8,
                                              'efficiency_metric_values': [7.51, 6.84],
                                              'efficiency_metric_types': ['HEATING_SEASONAL_PERFORMANCE_FACTOR',
                                                                          'HEATING_SEASONAL_PERFORMANCE_FACTOR_2'],
@@ -3910,7 +3911,7 @@ class TestTranslator(TestCase):
                           'fan_system': {'id': 'PERIMETER_ZN_2 ZN PSZ-AC-3 FAN-fansystem', 'fan_control': 'CONSTANT',
                                          'supply_fans': [
                                              {'id': 'PERIMETER_ZN_2 ZN PSZ-AC-3 FAN', 'design_airflow': 0.29,
-                                              'is_airflow_sized_based_on_design_day': True,
+                                              'is_airflow_calculated': True,
                                               'design_electric_power': 322.85, 'design_pressure_rise': 622.72,
                                               'total_efficiency': 0.56, 'motor_efficiency': 0.85,
                                               'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
@@ -3919,7 +3920,7 @@ class TestTranslator(TestCase):
                           'heating_system': {'id': 'PERIMETER_ZN_3 ZN PSZ-AC-4-heating', 'design_capacity': 7943.433,
                                              'type': 'HEAT_PUMP', 'energy_source_type': 'ELECTRICITY',
                                              'rated_capacity': 7953.87, 'oversizing_factor': 1.0000003776706032,
-                                             'is_sized_based_on_design_day': True, 'heating_coil_setpoint': 46.8,
+                                             'is_calculated_size': True, 'heating_coil_setpoint': 46.8,
                                              'efficiency_metric_values': [7.5, 6.84],
                                              'efficiency_metric_types': ['HEATING_SEASONAL_PERFORMANCE_FACTOR',
                                                                          'HEATING_SEASONAL_PERFORMANCE_FACTOR_2'],
@@ -3927,7 +3928,7 @@ class TestTranslator(TestCase):
                           'fan_system': {'id': 'PERIMETER_ZN_3 ZN PSZ-AC-4 FAN-fansystem', 'fan_control': 'CONSTANT',
                                          'supply_fans': [
                                              {'id': 'PERIMETER_ZN_3 ZN PSZ-AC-4 FAN', 'design_airflow': 0.32,
-                                              'is_airflow_sized_based_on_design_day': True,
+                                              'is_airflow_calculated': True,
                                               'design_electric_power': 358.43, 'design_pressure_rise': 622.72,
                                               'total_efficiency': 0.56, 'motor_efficiency': 0.85,
                                               'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
@@ -3936,7 +3937,7 @@ class TestTranslator(TestCase):
                           'heating_system': {'id': 'PERIMETER_ZN_4 ZN PSZ-AC-5-heating', 'design_capacity': 8664.576,
                                              'type': 'HEAT_PUMP', 'energy_source_type': 'ELECTRICITY',
                                              'rated_capacity': 8675.96, 'oversizing_factor': 0.9999995383503874,
-                                             'is_sized_based_on_design_day': True, 'heating_coil_setpoint': 46.8,
+                                             'is_calculated_size': True, 'heating_coil_setpoint': 46.8,
                                              'efficiency_metric_values': [7.52, 6.84],
                                              'efficiency_metric_types': ['HEATING_SEASONAL_PERFORMANCE_FACTOR',
                                                                          'HEATING_SEASONAL_PERFORMANCE_FACTOR_2'],
@@ -3944,7 +3945,7 @@ class TestTranslator(TestCase):
                           'fan_system': {'id': 'PERIMETER_ZN_4 ZN PSZ-AC-5 FAN-fansystem', 'fan_control': 'CONSTANT',
                                          'supply_fans': [
                                              {'id': 'PERIMETER_ZN_4 ZN PSZ-AC-5 FAN', 'design_airflow': 0.35,
-                                              'is_airflow_sized_based_on_design_day': True,
+                                              'is_airflow_calculated': True,
                                               'design_electric_power': 390.97, 'design_pressure_rise': 622.72,
                                               'total_efficiency': 0.56, 'motor_efficiency': 0.85,
                                               'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
@@ -4142,23 +4143,23 @@ class TestTranslator(TestCase):
         expected = [{'id': '90.1-PRM-2019 WATERCOOLED  ROTARY SCREW CHILLER 0 1 PRIMARY PUMP',
                      'loop_or_piping': 'CHILLED WATER LOOP_PRIMARY', 'specification_method': 'SIMPLE',
                      'design_electric_power': 2095.21, 'design_head': 21635.69, 'motor_efficiency': 0.88,
-                     'speed_control': 'FIXED_SPEED', 'design_flow': 66.094, 'is_flow_sized_based_on_design_day': True},
+                     'speed_control': 'FIXED_SPEED', 'design_flow': 66.094, 'is_flow_calculated': True},
                     {'id': '90.1-PRM-2019 WATERCOOLED  ROTARY SCREW CHILLER 0 PRIMARY PUMP',
                      'loop_or_piping': 'CHILLED WATER LOOP_PRIMARY', 'specification_method': 'SIMPLE',
                      'design_electric_power': 4190.42, 'design_head': 44260.44, 'motor_efficiency': 0.9,
-                     'speed_control': 'FIXED_SPEED', 'design_flow': 66.094, 'is_flow_sized_based_on_design_day': True},
+                     'speed_control': 'FIXED_SPEED', 'design_flow': 66.094, 'is_flow_calculated': True},
                     {'id': 'CHILLED WATER LOOP PUMP', 'loop_or_piping': 'CHILLED WATER LOOP',
                      'specification_method': 'SIMPLE', 'design_electric_power': 3479.58, 'design_head': 134508.01,
                      'motor_efficiency': 0.9, 'speed_control': 'VARIABLE_SPEED', 'design_flow': 18.16,
-                     'is_flow_sized_based_on_design_day': True},
+                     'is_flow_calculated': True},
                     {'id': 'CONDENSER WATER LOOP CONSTANT PUMP BANK OF 2', 'loop_or_piping': 'CONDENSER WATER LOOP',
                      'specification_method': 'SIMPLE', 'design_electric_power': 63518.6, 'design_head': 219868.07,
                      'motor_efficiency': 0.94, 'speed_control': 'VARIABLE_SPEED', 'design_flow': 210.916,
-                     'is_flow_sized_based_on_design_day': True},
+                     'is_flow_calculated': True},
                     {'id': 'MAIN SERVICE WATER LOOP CIRCULATOR PUMP', 'loop_or_piping': 'SERVICE WATER HEATING LOOP',
                      'specification_method': 'SIMPLE', 'design_electric_power': 20.4, 'design_head': 29891.0,
                      'motor_efficiency': 0.82, 'speed_control': 'FIXED_SPEED', 'design_flow': 0.439,
-                     'is_flow_sized_based_on_design_day': True}]
+                     'is_flow_calculated': True}]
 
         self.assertEqual(added_pumps, expected)
 
@@ -4205,10 +4206,18 @@ class TestTranslator(TestCase):
 
         added_heat_rejection = t.add_heat_rejection()
 
-        expected = [{'id': 'HEAT PUMP LOOP FLUIDCOOLERTWOSPEED 4.0 GPM/HP', 'loop': 'HEAT PUMP LOOP', 'range': 26.07,
-                     'fan_motor_nameplate_power': 53675.71, 'design_wetbulb_temperature': 25.6,
-                     'design_water_flowrate': 20.0, 'leaving_water_setpoint_temperature': 0.0, 'approach': 12.0,
-                     'type': 'DRY_COOLER', 'fluid': 'OTHER', 'fan_speed_control': 'TWO_SPEED'}]
+        expected = [{'approach': 12.0,
+                     'design_water_flowrate': 20.0,
+                     'design_wetbulb_temperature': 25.6,
+                     'fan': {
+                         'id': 'HEAT PUMP LOOP FLUIDCOOLERTWOSPEED 4.0 GPM/HP_fan',
+                         'motor_nameplate_power': 53675.71},
+                     'fan_speed_control': 'TWO_SPEED',
+                     'fluid': 'OTHER',
+                     'id': 'HEAT PUMP LOOP FLUIDCOOLERTWOSPEED 4.0 GPM/HP',
+                     'leaving_water_setpoint_temperature': 0.0,
+                     'loop': 'HEAT PUMP LOOP', 'range': 26.07,
+                     'type': 'DRY_COOLER'}]
 
         self.assertEqual(added_heat_rejection, expected)
 
@@ -4268,13 +4277,14 @@ class TestTranslator(TestCase):
         added_boilers = t.add_boilers()
 
         expected = [
-            {'id': 'BOILER 5939KBTU/HR 0.75 THERMAL EFF', 'loop': 'HOT WATER LOOP', 'design_capacity': 1891644.33,
-             'rated_capacity': 1891644.33, 'minimum_load_ratio': 0.0, 'energy_source_type': 'NATURAL_GAS',
-             'efficiency_metric': 'THERMAL', 'efficiency': 0.75, 'auxiliary_power': 0.0},
-            {'id': 'HEAT PUMP LOOP SUPPLEMENTAL BOILER 2669KBTU/HR 0.75 THERMAL EFF', 'loop': 'HEAT PUMP LOOP',
-             'design_capacity': 715840.29, 'rated_capacity': 715840.29, 'minimum_load_ratio': 0.0,
-             'energy_source_type': 'NATURAL_GAS', 'efficiency_metric': 'THERMAL', 'efficiency': 0.75,
-             'auxiliary_power': 0.0}]
+            {'auxiliary_power': 0.0, 'design_capacity': 1891644.33, 'efficiency_metric_types': ['THERMAL'],
+             'efficiency_metric_values': [0.75], 'energy_source_type': 'NATURAL_GAS',
+             'id': 'BOILER 5939KBTU/HR 0.75 THERMAL EFF', 'loop': 'HOT WATER LOOP', 'minimum_load_ratio': 0.0,
+             'rated_capacity': 1891644.33},
+            {'auxiliary_power': 0.0, 'design_capacity': 715840.29, 'efficiency_metric_types': ['THERMAL'],
+             'efficiency_metric_values': [0.75], 'energy_source_type': 'NATURAL_GAS',
+             'id': 'HEAT PUMP LOOP SUPPLEMENTAL BOILER 2669KBTU/HR 0.75 THERMAL EFF', 'loop': 'HEAT PUMP LOOP',
+             'minimum_load_ratio': 0.0, 'rated_capacity': 715840.29}]
 
         self.assertEqual(added_boilers, expected)
 
@@ -4369,25 +4379,28 @@ class TestTranslator(TestCase):
 
         added_chillers = t.add_chillers()
 
-        expected = [{'id': '90.1-2004 WATERCOOLED  CENTRIFUGAL CHILLER 0 416TONS 0.6KW/TON',
-                     'cooling_loop': 'CHILLED WATER LOOP', 'condensing_loop': 'CONDENSER WATER LOOP',
-                     'energy_source_type': 'ELECTRICITY', 'design_capacity': 1762283.32, 'rated_capacity': 1762283.32,
-                     'rated_entering_condenser_temperature': 35.0, 'rated_leaving_evaporator_temperature': 6.67,
-                     'minimum_load_ratio': 0.0, 'design_flow_evaporator': 74.82, 'design_flow_condenser': 87.82,
-                     'design_entering_condenser_temperature': 35.0, 'design_leaving_evaporator_temperature': 6.67,
-                     'full_load_efficiency': 6.1, 'part_load_efficiency': 6.88,
-                     'part_load_efficiency_metric': 'INTEGRATED_PART_LOAD_VALUE',
-                     'is_chilled_water_pump_interlocked': False, 'is_condenser_water_pump_interlocked': False},
-                    {'id': '90.1-2004 WATERCOOLED  CENTRIFUGAL CHILLER 1 416TONS 0.6KW/TON',
-                     'cooling_loop': 'CHILLED WATER LOOP', 'condensing_loop': 'CONDENSER WATER LOOP',
-                     'energy_source_type': 'ELECTRICITY', 'design_capacity': 1762283.32, 'rated_capacity': 1762283.32,
-                     'rated_entering_condenser_temperature': 35.0, 'rated_leaving_evaporator_temperature': 6.67,
-                     'minimum_load_ratio': 0.0, 'design_flow_evaporator': 74.82, 'design_flow_condenser': 87.82,
-                     'design_entering_condenser_temperature': 35.0, 'design_leaving_evaporator_temperature': 6.67,
-                     'full_load_efficiency': 6.1, 'part_load_efficiency': 6.88,
-                     'part_load_efficiency_metric': 'INTEGRATED_PART_LOAD_VALUE',
+        expected = [{'chiller_function': 'CHILLED_WATER_ONLY', 'condensing_loop': 'CONDENSER WATER LOOP',
+                     'cooling_loop': 'CHILLED WATER LOOP', 'design_capacity': 1762283.32,
+                     'design_entering_condenser_temperature': 35.0, 'design_flow_condenser': 87.82,
+                     'design_flow_evaporator': 74.82, 'design_leaving_evaporator_temperature': 6.67,
+                     'efficiency_metric_types': ['FULL_LOAD_EFFICIENCY_RATED', 'INTEGRATED_PART_LOAD_VALUE'],
+                     'efficiency_metric_values': [6.1, 6.88], 'energy_source_type': 'ELECTRICITY',
+                     'id': '90.1-2004 WATERCOOLED  CENTRIFUGAL CHILLER 0 416TONS 0.6KW/TON',
                      'is_chilled_water_pump_interlocked': False, 'is_condenser_water_pump_interlocked': False,
-                     'heat_recovery_loop': 'HeatRecoveryLoop1', 'heat_recovery_fraction': 0.67}]
+                     'minimum_load_ratio': 0.0, 'rated_capacity': 1762283.32,
+                     'rated_entering_condenser_temperature': 35.0, 'rated_leaving_evaporator_temperature': 6.67},
+                    {'chiller_function': 'CHILLED_WATER_ONLY', 'condensing_loop': 'CONDENSER WATER LOOP',
+                     'cooling_loop': 'CHILLED WATER LOOP', 'design_capacity': 1762283.32,
+                     'design_entering_condenser_temperature': 35.0, 'design_flow_condenser': 87.82,
+                     'design_flow_evaporator': 74.82, 'design_leaving_evaporator_temperature': 6.67,
+                     'efficiency_metric_types': ['FULL_LOAD_EFFICIENCY_RATED', 'INTEGRATED_PART_LOAD_VALUE'],
+                     'efficiency_metric_values': [6.1, 6.88], 'energy_source_type': 'ELECTRICITY',
+                     'heat_recovery_fraction': 0.67, 'heat_recovery_loop': 'HeatRecoveryLoop1',
+                     'id': '90.1-2004 WATERCOOLED  CENTRIFUGAL CHILLER 1 416TONS 0.6KW/TON',
+                     'is_chilled_water_pump_interlocked': False, 'is_condenser_water_pump_interlocked': False,
+                     'minimum_load_ratio': 0.0, 'rated_capacity': 1762283.32,
+                     'rated_entering_condenser_temperature': 35.0, 'rated_leaving_evaporator_temperature': 6.67}]
+
         self.assertEqual(added_chillers, expected)
 
     def test_gather_equipment_fans(self):
@@ -4525,29 +4538,29 @@ class TestTranslator(TestCase):
         gathered_equipment_fans = t.gather_equipment_fans()
 
         expected = {'BASEMENT STORY 0 VAV_PFP_BOXES (SYS8) FAN': (
-            {'design_airflow': 7.69, 'is_airflow_sized_based_on_design_day': True, 'design_electric_power': 16476.98,
+            {'design_airflow': 7.69, 'is_airflow_calculated': True, 'design_electric_power': 16476.98,
              'design_pressure_rise': 1363.04, 'total_efficiency': 0.64, 'motor_efficiency': 0.92,
              'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0, 'motor_location_zone': 'N/A'},
             {'type': 'Fan:VariableVolume', 'fan_energy_index': 1.17, 'purpose': 'N/A',
              'airloop_name': 'BASEMENT STORY 0 VAV_PFP_BOXES (SYS8)'}), 'BASEMENT ZN PFP TERM FAN': (
-            {'design_airflow': 7.67, 'is_airflow_sized_based_on_design_day': True, 'design_electric_power': 5688.78,
+            {'design_airflow': 7.67, 'is_airflow_calculated': True, 'design_electric_power': 5688.78,
              'design_pressure_rise': 365.09, 'total_efficiency': 0.49, 'motor_efficiency': 0.9,
              'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0, 'motor_location_zone': 'N/A'},
             {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.11, 'purpose': 'N/A', 'airloop_name': 'N/A'}),
             'CORE_BOTTOM ZN PFP TERM FAN': (
-                {'design_airflow': 7.94, 'is_airflow_sized_based_on_design_day': True,
+                {'design_airflow': 7.94, 'is_airflow_calculated': True,
                  'design_electric_power': 5888.98, 'design_pressure_rise': 365.09, 'total_efficiency': 0.49,
                  'motor_efficiency': 0.9, 'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
                  'motor_location_zone': 'N/A'},
                 {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.11, 'purpose': 'N/A', 'airloop_name': 'N/A'}),
             'DATACENTER_BASEMENT_ZN_6 ZN PSZ-VAV FAN': (
-                {'design_airflow': 30.36, 'is_airflow_sized_based_on_design_day': True,
+                {'design_airflow': 30.36, 'is_airflow_calculated': True,
                  'design_electric_power': 0.0, 'design_pressure_rise': 0.0, 'total_efficiency': 0.57,
                  'motor_efficiency': 0.94, 'motor_heat_to_airflow_fraction': 1.0,
                  'motor_heat_to_zone_fraction': 0.0, 'motor_location_zone': 'N/A'},
                 {'type': 'Fan:VariableVolume', 'fan_energy_index': 0.0, 'purpose': 'N/A',
                  'airloop_name': 'DATACENTER_BASEMENT_ZN_6 ZN PSZ-VAV'}), 'PERIMETER_BOT_ZN_2 ZN PFP TERM FAN': (
-                {'design_airflow': 1.53, 'is_airflow_sized_based_on_design_day': True, 'design_electric_power': 1137.67,
+                {'design_airflow': 1.53, 'is_airflow_calculated': True, 'design_electric_power': 1137.67,
                  'design_pressure_rise': 342.66, 'total_efficiency': 0.46, 'motor_efficiency': 0.84,
                  'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
                  'motor_location_zone': 'N/A'},
@@ -5858,43 +5871,49 @@ class TestTranslator(TestCase):
             },
         ]
 
-        added_simulation_outputs = t.add_simulation_outputs()
+        added_project, added_instance = t.add_simulation_outputs()
 
-        expected = {'id': 'output_1',
-                    'output_instance':
-                        {'id': 'output_instance_1', 'ruleset_model_type': 'PROPOSED',
-                         'rotation_angle': 0, 'unmet_load_hours': 65.25,
-                         'unmet_load_hours_heating': 33.5,
-                         'unmet_occupied_load_hours_heating': 33.5,
-                         'unmet_load_hours_cooling': 31.75,
-                         'unmet_occupied_load_hours_cooling': 31.75,
-                         'annual_source_results': [{'id': 'source_results_ELECTRICITY',
-                                                    'energy_source': 'ELECTRICITY',
-                                                    'annual_consumption': 138.47,
-                                                    'annual_demand': 14959.75,
-                                                    'annual_cost': -1.0},
-                                                   {'id': 'source_results_NATURAL_GAS',
-                                                    'energy_source': 'NATURAL_GAS',
-                                                    'annual_consumption': 4.64,
-                                                    'annual_demand': 25029.93,
-                                                    'annual_cost': -1.0}],
-                         'building_peak_cooling_load': -1, 'annual_end_use_results': [
-                            {'id': 'end_use_ELECTRICITY-Cooling', 'type': 'SPACE_COOLING',
-                             'energy_source': 'ELECTRICITY',
-                             'annual_site_energy_use': 12.08, 'annual_site_coincident_demand': 42.42,
-                             'annual_site_non_coincident_demand': 5318.54, 'is_regulated': True},
-                            {'id': 'end_use_ELECTRICITY-Interior Lighting', 'type': 'INTERIOR_LIGHTING',
-                             'energy_source': 'ELECTRICITY', 'annual_site_energy_use': 25.61,
-                             'annual_site_coincident_demand': 2461.51, 'annual_site_non_coincident_demand': 2461.51,
-                             'is_regulated': True}]}, 'performance_cost_index': -1.0,
-                    'baseline_building_unregulated_energy_cost': -1.0, 'baseline_building_regulated_energy_cost': -1.0,
-                    'baseline_building_performance_energy_cost': -1.0,
-                    'total_area_weighted_building_performance_factor': -1.0, 'performance_cost_index_target': -1.0,
-                    'total_proposed_building_energy_cost_including_renewable_energy': -1.0,
-                    'total_proposed_building_energy_cost_excluding_renewable_energy': -1.0,
-                    'percent_renewable_energy_savings': -1.0}
+        expected_project = {'id': 'output_1',
+                            'performance_cost_index': -1.0,
+                            'baseline_building_unregulated_energy_cost': -1.0,
+                            'baseline_building_regulated_energy_cost': -1.0,
+                            'baseline_building_performance_energy_cost': -1.0,
+                            'total_area_weighted_building_performance_factor': -1.0,
+                            'performance_cost_index_target': -1.0,
+                            'total_proposed_building_energy_cost_including_renewable_energy': -1.0,
+                            'total_proposed_building_energy_cost_excluding_renewable_energy': -1.0,
+                            'percent_renewable_energy_savings': -1.0}
 
-        self.assertEqual(added_simulation_outputs, expected)
+        expected_instance = {'id': 'output_instance_1',
+                             'unmet_load_hours': 65.25,
+                             'unmet_load_hours_heating': 33.5,
+                             'unmet_occupied_load_hours_heating': 33.5,
+                             'unmet_load_hours_cooling': 31.75,
+                             'unmet_occupied_load_hours_cooling': 31.75,
+                             'annual_source_results': [
+                                 {'id': 'source_results_ELECTRICITY', 'energy_source': 'ELECTRICITY',
+                                  'annual_consumption': 138.47,
+                                  'annual_demand': 14959.75, 'annual_cost': -1.0},
+                                 {'id': 'source_results_NATURAL_GAS', 'energy_source': 'NATURAL_GAS',
+                                  'annual_consumption': 4.64,
+                                  'annual_demand': 25029.93, 'annual_cost': -1.0}],
+                             'building_peak_cooling_load': -1,
+                             'annual_end_use_results': [
+                                 {'id': 'end_use_ELECTRICITY-Cooling', 'type': 'SPACE_COOLING',
+                                  'energy_source': 'ELECTRICITY',
+                                  'annual_site_energy_use': 12.08,
+                                  'annual_site_coincident_demand': 42.42,
+                                  'annual_site_non_coincident_demand': 5318.54,
+                                  'is_regulated': True},
+                                 {'id': 'end_use_ELECTRICITY-Interior Lighting',
+                                  'type': 'INTERIOR_LIGHTING', 'energy_source': 'ELECTRICITY',
+                                  'annual_site_energy_use': 25.61,
+                                  'annual_site_coincident_demand': 2461.51,
+                                  'annual_site_non_coincident_demand': 2461.51,
+                                  'is_regulated': True}]}
+
+        self.assertEqual(added_project, expected_project)
+        self.assertEqual(added_instance, expected_instance)
 
     def test_is_float(self):
         self.assertTrue(is_float('0.09'))
@@ -8143,66 +8162,78 @@ class TestTranslator(TestCase):
             },
         ]
 
-        gathered = t.add_simulation_outputs()
+        added_project, added_instance = t.add_simulation_outputs()
 
-        expected = {
-            'id': 'output_1',
-            'output_instance':
-                {'id': 'output_instance_1', 'ruleset_model_type': 'PROPOSED',
-                 'rotation_angle': 0, 'unmet_load_hours': 65.25,
-                 'unmet_load_hours_heating': 33.5,
-                 'unmet_occupied_load_hours_heating': 33.5,
-                 'unmet_load_hours_cooling': 31.75,
-                 'unmet_occupied_load_hours_cooling': 31.75,
-                 'annual_source_results': [{'id': 'source_results_ELECTRICITY',
-                                            'energy_source': 'ELECTRICITY',
-                                            'annual_consumption': 138.47,
-                                            'annual_demand': 14959.75,
-                                            'annual_cost': -1.0},
-                                           {'id': 'source_results_NATURAL_GAS',
-                                            'energy_source': 'NATURAL_GAS',
-                                            'annual_consumption': 4.64,
-                                            'annual_demand': 25029.93,
-                                            'annual_cost': -1.0}],
-                 'building_peak_cooling_load': -1,
-                 'annual_end_use_results': [
-                     {'id': 'end_use_ELECTRICITY-Cooling',
-                      'type': 'SPACE_COOLING',
-                      'energy_source': 'ELECTRICITY',
-                      'annual_site_energy_use': 12.08,
-                      'annual_site_coincident_demand': 0.0,
-                      'annual_site_non_coincident_demand': 5318.53,
-                      'is_regulated': True},
-                     {'id': 'end_use_ELECTRICITY-Exterior Lighting', 'type': 'EXTERIOR_LIGHTING',
-                      'energy_source': 'ELECTRICITY', 'annual_site_energy_use': 5.68,
-                      'annual_site_coincident_demand': 611.3,
-                      'annual_site_non_coincident_demand': 611.3, 'is_regulated': True},
-                     {'id': 'end_use_ELECTRICITY-Fans', 'type': 'FANS_INTERIOR_VENTILATION',
-                      'energy_source': 'ELECTRICITY',
-                      'annual_site_energy_use': 19.66, 'annual_site_coincident_demand': 1712.96,
-                      'annual_site_non_coincident_demand': 1712.96, 'is_regulated': True},
-                     {'id': 'end_use_ELECTRICITY-Heating', 'type': 'SPACE_HEATING',
-                      'energy_source': 'ELECTRICITY',
-                      'annual_site_energy_use': 9.13, 'annual_site_coincident_demand': 6277.68,
-                      'annual_site_non_coincident_demand': 7051.57, 'is_regulated': True},
-                     {'id': 'end_use_ELECTRICITY-Interior Equipment', 'type': 'MISC_EQUIPMENT',
-                      'energy_source': 'ELECTRICITY', 'annual_site_energy_use': 48.3,
-                      'annual_site_coincident_demand': 3325.31, 'annual_site_non_coincident_demand': 3325.31,
-                      'is_regulated': True},
-                     {'id': 'end_use_ELECTRICITY-Interior Lighting', 'type': 'INTERIOR_LIGHTING',
-                      'energy_source': 'ELECTRICITY', 'annual_site_energy_use': 25.61,
-                      'annual_site_coincident_demand': 2461.51,
-                      'annual_site_non_coincident_demand': 2461.51, 'is_regulated': True},
-                     {'id': 'end_use_NATURAL_GAS-Heating', 'type': 'SPACE_HEATING',
-                      'energy_source': 'NATURAL_GAS',
-                      'annual_site_energy_use': 4.64, 'annual_site_coincident_demand': 25029.93,
-                      'annual_site_non_coincident_demand': 25029.93, 'is_regulated': True}]},
-            'performance_cost_index': -1.0,
-            'baseline_building_unregulated_energy_cost': -1.0, 'baseline_building_regulated_energy_cost': -1.0,
-            'baseline_building_performance_energy_cost': -1.0,
-            'total_area_weighted_building_performance_factor': -1.0, 'performance_cost_index_target': -1.0,
-            'total_proposed_building_energy_cost_including_renewable_energy': -1.0,
-            'total_proposed_building_energy_cost_excluding_renewable_energy': -1.0,
-            'percent_renewable_energy_savings': -1.0}
+        expected_project = {'id': 'output_1',
+                            'performance_cost_index': -1.0,
+                            'baseline_building_unregulated_energy_cost': -1.0,
+                            'baseline_building_regulated_energy_cost': -1.0,
+                            'baseline_building_performance_energy_cost': -1.0,
+                            'total_area_weighted_building_performance_factor': -1.0,
+                            'performance_cost_index_target': -1.0,
+                            'total_proposed_building_energy_cost_including_renewable_energy': -1.0,
+                            'total_proposed_building_energy_cost_excluding_renewable_energy': -1.0,
+                            'percent_renewable_energy_savings': -1.0}
 
-        self.assertEqual(gathered, expected)
+        expected_instance = {
+            'id': 'output_instance_1',
+            'unmet_load_hours': 65.25,
+            'unmet_load_hours_heating': 33.5,
+            'unmet_occupied_load_hours_heating': 33.5,
+            'unmet_load_hours_cooling': 31.75,
+            'unmet_occupied_load_hours_cooling': 31.75,
+            'annual_source_results': [
+                {'id': 'source_results_ELECTRICITY',
+                 'energy_source': 'ELECTRICITY',
+                 'annual_consumption': 138.47,
+                 'annual_demand': 14959.75,
+                 'annual_cost': -1.0},
+                {'id': 'source_results_NATURAL_GAS',
+                 'energy_source': 'NATURAL_GAS',
+                 'annual_consumption': 4.64,
+                 'annual_demand': 25029.93, 'annual_cost': -1.0}],
+            'building_peak_cooling_load': -1,
+            'annual_end_use_results': [
+                {'id': 'end_use_ELECTRICITY-Cooling', 'type': 'SPACE_COOLING',
+                 'energy_source': 'ELECTRICITY', 'annual_site_energy_use': 12.08,
+                 'annual_site_coincident_demand': 0.0,
+                 'annual_site_non_coincident_demand': 5318.53,
+                 'is_regulated': True},
+                {'id': 'end_use_ELECTRICITY-Exterior Lighting',
+                 'type': 'EXTERIOR_LIGHTING', 'energy_source': 'ELECTRICITY',
+                 'annual_site_energy_use': 5.68,
+                 'annual_site_coincident_demand': 611.3,
+                 'annual_site_non_coincident_demand': 611.3,
+                 'is_regulated': True},
+                {'id': 'end_use_ELECTRICITY-Fans',
+                 'type': 'FANS_INTERIOR_VENTILATION',
+                 'energy_source': 'ELECTRICITY',
+                 'annual_site_energy_use': 19.66,
+                 'annual_site_coincident_demand': 1712.96,
+                 'annual_site_non_coincident_demand': 1712.96,
+                 'is_regulated': True},
+                {'id': 'end_use_ELECTRICITY-Heating', 'type': 'SPACE_HEATING',
+                 'energy_source': 'ELECTRICITY', 'annual_site_energy_use': 9.13,
+                 'annual_site_coincident_demand': 6277.68,
+                 'annual_site_non_coincident_demand': 7051.57,
+                 'is_regulated': True},
+                {'id': 'end_use_ELECTRICITY-Interior Equipment',
+                 'type': 'MISC_EQUIPMENT', 'energy_source': 'ELECTRICITY',
+                 'annual_site_energy_use': 48.3,
+                 'annual_site_coincident_demand': 3325.31,
+                 'annual_site_non_coincident_demand': 3325.31,
+                 'is_regulated': True},
+                {'id': 'end_use_ELECTRICITY-Interior Lighting',
+                 'type': 'INTERIOR_LIGHTING', 'energy_source': 'ELECTRICITY',
+                 'annual_site_energy_use': 25.61,
+                 'annual_site_coincident_demand': 2461.51,
+                 'annual_site_non_coincident_demand': 2461.51,
+                 'is_regulated': True},
+                {'id': 'end_use_NATURAL_GAS-Heating', 'type': 'SPACE_HEATING',
+                 'energy_source': 'NATURAL_GAS', 'annual_site_energy_use': 4.64,
+                 'annual_site_coincident_demand': 25029.93,
+                 'annual_site_non_coincident_demand': 25029.93,
+                 'is_regulated': True}]}
+
+        self.assertEqual(added_project, expected_project)
+        self.assertEqual(added_instance, expected_instance)
