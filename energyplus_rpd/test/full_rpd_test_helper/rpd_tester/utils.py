@@ -4,7 +4,7 @@ import json
 import math
 from difflib import get_close_matches
 from itertools import chain
-from typing import TypedDict
+from typing import TypedDict, Optional
 
 
 class ZonesTerminalsServedByHVACSys(TypedDict):
@@ -19,9 +19,9 @@ class SurfacesWithConstructionAssigned(TypedDict):
     interior_surfaces: int
     primary_layers_length: int
     framing_layers_length: int
-    u_factor: float | None
-    c_factor: float | None
-    f_factor: float | None
+    u_factor: Optional[float]
+    c_factor: Optional[float]
+    f_factor: Optional[float]
 
 
 def ensure_root(jpath):
