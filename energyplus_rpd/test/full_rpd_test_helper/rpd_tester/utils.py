@@ -145,9 +145,7 @@ def find_all(jpath, obj):
                         pass
 
             elif op_type == "index":
-
                 for r in results:
-
                     if isinstance(r, list):
                         if value == "*":
                             new_results.extend(r)
@@ -286,10 +284,10 @@ def get_dict_of_zones_and_terminals_served_by_hvac_sys(
     return dict_of_zones_and_terminals_served_by_hvac_sys
 
 
-def get_dict_of_surfaces_with_construction_assigned(rpd: dict) -> dict[str, SurfacesWithConstructionAssigned]:
-    dict_of_surfaces_details: dict[
-        str, SurfacesWithConstructionAssigned
-    ] = {}
+def get_dict_of_surfaces_with_construction_assigned(
+    rpd: dict,
+) -> dict[str, SurfacesWithConstructionAssigned]:
+    dict_of_surfaces_details: dict[str, SurfacesWithConstructionAssigned] = {}
 
     for construction in find_all(
         "$.ruleset_model_descriptions[*].constructions[*]",
@@ -308,11 +306,21 @@ def get_dict_of_surfaces_with_construction_assigned(rpd: dict) -> dict[str, Surf
                 "c_factor": None,
                 "f_factor": None,
             }
-        dict_of_surfaces_details[construction_id]["primary_layers_length"] = len(construction.get("primary_layers", []))
-        dict_of_surfaces_details[construction_id]["framing_layers_length"] = len(construction.get("framing_layers", []))
-        dict_of_surfaces_details[construction_id]["u_factor"] = construction.get("u_factor")
-        dict_of_surfaces_details[construction_id]["c_factor"] = construction.get("c_factor")
-        dict_of_surfaces_details[construction_id]["f_factor"] = construction.get("f_factor")
+        dict_of_surfaces_details[construction_id]["primary_layers_length"] = len(
+            construction.get("primary_layers", [])
+        )
+        dict_of_surfaces_details[construction_id]["framing_layers_length"] = len(
+            construction.get("framing_layers", [])
+        )
+        dict_of_surfaces_details[construction_id]["u_factor"] = construction.get(
+            "u_factor"
+        )
+        dict_of_surfaces_details[construction_id]["c_factor"] = construction.get(
+            "c_factor"
+        )
+        dict_of_surfaces_details[construction_id]["f_factor"] = construction.get(
+            "f_factor"
+        )
 
     for surface in find_all(
         "$.ruleset_model_descriptions[*].buildings[*].building_segments[*].zones[*].surfaces[*]",
@@ -328,14 +336,10 @@ def get_dict_of_surfaces_with_construction_assigned(rpd: dict) -> dict[str, Surf
 
         # Below grade surface
         if surface_adjacent_to == "GROUND":
-            dict_of_surfaces_details[construction][
-                "below_grade_surfaces"
-            ] += 1
+            dict_of_surfaces_details[construction]["below_grade_surfaces"] += 1
         # Interior surface
         elif surface_adjacent_to == "INTERIOR":
-            dict_of_surfaces_details[construction][
-                "interior_surfaces"
-            ] += 1
+            dict_of_surfaces_details[construction]["interior_surfaces"] += 1
         # Exterior wall or roof
         elif surface_adjacent_to == "EXTERIOR":
             if classification == "WALL":
@@ -371,7 +375,9 @@ def find_best_match(target, candidates, cutoff=0.4):
     return matches[0] if matches else None
 
 
-def compare_values(value, reference_value, absolute_tolerance=None, relative_tolerance=None):
+def compare_values(
+    value, reference_value, absolute_tolerance=None, relative_tolerance=None
+):
     """Compares a generated value with a reference value based on the tolerance."""
     if isinstance(reference_value, str):
         return value == reference_value
@@ -425,7 +431,9 @@ def compare_fan_power(generated_fans, expected_w_per_flow):
             warnings.append(f"Missing design electric power for '{fan['id']}'")
             continue
 
-        if not compare_values(design_power, expected_w_per_flow * design_flow, abs_tol=1):
+        if not compare_values(
+            design_power, expected_w_per_flow * design_flow, abs_tol=1
+        ):
             errors.append(
                 f"Value mismatch at '{fan['id']}'. Expected: {expected_w_per_flow * design_flow}; got: {design_power}"
             )
@@ -454,7 +462,9 @@ def compare_pump_power(pump: dict, expected_w_per_flow: float):
     return warnings, errors
 
 
-def compare_attributes(target, candidate, attr, generated_zone_id=None, reference_zone_id=None):
+def compare_attributes(
+    target, candidate, attr, generated_zone_id=None, reference_zone_id=None
+):
     """Compares attributes between two objects, with special rules for azimuth and area."""
     if attr not in target:
         return False

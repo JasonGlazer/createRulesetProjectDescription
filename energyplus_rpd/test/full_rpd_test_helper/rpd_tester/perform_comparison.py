@@ -2,7 +2,16 @@ import sys
 from pathlib import Path
 from enum import Enum
 
-from energyplus_rpd.test.full_rpd_test_helper.rpd_tester.utils import *
+from energyplus_rpd.test.full_rpd_test_helper.rpd_tester.utils import (
+    find_all,
+    find_one,
+    json,
+    compare_values,
+    get_zones_from_json,
+    find_all_with_field_value,
+    compare_fan_power,
+    compare_pump_power
+)
 from energyplus_rpd.test.full_rpd_test_helper.rpd_tester.map_objects import map_objects
 
 # RPD Generation Test Report
@@ -60,11 +69,11 @@ def add_specification_test(test_case_report, data_path, evaluation_criteria=""):
 
 # Test Result
 def add_test_result(
-        specification_test,
-        generated_instance_id,
-        reference_instance_id,
-        test_outcome,
-        notes="",
+    specification_test,
+    generated_instance_id,
+    reference_instance_id,
+    test_outcome,
+    notes="",
 ):
     data_element = specification_test["data_path"].split(".")[-1]
     test_result = {
@@ -103,7 +112,6 @@ def compare_json_values(
     errors = []
 
     for i, generated_id in enumerate(generated_ids):
-
         if generated_id not in generated_values and i in generated_values:
             generated_id = i
 
@@ -133,12 +141,16 @@ def compare_json_values(
 
         elif isinstance(reference_value, list):
             # Reference value is a list. Set EvaluationCriteriaOptions to QUANTITY
-            specification_test["evaluation_criteria"] = (
-                EvaluationCriteriaOptions.QUANTITY.value
-            )
+            specification_test[
+                "evaluation_criteria"
+            ] = EvaluationCriteriaOptions.QUANTITY.value
 
             if len(generated_value) != len(reference_value):
-                notes = f"List length mismatch at '{generated_ids[i]}' for key '{json_key_path.split('.')[-1]}'. Expected: {len(reference_value)}; got: {len(generated_value)}"
+                notes = (
+                    f"List length mismatch at '{generated_ids[i]}' for key "
+                    f"'{json_key_path.split('.')[-1]}'. Expected: {len(reference_value)}; "
+                    f"got: {len(generated_value)}"
+                )
                 add_test_result(
                     specification_test,
                     generated_id if not isinstance(generated_id, int) else None,
@@ -157,15 +169,18 @@ def compare_json_values(
 
             if compare_value:
                 # Reference value is a list with value comparisons. Combine QUANTITY and VALUE
-                specification_test["evaluation_criteria"] = (
-                    EvaluationCriteriaOptions.VALUE.value
-                )
+                specification_test[
+                    "evaluation_criteria"
+                ] = EvaluationCriteriaOptions.VALUE.value
 
                 for j, (gen_item, ref_item) in enumerate(
                     zip(generated_value, reference_value)
                 ):
                     if gen_item != ref_item:
-                        notes = f"List element mismatch for {generated_ids[i]} at index [{j}]. Expected: {ref_item}; got: {gen_item}"
+                        notes = (
+                            f"List element mismatch for {generated_ids[i]} at index [{j}]. "
+                            f"Expected: {ref_item}; got: {gen_item}"
+                        )
                         add_test_result(
                             specification_test,
                             generated_id,
@@ -176,11 +191,14 @@ def compare_json_values(
                 continue
 
         elif isinstance(reference_value, str) and not compare_value:
-            specification_test["evaluation_criteria"] = (
-                EvaluationCriteriaOptions.REFERENCE.value
-            )
+            specification_test[
+                "evaluation_criteria"
+            ] = EvaluationCriteriaOptions.REFERENCE.value
 
-            if (generated_value in object_id_map and object_id_map[generated_value] == reference_value) or ("schedule" in json_key_path):
+            if (
+                generated_value in object_id_map
+                and object_id_map[generated_value] == reference_value
+            ) or ("schedule" in json_key_path):
                 add_test_result(
                     specification_test,
                     generated_id if not isinstance(generated_id, int) else None,
@@ -212,7 +230,7 @@ def compare_json_values(
                     generated_id if not isinstance(generated_id, int) else None,
                     reference_id if not isinstance(reference_id, int) else None,
                     TestOutcomeOptions.NOT_IMPLEMENTED.value,
-                    notes
+                    notes,
                 )
                 warnings.append(notes)
             continue  # No comparison needed, just check for existence
@@ -221,9 +239,9 @@ def compare_json_values(
             continue  # Both values are None, no need to compare
 
         # Evaluate based on value comparison
-        specification_test["evaluation_criteria"] = (
-            EvaluationCriteriaOptions.VALUE.value
-        )
+        specification_test[
+            "evaluation_criteria"
+        ] = EvaluationCriteriaOptions.VALUE.value
         test_outcome = TestOutcomeOptions.NOT_IMPLEMENTED.value
 
         # Else: the values are strings, ints, or floats, and we need to compare them
@@ -234,13 +252,17 @@ def compare_json_values(
 
         if not does_match and reference_value is None:
             warnings.append(
-                f"Extra data provided at '{generated_ids[i]}' for key '{json_key_path.split('.')[-1]}'. Expected: 'None'; got: '{generated_value}'"
+                f"Extra data provided at '{generated_ids[i]}' for key '{json_key_path.split('.')[-1]}'. "
+                f"Expected: 'None'; got: '{generated_value}'"
             )
             # Avoid adding a test result when extra data is provided
             continue
 
         elif not does_match:
-            notes = f"Value mismatch at '{generated_ids[i]}' for key '{json_key_path.split('.')[-1]}'. Expected: '{reference_value}'; got: '{generated_value}'"
+            notes = (
+                f"Value mismatch at '{generated_ids[i]}' for key '{json_key_path.split('.')[-1]}'. "
+                f"Expected: '{reference_value}'; got: '{generated_value}'"
+            )
             errors.append(notes)
             test_outcome = TestOutcomeOptions.DIFFER.value
 
@@ -288,7 +310,8 @@ def handle_special_cases(
         generated_supply_fans = [
             fan
             for sys_fans in find_all(
-                "$.ruleset_model_descriptions[*].buildings[*].building_segments[*].heating_ventilating_air_conditioning_systems[*].fan_system.supply_fans",
+                "$.ruleset_model_descriptions[*].buildings[*].building_segments[*]."
+                "heating_ventilating_air_conditioning_systems[*].fan_system.supply_fans",
                 generated_json,
             )
             for fan in sys_fans
@@ -396,7 +419,8 @@ def handle_special_cases(
             generated_json,
         )
 
-        # Iterate through the generated surfaces to populate data for each surface individually, ensuring correct alignment via object mapping
+        # Iterate through the generated surfaces to populate data for each surface individually,
+        # ensuring correct alignment via object mapping
         for generated_surface in generated_surfaces:
             generated_surface_id = generated_surface["id"]
             reference_surface_id = object_id_map.get(generated_surface_id)
@@ -477,7 +501,8 @@ def handle_special_cases(
                 )
 
                 errors.append(
-                    f"Value mismatch at '{generated_surface_id}' for key '{json_key_path.split('.')[-1]}': Expected '{expected_value}', got '{generated_value}'"
+                    f"Value mismatch at '{generated_surface_id}' for key '{json_key_path.split('.')[-1]}': "
+                    f"Expected '{expected_value}', got '{generated_value}'"
                 )
 
         if all(value is None for value in aligned_generated_values.values()):
@@ -527,7 +552,10 @@ def handle_special_cases(
                 rated_capacity = boiler.get("rated_capacity", 0)
 
                 if not compare_values(lower_limit, expected_lower_limit, tolerance):
-                    notes = f"{boiler_id} operation lower limit incorrect for staged operation. Expected: {expected_lower_limit}; got: {lower_limit}"
+                    notes = (
+                        f"{boiler_id} operation lower limit incorrect for staged operation. "
+                        f"Expected: {expected_lower_limit}; got: {lower_limit}"
+                    )
                     add_test_result(
                         specification_test,
                         boiler_id,
@@ -593,7 +621,10 @@ def handle_special_cases(
                 if not compare_values(
                     actual_upper_limit, expected_upper_limit, tolerance
                 ):
-                    notes = f"{boiler_id} operation upper limit incorrect for staged operation. Expected: {expected_upper_limit}; got: {actual_upper_limit}"
+                    notes = (
+                        f"{boiler_id} operation upper limit incorrect for staged operation. "
+                        f"Expected: {expected_upper_limit}; got: {actual_upper_limit}"
+                    )
                     add_test_result(
                         specification_test,
                         boiler_id,
@@ -655,7 +686,9 @@ def handle_ordered_comparisons(
             generated_zone_id = generated_zone["id"]
             reference_zone_id = object_id_map[generated_zone_id]
 
-            zone_data_path = json_key_path[(json_key_path.index("].", json_key_path.index("zones")) + 2):]
+            zone_data_path = json_key_path[
+                (json_key_path.index("].", json_key_path.index("zones")) + 2):
+            ]
             generated_value = find_one(zone_data_path, generated_zone)
             aligned_generated_values[generated_zone_id] = generated_value
             # Extract values from aligned zones using the specified key path
@@ -711,7 +744,9 @@ def handle_ordered_comparisons(
 
             # Extract the key path for the surface data (everything after surfaces[]. )
             generated_value = find_one(
-                json_key_path[json_key_path.index("].", json_key_path.index("surfaces")) + 2:],
+                json_key_path[
+                    json_key_path.index("].", json_key_path.index("surfaces")) + 2:
+                ],
                 generated_surface,
             )
             aligned_generated_values[generated_surface_id] = generated_value
@@ -781,7 +816,9 @@ def handle_ordered_comparisons(
 
             # Extract the key path for the terminal data (everything after terminals[]. )
             generated_value = find_one(
-                json_key_path[json_key_path.index("].", json_key_path.index("terminals")) + 2:],
+                json_key_path[
+                    json_key_path.index("].", json_key_path.index("terminals")) + 2:
+                ],
                 generated_terminal,
             )
             aligned_generated_values[generated_terminal_id] = generated_value
@@ -840,7 +877,9 @@ def handle_ordered_comparisons(
             ],
             generated_json,
         )
-        generated_construction_ids = [construction["id"] for construction in generated_constructions]
+        generated_construction_ids = [
+            construction["id"] for construction in generated_constructions
+        ]
 
         for generated_construction in generated_constructions:
             generated_construction_id = generated_construction["id"]
@@ -852,7 +891,9 @@ def handle_ordered_comparisons(
             if not reference_construction_id:
                 continue
 
-            construction_data_path = json_key_path[json_key_path.index("].", json_key_path.index("constructions")) + 2:]
+            construction_data_path = json_key_path[
+                json_key_path.index("].", json_key_path.index("constructions")) + 2:
+            ]
             generated_value = find_one(construction_data_path, generated_construction)
             aligned_generated_values[generated_construction_id] = generated_value
 
@@ -865,7 +906,9 @@ def handle_ordered_comparisons(
                 None,
             )
 
-            aligned_reference_values[generated_construction_id] = aligned_reference_value
+            aligned_reference_values[
+                generated_construction_id
+            ] = aligned_reference_value
 
         if all(value is None for value in aligned_generated_values.values()):
             notes = f"Missing key {json_key_path.split('.')[-1]}"
@@ -910,7 +953,9 @@ def handle_ordered_comparisons(
             if not reference_material_id:
                 continue
 
-            material_data_path = json_key_path[json_key_path.index("].", json_key_path.index("materials")) + 2:]
+            material_data_path = json_key_path[
+                json_key_path.index("].", json_key_path.index("materials")) + 2:
+            ]
             generated_value = find_one(material_data_path, generated_material)
             aligned_generated_values[generated_material_id] = generated_value
 
@@ -970,7 +1015,13 @@ def handle_ordered_comparisons(
             if not reference_hvac_id:
                 continue
 
-            hvac_data_path = json_key_path[json_key_path.index("].", json_key_path.index("heating_ventilating_air_conditioning_systems"),) + 2:]
+            hvac_data_path = json_key_path[
+                json_key_path.index(
+                    "].",
+                    json_key_path.index("heating_ventilating_air_conditioning_systems"),
+                )
+                + 2:
+            ]
             generated_value = find_one(hvac_data_path, generated_hvac)
             aligned_generated_values[generated_hvac_id] = generated_value
             # Extract values from aligned zones using the specified key path
@@ -1025,7 +1076,9 @@ def handle_ordered_comparisons(
             if not reference_boiler_id:
                 continue
 
-            boiler_data_path = json_key_path[json_key_path.index("].", json_key_path.index("boilers")) + 2:]
+            boiler_data_path = json_key_path[
+                json_key_path.index("].", json_key_path.index("boilers")) + 2:
+            ]
             generated_value = find_one(boiler_data_path, generated_boiler)
             aligned_generated_values[generated_boiler_id] = generated_value
 
@@ -1080,7 +1133,9 @@ def handle_ordered_comparisons(
             if not reference_chiller_id:
                 continue
 
-            chiller_data_path = json_key_path[json_key_path.index("].", json_key_path.index("chillers")) + 2:]
+            chiller_data_path = json_key_path[
+                json_key_path.index("].", json_key_path.index("chillers")) + 2:
+            ]
             generated_value = find_one(chiller_data_path, generated_chiller)
             aligned_generated_values[generated_chiller_id] = generated_value
 
@@ -1137,7 +1192,9 @@ def handle_ordered_comparisons(
             if not reference_heat_rejection_id:
                 continue
 
-            heat_rejection_data_path = json_key_path[json_key_path.index("].", json_key_path.index("heat_rejections")) + 2:]
+            heat_rejection_data_path = json_key_path[
+                json_key_path.index("].", json_key_path.index("heat_rejections")) + 2:
+            ]
             generated_value = find_one(
                 heat_rejection_data_path, generated_heat_rejection
             )
@@ -1152,9 +1209,9 @@ def handle_ordered_comparisons(
                 None,
             )
 
-            aligned_reference_values[generated_heat_rejection_id] = (
-                aligned_reference_value
-            )
+            aligned_reference_values[
+                generated_heat_rejection_id
+            ] = aligned_reference_value
 
         if all(value is None for value in aligned_generated_values.values()):
             notes = f"Missing key {json_key_path.split('.')[-1]}"
@@ -1198,7 +1255,9 @@ def handle_ordered_comparisons(
             if not reference_fluid_loop_id:
                 continue
 
-            fluid_loop_data_path = json_key_path[json_key_path.index("].", json_key_path.index("fluid_loops")) + 2:]
+            fluid_loop_data_path = json_key_path[
+                json_key_path.index("].", json_key_path.index("fluid_loops")) + 2:
+            ]
             generated_value = find_one(fluid_loop_data_path, generated_fluid_loop)
             aligned_generated_values[generated_fluid_loop_id] = generated_value
 
@@ -1256,7 +1315,9 @@ def handle_ordered_comparisons(
             if not reference_pump_id:
                 continue
 
-            pump_data_path = json_key_path[json_key_path.index("].", json_key_path.index("pumps")) + 2:]
+            pump_data_path = json_key_path[
+                json_key_path.index("].", json_key_path.index("pumps")) + 2:
+            ]
             generated_value = find_one(pump_data_path, generated_pump)
             aligned_generated_values[generated_pump_id] = generated_value
 
@@ -1394,7 +1455,6 @@ def run_file_comparison(
 
         # Begin the General Comparison Methodology
         else:
-
             # Handle comparison of data derived from objects which may not be in the same order as the reference objects
             if any(
                 group in json_key_path
@@ -1471,7 +1531,6 @@ def run_comparison_for_all_tests(test_dir: Path):
             and spec_file.is_file()
             and reference_json_file.is_file()
         ):
-
             test_case_report = add_test_case_report(
                 test_case_dir, generated_json_file.name
             )
@@ -1486,9 +1545,7 @@ def run_comparison_for_all_tests(test_dir: Path):
             total_errors += len(errors)
 
         else:
-            print(
-                f"Skipping {test} because it does not contain the required files."
-            )
+            print(f"Skipping {test} because it does not contain the required files.")
             continue
 
     save_to_json_file()

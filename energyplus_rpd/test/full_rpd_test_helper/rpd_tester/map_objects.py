@@ -1,4 +1,13 @@
-from energyplus_rpd.test.full_rpd_test_helper.rpd_tester.utils import *
+from energyplus_rpd.test.full_rpd_test_helper.rpd_tester.utils import (
+    find_all,
+    find_all_with_filters,
+    find_all_with_field_value,
+    get_zones_from_json,
+    get_dict_of_surfaces_with_construction_assigned,
+    get_dict_of_zones_and_terminals_served_by_hvac_sys,
+    compare_attributes,
+    find_best_match
+)
 
 
 def get_mapping(
@@ -13,7 +22,9 @@ def get_mapping(
 
     if len(generated_values) != len(reference_values):
         print(
-            f"{match_type} count mismatch. Expected: {len(reference_values)}; got: {len(generated_values)}. Verify the object mapping.")
+            f"{match_type} count mismatch. Expected: {len(reference_values)}; "
+            f"got: {len(generated_values)}. Verify the object mapping."
+        )
     mapping = {}
     if match_type == "Constructions":
         mapping = match_constructions_by_surfaces_assigned(
@@ -21,7 +32,11 @@ def get_mapping(
         )
 
     elif match_type == "Materials":
-        mapping = match_by_attributes_with_excess_generated(generated_values, reference_values, attrs=["thickness", "conductivity", "density", "specific_heat", "r_value"])
+        mapping = match_by_attributes_with_excess_generated(
+            generated_values,
+            reference_values,
+            attrs=["thickness", "conductivity", "density", "specific_heat", "r_value"],
+        )
 
     elif match_type == "Surfaces":
         mapping = match_by_attributes(
@@ -122,12 +137,23 @@ def define_construction_map(generated_json, reference_json, object_id_map):
     errors = []
     construction_map = {}
 
-    generated_constructions = get_dict_of_surfaces_with_construction_assigned(generated_json)
-    reference_constructions = get_dict_of_surfaces_with_construction_assigned(reference_json)
+    generated_constructions = get_dict_of_surfaces_with_construction_assigned(
+        generated_json
+    )
+    reference_constructions = get_dict_of_surfaces_with_construction_assigned(
+        reference_json
+    )
 
-    if len(generated_constructions) == len(reference_constructions) and len(generated_constructions) == 1:
-        generated_hvac_id, generated_hvac_data = next(iter(generated_constructions.items()))
-        reference_hvac_id, reference_hvac_data = next(iter(reference_constructions.items()))
+    if (
+        len(generated_constructions) == len(reference_constructions)
+        and len(generated_constructions) == 1
+    ):
+        generated_hvac_id, generated_hvac_data = next(
+            iter(generated_constructions.items())
+        )
+        reference_hvac_id, reference_hvac_data = next(
+            iter(reference_constructions.items())
+        )
         construction_map[generated_hvac_id] = reference_hvac_id
         return construction_map, errors
 
@@ -146,16 +172,20 @@ def define_materials_map(generated_json, reference_json, object_id_map):
     errors = []
     materials_map = {}
 
-    generated_materials = find_all("$.ruleset_model_descriptions[0].materials[*]", generated_json)
-    reference_materials = find_all("$.ruleset_model_descriptions[0].materials[*]", reference_json)
+    generated_materials = find_all(
+        "$.ruleset_model_descriptions[0].materials[*]", generated_json
+    )
+    reference_materials = find_all(
+        "$.ruleset_model_descriptions[0].materials[*]", reference_json
+    )
 
     primary_layer_ids = find_all(
         "$.ruleset_model_descriptions[0].constructions[*].primary_layers[*]",
-        generated_json
+        generated_json,
     )
     framing_layer_ids = find_all(
         "$.ruleset_model_descriptions[0].constructions[*].framing_layers[*]",
-        generated_json
+        generated_json,
     )
 
     # Combine both lists into a set for faster lookup
@@ -166,7 +196,10 @@ def define_materials_map(generated_json, reference_json, object_id_map):
         mat for mat in generated_materials if mat.get("id") in referenced_ids
     ]
 
-    if len(filtered_generated_materials) == len(reference_materials) and len(filtered_generated_materials) == 1:
+    if (
+        len(filtered_generated_materials) == len(reference_materials)
+        and len(filtered_generated_materials) == 1
+    ):
         generated_material_data = filtered_generated_materials[0]
         reference_material_data = reference_materials[0]
         materials_map[generated_material_data["id"]] = reference_material_data["id"]
@@ -247,7 +280,8 @@ def define_local_surface_map(
 
     if len(generated_surfaces) != len(reference_surfaces):
         errors.append(
-            f"{surface_type} surface count mismatch in zone id '{generated_zone_id}'. Expected: {len(reference_surfaces)}; got: {len(generated_surfaces)}"
+            f"{surface_type} surface count mismatch in zone id '{generated_zone_id}'. "
+            f"Expected: {len(reference_surfaces)}; got: {len(generated_surfaces)}"
         )
         return local_surface_map, errors
 
@@ -313,7 +347,8 @@ def define_terminal_map(object_id_map, generated_zone, reference_zone):
 
     if len(generated_terminals) != len(reference_terminals):
         errors.append(
-            f"Terminal count mismatch in zone id '{generated_zone_id}'. Expected: {len(reference_terminals)}; got: {len(generated_terminals)}"
+            f"Terminal count mismatch in zone id '{generated_zone_id}'. "
+            f"Expected: {len(reference_terminals)}; got: {len(generated_terminals)}"
         )
         return terminal_map, errors
 
@@ -420,16 +455,17 @@ def define_heat_rejection_map(generated_json, reference_json, object_id_map):
 
     if len(generated_heat_rejections) != len(reference_heat_rejections):
         errors.append(
-            f"Heat Rejection count mismatch. Expected: {len(reference_heat_rejections)}; got: {len(generated_heat_rejections)}"
+            f"Heat Rejection count mismatch. Expected: {len(reference_heat_rejections)}; "
+            f"got: {len(generated_heat_rejections)}"
         )
         return heat_rejection_map, errors
 
     if len(generated_heat_rejections) == 1:
         generated_heat_rejection_data = generated_heat_rejections[0]
         reference_heat_rejection_data = reference_heat_rejections[0]
-        heat_rejection_map[generated_heat_rejection_data["id"]] = (
-            reference_heat_rejection_data["id"]
-        )
+        heat_rejection_map[
+            generated_heat_rejection_data["id"]
+        ] = reference_heat_rejection_data["id"]
         return heat_rejection_map, errors
 
     else:
@@ -539,7 +575,9 @@ def map_objects(generated_json, reference_json):
 
     if len(object_id_map) != len(reference_zones):
         errors.append(
-            f"""Could not match zones between the generated and reference files. Try to better align your modeled zone names with the correct answer file's zone naming conventions.\n{chr(10).join(f"- {zone['id']}" for zone in reference_zones)}"""
+            f"Could not match zones between the generated and reference files. "
+            f"Try to better align your modeled zone names with the correct answer file's zone naming conventions."
+            f"""\n{chr(10).join(f"- {zone['id']}" for zone in reference_zones)}"""
         )  # chr(10) is a newline character
         # Return early if zones could not be matched
         return object_id_map, warnings, errors
@@ -671,10 +709,7 @@ def match_by_attributes_with_excess_generated(
         gen_id = gen_obj.get("id")
         for ref_obj in reference_values:
             ref_id = ref_obj.get("id")
-            score = sum(
-                compare_attributes(gen_obj, ref_obj, attr)
-                for attr in attrs
-            )
+            score = sum(compare_attributes(gen_obj, ref_obj, attr) for attr in attrs)
             all_matches.append((gen_id, ref_id, score))
 
     # Sort all potential matches by descending score
@@ -694,13 +729,17 @@ def match_by_attributes_with_excess_generated(
     return mapping
 
 
-def match_constructions_by_surfaces_assigned(generated_values, reference_values, object_id_map):
+def match_constructions_by_surfaces_assigned(
+    generated_values, reference_values, object_id_map
+):
     # Convert to list-of-dict format with `id` key for compatibility
     generated_list = [
-        {"id": generated_id, **generated_data} for generated_id, generated_data in generated_values.items()
+        {"id": generated_id, **generated_data}
+        for generated_id, generated_data in generated_values.items()
     ]
     reference_list = [
-        {"id": reference_id, **reference_data} for reference_id, reference_data in reference_values.items()
+        {"id": reference_id, **reference_data}
+        for reference_id, reference_data in reference_values.items()
     ]
 
     # Attributes to compare (numeric + counts)
@@ -767,8 +806,11 @@ def match_terminals_by_references(generated_values, reference_values, object_id_
                     (
                         terminal
                         for terminal in reference_values
-                        if terminal.get("id") not in used_reference_ids and
-                        terminal.get("served_by_heating_ventilating_air_conditioning_system") == reference_hvac_id
+                        if terminal.get("id") not in used_reference_ids
+                        and terminal.get(
+                            "served_by_heating_ventilating_air_conditioning_system"
+                        )
+                        == reference_hvac_id
                     ),
                     None,
                 )
@@ -843,11 +885,10 @@ def get_best_match_attrs(
             best_match_found = candidate
         elif qty_matched == highest_qty_matched:
             if (
-                best_match_found and
-                best_match_found.get("id") in used_reference_ids and
-                candidate.get("id") not in used_reference_ids
+                best_match_found
+                and best_match_found.get("id") in used_reference_ids
+                and candidate.get("id") not in used_reference_ids
             ):
                 best_match_found = candidate
 
     return best_match_found
-
