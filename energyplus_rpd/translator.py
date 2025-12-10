@@ -1077,7 +1077,7 @@ class Translator:
             'CAPACITY': 'POWER'
         }
         type_by_name = {}
-        init_schedule_table = self.get_table_dictionary('InitializationSummary', 'Schedule', True)
+        init_schedule_table = self.get_table_dictionary('InitializationSummary', 'Schedule - Hourly', True)
         for name, row in init_schedule_table.items():
             raw_type = row['ScheduleType']
             if raw_type in raw_to_final_map:
