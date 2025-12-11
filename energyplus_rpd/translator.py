@@ -401,7 +401,7 @@ class Translator:
             'id': 'metadata id 1',
             'schema_author': 'ASHRAE SPC 229 Schema Working Group',
             'schema_name': 'Ruleset Evaluation Schema',
-            'schema_version': '0.1.5',
+            'schema_version': '0.1.7',
             'schema_url': 'https://github.com/open229/ruleset-model-description-schema',
             'time_of_creation': time_stamp,
             'version': '1.0.0',
