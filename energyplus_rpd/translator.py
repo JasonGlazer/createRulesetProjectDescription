@@ -491,21 +491,23 @@ class Translator:
                             if start_date_parts[0] == '01' and start_date_parts[1] == '01':
                                 start_day_of_week = rows[row_key][start_day_of_week_column]
                                 calendar['day_of_week_for_january_1'] = start_day_of_week.upper()
-                            if duration == 365:
-                                calendar['is_leap_year'] = False
-                            elif duration == 366:
-                                calendar['is_leap_year'] = True
+                            # removed in updated to schema 0.1.7
+                            # if duration == 365:
+                            #     calendar['is_leap_year'] = False
+                            # elif duration == 366:
+                            #     calendar['is_leap_year'] = True
                             self.model_description['calendar'] = calendar
-                    if table['TableName'] == 'Environment:Daylight Saving':
-                        rows = table['Rows']
-                        row_keys = list(rows.keys())
-                        cols = table['Cols']
-                        daylight_savings_column = cols.index('Daylight Saving Indicator')
-                        for row_key in row_keys:
-                            if row_key == 'None':
-                                continue
-                            daylight_savings = rows[row_key][daylight_savings_column]
-                            calendar['has_daylight_saving_time'] = daylight_savings == 'Yes'
+                    # removed in updated to schema 0.1.7
+                    # if table['TableName'] == 'Environment:Daylight Saving':
+                    #     rows = table['Rows']
+                    #     row_keys = list(rows.keys())
+                    #     cols = table['Cols']
+                    #     daylight_savings_column = cols.index('Daylight Saving Indicator')
+                    #     for row_key in row_keys:
+                    #         if row_key == 'None':
+                    #             continue
+                    #         daylight_savings = rows[row_key][daylight_savings_column]
+                    #         calendar['has_daylight_saving_time'] = daylight_savings == 'Yes'
         return calendar
 
     def add_exterior_lighting(self):
