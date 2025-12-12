@@ -1154,8 +1154,7 @@ class TestTranslator(TestCase):
 
         added_calendar = t.add_calendar()
 
-        expected = {'notes': 'name environment: RUNPERIOD 1', 'day_of_week_for_january_1': 'SUNDAY',
-                    'is_leap_year': False, 'has_daylight_saving_time': True}
+        expected = {'notes': 'name environment: RUNPERIOD 1', 'day_of_week_for_january_1': 'SUNDAY'}
 
         self.assertEqual(added_calendar, expected)
 
