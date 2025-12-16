@@ -10,7 +10,7 @@ Schema:
   Object Type: "Meta"
   Title: "ASHRAE 229"
   Description: "Base schema for ASHRAE 229 representations"
-  Version: "0.1.5" 
+  Version: "0.1.7" 
   References:
     - "Enumerations2019ASHRAE901"
     - "EnumerationsRESNET"
@@ -587,12 +587,48 @@ RulesetModelDescription:
       Used by RCT Test: True
       EPin Object: "Schedule:Compact (and others)"
       EPin Field: "Name"
-      EPout File: table.html""
+      EPout File: "table.html"
       EPout Report: "InitializationSummary"
       EPout Table: "Schedule"
       EPout Column: "first column"
       EPstatus: "DoneUsingConstant"
       EP Notes: "only produced when Output:Schedules input is used"
+    materials:
+      Description: "Materials used at the site in Construction layers"
+      Data Type: "[{Material}]"
+      Notes: "Contains a list of Materials used in Construction layers."
+      RMD Test: False
+      AppG Used By TCDs: False
+      AppG P_RMD Equals U_RMD: "unknown"
+      AppG B_RMD Equals P_RMD: "unknown"
+      AppG B_RMDs Same: False
+      Used by RCT Test: "unknown"
+      EPin Object: "Material, Material:NoMass"
+      EPin Field: ""
+      EPout File: ""
+      EPout Report: ""
+      EPout Table: ""
+      EPout Column: ""
+      EPstatus: "DoneUsingInput"
+      EP Notes: ""
+    constructions:
+      Description: "Constructions used at the site"
+      Data Type: "[{Construction}]"
+      Notes: "Contains a list of Constructions used in Surfaces."
+      RMD Test: "Secondary"
+      AppG Used By TCDs: True
+      AppG P_RMD Equals U_RMD: True
+      AppG B_RMD Equals P_RMD: False
+      AppG B_RMDs Same: True
+      Used by RCT Test: "unknown"
+      EPin Object: "Construction"
+      EPin Field: ""
+      EPout File: ""
+      EPout Report: ""
+      EPout Table: ""
+      EPout Column: ""
+      EPstatus: "DoneUsingInput"
+      EP Notes: ""
     measured_infiltration_pressure_difference:
       Description: "Differential pressure difference used during measurement for infiltration values."
       Data Type: "Numeric"
@@ -696,6 +732,24 @@ RulesetModelDescription:
       AppG B_RMD Equals P_RMD: "unknown"
       AppG B_RMDs Same: True
       Used by RCT Test: True
+      EPin Object: ""
+      EPin Field: ""
+      EPout File: ""
+      EPout Report: ""
+      EPout Table: ""
+      EPout Column: ""
+      EPstatus: "NotStarted"
+      EP Notes: ""
+    service_water_heating_uses:
+      Description: "Service water heating uses on the site"
+      Data Type: "[{ServiceWaterHeatingUse}]"
+      Notes: "Contains a list of service water heating uses at the site. Used in BuildingSegment and Space data groups, see notes in those locations."
+      RMD Test: "unknown"
+      AppG Used By TCDs: "unknown"
+      AppG P_RMD Equals U_RMD: "unknown"
+      AppG B_RMD Equals P_RMD: "unknown"
+      AppG B_RMDs Same: "unknown"
+      Used by RCT Test: "unknown"
       EPin Object: ""
       EPin Field: ""
       EPout File: ""
@@ -1292,9 +1346,9 @@ BuildingSegment:
       EPstatus: "NotStarted"
       EP Notes: "New element probably needed."
     service_water_heating_uses:
-      Description: "List of service water heating uses"
-      Data Type: "[{ServiceWaterHeatingUse}]"
-      Notes: "This data element also appears in Space. A list of ServiceWaterHeatingUse data groups can either appear here or a list of references to IDs of a ServiceWaterHeatingUse already defined somewhere else or a mixture of both. A ServiceWaterHeatingUse that has one of the following unit types: [POWER_PER_PERSON, POWER_PER_AREA, VOLUME_PER_PERSON, VOLUME PER AREA] AND has not been explicitly referenced by any spaces is assumed to apply to each space in the building segment. A ServiceWaterHeatingUse that is referenced by one or more spaces will be applied only to those spaces. A ServiceWaterHeatingUse with units POWER, VOLUME, or OTHER will be applied only once to the entire building segment. When a reference is used, the constraint to use when implemented is to :ServiceWaterHeatingUse:"
+      Description: "List of IDs of service water heating uses"
+      Data Type: "[Reference]"
+      Notes: "This data element also appears in Space. A list of references to ServiceWaterHeatingUse data groups. A ServiceWaterHeatingUse that has one of the following unit types: [POWER_PER_PERSON, POWER_PER_AREA, VOLUME_PER_PERSON, VOLUME PER AREA] AND has not been explicitly referenced by any spaces is assumed to apply to each space in the building segment. A ServiceWaterHeatingUse that is referenced by one or more spaces will be applied only to those spaces. A ServiceWaterHeatingUse with units POWER, VOLUME, or OTHER will be applied only once to the entire building segment. The constraint to use when implemented is to :ServiceWaterHeatingUse:"
       RMD Test: "unknown"
       AppG Used By TCDs: "unknown"
       AppG P_RMD Equals U_RMD: "unknown"
@@ -1678,9 +1732,9 @@ Zone:
       EPout Column: ""
       EPstatus: "ToDo"
       EP Notes: ""
-    exhaust_airflow_rate_multiplier_schedules:
+    supply_airflow_rate_multiplier_schedules:
       Description: "A list of IDs for Schedules containing the multipliers for the zonal supply airflow rates"
-      Data Type: "Reference"
+      Data Type: "[Reference]"
       Notes: "Each schedule corresponds to the list in zonal_supply_fans. If a schedule is not present, the multiplier is always one. Constraint to use when implemented :Schedule:"
       RMD Test: "unknown"
       AppG Used By TCDs: "unknown"
@@ -1716,7 +1770,7 @@ Zone:
       EP Notes: ""
     exhaust_airflow_rate_multiplier_schedules:
       Description: "A list of IDs for Schedules containing the multipliers for the zonal exhaust airflow rates"
-      Data Type: "Reference"
+      Data Type: "[Reference]"
       Notes: "Each schedule corresponds to the list in zonal_exhaust_fans. If a schedule is not present, the multiplier is always one. Constraint to use when implemented :Schedule:"
       RMD Test: "unknown"
       AppG Used By TCDs: "unknown"
@@ -2084,9 +2138,9 @@ Space:
       EPstatus: "DoneUsingOutput"
       EP Notes: "Undeterminable compliance parameter. Inputs in Space input object allow pass through of the enumeration value from user input."
     service_water_heating_uses:
-      Description: "List of service water heating uses"
-      Data Type: "[({ServiceWaterHeatingUse}, Reference)]"
-      Notes: "This data element also appears in BuildingSegment. A list of ServiceWaterHeatingUse data groups can either appear here or a list of references to IDs of a ServiceWaterHeatingUse already defined somewhere else or a mixture of both. References must refer to a ServiceWaterHeatingUse at the BuildingSegment level and that BuildingSegment must be the BuildingSegment to which this space belongs. ServiceWaterHeatingUses stored at the space level may only be used for this space and may not be referenced by other spaces. When a reference is used, the constraint to use when implemented is to :ServiceWaterHeatingUse:"
+      Description: "List of IDs of service water heating uses"
+      Data Type: "[Reference]"
+      Notes: "This data element also appears in BuildingSegment. A list of references to ServiceWaterHeatingUse data groups. A ServiceWaterHeatingUse that has one of the following unit types: [POWER_PER_PERSON, POWER_PER_AREA, VOLUME_PER_PERSON, VOLUME PER AREA] AND has not been explicitly referenced by any spaces is assumed to apply to each space in the building segment. A ServiceWaterHeatingUse that is referenced by one or more spaces will be applied only to those spaces. A ServiceWaterHeatingUse with units POWER, VOLUME, or OTHER will be applied only once to the entire building segment. The constraint to use when implemented is to :ServiceWaterHeatingUse:"
       RMD Test: False
       AppG Used By TCDs: False
       AppG P_RMD Equals U_RMD: "unknown"
@@ -2468,8 +2522,8 @@ Surface:
       EP Notes: ""
     adjacent_to:
       Description: "Used to classify the conditions on the surface."
-      Data Type: "(<SurfaceAdjacencyOptions>,<AdditionalSurfaceAdjacencyOptionsRESNET>,<AdditionalSurfaceAdjacencyOptions2019ASHRAE901>)"
-      Notes: "Determines whether the other side of the surface is modeled and if not what assumptions should be used. Commonly, plenums do not need to be explicitly described for many rulesets and instead when a plenum is present in the simulation model, this field should be set to the what is adjacent to the other side of the plenum. For example, on the top floor with a plenum, EXTERIOR would be entered."
+      Data Type: "(<SurfaceAdjacencyOptions>,<AdditionalSurfaceAdjacencyOptionsRESNET>)"
+      Notes: "Determines whether the other side of the surface is modeled and if not what assumptions should be used."
       RMD Test: "Secondary"
       AppG Used By TCDs: True
       AppG P_RMD Equals U_RMD: True
@@ -2520,9 +2574,9 @@ Surface:
       EPstatus: "DoneUsingOutput"
       EP Notes: "It is a universal flag if surfaces cast shadows always True unless Solar Distribution is set to MinimalShadowing"
     construction:
-      Description: "Construction description of surface or an ID of another Construction."
-      Data Type: "({Construction}, Reference)"
-      Notes: "The construction data group can either appear here or a reference to an ID of a Construction used in a previous Surface. When the reference is used, the constraint to use when implemented is to :Construction:"
+      Description: "ID of the Construction description of surface or an ID of another Construction."
+      Data Type: "Reference"
+      Notes: "The construction data group can either appear here or a reference to an ID of a Construction used in a previous Surface. The constraint to use when implemented is to :Construction:"
       RMD Test: "Secondary"
       AppG Used By TCDs: True
       AppG P_RMD Equals U_RMD: True
@@ -2535,7 +2589,7 @@ Surface:
       EPout Report: "Envelope Summary"
       EPout Table: "Opaque Exterior"
       EPout Column: "Construction"
-      EPstatus: "DoneUsingConstant"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Also accessible in EIO file"
     optical_properties:
       Description: "Optical properties of the surface."
@@ -2665,9 +2719,9 @@ Construction:
       EPstatus: "NotRequired"
       EP Notes: "Always leave entry blank since no framing"
     primary_layers:
-      Description: "List of names, or IDs, of layer descriptions starting from the outside surface for primary heat path"
-      Data Type: "[({Material}, Reference)]"
-      Notes: "For constructions with framing and cavity heat transfer paths, use this for the cavity. For constructions with homogeneous layer, use this element only. Air films should not be included in the list of layers. When Construction.primary_layers are specified, the Construction.r_values should not be used. The list of primary_layers should include at least one Material that has mass with Material.density and Material.specific_heat specified. A list of material data groups can either appear here or a list of references to IDs of a Materials already defined somewhere else or a mixture of both. When a reference is used, the constraint to use when implemented is to :Material:"
+      Description: "List of IDs for materials as layer descriptions starting from the outside surface for the primary heat path"
+      Data Type: "[Reference]"
+      Notes: "For constructions with framing and cavity heat transfer paths, use this for the cavity. For constructions with homogeneous layer, use this element only. Air films should not be included in the list of layers. When Construction.primary_layers are specified, the Construction.r_values should not be used. The list of primary_layers should include at least one Material that has mass with Material.density and Material.specific_heat specified. The constraint to use when implemented is to :Material:"
       RMD Test: "Primary"
       AppG Used By TCDs: False
       AppG P_RMD Equals U_RMD: "unknown"
@@ -2683,9 +2737,9 @@ Construction:
       EPstatus: "DoneUsingConstant"
       EP Notes: "For Construction input object use all material layers. Could be added to EIO/InitializationSummary - Material CTF Summary easily."
     framing_layers:
-      Description: "List of names, or IDs, of layer descriptions starting from the outside surface for the framing heat path"
-      Data Type: "[({Material}, Reference)]"
-      Notes: "For constructions with framing and cavity heat transfer paths, use this for the framing otherwise leave blank. Air films should not be included in the list of layers. Only used when primary_layers is also populated. A list of material data groups can either appear here or a list of references to IDs of a Materials already defined somewhere else or a mixture of both. When a reference is used, the constraint to use when implemented is to :Material:"
+      Description: "List of IDs for materials as layer descriptions starting from the outside surface for the  framing heat path"
+      Data Type: "[Reference]"
+      Notes: "For constructions with framing and cavity heat transfer paths, use this for the framing otherwise leave blank. Air films should not be included in the list of layers. Only used when primary_layers is also populated. The constraint to use when implemented is to :Material:"
       RMD Test: False
       AppG Used By TCDs: False
       AppG P_RMD Equals U_RMD: "unknown"
@@ -3953,7 +4007,7 @@ MiscellaneousEquipment:
       Description: "Source of energy for the miscellaneous equipment in the space"
       Data Type: "<EnergySourceOptions>"
       RMD Test: False
-      Notes: "To indicate that the energy is not accounted for by any utility supplied source, choose NONE. To indicate equipment with a energy source from a Loop choose OTHER"
+      Notes: "To indicate that the energy is not accounted for by any utility supplied source, choose NONE. To indicate equipment with a energy source from a Loop choose STEAM, HOT_WATER, or OTHER"
       AppG Used By TCDs: True
       AppG P_RMD Equals U_RMD: True
       AppG B_RMD Equals P_RMD: True
@@ -4349,24 +4403,6 @@ Schedule:
       EPout Column: ""
       EPstatus: "NotRequired"
       EP Notes: ""
-    purpose:
-      Description: "The purpose of schedule"
-      Data Type: "String"
-      Notes: "Describe the purpose of the schedule and how it can be used. Not an enumerations. The purpose assigned by BEM tool should match across RMDs. Examples include thermostat, multiplier for lighting, availability for equipment."
-      RMD Test: False
-      AppG Used By TCDs: False
-      AppG P_RMD Equals U_RMD: False
-      AppG B_RMD Equals P_RMD: False
-      AppG B_RMDs Same: True
-      Used by RCT Test: False
-      EPin Object: ""
-      EPin Field: ""
-      EPout File: ""
-      EPout Report: ""
-      EPout Table: ""
-      EPout Column: ""
-      EPstatus: "NotRequired"
-      EP Notes: "Could look at the uses of the schedule and provide the field name of its most common use"
     sequence_type:
       Description: "Schedule sequence type"
       Data Type: "<ScheduleSequenceOptions>"
@@ -4387,7 +4423,7 @@ Schedule:
     hourly_values:
       Description: "Hourly Values of Schedule"
       Data Type: "[Numeric][0..8784]"
-      Notes: "Used when schedule_sequence_type is HOURLY. Can also use functions like EFLH(), MAX(), MIN() to determine overall characteristics for the list of schedule values."
+      Notes: "Used when schedule_sequence_type is HOURLY. Can also use functions like EFLH(), MAX(), MIN() to determine overall characteristics for the list of schedule values. A year that does not have a leap day should be a list of 8760 values and a leap year should be a list of 8784 values. All schedules for a project should be consistently either a list of 8760 values or a list of 8784 values but not mixed within a project. The list of values is in standard time with no adjustment for daylight savings time."
       RMD Test: True
       AppG Used By TCDs: True
       AppG P_RMD Equals U_RMD: True
@@ -4423,7 +4459,7 @@ Schedule:
     hourly_heating_design_year:
       Description: "Hourly values for heating design year"
       Data Type: "[Numeric/Null][0..8784]"
-      Notes: "Used when schedule_sequence_type is HOURLY. Use when more than a 24 hour period was used for sizing. Values with the value Null will be ignored. Populate only one of the data elements: hourly_heating_design_day and hourly_heating_design_year, not both."
+      Notes: "Used when schedule_sequence_type is HOURLY. Use when more than a 24 hour period was used for sizing. Values with the value Null will be ignored. Populate only one of the data elements: hourly_heating_design_day and hourly_heating_design_year, not both. A year that does not have a leap day should be a list of 8760 values and a leap year should be a list of 8784 values. All schedules for a project should be consistently either a list of 8760 values or a list of 8784 values but not mixed within a project. The list of values is in standard time with no adjustment for daylight savings time."
       RMD Test: "unknown"
       AppG Used By TCDs: "unknown"
       AppG P_RMD Equals U_RMD: "unknown"
@@ -4459,7 +4495,7 @@ Schedule:
     hourly_cooling_design_year:
       Description: "Hourly values for cooling design year"
       Data Type: "[Numeric/Null][0..8784]"
-      Notes: "Used when schedule_sequence_type is HOURLY.  Use when more than a 24 hour period was used for sizing.  Values with the value Null will be ignored. Populate only one of the data elements: hourly_cooling_design_day and hourly_cooling_design_year, not both."
+      Notes: "Used when schedule_sequence_type is HOURLY.  Use when more than a 24 hour period was used for sizing.  Values with the value Null will be ignored. Populate only one of the data elements: hourly_cooling_design_day and hourly_cooling_design_year, not both. A year that does not have a leap day should be a list of 8760 values and a leap year should be a list of 8784 values. All schedules for a project should be consistently either a list of 8760 values or a list of 8784 values but not mixed within a project. The list of values is in standard time with no adjustment for daylight savings time."
       RMD Test: "unknown"
       AppG Used By TCDs: "unknown"
       AppG P_RMD Equals U_RMD: "unknown"
@@ -4697,42 +4733,6 @@ Calendar:
       EPout Report: "initialization summary"
       EPout Table: "Environment"
       EPout Column: "Start DayOfWeek and check if StartDate is 01/01"
-      EPstatus: "DoneUsingOutput"
-      EP Notes: ""
-    is_leap_year:
-      Description: "The schedules assume it is a leap year"
-      Data Type: "Boolean"
-      Notes: "This value is true if the calendar and schedules include February 29."
-      RMD Test: "unknown"
-      AppG Used By TCDs: "unknown"
-      AppG P_RMD Equals U_RMD: "unknown"
-      AppG B_RMD Equals P_RMD: "unknown"
-      AppG B_RMDs Same: True
-      Used by RCT Test: True
-      EPin Object: ""
-      EPin Field: ""
-      EPout File: "table.html"
-      EPout Report: "initialization summary"
-      EPout Table: "Environment"
-      EPout Column: "Duration (if 366)"
-      EPstatus: "DoneUsingOutput"
-      EP Notes: ""
-    has_daylight_saving_time:
-      Description: "The schedules adjust for Daylight Saving Time"
-      Data Type: "Boolean"
-      Notes: "This value should be true if the modeled calendar includes daylight saving time."
-      RMD Test: "unknown"
-      AppG Used By TCDs: "unknown"
-      AppG P_RMD Equals U_RMD: "unknown"
-      AppG B_RMD Equals P_RMD: "unknown"
-      AppG B_RMDs Same: True
-      Used by RCT Test: False
-      EPin Object: "RunPeriod"
-      EPin Field: "Use Weather File Daylight Saving Period"
-      EPout File: "table.html"
-      EPout Report: "initialization summary"
-      EPout Table: "Environment"
-      EPout Column: "Use Daylight Saving"
       EPstatus: "DoneUsingOutput"
       EP Notes: ""
 
@@ -6420,9 +6420,10 @@ FanSystem:
       EPstatus: "ToDo"
       EP Notes: "ASHRAE901_HotelLarge_STD2019_Denver.idf has examples of this. Need to differentiate if HX is used for outdoor air. The HeatExchanger:* component is showsn as part of the AIRLOOPHVAC:OUTDOORAIRSYSTEM"
     temperature_control:
-      Description: "Supply air temperature control type"
+      Description: "Cooling supply air temperature control type"
       Data Type: "<FanSystemTemperatureControlOptions>"
       RMD Test: "Primary"
+      Notes: "The options describe the controls during cooling operation."
       AppG Used By TCDs: True
       AppG P_RMD Equals U_RMD: True
       AppG B_RMD Equals P_RMD: False
@@ -6525,7 +6526,7 @@ FanSystem:
       EPstatus: "ToDo"
       EP Notes: "Use difference between max and min temperature. Added to new setpoint manager report."
     supply_air_temperature_reset_load_fraction:
-      Description: "Supply air temperature reset load fraction"
+      Description: "Supply air temperature reset load fraction during cooling operation"
       Data Type: "Numeric"
       Notes: "When temperature_control is LOAD_RESET_TO_SPACE_TEMPERATURE, this is the threshold fraction below which supply air temperature reset begins.  Between the stated load fraction and 0% load the supply air temperature is ramped linearally until the supply air temperature reaches the zone. The supply air temperature is specified in Terminal."
       RMD Test: "Primary"
@@ -6543,7 +6544,7 @@ FanSystem:
       EPstatus: "ToDo"
       EP Notes: "Not sure if mapping is complete. Added to new setpoint manager report."
     supply_air_temperature_reset_schedule:
-      Description: "ID of the Schedule for the supply air temperature reset"
+      Description: "ID of the Schedule for the supply air temperature reset during cooling operation"
       Data Type: "Reference"
       Notes: "The supply air temperature is specified in Terminal. Constraint to use when implemented :Schedule:"
       RMD Test: "Primary"
@@ -7458,10 +7459,10 @@ Fan:
       EPout Column: ""
       EPstatus: "ComplianceParameter"
       EP Notes: ""
-    output_validation_points:
-      Description: "Energy validation points"
-      Data Type: "[{FanOutputValidationPoint}]"
-      Notes: "Airflow is input to each validation point and energy output is the result. A minimum number of four points is recommended. Certain rulesets may have a different minimum number of points. For example, 90.1 Appendix G expects 11 data points."
+    operating_points:
+      Description: "Operating points"
+      Data Type: "[{FanOperatingPoint}]"
+      Notes: "Used to confirm the proper operation at various conditions which is based on the nominal value and performance curves, performance maps, or other adjustment mechanism. The airflow and power should be directly related. A minimum number of four points is recommended. Certain rulesets may have a different minimum number of points. For example, 90.1 Appendix G expects 11 data points. The ruleset checking specification would normally provide a list operating points that should match what is provided by the simulation."
       RMD Test: "Primary"
       AppG Used By TCDs: True
       AppG P_RMD Equals U_RMD: True
@@ -7477,11 +7478,11 @@ Fan:
       EPstatus: "ToDo"
       EP Notes: "Need to go to the curve and pick points. No EnergyPlus output report for this"
 
-FanOutputValidationPoint:
+FanOperatingPoint:
   Object Type: "Data Group"
   Data Elements:
     airflow:
-      Description: "Load"
+      Description: "Airflow"
       Data Type: "Numeric"
       Units: "L/s"
       Notes: "No name and id is needed since typically used as one of a series."
@@ -7499,8 +7500,8 @@ FanOutputValidationPoint:
       EPout Column: ""
       EPstatus: "ToDo"
       EP Notes: "Need to go to the curve and pick points. Do we need an input to specify these?"
-    result:
-      Description: "Result"
+    power:
+      Description: "power"
       Data Type: "Numeric"
       Units: "W"
       Notes: "The rate of energy used by the fan at the given airflow."
@@ -8788,10 +8789,10 @@ Pump:
       EPout Column: "Is Autosized"
       EPstatus: "DoneUsingOutput"
       EP Notes: "if field is set to Autosize. Added to Equipment Summary - Pumps table"
-    output_validation_points:
-      Description: "Energy validation points"
-      Data Type: "[{PumpOutputValidationPoint}]"
-      Notes: "Pump flow is input to each validation point and energy output is the result. A minimum number of four points is recommended."
+    operating_points:
+      Description: "Operating points"
+      Data Type: "[{PumpOperatingPoint}]"
+      Notes: "Used to confirm the proper operation at various conditions which is based on the nominal value and performance curves, performance maps, or other adjustment mechanism. The flow rate and power should be directly related. A minimum number of four points is recommended. The ruleset checking specification would normally provide a list operating points that should match what is provided by the simulation."
       RMD Test: "unknown"
       AppG Used By TCDs: "unknown"
       AppG P_RMD Equals U_RMD: "unknown"
@@ -8829,7 +8830,7 @@ PumpSpecificationMethodOptions:
       Description: "Detailed"
       Notes: "Specify the motor nameplate power, design head, impellor efficiency, motor efficiency"
 
-PumpOutputValidationPoint:
+PumpOperatingPoint:
   Object Type: "Data Group"
   Data Elements:
     flow:
@@ -8842,11 +8843,11 @@ PumpOutputValidationPoint:
       AppG P_RMD Equals U_RMD: True
       AppG B_RMD Equals P_RMD: False
       AppG B_RMDs Same: False
-    result:
-      Description: "Result"
+    power:
+      Description: "Power"
       Data Type: "Numeric"
       Units: "W"
-      Notes: "The rate of energy used by the pump at the given flow rate."
+      Notes: "The rate of energy used per unit time by the pump at the given flow rate."
       RMD Test: "Primary"
       AppG Used By TCDs: True
       AppG P_RMD Equals U_RMD: True
@@ -9051,10 +9052,10 @@ Boiler:
       EPout Column: "Reference Efficiency"
       EPstatus: "DoneUsingOutput"
       EP Notes: "Need to revise."
-    output_validation_points:
-      Description: "Energy validation points"
-      Data Type: "[{BoilerOutputValidationPoint}]"
-      Notes: "Load is input to each validation point and energy output is the result. A minimum number of four points is recommended."
+    operating_points:
+      Description: "Operating points"
+      Data Type: "[{BoilerOperatingPoint}]"
+      Notes: "Used to confirm the proper operation at various conditions which is based on the nominal value and performance curves, performance maps, or other adjustment mechanism. The energy consumption per unit time should be directly related to the load on the boiler and entering water temperature. A minimum number of sixteen points is recommended. The ruleset checking specification would normally provide a list of operating points that should match what is provided by the simulation."
       RMD Test: "Primary"
       AppG Used By TCDs: True
       AppG P_RMD Equals U_RMD: True
@@ -9145,7 +9146,7 @@ BoilerEfficiencyMetricOptions:
     COMBUSTION:
       Description: "Combustion efficiency"
 
-BoilerOutputValidationPoint:
+BoilerOperatingPoint:
   Object Type: "Data Group"
   Data Elements:
     load:
@@ -9186,10 +9187,11 @@ BoilerOutputValidationPoint:
       EPout Column: ""
       EPstatus: "NotRequired"
       EP Notes: ""
-    result:
-      Description: "Result"
+    power:
+      Description: "Power"
       Data Type: "Numeric"
       Units: "W"
+      Notes: "Energy consumption per unit time."
       RMD Test: "Primary"
       AppG Used By TCDs: True
       AppG P_RMD Equals U_RMD: True
@@ -9318,6 +9320,7 @@ Chiller:
     chiller_function:
       Description: "Function such as chilled and/or hot water"
       Data Type: "<ChillerFunctionOptions>"
+      Notes: "This is used to help classify chillers but other data elements in this data group are describing the operation during cooling mode for chillers that operate in multiple modes." 
       RMD Test: "unknown"
       AppG Used By TCDs: "unknown"
       AppG P_RMD Equals U_RMD: "unknown"
@@ -9335,6 +9338,7 @@ Chiller:
     energy_source_type:
       Description: "Source of energy for the chiller"
       Data Type: "<EnergySourceOptions>"
+      Notes: "Select the primary source of energy for the chiller (often electricity). For chillers such as engine-driven or absorption that have both non-electric and electric inputs, provide the input that drives the refrigeration process, usually the non-electric input."
       RMD Test: "Primary"
       AppG Used By TCDs: True
       AppG P_RMD Equals U_RMD: True
@@ -9352,7 +9356,7 @@ Chiller:
     design_capacity:
       Description: "Chiller Design Cooling Capacity"
       Data Type: "Numeric"
-      Notes: "The capacity of the chiller at design conditions. This should correspond with the design_entering_condenser_temperature and design_leaving_evaporator_temperature."
+      Notes: "The capacity of the chiller at design conditions. This should correspond with the design_entering_condenser_temperature and design_leaving_evaporator_temperature. The element should describe the value during cooling mode operation for chillers even for chillers that operate in multiple modes."
       Units: "W"
       RMD Test: "unknown"
       AppG Used By TCDs: "unknown"
@@ -9372,7 +9376,7 @@ Chiller:
       Description: "Chiller Rated Cooling Capacity"
       Data Type: "Numeric"
       Units: "W"
-      Notes: "The capacity of the chiller at rating conditions. This should correspond with the rated_entering_condenser_temperature and rated_leaving_evaporator_temperature."
+      Notes: "The capacity of the chiller at rating conditions. This should correspond with the rated_entering_condenser_temperature and rated_leaving_evaporator_temperature. The element should describe the value during cooling mode operation for chillers even for chillers that operate in multiple modes."
       RMD Test: "unknown"
       AppG Used By TCDs: "unknown"
       AppG P_RMD Equals U_RMD: "unknown"
@@ -9391,7 +9395,7 @@ Chiller:
       Description: "Rated entering condenser temperature"
       Data Type: "Numeric"
       Units: "C"
-      Notes: "The rated outside air dry-bulb temperature for air cooled chillers or design entering condenser water temperature for water cooled chillers. For AHRI conditions for inch-pound ratings for air cooled chillers are 35C/95F and water cooled are 29.4C/85F. The AHRI conditions for SI ratings are 35C for air cooled chillers and 30C for water cooled. This should correpond with the rated capacity and the FULL_LOAD_EFFICIENCY_RATED and INTEGRATED_PART_LOAD_VALUE. "
+      Notes: "The rated outside air dry-bulb temperature for air cooled chillers or design entering condenser water temperature for water cooled chillers. For AHRI conditions for inch-pound ratings for air cooled chillers are 35C/95F and water cooled are 29.4C/85F. The AHRI conditions for SI ratings are 35C for air cooled chillers and 30C for water cooled. This should correpond with the rated capacity and the FULL_LOAD_EFFICIENCY_RATED and INTEGRATED_PART_LOAD_VALUE. The element should describe the value during cooling mode operation for chillers even for chillers that operate in multiple modes."
       RMD Test: "unknown"
       AppG Used By TCDs: "unknown"
       AppG P_RMD Equals U_RMD: "unknown"
@@ -9410,7 +9414,7 @@ Chiller:
       Description: "Rated leaving evaporator temperature"
       Data Type: "Numeric"
       Units: "C"
-      Notes: "For AHRI conditions for inch-pound ratings are 6.7C/44F. For AHRI conditions for SI ratings are 7C. This should correpond with the rated capacity and the FULL_LOAD_EFFICIENCY_RATED and INTEGRATED_PART_LOAD_VALUE. "
+      Notes: "For AHRI conditions for inch-pound ratings are 6.7C/44F. For AHRI conditions for SI ratings are 7C. This should correpond with the rated capacity and the FULL_LOAD_EFFICIENCY_RATED and INTEGRATED_PART_LOAD_VALUE. The element should describe the value during cooling mode operation for chillers even for chillers that operate in multiple modes."
       RMD Test: "unknown"
       AppG Used By TCDs: "unknown"
       AppG P_RMD Equals U_RMD: "unknown"
@@ -9501,7 +9505,7 @@ Chiller:
       Description: "Design entering condenser temperature"
       Data Type: "Numeric"
       Units: "C"
-      Notes: "The temperature entering the condenser portion of the chiller at design conditions. The design outside air dry-bulb temperature for air cooled chillers or design entering condenser water temperature for water cooled chillers. This should correpond with the design_capacity and the FULL_LOAD_EFFICIENCY_DESIGN and NONSTANDARD_PART_LOAD_VALUE."
+      Notes: "The temperature entering the condenser portion of the chiller at design conditions. The design outside air dry-bulb temperature for air cooled chillers or design entering condenser water temperature for water cooled chillers. This should correpond with the design_capacity and the FULL_LOAD_EFFICIENCY_DESIGN and NONSTANDARD_PART_LOAD_VALUE. The element should describe the value during cooling mode operation for chillers even for chillers that operate in multiple modes."
       RMD Test: "unknown"
       AppG Used By TCDs: "unknown"
       AppG P_RMD Equals U_RMD: "unknown"
@@ -9520,7 +9524,7 @@ Chiller:
       Description: "Design leaving evaporator temperature"
       Data Type: "Numeric"
       Units: "C"
-      Notes: "The temperature leaving the evaporator portion of the chiller at design conditions. This should correpond with the design_capacity and the FULL_LOAD_EFFICIENCY_DESIGN and NONSTANDARD_PART_LOAD_VALUE."
+      Notes: "The temperature leaving the evaporator portion of the chiller at design conditions. This should correpond with the design_capacity and the FULL_LOAD_EFFICIENCY_DESIGN and NONSTANDARD_PART_LOAD_VALUE. The element should describe the value during cooling mode operation for chillers even for chillers that operate in multiple modes."
       RMD Test: "unknown"
       AppG Used By TCDs: "unknown"
       AppG P_RMD Equals U_RMD: "unknown"
@@ -9540,7 +9544,7 @@ Chiller:
       Data Type: "[Numeric]"
       Units: "W/W"
       Range: ">=0"
-      Notes: "The useful cooling energy supplied by the chiller divided by the electric energy into the chiller both in the same units when the chiller is supplying a predefined load."
+      Notes: "The useful cooling energy supplied by the chiller divided by the energy into the chiller (usually electricity) both in the same units when the chiller is supplying a predefined load. The element should describe the value during cooling mode operation for chillers even for chillers that operate in multiple modes."
       RMD Test: "Primary"
       AppG Used By TCDs: True
       AppG P_RMD Equals U_RMD: True
@@ -9572,9 +9576,10 @@ Chiller:
       EPout Column: ""
       EPstatus: "DoneUsingOutput"
       EP Notes: ""
-    capacity_validation_points:
-      Description: "Capacity validation points"
-      Data Type: "[{ChillerCapacityValidationPoint}]"
+    capacity_operating_points:
+      Description: "Capacity points"
+      Data Type: "[{ChillerCapacityOperatingPoint}]"
+      Notes: "Used to confirm the proper operation at various conditions which is based on the nominal value and performance curves, performance maps, or other adjustment mechanism. The capacity should be directly related to the chilled water supply temperature and condenser temperature. A minimum number of sixteen points is recommended. The ruleset checking specification would normally provide a list of operating points that should match what is provided by the simulation."
       RMD Test: False
       AppG Used By TCDs: False
       AppG P_RMD Equals U_RMD: False
@@ -9589,9 +9594,10 @@ Chiller:
       EPout Column: ""
       EPstatus: "NotRequired"
       EP Notes: ""
-    power_validation_points:
+    power_operating_points:
       Description: "Energy validation points"
-      Data Type: "[{ChillerPowerValidationPoint}]"
+      Data Type: "[{ChillerPowerOperatingPoint}]"
+      Notes: "Used to confirm the proper operation at various conditions which is based on the nominal value and performance curves, performance maps, or other adjustment mechanism. The power should be directly related to the chilled water supply temperature, condenser temperature, and load on the chiller. An indicator that the chiller is at full capacity is also important to differentiate between fully loaded and partially loaded operation. A minimum number of 64 points is recommended but fewer may be adequate to confirm proper operation especially if the temperatures and load are not repeated. The ruleset checking specification would normally provide a list of operating points that should match what is provided by the simulation."
       RMD Test: "Primary"
       AppG Used By TCDs: True
       AppG P_RMD Equals U_RMD: True
@@ -9698,7 +9704,7 @@ ChillerEfficiencyMetricOptions:
     OTHER:
       Description: "Other part load efficiency metric"
 
-ChillerCapacityValidationPoint:
+ChillerCapacityOperatingPoint:
   Object Type: "Data Group"
   Data Elements:
     chilled_water_supply_temperature:
@@ -9721,7 +9727,7 @@ ChillerCapacityValidationPoint:
       EPstatus: "NotRequired"
       EP Notes: ""
     condenser_temperature:
-      Description: "Second temperature"
+      Description: "Condenser temperature"
       Data Type: "Numeric"
       Units: "C"
       Notes: "Outside air dry-bulb temperature for air cooled chillers and condenser water temperature for water cooled chillers. For water cooled chillers, this is the temperature as the water enters the chiller. For air cooled chilers this the temperature of the ambient air."
@@ -9739,10 +9745,11 @@ ChillerCapacityValidationPoint:
       EPout Column: ""
       EPstatus: "NotRequired"
       EP Notes: ""
-    result:
-      Description: "Result"
+    capacity:
+      Description: "Capacity"
       Data Type: "Numeric"
       Units: "W"
+      Notes: "The capacity available by the chiller at the given operating point."
       RMD Test: False
       AppG Used By TCDs: False
       AppG P_RMD Equals U_RMD: False
@@ -9758,7 +9765,7 @@ ChillerCapacityValidationPoint:
       EPstatus: "NotRequired"
       EP Notes: ""
 
-ChillerPowerValidationPoint:
+ChillerPowerOperatingPoint:
   Object Type: "Data Group"
   Data Elements:
     chilled_water_supply_temperature:
@@ -9781,7 +9788,7 @@ ChillerPowerValidationPoint:
       EPstatus: "NotRequired"
       EP Notes: ""
     condenser_temperature:
-      Description: "Second temperature"
+      Description: "Condenser temperature"
       Data Type: "Numeric"
       Units: "C"
       Notes: "Outside air dry-bulb temperature for air cooled chillers and condenser water temperature for water cooled chillers. For water cooled chillers, this is the temperature as the water enters the chiller. For air cooled chilers this the temperature of the ambient air."
@@ -9836,10 +9843,11 @@ ChillerPowerValidationPoint:
       EPout Column: ""
       EPstatus: "NotRequired"
       EP Notes: ""
-    result:
-      Description: "Result"
+    power:
+      Description: "Power"
       Data Type: "Numeric"
       Units: "W"
+      Notes: "The rate of energy used by the chiller at the given operating point."
       RMD Test: "Primary"
       AppG Used By TCDs: True
       AppG P_RMD Equals U_RMD: True
@@ -10633,7 +10641,7 @@ ServiceWaterHeatingDistributionSystem:
     entering_water_mains_temperature_schedule:
       Description: "ID of the Schedule containing the temperature for unheated entering water to the building site often referenced as mains temperature"
       Data Type: "Reference"
-      Notes: "Constraint to use when implemented ::"
+      Notes: "Constraint to use when implemented :Schedule:"
       RMD Test: "unknown"
       AppG Used By TCDs: "unknown"
       AppG P_RMD Equals U_RMD: "unknown"
@@ -11261,9 +11269,10 @@ ServiceWaterHeatingEquipment:
       EPout Column: ""
       EPstatus: "NotStarted"
       EP Notes: ""
-    output_validation_points:
-      Description: "Capacity validation points"
-      Data Type: "[{ServiceWaterHeaterValidationPoint}]"
+    operating_points:
+      Description: "Operating points"
+      Data Type: "[{ServiceWaterHeaterOperatingPoint}]"
+      Notes: "Used to confirm the proper operation at various conditions which is based on the nominal value and performance curves, performance maps, or other adjustment mechanism. The power should be directly related to the load. A minimum number of four points is recommended. The ruleset checking specification would normally provide a list operating points that should match what is provided by the simulation."
       RMD Test: "unknown"
       AppG Used By TCDs: "unknown"
       AppG P_RMD Equals U_RMD: "unknown"
@@ -11445,9 +11454,10 @@ ServiceWaterHeatingEquipment:
       EPout Column: ""
       EPstatus: "NotRequired"
       EP Notes: ""
-    compressor_capacity_validation_points:
-      Description: "Capacity validation points"
-      Data Type: "[{HeatPumpWaterHeaterCapacityValidationPoint}]"
+    compressor_capacity_operating_points:
+      Description: "Compressor capacity operating points"
+      Data Type: "[{HeatPumpWaterHeaterCapacityOperatingPoint}]"
+      Notes: "Used to confirm the proper operation at various conditions which is based on the nominal value and performance curves, performance maps, or other adjustment mechanism. The capacity should be directly related to the evaporator_air_temperature, condenser_water_temperature, evaporator_air_flow, and condenser_water_flow. A minimum number of 64 points is recommended but fewer may be adequate to confirm proper operation especially if the temperatures and flows are not repeated. The ruleset checking specification would normally provide a list of operating points that should match what is provided by the simulation."
       RMD Test: "unknown"
       AppG Used By TCDs: "unknown"
       AppG P_RMD Equals U_RMD: "unknown"
@@ -11462,9 +11472,10 @@ ServiceWaterHeatingEquipment:
       EPout Column: ""
       EPstatus: "NotRequired"
       EP Notes: ""
-    compressor_power_validation_points:
-      Description: "Coefficient of performance validation points"
-      Data Type: "[{HeatPumpWaterHeaterPowerValidationPoint}]"
+    compressor_power_operating_points:
+      Description: "Compressor power operating points"
+      Data Type: "[{HeatPumpWaterHeaterPowerOperatingPoint}]"
+      Notes: "Used to confirm the proper operation at various conditions which is based on the nominal value and performance curves, performance maps, or other adjustment mechanism. The power should be directly related to the chilled water evaporator_air_temperature, condenser_water_temperature, evaporator_air_flow, condenser_water_flow, and load on the heat pump water heater. A minimum number of 64 points is recommended but fewer may be adequate to confirm proper operation especially if the temperatures and flows are not repeated. The ruleset checking specification would normally provide a list of operating points that should match what is provided by the simulation."
       RMD Test: "unknown"
       AppG Used By TCDs: "unknown"
       AppG P_RMD Equals U_RMD: "unknown"
@@ -11650,7 +11661,7 @@ DrawPatternOptions:
     OTHER:
       Description: "Other"
 
-ServiceWaterHeaterValidationPoint:
+ServiceWaterHeaterOperatingPoint:
   Object Type: "Data Group"
   Data Elements:
     load:
@@ -11672,10 +11683,11 @@ ServiceWaterHeaterValidationPoint:
       EPout Column: ""
       EPstatus: "NotRequired"
       EP Notes: ""
-    result:
-      Description: "Result"
+    power:
+      Description: "power"
       Data Type: "Numeric"
       Units: "W"
+      Notes: "The rate of energy used per unit time by the service water heating at the given load."
       RMD Test: "unknown"
       AppG Used By TCDs: "unknown"
       AppG P_RMD Equals U_RMD: "unknown"
@@ -11691,7 +11703,7 @@ ServiceWaterHeaterValidationPoint:
       EPstatus: "NotRequired"
       EP Notes: ""
 
-HeatPumpWaterHeaterCapacityValidationPoint:
+HeatPumpWaterHeaterCapacityOperatingPoint:
   Object Type: "Data Group"
   Data Elements:
     evaporator_air_temperature:
@@ -11767,10 +11779,11 @@ HeatPumpWaterHeaterCapacityValidationPoint:
       EPout Column: ""
       EPstatus: "NotRequired"
       EP Notes: ""
-    result:
+    capacity:
       Description: "Result"
       Data Type: "Numeric"
       Units: "W"
+      Notes: "The capacity available by the heat pump water heater at the given operating point."
       RMD Test: "unknown"
       AppG Used By TCDs: "unknown"
       AppG P_RMD Equals U_RMD: "unknown"
@@ -11786,7 +11799,7 @@ HeatPumpWaterHeaterCapacityValidationPoint:
       EPstatus: "NotRequired"
       EP Notes: ""
 
-HeatPumpWaterHeaterPowerValidationPoint:
+HeatPumpWaterHeaterPowerOperatingPoint:
   Object Type: "Data Group"
   Data Elements:
     evaporator_air_temperature:
@@ -11880,10 +11893,11 @@ HeatPumpWaterHeaterPowerValidationPoint:
       EPout Column: ""
       EPstatus: "NotRequired"
       EP Notes: ""
-    result:
+    power:
       Description: "Result"
       Data Type: "Numeric"
       Units: "W"
+      Notes: "The rate of energy used by the heat pump water heater at the given operating point."
       RMD Test: "unknown"
       AppG Used By TCDs: "unknown"
       AppG P_RMD Equals U_RMD: "unknown"
@@ -12392,7 +12406,10 @@ EnergySourceOptions:
       Description: "Fuel oil"
     STEAM:
       Description: "Steam" 
-      Notes: "Only applicable for absorption chillers"
+      Notes: "Applicable for absorption chillers"
+    HOT_WATER:
+      Description: "Hot water" 
+      Notes: "Applicable for absorption chillers"
     NONE:
       Description: "None"
       Notes: "No energy consumption by a utility supplied source occurs"

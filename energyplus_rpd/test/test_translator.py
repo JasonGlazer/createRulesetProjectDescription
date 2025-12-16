@@ -364,7 +364,7 @@ class TestTranslator(TestCase):
 
         self.assertEqual(gathered_infiltration, expected)
 
-    def test_get_construction_and_materials(self):
+    def test_add_constructions(self):
         t = self.set_minimal_files()
         t.epjson_object['Construction'] = {
             'nonres_ext_wall':
@@ -373,6 +373,21 @@ class TestTranslator(TestCase):
                  'layer_4': 'G01 16mm gypsum board',
                  'outside_layer': 'F07 25mm stucco'},
         }
+        expected = [
+            {'id': 'NONRES_EXT_WALL',
+             'primary_layers':
+                 ['F07 25mm stucco',
+                  'G01 16mm gypsum board',
+                  'Nonres_Exterior_Wall_Insulation',
+                  'G01 16mm gypsum board']
+             }
+        ]
+
+        gotten_construction = t.add_constructions()
+        self.assertEqual(gotten_construction, expected)
+
+    def test_add_materials(self):
+        t = self.set_minimal_files()
         t.epjson_object['Material'] = {
             'F07 25mm stucco': {'conductivity': 0.72,
                                 'density': 1856,
@@ -399,33 +414,22 @@ class TestTranslator(TestCase):
                                                 }
 
         }
-        expected = {
-            'NONRES_EXT_WALL':
-                {'id': 'nonres_ext_wall',
-                 'primary_layers':
-                     [
-                         {'id': 'F07 25mm stucco',
-                          'thickness': 0.0254,
-                          'thermal_conductivity': 0.72,
-                          'density': 1856,
-                          'specific_heat': 840},
-                         {'id': 'G01 16mm gypsum board',
-                          'thickness': 0.0159,
-                          'thermal_conductivity': 0.16,
-                          'density': 800,
-                          'specific_heat': 1090},
-                         {'id': 'Nonres_Exterior_Wall_Insulation',
-                          'r_value': 3.06941962105791},
-                         {'id': 'G01 16mm gypsum board',
-                          'thickness': 0.0159,
-                          'thermal_conductivity': 0.16,
-                          'density': 800,
-                          'specific_heat': 1090}
-                     ]
-                 }
-        }
-        gotten_construction = t.get_constructions_and_materials()
-        self.assertEqual(gotten_construction, expected)
+        expected = [
+            {'id': 'F07 25mm stucco',
+             'thickness': 0.0254,
+             'thermal_conductivity': 0.72,
+             'density': 1856,
+             'specific_heat': 840},
+            {'id': 'G01 16mm gypsum board',
+             'thickness': 0.0159,
+             'thermal_conductivity': 0.16,
+             'density': 800,
+             'specific_heat': 1090},
+            {'id': 'Nonres_Exterior_Wall_Insulation',
+             'r_value': 3.06941962105791}
+        ]
+        gotten_material = t.add_materials()
+        self.assertEqual(gotten_material, expected)
 
     def test_gather_subsurface(self):
         t = self.set_minimal_files()
@@ -645,6 +649,7 @@ class TestTranslator(TestCase):
                 'azimuth': 270.0,
                 'adjacent_to': 'EXTERIOR',
                 'does_cast_shade': True,
+                'construction': 'NONRES_EXT_WALL'
             }
         }
 
@@ -1154,8 +1159,7 @@ class TestTranslator(TestCase):
 
         added_calendar = t.add_calendar()
 
-        expected = {'notes': 'name environment: RUNPERIOD 1', 'day_of_week_for_january_1': 'SUNDAY',
-                    'is_leap_year': False, 'has_daylight_saving_time': True}
+        expected = {'notes': 'name environment: RUNPERIOD 1', 'day_of_week_for_january_1': 'SUNDAY'}
 
         self.assertEqual(added_calendar, expected)
 
