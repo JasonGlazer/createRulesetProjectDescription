@@ -260,28 +260,26 @@ class Translator:
         return boundary_by_surface
 
     def add_materials(self):
-        materials_in = {}
+        materials = []
         if 'Material' in self.epjson_object:
             materials_in = self.epjson_object['Material']
-        materials_no_mass_in = {}
+            for material_name, material_dict in materials_in.items():
+                material = {
+                    'id': material_name,
+                    'thickness': material_dict['thickness'],
+                    'thermal_conductivity': material_dict['conductivity'],
+                    'density': material_dict['density'],
+                    'specific_heat': material_dict['specific_heat']
+                }
+                materials.append(material)
         if 'Material:NoMass' in self.epjson_object:
             materials_no_mass_in = self.epjson_object['Material:NoMass']
-        materials = []
-        for material_name, material_dict in materials_in.items():
-            material = {
-                'id': material_name,
-                'thickness': material_dict['thickness'],
-                'thermal_conductivity': material_dict['conductivity'],
-                'density': material_dict['density'],
-                'specific_heat': material_dict['specific_heat']
-            }
-            materials.append(material)
-        for material_name, material_dict in materials_no_mass_in.items():
-            material = {
-                'id': material_name,
-                'r_value': material_dict['thermal_resistance']
-            }
-            materials.append(material)
+            for material_name, material_dict in materials_no_mass_in.items():
+                material = {
+                    'id': material_name,
+                    'r_value': material_dict['thermal_resistance']
+                }
+                materials.append(material)
         self.model_description['materials'] = materials
         return materials
 
@@ -290,17 +288,17 @@ class Translator:
         u_by_construction = self.gather_ufactor_by_construction()
         if 'Construction' in self.epjson_object:
             constructions_in = self.epjson_object['Construction']
-        for construction_name, layer_dict in constructions_in.items():
-            # fix the order of the dictionary because the use of 'outside_layer' messes it up
-            if 'outside_layer' in layer_dict and 'layer_1' not in layer_dict:
-                layer_dict['layer_1'] = layer_dict.pop('outside_layer')
-            sorted_layer_dict = dict(sorted(layer_dict.items()))
-            construction = {'id': construction_name.upper(),
-                            'primary_layers': list(sorted_layer_dict.values())
-                            }
-            if construction_name.upper() in u_by_construction:
-                construction['u_factor'] = u_by_construction[construction_name.upper()]
-            constructions.append(construction)
+            for construction_name, layer_dict in constructions_in.items():
+                # fix the order of the dictionary because the use of 'outside_layer' messes it up
+                if 'outside_layer' in layer_dict and 'layer_1' not in layer_dict:
+                    layer_dict['layer_1'] = layer_dict.pop('outside_layer')
+                sorted_layer_dict = dict(sorted(layer_dict.items()))
+                construction = {'id': construction_name.upper(),
+                                'primary_layers': list(sorted_layer_dict.values())
+                                }
+                if construction_name.upper() in u_by_construction:
+                    construction['u_factor'] = u_by_construction[construction_name.upper()]
+                constructions.append(construction)
         self.model_description['constructions'] = constructions
         return constructions
 
