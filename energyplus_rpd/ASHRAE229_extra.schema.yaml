@@ -603,13 +603,13 @@ RulesetModelDescription:
       AppG B_RMD Equals P_RMD: "unknown"
       AppG B_RMDs Same: False
       Used by RCT Test: "unknown"
-      EPin Object: ""
+      EPin Object: "Material, Material:NoMass"
       EPin Field: ""
       EPout File: ""
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingInput"
       EP Notes: ""
     constructions:
       Description: "Constructions used at the site"
@@ -621,13 +621,13 @@ RulesetModelDescription:
       AppG B_RMD Equals P_RMD: False
       AppG B_RMDs Same: True
       Used by RCT Test: "unknown"
-      EPin Object: ""
+      EPin Object: "Construction"
       EPin Field: ""
       EPout File: ""
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingInput"
       EP Notes: ""
     measured_infiltration_pressure_difference:
       Description: "Differential pressure difference used during measurement for infiltration values."
@@ -2589,7 +2589,7 @@ Surface:
       EPout Report: "Envelope Summary"
       EPout Table: "Opaque Exterior"
       EPout Column: "Construction"
-      EPstatus: "DoneUsingConstant"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Also accessible in EIO file"
     optical_properties:
       Description: "Optical properties of the surface."

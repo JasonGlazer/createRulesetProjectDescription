@@ -1,6 +1,5 @@
 from pathlib import Path
 from typing import Dict
-from copy import deepcopy
 from datetime import datetime
 from datetime import timezone
 
@@ -260,48 +259,60 @@ class Translator:
                     boundary_by_surface[surface_name.upper()] = fields['outside_boundary_condition'].upper()
         return boundary_by_surface
 
-    def get_constructions_and_materials(self):
-        constructions_in = {}
-        if 'Construction' in self.epjson_object:
-            constructions_in = self.epjson_object['Construction']
-        if 'Construction:FfactorGroundFloor' in self.epjson_object:
-            constructions_in.update(self.epjson_object['Construction:FfactorGroundFloor'])
+    def add_materials(self):
         materials_in = {}
         if 'Material' in self.epjson_object:
             materials_in = self.epjson_object['Material']
         materials_no_mass_in = {}
         if 'Material:NoMass' in self.epjson_object:
             materials_no_mass_in = self.epjson_object['Material:NoMass']
-        constructions = {}
+        materials = []
+        for material_name, material_dict in materials_in.items():
+            material = {
+                'id': material_name,
+                'thickness': material_dict['thickness'],
+                'thermal_conductivity': material_dict['conductivity'],
+                'density': material_dict['density'],
+                'specific_heat': material_dict['specific_heat']
+            }
+            materials.append(material)
+        for material_name, material_dict in materials_no_mass_in.items():
+            material = {
+                'id': material_name,
+                'r_value': material_dict['thermal_resistance']
+            }
+            materials.append(material)
+        self.model_description['materials'] = materials
+        return materials
+
+    def add_constructions(self):
+        constructions = []
+        u_by_construction = self.gather_ufactor_by_construction()
+        if 'Construction' in self.epjson_object:
+            constructions_in = self.epjson_object['Construction']
         for construction_name, layer_dict in constructions_in.items():
-            materials = []
             # fix the order of the dictionary because the use of 'outside_layer' messes it up
             if 'outside_layer' in layer_dict and 'layer_1' not in layer_dict:
                 layer_dict['layer_1'] = layer_dict.pop('outside_layer')
             sorted_layer_dict = dict(sorted(layer_dict.items()))
-            for layer_name, material_name in sorted_layer_dict.items():
-                if material_name in materials_in:
-                    material_in = materials_in[material_name]
-                    material = {
-                        'id': material_name,
-                        'thickness': material_in['thickness'],
-                        'thermal_conductivity': material_in['conductivity'],
-                        'density': material_in['density'],
-                        'specific_heat': material_in['specific_heat']
-                    }
-                    materials.append(deepcopy(material))
-                elif material_name in materials_no_mass_in:
-                    material_no_mass_in = materials_no_mass_in[material_name]
-                    material = {
-                        'id': material_name,
-                        'r_value': material_no_mass_in['thermal_resistance']
-                    }
-                    materials.append(deepcopy(material))
-            construction = {'id': construction_name,
-                            'primary_layers': materials
+            construction = {'id': construction_name.upper(),
+                            'primary_layers': list(sorted_layer_dict.values())
                             }
-            constructions[construction_name.upper()] = deepcopy(construction)
+            if construction_name.upper() in u_by_construction:
+                construction['u_factor'] = u_by_construction[construction_name.upper()]
+            constructions.append(construction)
+        self.model_description['constructions'] = constructions
         return constructions
+
+    def gather_ufactor_by_construction(self):
+        u_by_construction = {}
+        for table_name in ['Opaque Exterior', 'Opaque Interior']:
+            opaque_table = self.get_table_dictionary("EnvelopeSummary", table_name)
+            for row in opaque_table.values():
+                if row['Construction'] not in u_by_construction:
+                    if is_float(row['U-Factor with Film [W/m2-K]']):
+                        u_by_construction[row['Construction']] = float(row['U-Factor with Film [W/m2-K]'])
+        return u_by_construction
 
     def gather_surface_optical(self):
         optical_by_construction = {}
@@ -899,13 +910,11 @@ class Translator:
     def gather_surfaces(self):
         tabular_reports = self.json_results_object['TabularReports']
         surfaces = {}  # dictionary by zone name containing the surface data elements
-        constructions = self.get_constructions_and_materials()
         subsurface_by_surface = self.gather_subsurface()
         do_surfaces_cast_shadows = self.are_shadows_cast_from_surfaces()
         adjacent_surfaces = self.get_adjacent_surface_for_each_surface()
         outside_boundary_conditions = self.get_outside_boundary_condition_for_each_surface()
         optical_by_construction = self.gather_surface_optical()
-        # print(constructions)
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'EnvelopeSummary':
                 tables = tabular_report['Tables']
@@ -919,7 +928,6 @@ class Translator:
                         gross_area_column = cols.index('Gross Area [m2]')
                         azimuth_column = cols.index('Azimuth [deg]')
                         tilt_column = cols.index('Tilt [deg]')
-                        u_factor_with_film_column = cols.index('U-Factor with Film [W/m2-K]')
                         for surface_name in surface_names:
                             if surface_name == 'None':
                                 continue
@@ -927,10 +935,6 @@ class Translator:
                             gross_area = float(rows[surface_name][gross_area_column])
                             azimuth = float(rows[surface_name][azimuth_column])
                             tilt = float(rows[surface_name][tilt_column])
-                            u_factor_with_film_string = rows[surface_name][u_factor_with_film_column]
-                            u_factor_with_film = 0
-                            if u_factor_with_film_string:
-                                u_factor_with_film = float(u_factor_with_film_string)
                             if tilt > 120:
                                 surface_classification = 'FLOOR'
                             elif tilt >= 60:
@@ -952,7 +956,8 @@ class Translator:
                                 'tilt': tilt,
                                 'azimuth': azimuth,
                                 'adjacent_to': adjacent_to,
-                                'does_cast_shade': do_surfaces_cast_shadows
+                                'does_cast_shade': do_surfaces_cast_shadows,
+                                'construction': construction_name
                             }
                             if not is_exterior:
                                 if surface_name in adjacent_surfaces:
@@ -962,10 +967,6 @@ class Translator:
                             if surface_name in subsurface_by_surface:
                                 surface['subsurfaces'] = subsurface_by_surface[surface_name]
                             surfaces[surface_name] = surface
-                            if construction_name in constructions:
-                                surface['construction'] = deepcopy(constructions[construction_name])
-                                if u_factor_with_film_string:
-                                    surface['construction']['u_factor'] = u_factor_with_film
                             if construction_name in optical_by_construction:
                                 surface['optical_properties'] = optical_by_construction[construction_name]
         # print(surfaces)
@@ -2248,6 +2249,8 @@ class Translator:
         self.create_skeleton()
         self.add_weather()
         self.add_calendar()
+        self.add_materials()
+        self.add_constructions()
         self.surfaces_by_zone = self.get_zone_for_each_surface()
         self.gather_coil_connections()
         self.add_heating_ventilation_system()
