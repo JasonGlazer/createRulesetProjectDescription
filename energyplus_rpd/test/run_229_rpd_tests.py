@@ -15,12 +15,14 @@ is correct. If mapping is incorrect, that may be an indication that the associat
 being generated correctly or that the mapping logic needs to be improved for a scenario that was not accounted for.
 """
 
-def validate_rpd_no_exit(rpd_file, version="0.1.7"):
+
+def validate_rpd_no_exit(rpd_file, version):
     try:
         validate_rpd(rpd_file, version)
     except SystemExit as e:
         if e.code != 0:
-            raise RuntimeError(f"Validation: FAILED")
+            raise RuntimeError("Validation: FAILED")
+
 
 if __name__ == "__main__":
     from pathlib import Path
