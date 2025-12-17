@@ -465,8 +465,9 @@ class Translator:
         weather = {
             'file_name': weather_file,
             'data_source_type': 'OTHER',
-            'climate_zone': climate_zone
         }
+        if climate_zone:
+            weather['climate_zone'] = climate_zone
         if cooling_design_day_option:
             weather['cooling_dry_bulb_design_day_type'] = cooling_design_day_option
         if heating_design_day_option:
