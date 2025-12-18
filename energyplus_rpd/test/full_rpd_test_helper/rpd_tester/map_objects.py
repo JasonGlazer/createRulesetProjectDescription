@@ -1,4 +1,5 @@
 from energyplus_rpd.test.full_rpd_test_helper.rpd_tester.utils import (
+    find_one,
     find_all,
     find_all_with_filters,
     find_all_with_field_value,
@@ -45,6 +46,15 @@ def get_mapping(
             generated_zone_id,
             reference_zone_id,
             ["area", "azimuth"],
+        )
+
+    elif match_type == "Subsurfaces":
+        mapping = match_by_attributes(
+            generated_values,
+            reference_values,
+            generated_zone_id,
+            reference_zone_id,
+            ["area", "azimuth", "classification"],
         )
 
     elif match_type == "HVAC Systems":
@@ -220,6 +230,7 @@ def define_surface_map(generated_zone, reference_zone, generated_json, reference
     generated_zone_id = generated_zone["id"]
     reference_zone_id = reference_zone["id"]
     surface_map = {}
+    errors = []
 
     surface_types = [
         ("Exterior Wall", {"classification": "WALL", "adjacent_to": "EXTERIOR"}),
@@ -255,17 +266,18 @@ def define_surface_map(generated_zone, reference_zone, generated_json, reference
                 )
             )
 
-        local_surface_map = define_local_surface_map(
+        local_surface_map, local_surface_map_errors = define_local_surface_map(
             generated_zone_id,
             reference_zone_id,
             surface_type,
             generated_surfaces,
             reference_surfaces,
-        )[0]
+        )
 
         surface_map.update(local_surface_map)
+        errors.extend(local_surface_map_errors)
 
-    return surface_map
+    return surface_map, errors
 
 
 def define_local_surface_map(
@@ -298,6 +310,37 @@ def define_local_surface_map(
             reference_zone_id=reference_zone_id,
         )
         return local_surface_map, errors
+
+
+def define_local_subsurface_map(surface_map, generated_json, reference_json):
+    errors = []
+    subsurface_map = {}
+
+    for generated_surface_id, reference_surface_id in surface_map.items():
+        generated_surface = find_one(
+            f"...surfaces[?(@.id=='{generated_surface_id}')]",
+            generated_json,
+        )
+        reference_surface = find_one(
+            f"...surfaces[?(@.id=='{reference_surface_id}')]",
+            reference_json,
+        )
+
+        generated_subsurfaces = find_all("$.subsurfaces[*]", generated_surface)
+        reference_subsurfaces = find_all("$.subsurfaces[*]", reference_surface)
+
+        if len(generated_subsurfaces) != len(reference_subsurfaces):
+            errors.append(...)
+            continue
+
+        if len(generated_subsurfaces) == 1:
+            subsurface_map[generated_subsurfaces[0]["id"]] = reference_subsurfaces[0]["id"]
+        else:
+            subsurface_map.update(
+                get_mapping("Subsurfaces", generated_subsurfaces, reference_subsurfaces)
+            )
+
+    return subsurface_map, errors
 
 
 def define_hvac_map(generated_json, reference_json, object_id_map):
@@ -597,10 +640,17 @@ def map_objects(generated_json, reference_json):
         reference_zone = reference_zones[reference_zone_ids.index(reference_zone_id)]
 
         # Define maps for surfaces
-        surface_map = define_surface_map(
+        surface_map, surface_map_errors = define_surface_map(
             generated_zone, reference_zone, generated_json, reference_json
         )
         object_id_map.update(surface_map)
+        errors.extend(surface_map_errors)
+
+        subsurface_map, subsurface_map_errors = define_local_subsurface_map(
+            surface_map, generated_json, reference_json
+        )
+        object_id_map.update(subsurface_map)
+        errors.extend(subsurface_map_errors)
 
         # Define maps for terminals
         terminal_map, terminal_map_errors = define_terminal_map(
@@ -767,23 +817,23 @@ def match_sys_by_zones_served(generated_values, reference_values, object_id_map)
 
     # Create a dictionary to map sets of reference zones served to their corresponding HVAC IDs
     reference_zones_map = {
-        frozenset(data["zone_list"]): ref_hvac_id
+        frozenset(zone for zone in data["zone_list"]): ref_hvac_id
         for ref_hvac_id, data in reference_values.items()
     }
 
-    # Match generated HVAC systems by looking up the set of corresponding reference zones
-    for generated_hvac_id, data in generated_values.items():
-        generated_hvac_zones_served = data["zone_list"]
+    for gen_hvac_id, gen_data in generated_values.items():
+        generated_zones = gen_data["zone_list"]
+
         corresponding_reference_zones = [
-            object_id_map.get(zone_id) for zone_id in generated_hvac_zones_served
+            object_id_map.get(zone) for zone in generated_zones
         ]
 
-        corresponding_reference_zones_set = frozenset(corresponding_reference_zones)
+        if None in corresponding_reference_zones:
+            continue
 
-        if corresponding_reference_zones_set in reference_zones_map:
-            mapping[generated_hvac_id] = reference_zones_map[
-                corresponding_reference_zones_set
-            ]
+        key = frozenset(corresponding_reference_zones)
+        if key in reference_zones_map:
+            mapping[gen_hvac_id] = reference_zones_map[key]
 
     return mapping
 
