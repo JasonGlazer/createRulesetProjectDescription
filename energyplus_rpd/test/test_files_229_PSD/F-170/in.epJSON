@@ -2042,7 +2042,7 @@
             "air_inlet_node_name": "Node 40",
             "air_outlet_node_name": "Node 43",
             "availability_schedule_name": "Always On Discrete hvac_library",
-            "design_electric_power_consumption": 6,
+            "design_electric_power_consumption": 600,
             "design_maximum_air_flow_rate": 0.9438948864,
             "design_power_sizing_method": "TotalEfficiencyAndPressure",
             "design_pressure_rise": 250,
