@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2025-12-23T16:50Z",
+    "time_of_creation": "2025-12-23T17:47Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -759,6 +759,7 @@
       "weather": {
         "file_name": "Denver Intl AP CO USA TMY3 WMO#=725650",
         "data_source_type": "OTHER",
+        "climate_zone": "CZ5B",
         "cooling_dry_bulb_design_day_type": "COOLING_1_0",
         "heating_dry_bulb_design_day_type": "HEATING_99_0",
         "ground_temperature_schedule": "schedule_of_ground_temperatures"
