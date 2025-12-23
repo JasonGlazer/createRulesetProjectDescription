@@ -6712,7 +6712,7 @@ Fan:SystemModel,
   250,                                    !- Design Pressure Rise {Pa}
   0.9,                                    !- Motor Efficiency
   1,                                      !- Motor In Air Stream Fraction
-  600,                                      !- Design Electric Power Consumption {W}
+  6,                                      !- Design Electric Power Consumption {W}
   TotalEfficiencyAndPressure,             !- Design Power Sizing Method
   840,                                    !- Electric Power Per Unit Flow Rate {W/(m3/s)}
   1.66667,                                !- Electric Power Per Unit Flow Rate Per Unit Pressure {W/((m3/s)-Pa)}
