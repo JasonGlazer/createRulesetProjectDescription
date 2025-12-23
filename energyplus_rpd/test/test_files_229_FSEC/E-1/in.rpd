@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2025-12-23T21:32Z",
+    "time_of_creation": "2025-12-23T21:39Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -18952,7 +18952,8 @@
             23.900000000000002,
             23.900000000000002,
             23.900000000000002
-          ]
+          ],
+          "type": "TEMPERATURE"
         },
         {
           "id": "ASHRAE 229 OFFICE HTGSETP",
@@ -27770,7 +27771,8 @@
             21.099999999999998,
             21.099999999999998,
             21.099999999999998
-          ]
+          ],
+          "type": "TEMPERATURE"
         },
         {
           "id": "ASHRAE 229 OFFICE INFIL SCH",
@@ -36588,7 +36590,8 @@
             1.0,
             1.0,
             1.0
-          ]
+          ],
+          "type": "MULTIPLIER_DIMENSIONLESS"
         },
         {
           "id": "ASHRAE 229 OFFICE PLUG LOAD SCH",
@@ -45406,7 +45409,8 @@
             1.0,
             1.0,
             1.0
-          ]
+          ],
+          "type": "MULTIPLIER_DIMENSIONLESS"
         },
         {
           "id": "schedule_of_ground_temperatures",

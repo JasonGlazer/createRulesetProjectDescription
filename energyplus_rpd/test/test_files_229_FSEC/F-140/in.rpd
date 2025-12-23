@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2025-12-23T21:32Z",
+    "time_of_creation": "2025-12-23T21:39Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -1191,7 +1191,7 @@
           {
             "id": "source_results_ELECTRICITY",
             "energy_source": "ELECTRICITY",
-            "annual_consumption": 530.72,
+            "annual_consumption": 530.71,
             "annual_demand": 67234.4,
             "annual_cost": -1.0
           }
@@ -1202,7 +1202,7 @@
             "id": "end_use_ELECTRICITY-Cooling",
             "type": "SPACE_COOLING",
             "energy_source": "ELECTRICITY",
-            "annual_site_energy_use": 51.85,
+            "annual_site_energy_use": 51.84,
             "annual_site_coincident_demand": 0.0,
             "annual_site_non_coincident_demand": 19855.07,
             "is_regulated": true
@@ -1211,9 +1211,9 @@
             "id": "end_use_ELECTRICITY-Fans",
             "type": "FANS_INTERIOR_VENTILATION",
             "energy_source": "ELECTRICITY",
-            "annual_site_energy_use": 50.34,
+            "annual_site_energy_use": 50.33,
             "annual_site_coincident_demand": 5611.69,
-            "annual_site_non_coincident_demand": 6100.35,
+            "annual_site_non_coincident_demand": 6100.15,
             "is_regulated": true
           },
           {
@@ -10012,7 +10012,8 @@
             1.0
           ],
           "hourly_heating_design_day": [],
-          "hourly_cooling_design_day": []
+          "hourly_cooling_design_day": [],
+          "type": "MULTIPLIER_DIMENSIONLESS"
         },
         {
           "id": "COOLING THEMOSTAT SETPOINT",
@@ -18780,7 +18781,8 @@
             26.1005320116101
           ],
           "hourly_heating_design_day": [],
-          "hourly_cooling_design_day": []
+          "hourly_cooling_design_day": [],
+          "type": "TEMPERATURE"
         },
         {
           "id": "HEATING THERMOSTAT SETPOINT",
@@ -27548,7 +27550,8 @@
             15.6
           ],
           "hourly_heating_design_day": [],
-          "hourly_cooling_design_day": []
+          "hourly_cooling_design_day": [],
+          "type": "TEMPERATURE"
         },
         {
           "id": "CORE_SPACE_ELEC_EQUIP_SCH",

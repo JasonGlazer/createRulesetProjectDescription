@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2025-12-23T21:33Z",
+    "time_of_creation": "2025-12-23T21:40Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -34,10 +34,10 @@
                   "cooling_system": {
                     "id": "DOAS_AIRLOOP-cooling",
                     "design_total_cool_capacity": 41036.121,
-                    "design_sensible_cool_capacity": 29867.602,
+                    "design_sensible_cool_capacity": 29890.719,
                     "type": "DIRECT_EXPANSION",
                     "rated_total_cool_capacity": 41154.81,
-                    "rated_sensible_cool_capacity": 27527.12,
+                    "rated_sensible_cool_capacity": 27549.52,
                     "oversizing_factor": 1.039033814834977,
                     "is_calculated_size": true,
                     "efficiency_metric_values": [
@@ -1143,15 +1143,15 @@
         {
           "id": "1 SPD COOLING TOWER",
           "loop": "WLHP LOOP",
-          "range": 0.0,
+          "range": 3.9,
           "fan": {
             "id": "1 SPD COOLING TOWER_fan",
             "motor_nameplate_power": 809.82
           },
           "design_wetbulb_temperature": 25.0,
-          "design_water_flowrate": 0.0,
+          "design_water_flowrate": 4.732,
           "leaving_water_setpoint_temperature": 28.9,
-          "approach": 0.0,
+          "approach": 3.9,
           "type": "OPEN_CIRCUIT_COOLING_TOWER",
           "fluid": "WATER",
           "fan_speed_control": "CONSTANT"
@@ -1191,24 +1191,24 @@
       ],
       "model_output": {
         "id": "output_instance_1",
-        "unmet_load_hours": 584.25,
+        "unmet_load_hours": 607.5,
         "unmet_load_hours_heating": 88.5,
         "unmet_occupied_load_hours_heating": 88.5,
-        "unmet_load_hours_cooling": 495.75,
-        "unmet_occupied_load_hours_cooling": 495.75,
+        "unmet_load_hours_cooling": 519.0,
+        "unmet_occupied_load_hours_cooling": 519.0,
         "annual_source_results": [
           {
             "id": "source_results_ELECTRICITY",
             "energy_source": "ELECTRICITY",
-            "annual_consumption": 481.79,
-            "annual_demand": 48837.93,
+            "annual_consumption": 486.89,
+            "annual_demand": 49398.03,
             "annual_cost": -1.0
           },
           {
             "id": "source_results_NATURAL_GAS",
             "energy_source": "NATURAL_GAS",
-            "annual_consumption": 155.51,
-            "annual_demand": 49279.92,
+            "annual_consumption": 148.31,
+            "annual_demand": 48647.99,
             "annual_cost": -1.0
           }
         ],
@@ -1218,9 +1218,9 @@
             "id": "end_use_ELECTRICITY-Cooling",
             "type": "SPACE_COOLING",
             "energy_source": "ELECTRICITY",
-            "annual_site_energy_use": 65.13,
-            "annual_site_coincident_demand": 19631.25,
-            "annual_site_non_coincident_demand": 19631.25,
+            "annual_site_energy_use": 67.38,
+            "annual_site_coincident_demand": 19632.17,
+            "annual_site_non_coincident_demand": 19632.17,
             "is_regulated": true
           },
           {
@@ -1228,7 +1228,7 @@
             "type": "FANS_INTERIOR_VENTILATION",
             "energy_source": "ELECTRICITY",
             "annual_site_energy_use": 36.61,
-            "annual_site_coincident_demand": 2983.95,
+            "annual_site_coincident_demand": 2984.01,
             "annual_site_non_coincident_demand": 3020.08,
             "is_regulated": true
           },
@@ -1236,18 +1236,18 @@
             "id": "end_use_ELECTRICITY-Heat Rejection",
             "type": "HEAT_REJECTION",
             "energy_source": "ELECTRICITY",
-            "annual_site_energy_use": 0.29,
-            "annual_site_coincident_demand": 200.15,
-            "annual_site_non_coincident_demand": 279.29,
+            "annual_site_energy_use": 0.41,
+            "annual_site_coincident_demand": 203.22,
+            "annual_site_non_coincident_demand": 271.47,
             "is_regulated": true
           },
           {
             "id": "end_use_ELECTRICITY-Heating",
             "type": "SPACE_HEATING",
             "energy_source": "ELECTRICITY",
-            "annual_site_energy_use": 18.12,
+            "annual_site_energy_use": 17.88,
             "annual_site_coincident_demand": 0.0,
-            "annual_site_non_coincident_demand": 9545.74,
+            "annual_site_non_coincident_demand": 9545.73,
             "is_regulated": true
           },
           {
@@ -1272,25 +1272,25 @@
             "id": "end_use_ELECTRICITY-Pumps",
             "type": "PUMPS",
             "energy_source": "ELECTRICITY",
-            "annual_site_energy_use": 1.63,
-            "annual_site_coincident_demand": 306.14,
-            "annual_site_non_coincident_demand": 338.41,
+            "annual_site_energy_use": 4.6,
+            "annual_site_coincident_demand": 862.18,
+            "annual_site_non_coincident_demand": 956.28,
             "is_regulated": true
           },
           {
             "id": "end_use_NATURAL_GAS-Heating",
             "type": "SPACE_HEATING",
             "energy_source": "NATURAL_GAS",
-            "annual_site_energy_use": 155.51,
-            "annual_site_coincident_demand": 49279.92,
-            "annual_site_non_coincident_demand": 49279.92,
+            "annual_site_energy_use": 148.31,
+            "annual_site_coincident_demand": 48647.99,
+            "annual_site_non_coincident_demand": 48647.99,
             "is_regulated": true
           },
           {
             "id": "end_use_OTHER-Heat Rejection",
             "type": "HEAT_REJECTION",
             "energy_source": "OTHER",
-            "annual_site_energy_use": 15026.56,
+            "annual_site_energy_use": 14677.86,
             "annual_site_coincident_demand": 0.0,
             "annual_site_non_coincident_demand": -1.0,
             "is_regulated": true
@@ -10064,7 +10064,8 @@
             1.0
           ],
           "hourly_heating_design_day": [],
-          "hourly_cooling_design_day": []
+          "hourly_cooling_design_day": [],
+          "type": "MULTIPLIER_DIMENSIONLESS"
         },
         {
           "id": "COOLING THEMOSTAT SETPOINT",
@@ -18832,7 +18833,8 @@
             26.1005320116101
           ],
           "hourly_heating_design_day": [],
-          "hourly_cooling_design_day": []
+          "hourly_cooling_design_day": [],
+          "type": "TEMPERATURE"
         },
         {
           "id": "HEATING THERMOSTAT SETPOINT",
@@ -27600,7 +27602,8 @@
             15.6
           ],
           "hourly_heating_design_day": [],
-          "hourly_cooling_design_day": []
+          "hourly_cooling_design_day": [],
+          "type": "TEMPERATURE"
         },
         {
           "id": "CORE_SPACE_ELEC_EQUIP_SCH",

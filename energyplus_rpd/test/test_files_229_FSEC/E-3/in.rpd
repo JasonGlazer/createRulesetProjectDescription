@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2025-12-23T21:32Z",
+    "time_of_creation": "2025-12-23T21:39Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -34,10 +34,10 @@
                   "cooling_system": {
                     "id": "PVAV WITH REHEAT-cooling",
                     "design_total_cool_capacity": 87921.321,
-                    "design_sensible_cool_capacity": 70397.428,
+                    "design_sensible_cool_capacity": 70812.282,
                     "type": "DIRECT_EXPANSION",
                     "rated_total_cool_capacity": 88175.61,
-                    "rated_sensible_cool_capacity": 63867.9,
+                    "rated_sensible_cool_capacity": 64192.66,
                     "oversizing_factor": 1.0000000113738055,
                     "is_calculated_size": false,
                     "efficiency_metric_values": [
@@ -1118,14 +1118,14 @@
           {
             "id": "source_results_ELECTRICITY",
             "energy_source": "ELECTRICITY",
-            "annual_consumption": 673.91,
-            "annual_demand": 65378.92,
+            "annual_consumption": 673.63,
+            "annual_demand": 65378.56,
             "annual_cost": -1.0
           },
           {
             "id": "source_results_NATURAL_GAS",
             "energy_source": "NATURAL_GAS",
-            "annual_consumption": 162.56,
+            "annual_consumption": 163.92,
             "annual_demand": 51997.72,
             "annual_cost": -1.0
           }
@@ -1136,9 +1136,9 @@
             "id": "end_use_ELECTRICITY-Cooling",
             "type": "SPACE_COOLING",
             "energy_source": "ELECTRICITY",
-            "annual_site_energy_use": 39.78,
-            "annual_site_coincident_demand": 6094.3,
-            "annual_site_non_coincident_demand": 16077.9,
+            "annual_site_energy_use": 39.63,
+            "annual_site_coincident_demand": 6094.09,
+            "annual_site_non_coincident_demand": 16077.93,
             "is_regulated": true
           },
           {
@@ -1146,15 +1146,15 @@
             "type": "FANS_INTERIOR_VENTILATION",
             "energy_source": "ELECTRICITY",
             "annual_site_energy_use": 22.55,
-            "annual_site_coincident_demand": 2124.31,
-            "annual_site_non_coincident_demand": 5147.7,
+            "annual_site_coincident_demand": 2124.16,
+            "annual_site_non_coincident_demand": 5147.69,
             "is_regulated": true
           },
           {
             "id": "end_use_ELECTRICITY-Humidification",
             "type": "HUMIDIFICATION",
             "energy_source": "ELECTRICITY",
-            "annual_site_energy_use": 231.9,
+            "annual_site_energy_use": 231.78,
             "annual_site_coincident_demand": 28232.4,
             "annual_site_non_coincident_demand": -1.0,
             "is_regulated": true
@@ -1190,7 +1190,7 @@
             "id": "end_use_NATURAL_GAS-Heating",
             "type": "SPACE_HEATING",
             "energy_source": "NATURAL_GAS",
-            "annual_site_energy_use": 162.56,
+            "annual_site_energy_use": 163.92,
             "annual_site_coincident_demand": 51997.72,
             "annual_site_non_coincident_demand": 52880.81,
             "is_regulated": true
@@ -1199,7 +1199,7 @@
             "id": "end_use_OTHER-Humidification",
             "type": "HUMIDIFICATION",
             "energy_source": "OTHER",
-            "annual_site_energy_use": 89.44,
+            "annual_site_energy_use": 89.4,
             "annual_site_coincident_demand": 0.0,
             "annual_site_non_coincident_demand": -1.0,
             "is_regulated": true
@@ -18841,7 +18841,8 @@
             23.8888888888889,
             23.8888888888889,
             23.8888888888889
-          ]
+          ],
+          "type": "TEMPERATURE"
         },
         {
           "id": "ASHRAE 229 OFFICE HTGSETP",
@@ -27659,7 +27660,8 @@
             21.1111111111111,
             21.1111111111111,
             21.1111111111111
-          ]
+          ],
+          "type": "TEMPERATURE"
         },
         {
           "id": "ASHRAE 229 OFFICE INFIL SCH",
@@ -36477,7 +36479,8 @@
             1.0,
             1.0,
             1.0
-          ]
+          ],
+          "type": "MULTIPLIER_DIMENSIONLESS"
         },
         {
           "id": "ASHRAE 229 OFFICE PLUG LOAD SCH",
@@ -45295,7 +45298,8 @@
             1.0,
             1.0,
             1.0
-          ]
+          ],
+          "type": "MULTIPLIER_DIMENSIONLESS"
         },
         {
           "id": "schedule_of_ground_temperatures",

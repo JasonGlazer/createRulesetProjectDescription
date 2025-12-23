@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2025-12-23T21:32Z",
+    "time_of_creation": "2025-12-23T21:40Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -9865,7 +9865,8 @@
             1.0
           ],
           "hourly_heating_design_day": [],
-          "hourly_cooling_design_day": []
+          "hourly_cooling_design_day": [],
+          "type": "MULTIPLIER_DIMENSIONLESS"
         },
         {
           "id": "COOLING THEMOSTAT SETPOINT",
@@ -18633,7 +18634,8 @@
             26.1005320116101
           ],
           "hourly_heating_design_day": [],
-          "hourly_cooling_design_day": []
+          "hourly_cooling_design_day": [],
+          "type": "TEMPERATURE"
         },
         {
           "id": "HEATING THERMOSTAT SETPOINT",
@@ -27401,7 +27403,8 @@
             15.6
           ],
           "hourly_heating_design_day": [],
-          "hourly_cooling_design_day": []
+          "hourly_cooling_design_day": [],
+          "type": "TEMPERATURE"
         },
         {
           "id": "CORE_SPACE_ELEC_EQUIP_SCH",

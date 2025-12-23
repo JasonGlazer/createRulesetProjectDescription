@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2025-12-23T21:32Z",
+    "time_of_creation": "2025-12-23T21:39Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -1066,7 +1066,7 @@
           "rated_capacity": 87921.32,
           "rated_entering_condenser_temperature": 29.4,
           "rated_leaving_evaporator_temperature": 6.67,
-          "minimum_load_ratio": 0.0,
+          "minimum_load_ratio": 0.1,
           "design_flow_evaporator": -99988800.1,
           "design_flow_condenser": -95597.3,
           "design_entering_condenser_temperature": 29.4,
@@ -9952,7 +9952,8 @@
             1.0
           ],
           "hourly_heating_design_day": [],
-          "hourly_cooling_design_day": []
+          "hourly_cooling_design_day": [],
+          "type": "MULTIPLIER_DIMENSIONLESS"
         },
         {
           "id": "CORE_SPACE_ELEC_EQUIP_SCH",
