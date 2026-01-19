@@ -445,9 +445,10 @@ class Translator:
                 for table in tables:
                     if table['TableName'] == 'Weather Statistics File':
                         rows = table['Rows']
-                        climate_zone = rows['ASHRAE Climate Zone'][0]
-                        if climate_zone:
-                            climate_zone = 'CZ' + climate_zone
+                        if 'ASHRAE Climate Zone' in rows:
+                            climate_zone = rows['ASHRAE Climate Zone'][0]
+                            if climate_zone:
+                                climate_zone = 'CZ' + climate_zone
                     if table['TableName'] == 'SizingPeriod:DesignDay':
                         rows = table['Rows']
                         for design_day_names in rows.keys():
@@ -464,8 +465,9 @@ class Translator:
         weather = {
             'file_name': weather_file,
             'data_source_type': 'OTHER',
-            'climate_zone': climate_zone
         }
+        if climate_zone:
+            weather['climate_zone'] = climate_zone
         if cooling_design_day_option:
             weather['cooling_dry_bulb_design_day_type'] = cooling_design_day_option
         if heating_design_day_option:
@@ -640,8 +642,9 @@ class Translator:
         for zone_name, row in zone_vent_param_table.items():
             cooling_eff = row['Cooling Zone Air Distribution Effectiveness - Ez-clg']
             heating_eff = row['Cooling Zone Air Distribution Effectiveness - Ez-clg']
-            eff = min(float(cooling_eff), float(heating_eff))
-            effective_by_zone[zone_name] = eff
+            if is_float(cooling_eff) and is_float(heating_eff):
+                eff = min(float(cooling_eff), float(heating_eff))
+                effective_by_zone[zone_name] = eff
         return effective_by_zone
 
     def add_spaces(self):

@@ -16,6 +16,14 @@ being generated correctly or that the mapping logic needs to be improved for a s
 """
 
 
+def validate_rpd_no_exit(rpd_file, version):
+    try:
+        validate_rpd(rpd_file, version)
+    except SystemExit as e:
+        if e.code != 0:
+            raise RuntimeError("Validation: FAILED")
+
+
 if __name__ == "__main__":
     from pathlib import Path
     from rpdvalidator import validate_rpd
@@ -34,7 +42,7 @@ if __name__ == "__main__":
         generated_json_file = next(
             (f for f in test_case_dir.iterdir() if f.suffix == ".rpd"), None
         )
-        validate_rpd(generated_json_file, "0.1.7")
+        validate_rpd_no_exit(generated_json_file, "0.1.7")
 
     # If validation passes, perform automated comparisons between the generated RPD files and the expected RPD files
     run_comparison_for_all_tests(test_dir)
@@ -51,7 +59,7 @@ if __name__ == "__main__":
         generated_json_file = next(
             (f for f in test_case_dir.iterdir() if f.suffix == ".rpd"), None
         )
-        validate_rpd(generated_json_file, "0.1.7")
+        validate_rpd_no_exit(generated_json_file, "0.1.7")
 
     # If validation passes, perform automated comparisons between the generated RPD files and the expected RPD files
     run_comparison_for_all_tests(test_dir)
