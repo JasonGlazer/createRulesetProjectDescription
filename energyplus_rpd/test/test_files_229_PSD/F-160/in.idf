@@ -5115,7 +5115,9 @@
     TimeSeriesAndTabular,    !- Option Type
     Yes,                     !- Output JSON
     No,                      !- Output CBOR
-    No;                      !- Output MessagePack
+    No,                      !- Output MessagePack
+    None,                    !- Unit Conversion for Tabular Data
+    No;                      !- Format Numeric Values for Tabular Data
 
   Output:SQLite,
     SimpleAndTabular,        !- Option Type
@@ -5798,3 +5800,136 @@
 
   Output:Meter,DistrictCooling:Facility,Timestep;
 
+
+! Added reports
+
+Output:Table:Annual,
+    People Internal Gain Annual,  !- Name
+    ,                        !- Filter
+    ,                        !- Schedule Name
+    People Total Heating Energy,  !- Variable or Meter or EMS Variable or Field 1 Name
+    SumOrAverage,                 !- Aggregation Type for Variable or Meter 1
+    ,                        !- Digits After Decimal 1
+    People Occupant Count,  !- Variable or Meter or EMS Variable or Field 1 Name
+    SumOrAverage,                 !- Aggregation Type for Variable or Meter 1
+    ,                        !- Digits After Decimal 1
+    People Radiant Heating Energy,  !- Variable or Meter or EMS Variable or Field 2 Name
+    SumOrAverage,                 !- Aggregation Type for Variable or Meter 2
+    ,                        !- Digits After Decimal 2
+    People Convective Heating Energy,  !- Variable or Meter or EMS Variable or Field 3 Name
+    SumOrAverage,                 !- Aggregation Type for Variable or Meter 3
+    ,                        !- Digits After Decimal 3
+    People Sensible Heating Energy,  !- Variable or Meter or EMS Variable or Field 4 Name
+    SumOrAverage,                 !- Aggregation Type for Variable or Meter 4
+    ,                        !- Digits After Decimal 4
+    People Latent Gain Energy,  !- Variable or Meter or EMS Variable or Field 5 Name
+    SumOrAverage,                 !- Aggregation Type for Variable or Meter 5
+    ,                        !- Digits After Decimal 5
+    People Total Heating Rate,  !- Variable or Meter or EMS Variable or Field 6 Name
+    Maximum,                 !- Aggregation Type for Variable or Meter 6
+    ,                        !- Digits After Decimal 6
+    People Occupant Count,  !- Variable or Meter or EMS Variable or Field 7 Name
+    ValueWhenMaximumOrMinimum,                 !- Aggregation Type for Variable or Meter 7
+    ,                        !- Digits After Decimal 7
+    People Radiant Heating Rate,  !- Variable or Meter or EMS Variable or Field 7 Name
+    ValueWhenMaximumOrMinimum,                 !- Aggregation Type for Variable or Meter 7
+    ,                        !- Digits After Decimal 7
+    People Convective Heating Rate,  !- Variable or Meter or EMS Variable or Field 8 Name
+    ValueWhenMaximumOrMinimum,                 !- Aggregation Type for Variable or Meter 8
+    ,                        !- Digits After Decimal 8
+    People Sensible Heating Rate,  !- Variable or Meter or EMS Variable or Field 9 Name
+    ValueWhenMaximumOrMinimum,                 !- Aggregation Type for Variable or Meter 9
+    ,                        !- Digits After Decimal 9
+    People Latent Gain Rate,  !- Variable or Meter or EMS Variable or Field 10 Name
+    ValueWhenMaximumOrMinimum,                 !- Aggregation Type for Variable or Meter 10
+    ;                        !- Digits After Decimal 10
+
+Output:Table:Annual,
+    AFN Zone Infiltration Annual,  !- Name
+    ,                        !- Filter
+    ,                        !- Schedule Name
+    AFN Zone Infiltration Volume,  !- Variable or Meter or EMS Variable or Field 1 Name
+    SumOrAverage,                 !- Aggregation Type for Variable or Meter 1
+    ,                        !- Digits After Decimal 1
+    AFN Zone Infiltration Mass,  !- Variable or Meter or EMS Variable or Field 1 Name
+    SumOrAverage,                 !- Aggregation Type for Variable or Meter 1
+    ,                        !- Digits After Decimal 1
+    AFN Zone Infiltration Air Change Rate,  !- Variable or Meter or EMS Variable or Field 2 Name
+    SumOrAverage,                 !- Aggregation Type for Variable or Meter 2
+    6,                        !- Digits After Decimal 2
+    AFN Zone Infiltration Volume,  !- Variable or Meter or EMS Variable or Field 3 Name
+    Maximum,                 !- Aggregation Type for Variable or Meter 3
+    6,                        !- Digits After Decimal 3
+    AFN Zone Infiltration Volume,  !- Variable or Meter or EMS Variable or Field 4 Name
+    Minimum,                 !- Aggregation Type for Variable or Meter 4
+    6;                        !- Digits After Decimal 4
+
+Output:Table:Annual,
+    Water Heater Flow Rates Annual,  !- Name
+    ,                        !- Filter
+    ,                        !- Schedule Name
+    Water Heater Use Side Mass Flow Rate,  !- Variable or Meter or EMS Variable or Field 1 Name
+    SumOrAverage,                 !- Aggregation Type for Variable or Meter 1
+    10,                        !- Digits After Decimal 1
+    Water Heater Source Side Mass Flow Rate,  !- Variable or Meter or EMS Variable or Field 1 Name
+    SumOrAverage,                 !- Aggregation Type for Variable or Meter 1
+    10,                        !- Digits After Decimal 1
+    Water Heater Water Volume Flow Rate,  !- Variable or Meter or EMS Variable or Field 2 Name
+    SumOrAverage,                 !- Aggregation Type for Variable or Meter 2
+    10,                        !- Digits After Decimal 2
+    Water Heater Water Volume,  !- Variable or Meter or EMS Variable or Field 3 Name
+    SumOrAverage,                 !- Aggregation Type for Variable or Meter 3
+    10,                        !- Digits After Decimal 3
+    Water Heater Mains Water Volume,  !- Variable or Meter or EMS Variable or Field 4 Name
+    SumOrAverage,                 !- Aggregation Type for Variable or Meter 4
+    10,                        !- Digits After Decimal 4
+    Water Heater Water Volume Flow Rate,  !- Variable or Meter or EMS Variable or Field 5 Name
+    Maximum,                 !- Aggregation Type for Variable or Meter 5
+    10;                        !- Digits After Decimal 5
+
+Output:Table:Annual,
+    Water Use Connection Flow Rates Annual,  !- Name
+    ,                        !- Filter
+    ,                        !- Schedule Name
+    Water Use Connections Hot Water Volume Flow Rate,  !- Variable or Meter or EMS Variable or Field 1 Name
+    SumOrAverage,                 !- Aggregation Type for Variable or Meter 1
+    10,                        !- Digits After Decimal 1
+    Water Use Connections Hot Water Volume Flow Rate,  !- Variable or Meter or EMS Variable or Field 1 Name
+    Maximum,                 !- Aggregation Type for Variable or Meter 1
+    10,                        !- Digits After Decimal 1
+    Water Use Connections Cold Water Volume Flow Rate,  !- Variable or Meter or EMS Variable or Field 2 Name
+    SumOrAverage,                 !- Aggregation Type for Variable or Meter 2
+    10,                        !- Digits After Decimal 2
+    Water Use Connections Cold Water Volume Flow Rate,  !- Variable or Meter or EMS Variable or Field 3 Name
+    Maximum,                 !- Aggregation Type for Variable or Meter 3
+    10,                        !- Digits After Decimal 3
+    Water Use Connections Total Volume Flow Rate,  !- Variable or Meter or EMS Variable or Field 4 Name
+    SumOrAverage,                 !- Aggregation Type for Variable or Meter 4
+    10,                        !- Digits After Decimal 4
+    Water Use Connections Total Volume Flow Rate,  !- Variable or Meter or EMS Variable or Field 5 Name
+    Maximum,                 !- Aggregation Type for Variable or Meter 5
+    10;                        !- Digits After Decimal 5
+  
+Output:Table:Annual,
+    Water Use Equipment Flow Rates Annual,  !- Name
+    ,                        !- Filter
+    ,                        !- Schedule Name
+    Water Use Equipment Hot Water Volume Flow Rate,  !- Variable or Meter or EMS Variable or Field 1 Name
+    SumOrAverage,                 !- Aggregation Type for Variable or Meter 1
+    10,                        !- Digits After Decimal 1
+    Water Use Equipment Hot Water Volume Flow Rate,  !- Variable or Meter or EMS Variable or Field 1 Name
+    Maximum,                 !- Aggregation Type for Variable or Meter 1
+    10,                        !- Digits After Decimal 1
+    Water Use Equipment Cold Water Volume Flow Rate,  !- Variable or Meter or EMS Variable or Field 2 Name
+    SumOrAverage,                 !- Aggregation Type for Variable or Meter 2
+    10,                        !- Digits After Decimal 2
+    Water Use Equipment Cold Water Volume Flow Rate,  !- Variable or Meter or EMS Variable or Field 3 Name
+    Maximum,                 !- Aggregation Type for Variable or Meter 3
+    10,                        !- Digits After Decimal 3
+    Water Use Equipment Total Volume Flow Rate,  !- Variable or Meter or EMS Variable or Field 4 Name
+    SumOrAverage,                 !- Aggregation Type for Variable or Meter 4
+    10,                        !- Digits After Decimal 4
+    Water Use Equipment Total Volume Flow Rate,  !- Variable or Meter or EMS Variable or Field 5 Name
+    Maximum,                 !- Aggregation Type for Variable or Meter 5
+    10;                        !- Digits After Decimal 5
+ 

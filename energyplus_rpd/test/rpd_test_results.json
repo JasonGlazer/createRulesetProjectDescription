@@ -26,7 +26,7 @@
                             "generated_instance_id": null,
                             "reference_instance_id": null,
                             "data_element": "climate_zone",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -2526,7 +2526,7 @@
                             "generated_instance_id": "ADU AT PRM ZONE 1",
                             "reference_instance_id": "RPD_Test_System_4_PSZ_HP - Terminal for Prm Zone 1 (South)",
                             "data_element": "minimum_outdoor_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         },
                         {
@@ -2540,7 +2540,7 @@
                             "generated_instance_id": "ADU AT PRM ZONE 3",
                             "reference_instance_id": "RPD_Test_System_4_PSZ_HP - Terminal for Prm Zone 3 (North)",
                             "data_element": "minimum_outdoor_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         },
                         {
@@ -3504,7 +3504,7 @@
                             "generated_instance_id": null,
                             "reference_instance_id": null,
                             "data_element": "climate_zone",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -5179,7 +5179,7 @@
                             "generated_instance_id": "ADU AT SD VAV REHEAT CORE ZONE 1",
                             "reference_instance_id": "RPD_Test_System_7_VAV_HW_Reheat - Terminal for Core Zone 1",
                             "data_element": "primary_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         },
                         {
@@ -5193,7 +5193,7 @@
                             "generated_instance_id": "ADU AT SD VAV REHEAT PRM ZONE 2",
                             "reference_instance_id": "RPD_Test_System_7_VAV_HW_Reheat - Terminal for Prm Zone 2 (East)",
                             "data_element": "primary_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         },
                         {
@@ -7104,14 +7104,14 @@
                             "generated_instance_id": "CENTRIFUGALCOMP_CHILLER_WATER_COOLED",
                             "reference_instance_id": "Chiller 1",
                             "data_element": "minimum_load_ratio",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         },
                         {
                             "generated_instance_id": "SCREWCOMP_CHILLER_WATER_COOLED",
                             "reference_instance_id": "Chiller 2",
                             "data_element": "minimum_load_ratio",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -7282,7 +7282,7 @@
                             "generated_instance_id": "COOLING TOWER COOL TOOLS USER DEFINED",
                             "reference_instance_id": "Cooling Tower 1",
                             "data_element": "design_wetbulb_temperature",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -7829,7 +7829,7 @@
                             "generated_instance_id": null,
                             "reference_instance_id": null,
                             "data_element": "climate_zone",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -11151,7 +11151,7 @@
                             "generated_instance_id": null,
                             "reference_instance_id": null,
                             "data_element": "climate_zone",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -14287,7 +14287,7 @@
                             "generated_instance_id": null,
                             "reference_instance_id": null,
                             "data_element": "climate_zone",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -17044,7 +17044,7 @@
                             "generated_instance_id": null,
                             "reference_instance_id": null,
                             "data_element": "climate_zone",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -18762,35 +18762,35 @@
                             "generated_instance_id": "ADU PSZ_AC_CORE_ZONE_AIR_TERMINAL_SINGLE_DUCT_CONSTANT_VOLUME_NO_REHEAT",
                             "reference_instance_id": "RPD_Test_System_3_PSZ_AC_Gas_Furnace - Terminal for Core Zone 1",
                             "data_element": "primary_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         },
                         {
                             "generated_instance_id": "ADU PSZ_HP_PERIMETER_ZONE_1_AIR_TERMINAL_SINGLE_DUCT_CONSTANT_VOLUME_NO_REHEAT",
                             "reference_instance_id": "RPD_Test_System_3_PSZ_AC_Gas_Furnace - Terminal for Prm Zone 1 (South)",
                             "data_element": "primary_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         },
                         {
                             "generated_instance_id": "ADU PSZ_HP_PERIMETER_ZONE_2_AIR_TERMINAL_SINGLE_DUCT_CONSTANT_VOLUME_NO_REHEAT",
                             "reference_instance_id": "RPD_Test_System_3_PSZ_AC_Gas_Furnace - Terminal for Prm Zone 2 (East)",
                             "data_element": "primary_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         },
                         {
                             "generated_instance_id": "ADU PSZ_HP_PERIMETER_ZONE_3_AIR_TERMINAL_SINGLE_DUCT_CONSTANT_VOLUME_NO_REHEAT",
                             "reference_instance_id": "RPD_Test_System_3_PSZ_AC_Gas_Furnace - Terminal for Prm Zone 3 (North)",
                             "data_element": "primary_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         },
                         {
                             "generated_instance_id": "ADU PSZ_AC_PERIMETER_ZONE_4_AIR_TERMINAL_SINGLE_DUCT_CONSTANT_VOLUME_NO_REHEAT",
                             "reference_instance_id": "RPD_Test_System_3_PSZ_AC_Gas_Furnace - Terminal for Prm Zone 4 (West)",
                             "data_element": "primary_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -20412,7 +20412,7 @@
                             "generated_instance_id": null,
                             "reference_instance_id": null,
                             "data_element": "climate_zone",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -22130,35 +22130,35 @@
                             "generated_instance_id": "ADU VAV HW RHT",
                             "reference_instance_id": "RPD_Test_System_5_PVAV_HW_Reheat - Terminal for Core Zone 1",
                             "data_element": "primary_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         },
                         {
                             "generated_instance_id": "ADU VAV HW RHT 1",
                             "reference_instance_id": "RPD_Test_System_5_PVAV_HW_Reheat - Terminal for Prm Zone 1 (South)",
                             "data_element": "primary_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         },
                         {
                             "generated_instance_id": "ADU VAV HW RHT 2",
                             "reference_instance_id": "RPD_Test_System_5_PVAV_HW_Reheat - Terminal for Prm Zone 2 (East)",
                             "data_element": "primary_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         },
                         {
                             "generated_instance_id": "ADU VAV HW RHT 3",
                             "reference_instance_id": "RPD_Test_System_5_PVAV_HW_Reheat - Terminal for Prm Zone 3 (North)",
                             "data_element": "primary_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         },
                         {
                             "generated_instance_id": "ADU VAV HW RHT 4",
                             "reference_instance_id": "RPD_Test_System_5_PVAV_HW_Reheat - Terminal for Prm Zone 4 (West)",
                             "data_element": "primary_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -23759,7 +23759,7 @@
                             "generated_instance_id": null,
                             "reference_instance_id": null,
                             "data_element": "climate_zone",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -25477,35 +25477,35 @@
                             "generated_instance_id": "PARALLEL PIU ELEC RHT AIR DISTRIBUTION UNIT",
                             "reference_instance_id": "RPD_Test_System_6_PVAV_Elec_Reheat - Terminal for Core Zone 1",
                             "data_element": "primary_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         },
                         {
                             "generated_instance_id": "PARALLEL PIU ELEC RHT 1 AIR DISTRIBUTION UNIT",
                             "reference_instance_id": "RPD_Test_System_6_PVAV_Elec_Reheat - Terminal for Prm Zone 1 (South)",
                             "data_element": "primary_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         },
                         {
                             "generated_instance_id": "PARALLEL PIU ELEC RHT 2 AIR DISTRIBUTION UNIT",
                             "reference_instance_id": "RPD_Test_System_6_PVAV_Elec_Reheat - Terminal for Prm Zone 2 (East)",
                             "data_element": "primary_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         },
                         {
                             "generated_instance_id": "PARALLEL PIU ELEC RHT 3 AIR DISTRIBUTION UNIT",
                             "reference_instance_id": "RPD_Test_System_6_PVAV_Elec_Reheat - Terminal for Prm Zone 3 (North)",
                             "data_element": "primary_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         },
                         {
                             "generated_instance_id": "PARALLEL PIU ELEC RHT 4 AIR DISTRIBUTION UNIT",
                             "reference_instance_id": "RPD_Test_System_6_PVAV_Elec_Reheat - Terminal for Prm Zone 4 (West)",
                             "data_element": "primary_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -26780,7 +26780,7 @@
                             "generated_instance_id": null,
                             "reference_instance_id": null,
                             "data_element": "climate_zone",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -30051,7 +30051,7 @@
                             "generated_instance_id": null,
                             "reference_instance_id": null,
                             "data_element": "climate_zone",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -32669,7 +32669,7 @@
                             "generated_instance_id": null,
                             "reference_instance_id": null,
                             "data_element": "climate_zone",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -34261,35 +34261,35 @@
                             "generated_instance_id": "ADU HTG_AND_VENTILATION_CORE_ZONE_DIFFUSER",
                             "reference_instance_id": "RPD_Test_System_10_Warm_air_Furnace_Elec - Terminal for Core Zone 1",
                             "data_element": "primary_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         },
                         {
                             "generated_instance_id": "ADU HTG_AND_VENTILATION_PERIMETER_ZONE_1_DIFFUSER",
                             "reference_instance_id": "RPD_Test_System_10_Warm_air_Furnace_Elec - Terminal for Prm Zone 1 (South)",
                             "data_element": "primary_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         },
                         {
                             "generated_instance_id": "ADU HTG_AND_VENTILATION_PERIMETER_ZONE_2_DIFFUSER",
                             "reference_instance_id": "RPD_Test_System_10_Warm_air_Furnace_Elec - Terminal for Prm Zone 2 (East)",
                             "data_element": "primary_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         },
                         {
                             "generated_instance_id": "ADU HTG_AND_VENTILATION_PERIMETER_ZONE_3_DIFFUSER",
                             "reference_instance_id": "RPD_Test_System_10_Warm_air_Furnace_Elec - Terminal for Prm Zone 3 (North)",
                             "data_element": "primary_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         },
                         {
                             "generated_instance_id": "ADU HTG_AND_VENTILATION_PERIMETER_ZONE_4_DIFFUSER",
                             "reference_instance_id": "RPD_Test_System_10_Warm_air_Furnace_Elec - Terminal for Prm Zone 4 (West)",
                             "data_element": "primary_airflow",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -35700,7 +35700,7 @@
                             "generated_instance_id": null,
                             "reference_instance_id": null,
                             "data_element": "climate_zone",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -38774,7 +38774,7 @@
                             "generated_instance_id": null,
                             "reference_instance_id": null,
                             "data_element": "climate_zone",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -41584,20 +41584,34 @@
                             "generated_instance_id": null,
                             "reference_instance_id": null,
                             "data_element": "heat_rejections",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
+                            "notes": ""
+                        },
+                        {
+                            "generated_instance_id": null,
+                            "reference_instance_id": null,
+                            "data_element": "heat_rejections",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
                 },
                 {
                     "data_path": "$.ruleset_model_descriptions[0].heat_rejections[*].loop",
-                    "evaluation_criteria": "PRESENT",
+                    "evaluation_criteria": "REFERENCE",
                     "test_results": [
                         {
-                            "generated_instance_id": null,
-                            "reference_instance_id": null,
+                            "generated_instance_id": "2 SPD EVAP FLUID COOLER",
+                            "reference_instance_id": "Cooling Tower 1",
                             "data_element": "loop",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "MATCH",
+                            "notes": ""
+                        },
+                        {
+                            "generated_instance_id": "2 SPD EVAP FLUID COOLER",
+                            "reference_instance_id": "Cooling Tower 1",
+                            "data_element": "loop",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -41607,10 +41621,10 @@
                     "evaluation_criteria": "VALUE",
                     "test_results": [
                         {
-                            "generated_instance_id": null,
-                            "reference_instance_id": null,
+                            "generated_instance_id": "2 SPD EVAP FLUID COOLER",
+                            "reference_instance_id": "Cooling Tower 1",
                             "data_element": "type",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -41633,10 +41647,10 @@
                     "evaluation_criteria": "VALUE",
                     "test_results": [
                         {
-                            "generated_instance_id": null,
-                            "reference_instance_id": null,
+                            "generated_instance_id": "2 SPD EVAP FLUID COOLER",
+                            "reference_instance_id": "Cooling Tower 1",
                             "data_element": "fluid",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -41646,10 +41660,10 @@
                     "evaluation_criteria": "VALUE",
                     "test_results": [
                         {
-                            "generated_instance_id": null,
-                            "reference_instance_id": null,
+                            "generated_instance_id": "2 SPD EVAP FLUID COOLER",
+                            "reference_instance_id": "Cooling Tower 1",
                             "data_element": "range",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "DIFFER",
                             "notes": ""
                         }
                     ]
@@ -41659,10 +41673,10 @@
                     "evaluation_criteria": "VALUE",
                     "test_results": [
                         {
-                            "generated_instance_id": null,
-                            "reference_instance_id": null,
+                            "generated_instance_id": "2 SPD EVAP FLUID COOLER",
+                            "reference_instance_id": "Cooling Tower 1",
                             "data_element": "approach",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "DIFFER",
                             "notes": ""
                         }
                     ]
@@ -41672,10 +41686,10 @@
                     "evaluation_criteria": "VALUE",
                     "test_results": [
                         {
-                            "generated_instance_id": null,
-                            "reference_instance_id": null,
+                            "generated_instance_id": "2 SPD EVAP FLUID COOLER",
+                            "reference_instance_id": "Cooling Tower 1",
                             "data_element": "design_wetbulb_temperature",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "DIFFER",
                             "notes": ""
                         }
                     ]
@@ -41685,10 +41699,10 @@
                     "evaluation_criteria": "VALUE",
                     "test_results": [
                         {
-                            "generated_instance_id": null,
-                            "reference_instance_id": null,
+                            "generated_instance_id": "2 SPD EVAP FLUID COOLER",
+                            "reference_instance_id": "Cooling Tower 1",
                             "data_element": "leaving_water_setpoint_temperature",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "DIFFER",
                             "notes": ""
                         }
                     ]
@@ -41711,10 +41725,10 @@
                     "evaluation_criteria": "VALUE",
                     "test_results": [
                         {
-                            "generated_instance_id": null,
-                            "reference_instance_id": null,
+                            "generated_instance_id": "2 SPD EVAP FLUID COOLER",
+                            "reference_instance_id": "Cooling Tower 1",
                             "data_element": "fan_speed_control",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -42424,7 +42438,7 @@
                             "generated_instance_id": null,
                             "reference_instance_id": null,
                             "data_element": "climate_zone",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -45530,7 +45544,7 @@
                             "generated_instance_id": null,
                             "reference_instance_id": null,
                             "data_element": "climate_zone",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -49012,7 +49026,7 @@
                             "generated_instance_id": null,
                             "reference_instance_id": null,
                             "data_element": "climate_zone",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -52270,7 +52284,7 @@
                             "generated_instance_id": null,
                             "reference_instance_id": null,
                             "data_element": "climate_zone",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -55224,7 +55238,7 @@
                             "generated_instance_id": "1 SPD COOLING TOWER",
                             "reference_instance_id": "Cooling Tower 1",
                             "data_element": "range",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -55237,7 +55251,7 @@
                             "generated_instance_id": "1 SPD COOLING TOWER",
                             "reference_instance_id": "Cooling Tower 1",
                             "data_element": "approach",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -55544,7 +55558,7 @@
                             "generated_instance_id": null,
                             "reference_instance_id": null,
                             "data_element": "climate_zone",
-                            "test_outcome": "NOT_IMPLEMENTED",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]
@@ -58566,7 +58580,7 @@
                             "generated_instance_id": "1 SPD COOLING TOWER",
                             "reference_instance_id": "Cooling Tower 1",
                             "data_element": "approach",
-                            "test_outcome": "DIFFER",
+                            "test_outcome": "MATCH",
                             "notes": ""
                         }
                     ]

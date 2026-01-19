@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2025-12-23T21:39Z",
+    "time_of_creation": "2026-01-19T20:48Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -34,17 +34,17 @@
                   "cooling_system": {
                     "id": "PSZ_AC_CORE_ZONE-cooling",
                     "design_total_cool_capacity": 17584.0,
-                    "design_sensible_cool_capacity": 14162.357,
+                    "design_sensible_cool_capacity": 14162.35708598975,
                     "type": "DIRECT_EXPANSION",
-                    "rated_total_cool_capacity": 17592.61,
-                    "rated_sensible_cool_capacity": 12821.75,
-                    "oversizing_factor": 1.0655348792395825,
+                    "rated_total_cool_capacity": 17592.607303646626,
+                    "rated_sensible_cool_capacity": 12821.751413322929,
+                    "oversizing_factor": 1.0655351819004624,
                     "is_calculated_size": false,
                     "efficiency_metric_values": [
-                      2.56,
-                      8.72,
-                      8.76,
-                      8.5
+                      2.556484925767422,
+                      8.723088649347936,
+                      8.757394639139433,
+                      8.539257509693556
                     ],
                     "efficiency_metric_types": [
                       "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
@@ -55,17 +55,17 @@
                   },
                   "fan_system": {
                     "id": "PSZ_AC_CORE_ZONE_FANSYSTEMMODEL_CONSTANTVOLUME-fansystem",
-                    "minimum_airflow": 943.9,
+                    "minimum_airflow": 943.8948864,
                     "minimum_outdoor_airflow": 0.0,
                     "fan_control": "CONSTANT",
                     "supply_fans": [
                       {
                         "id": "PSZ_AC_CORE_ZONE_FANSYSTEMMODEL_CONSTANTVOLUME",
-                        "design_airflow": 0.94,
+                        "design_airflow": 0.9438948864,
                         "is_airflow_calculated": false,
                         "design_electric_power": 600.0,
                         "design_pressure_rise": 445.0,
-                        "total_efficiency": 0.7,
+                        "total_efficiency": 0.70005537408,
                         "motor_efficiency": 0.9,
                         "motor_heat_to_airflow_fraction": 1.0,
                         "motor_heat_to_zone_fraction": 0.0,
@@ -93,17 +93,17 @@
                   },
                   "fan_system": {
                     "id": "PSZ_HP_PERIMETER_ZONE_1_FANSYSTEMMODEL_CONSTANT_VOLUME-fansystem",
-                    "minimum_airflow": 943.9,
+                    "minimum_airflow": 943.8948864,
                     "minimum_outdoor_airflow": 0.0,
                     "fan_control": "CONSTANT",
                     "supply_fans": [
                       {
                         "id": "PSZ_HP_PERIMETER_ZONE_1_FANSYSTEMMODEL_CONSTANT_VOLUME",
-                        "design_airflow": 0.94,
+                        "design_airflow": 0.9438948864,
                         "is_airflow_calculated": false,
                         "design_electric_power": 600.0,
                         "design_pressure_rise": 445.0,
-                        "total_efficiency": 0.7,
+                        "total_efficiency": 0.70005537408,
                         "motor_efficiency": 0.9,
                         "motor_heat_to_airflow_fraction": 1.0,
                         "motor_heat_to_zone_fraction": 0.0,
@@ -131,17 +131,17 @@
                   },
                   "fan_system": {
                     "id": "PSZ_HP_PERIMETER_ZONE_2_FANSYSTEMMODEL_CONSTANT_VOLUME 1-fansystem",
-                    "minimum_airflow": 943.9,
+                    "minimum_airflow": 943.8948864,
                     "minimum_outdoor_airflow": 0.0,
                     "fan_control": "CONSTANT",
                     "supply_fans": [
                       {
                         "id": "PSZ_HP_PERIMETER_ZONE_2_FANSYSTEMMODEL_CONSTANT_VOLUME 1",
-                        "design_airflow": 0.94,
+                        "design_airflow": 0.9438948864,
                         "is_airflow_calculated": false,
                         "design_electric_power": 600.0,
                         "design_pressure_rise": 445.0,
-                        "total_efficiency": 0.7,
+                        "total_efficiency": 0.70005537408,
                         "motor_efficiency": 0.9,
                         "motor_heat_to_airflow_fraction": 1.0,
                         "motor_heat_to_zone_fraction": 0.0,
@@ -156,17 +156,17 @@
                   "cooling_system": {
                     "id": "PSZ_AC_PERIMETER_ZONE_3-cooling",
                     "design_total_cool_capacity": 17584.0,
-                    "design_sensible_cool_capacity": 14162.357,
+                    "design_sensible_cool_capacity": 14162.35708598975,
                     "type": "DIRECT_EXPANSION",
-                    "rated_total_cool_capacity": 17592.61,
-                    "rated_sensible_cool_capacity": 12821.75,
-                    "oversizing_factor": 1.0687445108627935,
+                    "rated_total_cool_capacity": 17592.607303646626,
+                    "rated_sensible_cool_capacity": 12821.751413322929,
+                    "oversizing_factor": 1.0687445658132686,
                     "is_calculated_size": false,
                     "efficiency_metric_values": [
-                      2.56,
-                      8.72,
-                      8.76,
-                      8.5
+                      2.556484925767422,
+                      8.723088649347936,
+                      8.757394639139433,
+                      8.539257509693556
                     ],
                     "efficiency_metric_types": [
                       "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
@@ -177,17 +177,17 @@
                   },
                   "fan_system": {
                     "id": "PSZ_HP_PERIMETER_ZONE_3_FANSYSTEMMODEL_CONSTANT_VOLUME-fansystem",
-                    "minimum_airflow": 943.9,
+                    "minimum_airflow": 943.8948864,
                     "minimum_outdoor_airflow": 0.0,
                     "fan_control": "CONSTANT",
                     "supply_fans": [
                       {
                         "id": "PSZ_HP_PERIMETER_ZONE_3_FANSYSTEMMODEL_CONSTANT_VOLUME",
-                        "design_airflow": 0.94,
+                        "design_airflow": 0.9438948864,
                         "is_airflow_calculated": false,
                         "design_electric_power": 600.0,
                         "design_pressure_rise": 445.0,
-                        "total_efficiency": 0.7,
+                        "total_efficiency": 0.70005537408,
                         "motor_efficiency": 0.9,
                         "motor_heat_to_airflow_fraction": 1.0,
                         "motor_heat_to_zone_fraction": 0.0,
@@ -202,17 +202,17 @@
                   "cooling_system": {
                     "id": "PSZ_AC_PERIMETER_ZONE_4-cooling",
                     "design_total_cool_capacity": 17584.0,
-                    "design_sensible_cool_capacity": 14162.357,
+                    "design_sensible_cool_capacity": 14162.35708598975,
                     "type": "DIRECT_EXPANSION",
-                    "rated_total_cool_capacity": 17592.61,
-                    "rated_sensible_cool_capacity": 12821.75,
-                    "oversizing_factor": 1.0687445108627935,
+                    "rated_total_cool_capacity": 17592.607303646626,
+                    "rated_sensible_cool_capacity": 12821.751413322929,
+                    "oversizing_factor": 1.0687445658132686,
                     "is_calculated_size": false,
                     "efficiency_metric_values": [
-                      2.56,
-                      8.72,
-                      8.76,
-                      8.5
+                      2.556484925767422,
+                      8.723088649347936,
+                      8.757394639139433,
+                      8.539257509693556
                     ],
                     "efficiency_metric_types": [
                       "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
@@ -223,17 +223,17 @@
                   },
                   "fan_system": {
                     "id": "PSZ_AC_PERIMETER_ZONE_4_FANSYSTEMMODEL_CONSTANT_VOLUME-fansystem",
-                    "minimum_airflow": 943.9,
+                    "minimum_airflow": 943.8948864,
                     "minimum_outdoor_airflow": 0.0,
                     "fan_control": "CONSTANT",
                     "supply_fans": [
                       {
                         "id": "PSZ_AC_PERIMETER_ZONE_4_FANSYSTEMMODEL_CONSTANT_VOLUME",
-                        "design_airflow": 0.94,
+                        "design_airflow": 0.9438948864,
                         "is_airflow_calculated": false,
                         "design_electric_power": 600.0,
                         "design_pressure_rise": 445.0,
-                        "total_efficiency": 0.7,
+                        "total_efficiency": 0.70005537408,
                         "motor_efficiency": 0.9,
                         "motor_heat_to_airflow_fraction": 1.0,
                         "motor_heat_to_zone_fraction": 0.0,
@@ -247,7 +247,7 @@
               "zones": [
                 {
                   "id": "CORE ZONE 1",
-                  "volume": 3895.37,
+                  "volume": 3895.3677842639995,
                   "thermostat_cooling_setpoint_schedule": "Cooling Themostat Setpoint",
                   "thermostat_heating_setpoint_schedule": "Heating Thermostat Setpoint",
                   "design_thermostat_heating_setpoint": 21.0,
@@ -257,7 +257,7 @@
                     {
                       "id": "CORE_ZONE_1_CEILING",
                       "classification": "CEILING",
-                      "area": 983.68,
+                      "area": 983.6787333999999,
                       "tilt": 0.0,
                       "azimuth": 0.0,
                       "adjacent_to": "EXTERIOR",
@@ -267,7 +267,7 @@
                     {
                       "id": "CORE_ZONE_5_FLOOR",
                       "classification": "FLOOR",
-                      "area": 983.68,
+                      "area": 983.6787333999999,
                       "tilt": 180.0,
                       "azimuth": 0.0,
                       "adjacent_to": "GROUND",
@@ -277,7 +277,7 @@
                     {
                       "id": "CORE_ZONE_5_WALL_EAST",
                       "classification": "WALL",
-                      "area": 95.65,
+                      "area": 95.6483736,
                       "tilt": 90.0,
                       "azimuth": 90.0,
                       "adjacent_to": "INTERIOR",
@@ -288,7 +288,7 @@
                     {
                       "id": "CORE_ZONE_5_WALL_NORTH",
                       "classification": "WALL",
-                      "area": 161.47,
+                      "area": 161.47017744,
                       "tilt": 90.0,
                       "azimuth": 0.0,
                       "adjacent_to": "INTERIOR",
@@ -299,7 +299,7 @@
                     {
                       "id": "CORE_ZONE_5_WALL_SOUTH",
                       "classification": "WALL",
-                      "area": 161.47,
+                      "area": 161.47017744,
                       "tilt": 90.0,
                       "azimuth": 180.0,
                       "adjacent_to": "INTERIOR",
@@ -310,7 +310,7 @@
                     {
                       "id": "CORE_ZONE_5_WALL_WEST",
                       "classification": "WALL",
-                      "area": 95.65,
+                      "area": 95.6483736,
                       "tilt": 90.0,
                       "azimuth": 270.0,
                       "adjacent_to": "INTERIOR",
@@ -333,26 +333,26 @@
                       "heating_source": "NONE",
                       "cooling_source": "NONE",
                       "served_by_heating_ventilating_air_conditioning_system": "PSZ_AC_CORE_ZONE",
-                      "primary_airflow": 940.0,
-                      "supply_design_heating_setpoint_temperature": 32.22,
-                      "supply_design_cooling_setpoint_temperature": 12.78,
-                      "minimum_airflow": 750.0,
-                      "minimum_outdoor_airflow": 120.0,
-                      "heating_capacity": 5190.39,
-                      "cooling_capacity": 8074.25
+                      "primary_airflow": 943.8948864,
+                      "supply_design_heating_setpoint_temperature": 32.2222222222223,
+                      "supply_design_cooling_setpoint_temperature": 12.7777777777778,
+                      "minimum_airflow": 749.5631948508,
+                      "minimum_outdoor_airflow": 117.9868608,
+                      "heating_capacity": 5190.390479619039,
+                      "cooling_capacity": 8074.24979485201
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
                       "id": "CORE_SPACE_1",
-                      "floor_area": 983.68,
+                      "floor_area": 983.6787333999999,
                       "number_of_occupants": 52.94,
                       "occupant_multiplier_schedule": "CORE_SPACE OCCUPANT SCH",
                       "interior_lighting": [
                         {
                           "id": "CORE_BOTTOM LIGHTING",
-                          "power_per_area": 11.033,
+                          "power_per_area": 11.0330081771275,
                           "lighting_multiplier_schedule": "CORE_SPACE_LIGHTING_SCH",
                           "daylighting_control_type": "NONE",
                           "are_schedules_used_for_modeling_occupancy_control": true,
@@ -366,7 +366,7 @@
                           "multiplier_schedule": "CORE_SPACE_ELEC_EQUIP_SCH",
                           "sensible_fraction": 1.0,
                           "latent_fraction": 0.0,
-                          "power": 7938.2976
+                          "power": 7938.287378538
                         }
                       ]
                     }
@@ -374,7 +374,7 @@
                 },
                 {
                   "id": "PRM ZONE 1 (SOUTH)",
-                  "volume": 820.8,
+                  "volume": 820.7973506303999,
                   "thermostat_cooling_setpoint_schedule": "Cooling Themostat Setpoint",
                   "thermostat_heating_setpoint_schedule": "Heating Thermostat Setpoint",
                   "design_thermostat_heating_setpoint": 21.0,
@@ -384,7 +384,7 @@
                     {
                       "id": "CORE_ZONE_5_WALL_SOUTH REVERSED",
                       "classification": "WALL",
-                      "area": 161.47,
+                      "area": 161.47017744,
                       "tilt": 90.0,
                       "azimuth": 0.0,
                       "adjacent_to": "INTERIOR",
@@ -395,7 +395,7 @@
                     {
                       "id": "PERIMETER_ZONE_1_CEILING",
                       "classification": "CEILING",
-                      "area": 207.27,
+                      "area": 207.27205824,
                       "tilt": 0.0,
                       "azimuth": 0.0,
                       "adjacent_to": "EXTERIOR",
@@ -405,7 +405,7 @@
                     {
                       "id": "PERIMETER_ZONE_1_FLOOR",
                       "classification": "FLOOR",
-                      "area": 207.27,
+                      "area": 207.27205823999998,
                       "tilt": 180.0,
                       "azimuth": 0.0,
                       "adjacent_to": "GROUND",
@@ -415,7 +415,7 @@
                     {
                       "id": "PERIMETER_ZONE_1_INTERIOR_WALL_ZN_1_EAST",
                       "classification": "WALL",
-                      "area": 25.62,
+                      "area": 25.62338656344968,
                       "tilt": 90.0,
                       "azimuth": 45.01,
                       "adjacent_to": "INTERIOR",
@@ -426,7 +426,7 @@
                     {
                       "id": "PERIMETER_ZONE_1_WALL_SOUTH",
                       "classification": "WALL",
-                      "area": 197.71,
+                      "area": 197.70711792,
                       "tilt": 90.0,
                       "azimuth": 180.0,
                       "adjacent_to": "EXTERIOR",
@@ -436,31 +436,31 @@
                         {
                           "id": "PERIMETER_ZONE1_WALL_SOUTH_WINDOW3",
                           "classification": "WINDOW",
-                          "glazed_area": 22.15,
+                          "glazed_area": 22.152479999999997,
                           "opaque_area": 0.0,
-                          "u_factor": 3.294,
-                          "solar_heat_gain_coefficient": 0.388,
-                          "visible_transmittance": 0.419,
+                          "u_factor": 3.294226150593141,
+                          "solar_heat_gain_coefficient": 0.3882818856447975,
+                          "visible_transmittance": 0.41856486421266265,
                           "has_automatic_shades": false
                         },
                         {
                           "id": "PERIMETER_ZONE_1_WALL_SOUTH_WINDOW1",
                           "classification": "WINDOW",
-                          "glazed_area": 22.15,
+                          "glazed_area": 22.153879999999997,
                           "opaque_area": 0.0,
-                          "u_factor": 3.294,
-                          "solar_heat_gain_coefficient": 0.388,
-                          "visible_transmittance": 0.419,
+                          "u_factor": 3.294226150593141,
+                          "solar_heat_gain_coefficient": 0.3882818856447975,
+                          "visible_transmittance": 0.41856486421266265,
                           "has_automatic_shades": false
                         },
                         {
                           "id": "PERIMETER_ZONE_1_WALL_SOUTH_WINDOW2",
                           "classification": "WINDOW",
-                          "glazed_area": 22.15,
+                          "glazed_area": 22.153880000000004,
                           "opaque_area": 0.0,
-                          "u_factor": 3.294,
-                          "solar_heat_gain_coefficient": 0.388,
-                          "visible_transmittance": 0.419,
+                          "u_factor": 3.294226150593141,
+                          "solar_heat_gain_coefficient": 0.3882818856447975,
+                          "visible_transmittance": 0.41856486421266265,
                           "has_automatic_shades": false
                         }
                       ]
@@ -468,7 +468,7 @@
                     {
                       "id": "PERIMETER_ZONE_4_WALL_SOUTH REVERSED",
                       "classification": "WALL",
-                      "area": 25.63,
+                      "area": 25.626748550753035,
                       "tilt": 90.0,
                       "azimuth": 315.0,
                       "adjacent_to": "INTERIOR",
@@ -491,26 +491,26 @@
                       "heating_source": "NONE",
                       "cooling_source": "NONE",
                       "served_by_heating_ventilating_air_conditioning_system": "PSZ_AC_PERIMETER_ZONE_1",
-                      "primary_airflow": 940.0,
-                      "supply_design_heating_setpoint_temperature": 32.22,
-                      "supply_design_cooling_setpoint_temperature": 12.78,
-                      "minimum_airflow": 160.0,
-                      "minimum_outdoor_airflow": 120.0,
-                      "heating_capacity": 1405.48,
-                      "cooling_capacity": 2172.02
+                      "primary_airflow": 943.8948864,
+                      "supply_design_heating_setpoint_temperature": 32.2222222222223,
+                      "supply_design_cooling_setpoint_temperature": 12.7777777777778,
+                      "minimum_airflow": 157.94130837888,
+                      "minimum_outdoor_airflow": 117.9868608,
+                      "heating_capacity": 1405.480102414513,
+                      "cooling_capacity": 2172.0197309242894
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
                       "id": "PERIMETER_SPACE_1",
-                      "floor_area": 207.27,
+                      "floor_area": 207.27205823999998,
                       "number_of_occupants": 11.16,
                       "occupant_multiplier_schedule": "PERIMETER_SPACE_1_OCCUPANT_SCH",
                       "interior_lighting": [
                         {
                           "id": "PERIMETER_BOT_ZN_1 LIGHTING",
-                          "power_per_area": 11.033,
+                          "power_per_area": 11.0330081771275,
                           "lighting_multiplier_schedule": "PERIMETER_SPACE_1_LIGHTING_SCH",
                           "daylighting_control_type": "NONE",
                           "are_schedules_used_for_modeling_occupancy_control": true,
@@ -524,7 +524,7 @@
                           "multiplier_schedule": "PERIMETER_SPACE_1_ELEC_EQUIP_SCH",
                           "sensible_fraction": 1.0,
                           "latent_fraction": 0.0,
-                          "power": 1672.6689000000001
+                          "power": 1672.6855099968
                         }
                       ]
                     }
@@ -532,7 +532,7 @@
                 },
                 {
                   "id": "PRM ZONE 2 (EAST)",
-                  "volume": 519.83,
+                  "volume": 519.8269633920004,
                   "thermostat_cooling_setpoint_schedule": "Cooling Themostat Setpoint",
                   "thermostat_heating_setpoint_schedule": "Heating Thermostat Setpoint",
                   "design_thermostat_heating_setpoint": 21.0,
@@ -542,7 +542,7 @@
                     {
                       "id": "CORE_ZONE_5_WALL_EAST REVERSED",
                       "classification": "WALL",
-                      "area": 95.65,
+                      "area": 95.6483736,
                       "tilt": 90.0,
                       "azimuth": 270.0,
                       "adjacent_to": "INTERIOR",
@@ -553,7 +553,7 @@
                     {
                       "id": "PERIMETER_ZONE_1_WALL_EAST REVERSED",
                       "classification": "WALL",
-                      "area": 25.62,
+                      "area": 25.62338656344968,
                       "tilt": 90.0,
                       "azimuth": 225.01,
                       "adjacent_to": "INTERIOR",
@@ -564,7 +564,7 @@
                     {
                       "id": "PERIMETER_ZONE_2_CEILING",
                       "classification": "CEILING",
-                      "area": 131.27,
+                      "area": 131.2694352000001,
                       "tilt": 0.0,
                       "azimuth": 315.0,
                       "adjacent_to": "EXTERIOR",
@@ -574,7 +574,7 @@
                     {
                       "id": "PERIMETER_ZONE_2_FLOOR",
                       "classification": "FLOOR",
-                      "area": 131.27,
+                      "area": 131.2694352000001,
                       "tilt": 180.0,
                       "azimuth": 45.01,
                       "adjacent_to": "GROUND",
@@ -584,7 +584,7 @@
                     {
                       "id": "PERIMETER_ZONE_2_WALL_EAST",
                       "classification": "WALL",
-                      "area": 131.89,
+                      "area": 131.88531408,
                       "tilt": 90.0,
                       "azimuth": 90.0,
                       "adjacent_to": "EXTERIOR",
@@ -594,21 +594,21 @@
                         {
                           "id": "PERIMETER_ZONE_2_WALL_EAST_WINDOW1",
                           "classification": "WINDOW",
-                          "glazed_area": 43.17,
+                          "glazed_area": 43.169419999999995,
                           "opaque_area": 0.0,
-                          "u_factor": 3.294,
-                          "solar_heat_gain_coefficient": 0.388,
-                          "visible_transmittance": 0.419,
+                          "u_factor": 3.294226150593141,
+                          "solar_heat_gain_coefficient": 0.3882818856447975,
+                          "visible_transmittance": 0.41856486421266265,
                           "has_automatic_shades": false
                         },
                         {
                           "id": "PERIMETER_ZONE_2_WALL_EAST_WINDOW2",
                           "classification": "WINDOW",
-                          "glazed_area": 1.71,
+                          "glazed_area": 1.7068800000000008,
                           "opaque_area": 0.0,
-                          "u_factor": 3.294,
-                          "solar_heat_gain_coefficient": 0.388,
-                          "visible_transmittance": 0.419,
+                          "u_factor": 3.294226150593141,
+                          "solar_heat_gain_coefficient": 0.3882818856447975,
+                          "visible_transmittance": 0.41856486421266265,
                           "has_automatic_shades": false
                         }
                       ]
@@ -616,7 +616,7 @@
                     {
                       "id": "PERIMETER_ZONE_2_WALL_NORTH",
                       "classification": "WALL",
-                      "area": 25.62,
+                      "area": 25.620024134969583,
                       "tilt": 90.0,
                       "azimuth": 315.0,
                       "adjacent_to": "INTERIOR",
@@ -639,26 +639,26 @@
                       "heating_source": "NONE",
                       "cooling_source": "NONE",
                       "served_by_heating_ventilating_air_conditioning_system": "PSZ_AC_PERIMETER_ZONE_2",
-                      "primary_airflow": 940.0,
-                      "supply_design_heating_setpoint_temperature": 32.22,
-                      "supply_design_cooling_setpoint_temperature": 12.78,
-                      "minimum_airflow": 100.0,
-                      "minimum_outdoor_airflow": 120.0,
-                      "heating_capacity": 864.5,
-                      "cooling_capacity": 1323.33
+                      "primary_airflow": 943.8948864,
+                      "supply_design_heating_setpoint_temperature": 32.2222222222223,
+                      "supply_design_cooling_setpoint_temperature": 12.7777777777778,
+                      "minimum_airflow": 100.02730962240007,
+                      "minimum_outdoor_airflow": 117.9868608,
+                      "heating_capacity": 864.504261026229,
+                      "cooling_capacity": 1323.3317234753542
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
                       "id": "PERIMETER_SPACE_2",
-                      "floor_area": 131.27,
-                      "number_of_occupants": 7.07,
+                      "floor_area": 131.2694352000001,
+                      "number_of_occupants": 7.06,
                       "occupant_multiplier_schedule": "PERIMETER_SPACE_2_OCCUPANT_SCH",
                       "interior_lighting": [
                         {
                           "id": "PERIMETER_BOT_ZN_2 LIGHTING",
-                          "power_per_area": 11.033,
+                          "power_per_area": 11.0330081771275,
                           "lighting_multiplier_schedule": "PERIMETER_SPACE_2_LIGHTING_SCH",
                           "daylighting_control_type": "NONE",
                           "are_schedules_used_for_modeling_occupancy_control": true,
@@ -672,7 +672,7 @@
                           "multiplier_schedule": "PERIMETER_SPACE_2_ELEC_EQUIP_SCH",
                           "sensible_fraction": 1.0,
                           "latent_fraction": 0.0,
-                          "power": 1059.3489000000002
+                          "power": 1059.3443420640008
                         }
                       ]
                     }
@@ -680,7 +680,7 @@
                 },
                 {
                   "id": "PRM ZONE 3 (NORTH)",
-                  "volume": 820.58,
+                  "volume": 820.5819747839998,
                   "thermostat_cooling_setpoint_schedule": "Cooling Themostat Setpoint",
                   "thermostat_heating_setpoint_schedule": "Heating Thermostat Setpoint",
                   "design_thermostat_heating_setpoint": 21.0,
@@ -690,7 +690,7 @@
                     {
                       "id": "CORE_ZONE_5_WALL_NORTH REVERSED",
                       "classification": "WALL",
-                      "area": 161.47,
+                      "area": 161.47017744,
                       "tilt": 90.0,
                       "azimuth": 180.0,
                       "adjacent_to": "INTERIOR",
@@ -701,7 +701,7 @@
                     {
                       "id": "PERIMETER_ZONE_2_WALL_NORTH REVERSED",
                       "classification": "WALL",
-                      "area": 25.62,
+                      "area": 25.620024134969583,
                       "tilt": 90.0,
                       "azimuth": 135.0,
                       "adjacent_to": "INTERIOR",
@@ -712,7 +712,7 @@
                     {
                       "id": "PERIMETER_ZONE_3_CEILING",
                       "classification": "CEILING",
-                      "area": 207.22,
+                      "area": 207.21767039999997,
                       "tilt": 0.0,
                       "azimuth": 0.0,
                       "adjacent_to": "EXTERIOR",
@@ -722,7 +722,7 @@
                     {
                       "id": "PERIMETER_ZONE_3_FLOOR",
                       "classification": "FLOOR",
-                      "area": 207.22,
+                      "area": 207.21767039999997,
                       "tilt": 180.0,
                       "azimuth": 0.0,
                       "adjacent_to": "GROUND",
@@ -732,7 +732,7 @@
                     {
                       "id": "PERIMETER_ZONE_3_WALL_NORTH",
                       "classification": "WALL",
-                      "area": 197.71,
+                      "area": 197.70711792,
                       "tilt": 90.0,
                       "azimuth": 0.0,
                       "adjacent_to": "EXTERIOR",
@@ -742,31 +742,31 @@
                         {
                           "id": "PERIMETER_ZONE_3_WALL_NORTH_WINDOW1",
                           "classification": "WINDOW",
-                          "glazed_area": 22.15,
+                          "glazed_area": 22.152479999999997,
                           "opaque_area": 0.0,
-                          "u_factor": 3.294,
-                          "solar_heat_gain_coefficient": 0.388,
-                          "visible_transmittance": 0.419,
+                          "u_factor": 3.294226150593141,
+                          "solar_heat_gain_coefficient": 0.3882818856447975,
+                          "visible_transmittance": 0.41856486421266265,
                           "has_automatic_shades": false
                         },
                         {
                           "id": "PERIMETER_ZONE_3_WALL_NORTH_WINDOW2",
                           "classification": "WINDOW",
-                          "glazed_area": 22.15,
+                          "glazed_area": 22.153880000000004,
                           "opaque_area": 0.0,
-                          "u_factor": 3.294,
-                          "solar_heat_gain_coefficient": 0.388,
-                          "visible_transmittance": 0.419,
+                          "u_factor": 3.294226150593141,
+                          "solar_heat_gain_coefficient": 0.3882818856447975,
+                          "visible_transmittance": 0.41856486421266265,
                           "has_automatic_shades": false
                         },
                         {
                           "id": "PERIMETER_ZONE_3_WALL_NORTH_WINDOW3",
                           "classification": "WINDOW",
-                          "glazed_area": 22.15,
+                          "glazed_area": 22.153879999999997,
                           "opaque_area": 0.0,
-                          "u_factor": 3.294,
-                          "solar_heat_gain_coefficient": 0.388,
-                          "visible_transmittance": 0.419,
+                          "u_factor": 3.294226150593141,
+                          "solar_heat_gain_coefficient": 0.3882818856447975,
+                          "visible_transmittance": 0.41856486421266265,
                           "has_automatic_shades": false
                         }
                       ]
@@ -774,7 +774,7 @@
                     {
                       "id": "PERIMETER_ZONE_3_WALL_WEST",
                       "classification": "WALL",
-                      "area": 25.62,
+                      "area": 25.62338656344967,
                       "tilt": 90.0,
                       "azimuth": 224.99,
                       "adjacent_to": "INTERIOR",
@@ -797,26 +797,26 @@
                       "heating_source": "NONE",
                       "cooling_source": "NONE",
                       "served_by_heating_ventilating_air_conditioning_system": "PSZ_AC_PERIMETER_ZONE_3",
-                      "primary_airflow": 940.0,
-                      "supply_design_heating_setpoint_temperature": 32.22,
-                      "supply_design_cooling_setpoint_temperature": 12.78,
-                      "minimum_airflow": 160.0,
-                      "minimum_outdoor_airflow": 120.0,
-                      "heating_capacity": 3471.04,
-                      "cooling_capacity": 5373.72
+                      "primary_airflow": 943.8948864,
+                      "supply_design_heating_setpoint_temperature": 32.2222222222223,
+                      "supply_design_cooling_setpoint_temperature": 12.7777777777778,
+                      "minimum_airflow": 157.8998648448,
+                      "minimum_outdoor_airflow": 117.9868608,
+                      "heating_capacity": 3471.040746653363,
+                      "cooling_capacity": 5373.723602518666
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
                       "id": "PERIMETER_SPACE_3",
-                      "floor_area": 207.22,
+                      "floor_area": 207.21767039999997,
                       "number_of_occupants": 11.15,
                       "occupant_multiplier_schedule": "PERIMETER_SPACE_3_OCCUPANT_SCH",
                       "interior_lighting": [
                         {
                           "id": "PERIMETER_BOT_ZN_3 LIGHTING",
-                          "power_per_area": 11.033,
+                          "power_per_area": 11.033008177127503,
                           "lighting_multiplier_schedule": "PERIMETER_SPACE_3_LIGHTING_SCH",
                           "daylighting_control_type": "NONE",
                           "are_schedules_used_for_modeling_occupancy_control": true,
@@ -830,7 +830,7 @@
                           "multiplier_schedule": "PERIMETER_SPACE_3_ELEC_EQUIP_SCH",
                           "sensible_fraction": 1.0,
                           "latent_fraction": 0.0,
-                          "power": 1672.2654
+                          "power": 1672.246600128
                         }
                       ]
                     }
@@ -838,7 +838,7 @@
                 },
                 {
                   "id": "PRM ZONE 4 (WEST)",
-                  "volume": 519.96,
+                  "volume": 519.9634009151999,
                   "thermostat_cooling_setpoint_schedule": "Cooling Themostat Setpoint",
                   "thermostat_heating_setpoint_schedule": "Heating Thermostat Setpoint",
                   "design_thermostat_heating_setpoint": 21.0,
@@ -848,7 +848,7 @@
                     {
                       "id": "CORE_ZONE_5_WALL_WEST REVERSED",
                       "classification": "WALL",
-                      "area": 95.65,
+                      "area": 95.6483736,
                       "tilt": 90.0,
                       "azimuth": 90.0,
                       "adjacent_to": "INTERIOR",
@@ -859,7 +859,7 @@
                     {
                       "id": "PERIMETER_ZONE_3_WALL_WEST REVERSED",
                       "classification": "WALL",
-                      "area": 25.62,
+                      "area": 25.62338656344967,
                       "tilt": 90.0,
                       "azimuth": 44.99,
                       "adjacent_to": "INTERIOR",
@@ -870,7 +870,7 @@
                     {
                       "id": "PERIMETER_ZONE_4_CEILING",
                       "classification": "CEILING",
-                      "area": 131.3,
+                      "area": 131.30388912,
                       "tilt": 0.0,
                       "azimuth": 90.0,
                       "adjacent_to": "EXTERIOR",
@@ -880,7 +880,7 @@
                     {
                       "id": "PERIMETER_ZONE_4_FLOOR",
                       "classification": "FLOOR",
-                      "area": 131.3,
+                      "area": 131.30388911999998,
                       "tilt": 180.0,
                       "azimuth": 270.0,
                       "adjacent_to": "GROUND",
@@ -890,7 +890,7 @@
                     {
                       "id": "PERIMETER_ZONE_4_WALL_SOUTH",
                       "classification": "WALL",
-                      "area": 25.63,
+                      "area": 25.626748550753035,
                       "tilt": 90.0,
                       "azimuth": 135.0,
                       "adjacent_to": "INTERIOR",
@@ -901,7 +901,7 @@
                     {
                       "id": "PERIMETER_ZONE_4_WALL_WEST",
                       "classification": "WALL",
-                      "area": 131.89,
+                      "area": 131.88531408,
                       "tilt": 90.0,
                       "azimuth": 270.0,
                       "adjacent_to": "EXTERIOR",
@@ -911,21 +911,21 @@
                         {
                           "id": "PERIMETER_ZONE_4_WALL_WEST_WINDOW1",
                           "classification": "WINDOW",
-                          "glazed_area": 43.17,
+                          "glazed_area": 43.169419999999995,
                           "opaque_area": 0.0,
-                          "u_factor": 3.294,
-                          "solar_heat_gain_coefficient": 0.388,
-                          "visible_transmittance": 0.419,
+                          "u_factor": 3.294226150593141,
+                          "solar_heat_gain_coefficient": 0.3882818856447975,
+                          "visible_transmittance": 0.41856486421266265,
                           "has_automatic_shades": false
                         },
                         {
                           "id": "PERIMETER_ZONE_4_WALL_WEST_WINDOW2",
                           "classification": "WINDOW",
-                          "glazed_area": 1.71,
+                          "glazed_area": 1.70688,
                           "opaque_area": 0.0,
-                          "u_factor": 3.294,
-                          "solar_heat_gain_coefficient": 0.388,
-                          "visible_transmittance": 0.419,
+                          "u_factor": 3.294226150593141,
+                          "solar_heat_gain_coefficient": 0.3882818856447975,
+                          "visible_transmittance": 0.41856486421266265,
                           "has_automatic_shades": false
                         }
                       ]
@@ -945,26 +945,26 @@
                       "heating_source": "NONE",
                       "cooling_source": "NONE",
                       "served_by_heating_ventilating_air_conditioning_system": "PSZ_AC_PERIMETER_ZONE_4",
-                      "primary_airflow": 940.0,
-                      "supply_design_heating_setpoint_temperature": 32.22,
-                      "supply_design_cooling_setpoint_temperature": 12.78,
-                      "minimum_airflow": 100.0,
-                      "minimum_outdoor_airflow": 120.0,
-                      "heating_capacity": 2179.22,
-                      "cooling_capacity": 3382.97
+                      "primary_airflow": 943.8948864,
+                      "supply_design_heating_setpoint_temperature": 32.2222222222223,
+                      "supply_design_cooling_setpoint_temperature": 12.7777777777778,
+                      "minimum_airflow": 100.05356350943998,
+                      "minimum_outdoor_airflow": 117.9868608,
+                      "heating_capacity": 2179.2185329232193,
+                      "cooling_capacity": 3382.9698730127284
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
                       "id": "PERIMETER_SPACE_4",
-                      "floor_area": 131.3,
+                      "floor_area": 131.30388911999998,
                       "number_of_occupants": 7.07,
                       "occupant_multiplier_schedule": "PERIMETER_SPACE_4_OCCUPANT_SCH",
                       "interior_lighting": [
                         {
                           "id": "PERIMETER_BOT_ZN_4 LIGHTING",
-                          "power_per_area": 11.033,
+                          "power_per_area": 11.0330081771275,
                           "lighting_multiplier_schedule": "PERIMETER_SPACE_4_LIGHTING_SCH",
                           "daylighting_control_type": "NONE",
                           "are_schedules_used_for_modeling_occupancy_control": true,
@@ -978,7 +978,7 @@
                           "multiplier_schedule": "PERIMETER_BOT_ZN_4 ELEC EQUIP SCH",
                           "sensible_fraction": 1.0,
                           "latent_fraction": 0.0,
-                          "power": 1059.5910000000001
+                          "power": 1059.6223851983998
                         }
                       ]
                     }
@@ -1204,7 +1204,7 @@
             "Exterior Wall Type 1 Insulation",
             "Exterior Wall Type 1 Gypsum Board"
           ],
-          "u_factor": 0.486
+          "u_factor": 0.4855790421186526
         },
         {
           "id": "EXTERIOR WALL TYPE 2",
@@ -1214,14 +1214,14 @@
             "Exterior Wall Type 2 Insulation",
             "Exterior Wall Type 2 Gypsum Board"
           ],
-          "u_factor": 0.16
+          "u_factor": 0.1597365212375242
         },
         {
           "id": "EXTERIOR WALL TYPE 3",
           "primary_layers": [
             "Exterior Wall Type 3 Total surface-to-surface thermal resistance"
           ],
-          "u_factor": 0.476
+          "u_factor": 0.47625998746959974
         },
         {
           "id": "INTERIOR FURNISHINGS",
@@ -1234,7 +1234,7 @@
           "primary_layers": [
             "Interior Wall surface-to-surface thermal resistance"
           ],
-          "u_factor": 1.696
+          "u_factor": 1.6963252167564362
         },
         {
           "id": "ROOF TYPE 1",
@@ -1243,7 +1243,7 @@
             "Roof Type 1 Continuous Insulation",
             "Roof Type 1 Built-up roofing"
           ],
-          "u_factor": 0.353
+          "u_factor": 0.35313746258916623
         },
         {
           "id": "ROOF TYPE 2",
@@ -1252,21 +1252,21 @@
             "Roof Type 2 Continuous Insulation",
             "Roof Type 2 Built-up roofing"
           ],
-          "u_factor": 0.182
+          "u_factor": 0.18193781526530986
         },
         {
           "id": "ROOF TYPE 3",
           "primary_layers": [
             "Roof Type 3 Total surface-to-surface thermal resistance"
           ],
-          "u_factor": 0.357
+          "u_factor": 0.357479168437678
         },
         {
           "id": "SLAB-ON-GRADE TYPE 1",
           "primary_layers": [
             "Slab-on-grade Type 1 Concrete"
           ],
-          "u_factor": 4.854
+          "u_factor": 4.854277408109726
         },
         {
           "id": "SLAB-ON-GRADE TYPE 2",
@@ -1274,7 +1274,7 @@
             "Slab-on-grade Type 2 Concrete",
             "Insulation for Slab on grade Type 2"
           ],
-          "u_factor": 0.326
+          "u_factor": 0.32642361096012645
         },
         {
           "id": "SWINGING DOOR",
@@ -1304,15 +1304,15 @@
           {
             "id": "source_results_ELECTRICITY",
             "energy_source": "ELECTRICITY",
-            "annual_consumption": 462.41,
-            "annual_demand": 40067.56,
+            "annual_consumption": 462.4063425753812,
+            "annual_demand": 40067.55512338832,
             "annual_cost": -1.0
           },
           {
             "id": "source_results_NATURAL_GAS",
             "energy_source": "NATURAL_GAS",
-            "annual_consumption": 89.54,
-            "annual_demand": 46384.35,
+            "annual_consumption": 89.53949932714141,
+            "annual_demand": 46384.34656230026,
             "annual_cost": -1.0
           }
         ],
@@ -1322,45 +1322,45 @@
             "id": "end_use_ELECTRICITY-Cooling",
             "type": "SPACE_COOLING",
             "energy_source": "ELECTRICITY",
-            "annual_site_energy_use": 39.07,
-            "annual_site_coincident_demand": 11351.12,
-            "annual_site_non_coincident_demand": 11351.12,
+            "annual_site_energy_use": 39.0695547171795,
+            "annual_site_coincident_demand": 11351.115263392605,
+            "annual_site_non_coincident_demand": 11351.115263392605,
             "is_regulated": true
           },
           {
             "id": "end_use_ELECTRICITY-Fans",
             "type": "FANS_INTERIOR_VENTILATION",
             "energy_source": "ELECTRICITY",
-            "annual_site_energy_use": 64.18,
+            "annual_site_energy_use": 64.1844,
             "annual_site_coincident_demand": 3000.0,
-            "annual_site_non_coincident_demand": 3000.0,
+            "annual_site_non_coincident_demand": 3000.000000000001,
             "is_regulated": true
           },
           {
             "id": "end_use_ELECTRICITY-Interior Equipment",
             "type": "MISC_EQUIPMENT",
             "energy_source": "ELECTRICITY",
-            "annual_site_energy_use": 194.9,
-            "annual_site_coincident_demand": 11496.1,
-            "annual_site_non_coincident_demand": 11496.1,
+            "annual_site_energy_use": 194.8961923306808,
+            "annual_site_coincident_demand": 11496.104387960078,
+            "annual_site_non_coincident_demand": 11496.104387960078,
             "is_regulated": true
           },
           {
             "id": "end_use_ELECTRICITY-Interior Lighting",
             "type": "INTERIOR_LIGHTING",
             "energy_source": "ELECTRICITY",
-            "annual_site_energy_use": 164.26,
-            "annual_site_coincident_demand": 14220.34,
-            "annual_site_non_coincident_demand": 14220.34,
+            "annual_site_energy_use": 164.2561955274422,
+            "annual_site_coincident_demand": 14220.335472035644,
+            "annual_site_non_coincident_demand": 14220.335472035644,
             "is_regulated": true
           },
           {
             "id": "end_use_NATURAL_GAS-Heating",
             "type": "SPACE_HEATING",
             "energy_source": "NATURAL_GAS",
-            "annual_site_energy_use": 89.54,
-            "annual_site_coincident_demand": 46384.35,
-            "annual_site_non_coincident_demand": 46384.35,
+            "annual_site_energy_use": 89.53949932714141,
+            "annual_site_coincident_demand": 46384.34656230026,
+            "annual_site_non_coincident_demand": 46384.34656230026,
             "is_regulated": true
           }
         ]

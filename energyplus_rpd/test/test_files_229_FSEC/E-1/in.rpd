@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2025-12-23T21:39Z",
+    "time_of_creation": "2026-01-19T20:47Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -33,18 +33,18 @@
                   "id": "PSZHP-CORE ZONE",
                   "cooling_system": {
                     "id": "PSZHP-CORE ZONE-cooling",
-                    "design_total_cool_capacity": 34762.722,
-                    "design_sensible_cool_capacity": 26344.929,
+                    "design_total_cool_capacity": 34762.72216,
+                    "design_sensible_cool_capacity": 26344.928988956,
                     "type": "DIRECT_EXPANSION",
-                    "rated_total_cool_capacity": 34863.26,
-                    "rated_sensible_cool_capacity": 24108.52,
-                    "oversizing_factor": 1.0393344116530283,
+                    "rated_total_cool_capacity": 34863.263320591504,
+                    "rated_sensible_cool_capacity": 24108.51958344964,
+                    "oversizing_factor": 1.0393345061336334,
                     "is_calculated_size": false,
                     "efficiency_metric_values": [
-                      2.71,
-                      9.23,
-                      9.2,
-                      9.0
+                      2.705903834320606,
+                      9.232927127979675,
+                      9.201031060023643,
+                      9.035250251611949
                     ],
                     "efficiency_metric_types": [
                       "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
@@ -55,15 +55,15 @@
                   },
                   "fan_system": {
                     "id": "PSZHP FAN CV - CORE ZONE 1-fansystem",
-                    "minimum_airflow": 1645.0,
-                    "minimum_outdoor_airflow": 600.1,
+                    "minimum_airflow": 1644.965016888754,
+                    "minimum_outdoor_airflow": 600.089944075776,
                     "fan_control": "CONSTANT",
                     "supply_fans": [
                       {
                         "id": "PSZHP FAN CV - CORE ZONE 1",
-                        "design_airflow": 1.66,
+                        "design_airflow": 1.65562,
                         "is_airflow_calculated": true,
-                        "design_electric_power": 847.68,
+                        "design_electric_power": 847.67744,
                         "design_pressure_rise": 307.2,
                         "total_efficiency": 0.6,
                         "motor_efficiency": 0.8,
@@ -79,18 +79,18 @@
                   "id": "PSZHP-PRM ZONE 1",
                   "cooling_system": {
                     "id": "PSZHP-PRM ZONE 1-cooling",
-                    "design_total_cool_capacity": 43577.737,
-                    "design_sensible_cool_capacity": 32271.929,
+                    "design_total_cool_capacity": 43577.73714,
+                    "design_sensible_cool_capacity": 32271.929016398397,
                     "type": "DIRECT_EXPANSION",
-                    "rated_total_cool_capacity": 43703.77,
-                    "rated_sensible_cool_capacity": 29647.49,
-                    "oversizing_factor": 1.0413902923906453,
+                    "rated_total_cool_capacity": 43703.773192293054,
+                    "rated_sensible_cool_capacity": 29647.491987772482,
+                    "oversizing_factor": 1.0413902088946938,
                     "is_calculated_size": false,
                     "efficiency_metric_values": [
-                      2.72,
-                      9.29,
-                      9.26,
-                      9.1
+                      2.7235253377207256,
+                      9.293054193367274,
+                      9.264321236937516,
+                      9.141520462313164
                     ],
                     "efficiency_metric_types": [
                       "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
@@ -101,15 +101,15 @@
                   },
                   "fan_system": {
                     "id": "PSZHP FAN CV - PRM ZONE 1-fansystem",
-                    "minimum_airflow": 1852.7,
-                    "minimum_outdoor_airflow": 126.4,
+                    "minimum_airflow": 1852.6669096819583,
+                    "minimum_outdoor_airflow": 126.40434073919998,
                     "fan_control": "CONSTANT",
                     "supply_fans": [
                       {
                         "id": "PSZHP FAN CV - PRM ZONE 1",
-                        "design_airflow": 1.98,
+                        "design_airflow": 1.98027,
                         "is_airflow_calculated": true,
-                        "design_electric_power": 1013.9,
+                        "design_electric_power": 1013.89824,
                         "design_pressure_rise": 307.2,
                         "total_efficiency": 0.6,
                         "motor_efficiency": 0.8,
@@ -125,18 +125,18 @@
                   "id": "PSZHP-PRM ZONE 2",
                   "cooling_system": {
                     "id": "PSZHP-PRM ZONE 2-cooling",
-                    "design_total_cool_capacity": 19280.735,
-                    "design_sensible_cool_capacity": 14347.373,
+                    "design_total_cool_capacity": 19280.73486,
+                    "design_sensible_cool_capacity": 14347.3732313718,
                     "type": "DIRECT_EXPANSION",
-                    "rated_total_cool_capacity": 19336.5,
-                    "rated_sensible_cool_capacity": 13170.83,
-                    "oversizing_factor": 1.0424289723653315,
+                    "rated_total_cool_capacity": 19336.498831847748,
+                    "rated_sensible_cool_capacity": 13170.826541078368,
+                    "oversizing_factor": 1.0424289181422404,
                     "is_calculated_size": false,
                     "efficiency_metric_values": [
-                      2.72,
-                      9.28,
-                      9.25,
-                      9.1
+                      2.7201017329352832,
+                      9.281372368943927,
+                      9.252020542763784,
+                      9.120779239683793
                     ],
                     "efficiency_metric_types": [
                       "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
@@ -147,15 +147,15 @@
                   },
                   "fan_system": {
                     "id": "PSZHP FAN CV - PRM ZONE 2-fansystem",
-                    "minimum_airflow": 943.8,
-                    "minimum_outdoor_airflow": 80.10000000000001,
+                    "minimum_airflow": 943.7834176069281,
+                    "minimum_outdoor_airflow": 80.07591726720004,
                     "fan_control": "CONSTANT",
                     "supply_fans": [
                       {
                         "id": "PSZHP FAN CV - PRM ZONE 2",
-                        "design_airflow": 0.88,
+                        "design_airflow": 0.88431,
                         "is_airflow_calculated": true,
-                        "design_electric_power": 452.77,
+                        "design_electric_power": 452.76672,
                         "design_pressure_rise": 307.2,
                         "total_efficiency": 0.6,
                         "motor_efficiency": 0.8,
@@ -171,18 +171,18 @@
                   "id": "PSZHP-PRM ZONE 3",
                   "cooling_system": {
                     "id": "PSZHP-PRM ZONE 3-cooling",
-                    "design_total_cool_capacity": 23892.788,
-                    "design_sensible_cool_capacity": 17841.94,
+                    "design_total_cool_capacity": 23892.78811,
+                    "design_sensible_cool_capacity": 17841.9395211425,
                     "type": "DIRECT_EXPANSION",
-                    "rated_total_cool_capacity": 23961.89,
-                    "rated_sensible_cool_capacity": 16365.29,
-                    "oversizing_factor": 1.0434748505611788,
+                    "rated_total_cool_capacity": 23961.891117390784,
+                    "rated_sensible_cool_capacity": 16365.285759303168,
+                    "oversizing_factor": 1.0434749155652048,
                     "is_calculated_size": false,
                     "efficiency_metric_values": [
-                      2.72,
-                      9.27,
-                      9.24,
-                      9.1
+                      2.716627422903058,
+                      9.269517531037021,
+                      9.239539801135374,
+                      9.099777624393708
                     ],
                     "efficiency_metric_types": [
                       "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
@@ -193,15 +193,15 @@
                   },
                   "fan_system": {
                     "id": "PSZHP FAN CV - PRM ZONE 3-fansystem",
-                    "minimum_airflow": 1206.6,
-                    "minimum_outdoor_airflow": 126.4,
+                    "minimum_airflow": 1206.605144858869,
+                    "minimum_outdoor_airflow": 126.40434073919998,
                     "fan_control": "CONSTANT",
                     "supply_fans": [
                       {
                         "id": "PSZHP FAN CV - PRM ZONE 3",
-                        "design_airflow": 1.11,
+                        "design_airflow": 1.10611,
                         "is_airflow_calculated": true,
-                        "design_electric_power": 566.33,
+                        "design_electric_power": 566.32832,
                         "design_pressure_rise": 307.2,
                         "total_efficiency": 0.6,
                         "motor_efficiency": 0.8,
@@ -217,18 +217,18 @@
                   "id": "PSZHP-PRM ZONE 4",
                   "cooling_system": {
                     "id": "PSZHP-PRM ZONE 4-cooling",
-                    "design_total_cool_capacity": 21455.501,
-                    "design_sensible_cool_capacity": 15965.682,
+                    "design_total_cool_capacity": 21455.50077,
+                    "design_sensible_cool_capacity": 15965.681787980098,
                     "type": "DIRECT_EXPANSION",
-                    "rated_total_cool_capacity": 21517.55,
-                    "rated_sensible_cool_capacity": 14656.44,
-                    "oversizing_factor": 1.0434747993710602,
+                    "rated_total_cool_capacity": 21517.554625810226,
+                    "rated_sensible_cool_capacity": 14656.437836016148,
+                    "oversizing_factor": 1.043474915565205,
                     "is_calculated_size": false,
                     "efficiency_metric_values": [
-                      2.72,
-                      9.28,
-                      9.25,
-                      9.1
+                      2.720100049564994,
+                      9.28136662504608,
+                      9.252014495083554,
+                      9.12076905259934
                     ],
                     "efficiency_metric_types": [
                       "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
@@ -239,15 +239,15 @@
                   },
                   "fan_system": {
                     "id": "PSZHP FAN CV - PRM ZONE 4-fansystem",
-                    "minimum_airflow": 927.5,
-                    "minimum_outdoor_airflow": 80.10000000000001,
+                    "minimum_airflow": 927.5113089743571,
+                    "minimum_outdoor_airflow": 80.07591726720001,
                     "fan_control": "CONSTANT",
                     "supply_fans": [
                       {
                         "id": "PSZHP FAN CV - PRM ZONE 4",
-                        "design_airflow": 0.98,
+                        "design_airflow": 0.98406,
                         "is_airflow_calculated": true,
-                        "design_electric_power": 503.84,
+                        "design_electric_power": 503.83871999999997,
                         "design_pressure_rise": 307.2,
                         "total_efficiency": 0.6,
                         "motor_efficiency": 0.8,
@@ -263,7 +263,7 @@
               "zones": [
                 {
                   "id": "CORE ZONE 1",
-                  "volume": 3898.03,
+                  "volume": 3898.0268760751724,
                   "thermostat_cooling_setpoint_schedule": "ASHRAE 229 Office ClgSetp",
                   "thermostat_heating_setpoint_schedule": "ASHRAE 229 Office HtgSetp",
                   "design_thermostat_heating_setpoint": 21.1,
@@ -273,7 +273,7 @@
                     {
                       "id": "EASTPARTWALL CORE SPACE",
                       "classification": "WALL",
-                      "area": 95.65,
+                      "area": 95.65296998400001,
                       "tilt": 90.0,
                       "azimuth": 90.0,
                       "adjacent_to": "INTERIOR",
@@ -284,7 +284,7 @@
                     {
                       "id": "FLOOR CORE SPACE",
                       "classification": "FLOOR",
-                      "area": 983.75,
+                      "area": 983.7540066816,
                       "tilt": 180.0,
                       "azimuth": 270.0,
                       "adjacent_to": "GROUND",
@@ -294,7 +294,7 @@
                     {
                       "id": "NORTHPARTWALL CORE SPACE",
                       "classification": "WALL",
-                      "area": 161.47,
+                      "area": 161.47477382399998,
                       "tilt": 90.0,
                       "azimuth": 0.0,
                       "adjacent_to": "INTERIOR",
@@ -305,7 +305,7 @@
                     {
                       "id": "ROOF CORE SAPCE",
                       "classification": "CEILING",
-                      "area": 983.75,
+                      "area": 983.7540066816,
                       "tilt": 0.0,
                       "azimuth": 90.0,
                       "adjacent_to": "EXTERIOR",
@@ -315,7 +315,7 @@
                     {
                       "id": "SOUTHPARTWALL CORE SPACE",
                       "classification": "WALL",
-                      "area": 161.47,
+                      "area": 161.47477382399998,
                       "tilt": 90.0,
                       "azimuth": 180.0,
                       "adjacent_to": "INTERIOR",
@@ -326,7 +326,7 @@
                     {
                       "id": "WESTPARTWALL CORE SPACE",
                       "classification": "WALL",
-                      "area": 95.65,
+                      "area": 95.65296998400001,
                       "tilt": 90.0,
                       "azimuth": 270.0,
                       "adjacent_to": "INTERIOR",
@@ -349,20 +349,20 @@
                       "heating_source": "NONE",
                       "cooling_source": "NONE",
                       "served_by_heating_ventilating_air_conditioning_system": "PSZHP-CORE ZONE",
-                      "primary_airflow": 1640.0,
+                      "primary_airflow": 1644.965016888754,
                       "supply_design_heating_setpoint_temperature": 32.2,
                       "supply_design_cooling_setpoint_temperature": 12.8,
-                      "minimum_airflow": 750.0,
-                      "minimum_outdoor_airflow": 600.0,
-                      "heating_capacity": 18370.21,
-                      "cooling_capacity": 8517.55
+                      "minimum_airflow": 749.6205530913792,
+                      "minimum_outdoor_airflow": 600.089944075776,
+                      "heating_capacity": 18370.214542673202,
+                      "cooling_capacity": 8517.550253645668
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
                       "id": "CORE SPACE",
-                      "floor_area": 983.75,
+                      "floor_area": 983.7540066816,
                       "number_of_occupants": 52.95,
                       "occupant_multiplier_schedule": "ASHRAE 229 BLDG OCCUP SCH",
                       "interior_lighting": [
@@ -382,7 +382,7 @@
                           "multiplier_schedule": "ASHRAE 229 OFFICE PLUG LOAD SCH",
                           "sensible_fraction": 1.0,
                           "latent_fraction": 0.0,
-                          "power": 7938.8625
+                          "power": 7938.894833920513
                         }
                       ]
                     }
@@ -390,7 +390,7 @@
                 },
                 {
                   "id": "PRM ZONE 1 (SOUTH)",
-                  "volume": 821.09,
+                  "volume": 821.089442204928,
                   "thermostat_cooling_setpoint_schedule": "ASHRAE 229 Office ClgSetp",
                   "thermostat_heating_setpoint_schedule": "ASHRAE 229 Office HtgSetp",
                   "design_thermostat_heating_setpoint": 21.1,
@@ -400,7 +400,7 @@
                     {
                       "id": "EASTPARTWALL PRM SPACE 1",
                       "classification": "WALL",
-                      "area": 25.62,
+                      "area": 25.620024134969587,
                       "tilt": 90.0,
                       "azimuth": 45.0,
                       "adjacent_to": "INTERIOR",
@@ -411,7 +411,7 @@
                     {
                       "id": "FLOOR PRM SPACE 1",
                       "classification": "FLOOR",
-                      "area": 207.22,
+                      "area": 207.22023072,
                       "tilt": 180.0,
                       "azimuth": 0.0,
                       "adjacent_to": "GROUND",
@@ -421,7 +421,7 @@
                     {
                       "id": "NORTHPARTWALL PRM SPACE 1",
                       "classification": "WALL",
-                      "area": 161.47,
+                      "area": 161.47477382399998,
                       "tilt": 90.0,
                       "azimuth": 0.0,
                       "adjacent_to": "INTERIOR",
@@ -432,7 +432,7 @@
                     {
                       "id": "ROOF PRM SPACE 1",
                       "classification": "CEILING",
-                      "area": 207.22,
+                      "area": 207.22023072,
                       "tilt": 0.0,
                       "azimuth": 180.0,
                       "adjacent_to": "EXTERIOR",
@@ -442,7 +442,7 @@
                     {
                       "id": "SOUTH WALL PRM SPACE 1",
                       "classification": "WALL",
-                      "area": 197.71,
+                      "area": 197.70695942400002,
                       "tilt": 90.0,
                       "azimuth": 180.0,
                       "adjacent_to": "EXTERIOR",
@@ -452,31 +452,31 @@
                         {
                           "id": "SOUTH WIN 1 PRM SPACE 1",
                           "classification": "WINDOW",
-                          "glazed_area": 21.5,
+                          "glazed_area": 21.497763456,
                           "opaque_area": 0.0,
-                          "u_factor": 3.235,
-                          "solar_heat_gain_coefficient": 0.388,
-                          "visible_transmittance": 0.423,
+                          "u_factor": 3.235085690385431,
+                          "solar_heat_gain_coefficient": 0.3882426852673203,
+                          "visible_transmittance": 0.42257987490084714,
                           "has_automatic_shades": false
                         },
                         {
                           "id": "SOUTH WIN 2 PRM SPACE 1",
                           "classification": "WINDOW",
-                          "glazed_area": 21.46,
+                          "glazed_area": 21.456421603199995,
                           "opaque_area": 0.0,
-                          "u_factor": 3.235,
-                          "solar_heat_gain_coefficient": 0.388,
-                          "visible_transmittance": 0.423,
+                          "u_factor": 3.235085690385431,
+                          "solar_heat_gain_coefficient": 0.3882426852673203,
+                          "visible_transmittance": 0.42257987490084714,
                           "has_automatic_shades": false
                         },
                         {
                           "id": "SOUTH WIN 3 PRM SPACE 1",
                           "classification": "WINDOW",
-                          "glazed_area": 21.46,
+                          "glazed_area": 21.456421603200003,
                           "opaque_area": 0.0,
-                          "u_factor": 3.235,
-                          "solar_heat_gain_coefficient": 0.388,
-                          "visible_transmittance": 0.423,
+                          "u_factor": 3.235085690385431,
+                          "solar_heat_gain_coefficient": 0.3882426852673203,
+                          "visible_transmittance": 0.42257987490084714,
                           "has_automatic_shades": false
                         }
                       ]
@@ -484,7 +484,7 @@
                     {
                       "id": "WESTPARTWALL PRM SPACE 1",
                       "classification": "WALL",
-                      "area": 25.62,
+                      "area": 25.62002413496958,
                       "tilt": 90.0,
                       "azimuth": 315.0,
                       "adjacent_to": "INTERIOR",
@@ -507,20 +507,20 @@
                       "heating_source": "NONE",
                       "cooling_source": "NONE",
                       "served_by_heating_ventilating_air_conditioning_system": "PSZHP-PRM ZONE 1",
-                      "primary_airflow": 1850.0,
+                      "primary_airflow": 1852.6669096819583,
                       "supply_design_heating_setpoint_temperature": 32.2,
                       "supply_design_cooling_setpoint_temperature": 12.8,
-                      "minimum_airflow": 160.0,
-                      "minimum_outdoor_airflow": 130.0,
-                      "heating_capacity": 20700.82,
-                      "cooling_capacity": 2984.05
+                      "minimum_airflow": 157.90181580863998,
+                      "minimum_outdoor_airflow": 126.40434073919998,
+                      "heating_capacity": 20700.820372586128,
+                      "cooling_capacity": 2984.0488857442497
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
                       "id": "PRM SPACE 1",
-                      "floor_area": 207.22,
+                      "floor_area": 207.22023072,
                       "number_of_occupants": 11.15,
                       "occupant_multiplier_schedule": "ASHRAE 229 BLDG OCCUP SCH",
                       "interior_lighting": [
@@ -540,7 +540,7 @@
                           "multiplier_schedule": "ASHRAE 229 OFFICE PLUG LOAD SCH",
                           "sensible_fraction": 1.0,
                           "latent_fraction": 0.0,
-                          "power": 1672.2654
+                          "power": 1672.2672619104
                         }
                       ]
                     }
@@ -548,7 +548,7 @@
                 },
                 {
                   "id": "PRM ZONE 2 (EAST)",
-                  "volume": 520.15,
+                  "volume": 520.1521550484483,
                   "thermostat_cooling_setpoint_schedule": "ASHRAE 229 Office ClgSetp",
                   "thermostat_heating_setpoint_schedule": "ASHRAE 229 Office HtgSetp",
                   "design_thermostat_heating_setpoint": 21.1,
@@ -558,7 +558,7 @@
                     {
                       "id": "EAST WALL PRM SPACE 2",
                       "classification": "WALL",
-                      "area": 131.89,
+                      "area": 131.88515558400002,
                       "tilt": 90.0,
                       "azimuth": 90.0,
                       "adjacent_to": "EXTERIOR",
@@ -568,21 +568,21 @@
                         {
                           "id": "EAST WIN 1 PRM SPACE 2",
                           "classification": "WINDOW",
-                          "glazed_area": 41.84,
+                          "glazed_area": 41.83795503359999,
                           "opaque_area": 0.0,
-                          "u_factor": 3.235,
-                          "solar_heat_gain_coefficient": 0.388,
-                          "visible_transmittance": 0.423,
+                          "u_factor": 3.235085690385431,
+                          "solar_heat_gain_coefficient": 0.3882426852673203,
+                          "visible_transmittance": 0.42257987490084714,
                           "has_automatic_shades": false
                         },
                         {
                           "id": "EAST WIN 2 PRM SPACE 2",
                           "classification": "WINDOW",
-                          "glazed_area": 1.65,
+                          "glazed_area": 1.6537012391999997,
                           "opaque_area": 0.0,
-                          "u_factor": 3.235,
-                          "solar_heat_gain_coefficient": 0.388,
-                          "visible_transmittance": 0.423,
+                          "u_factor": 3.235085690385431,
+                          "solar_heat_gain_coefficient": 0.3882426852673203,
+                          "visible_transmittance": 0.42257987490084714,
                           "has_automatic_shades": false
                         }
                       ]
@@ -590,7 +590,7 @@
                     {
                       "id": "FLOOR PRM SPACE 2",
                       "classification": "FLOOR",
-                      "area": 131.27,
+                      "area": 131.27199552000008,
                       "tilt": 180.0,
                       "azimuth": 135.0,
                       "adjacent_to": "GROUND",
@@ -600,7 +600,7 @@
                     {
                       "id": "NORTHPARTWALL PRM SPACE 2",
                       "classification": "WALL",
-                      "area": 25.62,
+                      "area": 25.620024134969583,
                       "tilt": 90.0,
                       "azimuth": 315.0,
                       "adjacent_to": "INTERIOR",
@@ -611,7 +611,7 @@
                     {
                       "id": "ROOF PRM SPACE 2",
                       "classification": "CEILING",
-                      "area": 131.27,
+                      "area": 131.27199552000008,
                       "tilt": 0.0,
                       "azimuth": 315.0,
                       "adjacent_to": "EXTERIOR",
@@ -621,7 +621,7 @@
                     {
                       "id": "SOUTHPARTWALL PRM SPACE 2",
                       "classification": "WALL",
-                      "area": 25.62,
+                      "area": 25.620024134969587,
                       "tilt": 90.0,
                       "azimuth": 225.0,
                       "adjacent_to": "INTERIOR",
@@ -632,7 +632,7 @@
                     {
                       "id": "WESTPARTWALL PRM SPACE 2",
                       "classification": "WALL",
-                      "area": 95.65,
+                      "area": 95.65296998400001,
                       "tilt": 90.0,
                       "azimuth": 270.0,
                       "adjacent_to": "INTERIOR",
@@ -655,20 +655,20 @@
                       "heating_source": "NONE",
                       "cooling_source": "NONE",
                       "served_by_heating_ventilating_air_conditioning_system": "PSZHP-PRM ZONE 2",
-                      "primary_airflow": 940.0,
+                      "primary_airflow": 943.7834176069281,
                       "supply_design_heating_setpoint_temperature": 32.2,
                       "supply_design_cooling_setpoint_temperature": 12.8,
-                      "minimum_airflow": 100.0,
-                      "minimum_outdoor_airflow": 80.0,
-                      "heating_capacity": 10543.49,
-                      "cooling_capacity": 2067.12
+                      "minimum_airflow": 100.02926058624006,
+                      "minimum_outdoor_airflow": 80.07591726720004,
+                      "heating_capacity": 10543.489409501217,
+                      "cooling_capacity": 2067.1207461557487
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
                       "id": "PRM SPACE 2",
-                      "floor_area": 131.27,
+                      "floor_area": 131.27199552000008,
                       "number_of_occupants": 7.07,
                       "occupant_multiplier_schedule": "ASHRAE 229 BLDG OCCUP SCH",
                       "interior_lighting": [
@@ -688,7 +688,7 @@
                           "multiplier_schedule": "ASHRAE 229 OFFICE PLUG LOAD SCH",
                           "sensible_fraction": 1.0,
                           "latent_fraction": 0.0,
-                          "power": 1059.3489000000002
+                          "power": 1059.3650038464007
                         }
                       ]
                     }
@@ -696,7 +696,7 @@
                 },
                 {
                   "id": "PRM ZONE 3 (NORTH)",
-                  "volume": 821.09,
+                  "volume": 821.089442204928,
                   "thermostat_cooling_setpoint_schedule": "ASHRAE 229 Office ClgSetp",
                   "thermostat_heating_setpoint_schedule": "ASHRAE 229 Office HtgSetp",
                   "design_thermostat_heating_setpoint": 21.1,
@@ -706,7 +706,7 @@
                     {
                       "id": "EASTPARTWALL PRM SPACE 3",
                       "classification": "WALL",
-                      "area": 25.62,
+                      "area": 25.620024134969583,
                       "tilt": 90.0,
                       "azimuth": 135.0,
                       "adjacent_to": "INTERIOR",
@@ -717,7 +717,7 @@
                     {
                       "id": "FLOOR PRM SPACE 3",
                       "classification": "FLOOR",
-                      "area": 207.22,
+                      "area": 207.22023071999996,
                       "tilt": 180.0,
                       "azimuth": 180.0,
                       "adjacent_to": "EXTERIOR",
@@ -727,7 +727,7 @@
                     {
                       "id": "NORTH WALL PRM SPACE 3",
                       "classification": "WALL",
-                      "area": 197.71,
+                      "area": 197.70695942400002,
                       "tilt": 90.0,
                       "azimuth": 0.0,
                       "adjacent_to": "EXTERIOR",
@@ -737,31 +737,31 @@
                         {
                           "id": "NORTH WIN 1 PRM SPACE 3",
                           "classification": "WINDOW",
-                          "glazed_area": 21.46,
+                          "glazed_area": 21.456421603200003,
                           "opaque_area": 0.0,
-                          "u_factor": 3.235,
-                          "solar_heat_gain_coefficient": 0.388,
-                          "visible_transmittance": 0.423,
+                          "u_factor": 3.235085690385431,
+                          "solar_heat_gain_coefficient": 0.3882426852673203,
+                          "visible_transmittance": 0.42257987490084714,
                           "has_automatic_shades": false
                         },
                         {
                           "id": "NORTH WIN 2 PRM SPACE 3",
                           "classification": "WINDOW",
-                          "glazed_area": 21.5,
+                          "glazed_area": 21.497763456,
                           "opaque_area": 0.0,
-                          "u_factor": 3.235,
-                          "solar_heat_gain_coefficient": 0.388,
-                          "visible_transmittance": 0.423,
+                          "u_factor": 3.235085690385431,
+                          "solar_heat_gain_coefficient": 0.3882426852673203,
+                          "visible_transmittance": 0.42257987490084714,
                           "has_automatic_shades": false
                         },
                         {
                           "id": "NORTH WIN 3 PRM SPACE 3",
                           "classification": "WINDOW",
-                          "glazed_area": 21.46,
+                          "glazed_area": 21.456421603199995,
                           "opaque_area": 0.0,
-                          "u_factor": 3.235,
-                          "solar_heat_gain_coefficient": 0.388,
-                          "visible_transmittance": 0.423,
+                          "u_factor": 3.235085690385431,
+                          "solar_heat_gain_coefficient": 0.3882426852673203,
+                          "visible_transmittance": 0.42257987490084714,
                           "has_automatic_shades": false
                         }
                       ]
@@ -769,7 +769,7 @@
                     {
                       "id": "ROOF PRM SPACE 3",
                       "classification": "CEILING",
-                      "area": 207.22,
+                      "area": 207.22023071999996,
                       "tilt": 0.0,
                       "azimuth": 0.0,
                       "adjacent_to": "EXTERIOR",
@@ -779,7 +779,7 @@
                     {
                       "id": "SOUTHPARTWALL PRM SPACE 3",
                       "classification": "WALL",
-                      "area": 161.47,
+                      "area": 161.47477382399998,
                       "tilt": 90.0,
                       "azimuth": 180.0,
                       "adjacent_to": "INTERIOR",
@@ -790,7 +790,7 @@
                     {
                       "id": "WESTPARTWALL PRM SPACE 3",
                       "classification": "WALL",
-                      "area": 25.62,
+                      "area": 25.620024134969576,
                       "tilt": 90.0,
                       "azimuth": 225.0,
                       "adjacent_to": "INTERIOR",
@@ -813,20 +813,20 @@
                       "heating_source": "NONE",
                       "cooling_source": "NONE",
                       "served_by_heating_ventilating_air_conditioning_system": "PSZHP-PRM ZONE 3",
-                      "primary_airflow": 1210.0,
+                      "primary_airflow": 1206.605144858869,
                       "supply_design_heating_setpoint_temperature": 32.2,
                       "supply_design_cooling_setpoint_temperature": 12.8,
-                      "minimum_airflow": 160.0,
-                      "minimum_outdoor_airflow": 130.0,
-                      "heating_capacity": 13478.15,
-                      "cooling_capacity": 5293.22
+                      "minimum_airflow": 157.90181580863995,
+                      "minimum_outdoor_airflow": 126.40434073919998,
+                      "heating_capacity": 13478.148755582088,
+                      "cooling_capacity": 5293.218558886307
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
                       "id": "PRM SPACE 3",
-                      "floor_area": 207.22,
+                      "floor_area": 207.22023071999996,
                       "number_of_occupants": 11.15,
                       "occupant_multiplier_schedule": "ASHRAE 229 BLDG OCCUP SCH",
                       "interior_lighting": [
@@ -846,7 +846,7 @@
                           "multiplier_schedule": "ASHRAE 229 OFFICE PLUG LOAD SCH",
                           "sensible_fraction": 1.0,
                           "latent_fraction": 0.0,
-                          "power": 1672.2654
+                          "power": 1672.2672619103998
                         }
                       ]
                     }
@@ -854,7 +854,7 @@
                 },
                 {
                   "id": "PRM ZONE 4 (WEST)",
-                  "volume": 520.15,
+                  "volume": 520.152155048448,
                   "thermostat_cooling_setpoint_schedule": "ASHRAE 229 Office ClgSetp",
                   "thermostat_heating_setpoint_schedule": "ASHRAE 229 Office HtgSetp",
                   "design_thermostat_heating_setpoint": 21.1,
@@ -864,7 +864,7 @@
                     {
                       "id": "EASTPARTWALL PRM SPACE 4",
                       "classification": "WALL",
-                      "area": 95.65,
+                      "area": 95.65296998400001,
                       "tilt": 90.0,
                       "azimuth": 90.0,
                       "adjacent_to": "INTERIOR",
@@ -875,7 +875,7 @@
                     {
                       "id": "FLOOR PRM SPACE 4",
                       "classification": "FLOOR",
-                      "area": 131.27,
+                      "area": 131.27199552000002,
                       "tilt": 180.0,
                       "azimuth": 270.0,
                       "adjacent_to": "EXTERIOR",
@@ -885,7 +885,7 @@
                     {
                       "id": "NORTHPARTWALL PRM SPACE 4",
                       "classification": "WALL",
-                      "area": 25.62,
+                      "area": 25.620024134969576,
                       "tilt": 90.0,
                       "azimuth": 45.0,
                       "adjacent_to": "INTERIOR",
@@ -896,7 +896,7 @@
                     {
                       "id": "ROOF PRM SPACE 4",
                       "classification": "CEILING",
-                      "area": 131.27,
+                      "area": 131.27199552000002,
                       "tilt": 0.0,
                       "azimuth": 90.0,
                       "adjacent_to": "EXTERIOR",
@@ -906,7 +906,7 @@
                     {
                       "id": "SOUTHPARTWALL PRM SPACE 4",
                       "classification": "WALL",
-                      "area": 25.62,
+                      "area": 25.62002413496958,
                       "tilt": 90.0,
                       "azimuth": 135.0,
                       "adjacent_to": "INTERIOR",
@@ -917,7 +917,7 @@
                     {
                       "id": "WEST WALL PRM SPACE 4",
                       "classification": "WALL",
-                      "area": 131.89,
+                      "area": 131.88515558400002,
                       "tilt": 90.0,
                       "azimuth": 270.0,
                       "adjacent_to": "EXTERIOR",
@@ -927,21 +927,21 @@
                         {
                           "id": "WEST WIN 1 PRM SPACE 4",
                           "classification": "WINDOW",
-                          "glazed_area": 1.65,
+                          "glazed_area": 1.6536741119999998,
                           "opaque_area": 0.0,
-                          "u_factor": 3.235,
-                          "solar_heat_gain_coefficient": 0.388,
-                          "visible_transmittance": 0.423,
+                          "u_factor": 3.235085690385431,
+                          "solar_heat_gain_coefficient": 0.3882426852673203,
+                          "visible_transmittance": 0.42257987490084714,
                           "has_automatic_shades": false
                         },
                         {
                           "id": "WEST WIN 2 PRM SPACE 4",
                           "classification": "WINDOW",
-                          "glazed_area": 41.84,
+                          "glazed_area": 41.83795503359999,
                           "opaque_area": 0.0,
-                          "u_factor": 3.235,
-                          "solar_heat_gain_coefficient": 0.388,
-                          "visible_transmittance": 0.423,
+                          "u_factor": 3.235085690385431,
+                          "solar_heat_gain_coefficient": 0.3882426852673203,
+                          "visible_transmittance": 0.42257987490084714,
                           "has_automatic_shades": false
                         }
                       ]
@@ -961,21 +961,21 @@
                       "heating_source": "NONE",
                       "cooling_source": "NONE",
                       "served_by_heating_ventilating_air_conditioning_system": "PSZHP-PRM ZONE 4",
-                      "primary_airflow": 930.0,
+                      "primary_airflow": 927.5113089743571,
                       "supply_design_heating_setpoint_temperature": 32.2,
                       "supply_design_cooling_setpoint_temperature": 12.8,
-                      "minimum_airflow": 100.0,
-                      "minimum_outdoor_airflow": 80.0,
-                      "heating_capacity": 10360.65,
-                      "cooling_capacity": 3285.89
+                      "minimum_airflow": 100.02926058624001,
+                      "minimum_outdoor_airflow": 80.07591726720001,
+                      "heating_capacity": 10360.646253777875,
+                      "cooling_capacity": 3285.8892078929257
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
                       "id": "PRM SPACE 4",
-                      "floor_area": 131.27,
-                      "number_of_occupants": 7.07,
+                      "floor_area": 131.27199552000002,
+                      "number_of_occupants": 7.06,
                       "occupant_multiplier_schedule": "ASHRAE 229 BLDG OCCUP SCH",
                       "interior_lighting": [
                         {
@@ -994,7 +994,7 @@
                           "multiplier_schedule": "ASHRAE 229 OFFICE PLUG LOAD SCH",
                           "sensible_fraction": 1.0,
                           "latent_fraction": 0.0,
-                          "power": 1059.3489000000002
+                          "power": 1059.3650038464002
                         }
                       ]
                     }
@@ -1161,7 +1161,7 @@
             "Gypsum Board",
             "Stucco"
           ],
-          "u_factor": 0.486
+          "u_factor": 0.4855790421186528
         },
         {
           "id": "EXTWALL TYPE 2",
@@ -1171,14 +1171,14 @@
             "Massless Wall Material for Ext Wall Type 2",
             "Stucco"
           ],
-          "u_factor": 0.192
+          "u_factor": 0.1915411917683346
         },
         {
           "id": "EXTWALL TYPE 3",
           "primary_layers": [
             "Massless Wall Material for Ext Wall Type 3"
           ],
-          "u_factor": 0.476
+          "u_factor": 0.47625998746959974
         },
         {
           "id": "EXTERIOR DOOR",
@@ -1194,7 +1194,7 @@
             "F04 Wall air space resistance",
             "G01a 19mm gypsum board"
           ],
-          "u_factor": 1.595
+          "u_factor": 1.594871912646952
         },
         {
           "id": "ROOF TYPE 1",
@@ -1203,7 +1203,7 @@
             "Roof Cont Insulation Board 1",
             "Metal Deck 01"
           ],
-          "u_factor": 0.353
+          "u_factor": 0.352950502521846
         },
         {
           "id": "ROOF TYPE 2",
@@ -1212,14 +1212,14 @@
             "Roof Cont Insulation Board 2",
             "Metal Deck 02"
           ],
-          "u_factor": 0.182
+          "u_factor": 0.18193781526530986
         },
         {
           "id": "ROOF TYPE 3",
           "primary_layers": [
             "Massless Assembly for Roof Type 3"
           ],
-          "u_factor": 0.357
+          "u_factor": 0.357479168437678
         },
         {
           "id": "SIMPLEWINDOW",
@@ -1232,14 +1232,14 @@
           "primary_layers": [
             "HW CONCRETE FLOOR"
           ],
-          "u_factor": 4.854
+          "u_factor": 4.854277408109726
         },
         {
           "id": "SLAB-ON-GRADE TYPE 2",
           "primary_layers": [
             "HW CONCRETE FLOOR"
           ],
-          "u_factor": 4.854
+          "u_factor": 4.854277408109726
         },
         {
           "id": "TYPICAL INSULATED BASEMENT MASS WALL",
@@ -1256,15 +1256,15 @@
         "id": "output_instance_1",
         "unmet_load_hours": 47.5,
         "unmet_load_hours_heating": 47.33,
-        "unmet_occupied_load_hours_heating": 47.33,
+        "unmet_occupied_load_hours_heating": 47.3333333333332,
         "unmet_load_hours_cooling": 0.17,
-        "unmet_occupied_load_hours_cooling": 0.17,
+        "unmet_occupied_load_hours_cooling": 0.16666666666666666,
         "annual_source_results": [
           {
             "id": "source_results_ELECTRICITY",
             "energy_source": "ELECTRICITY",
-            "annual_consumption": 627.23,
-            "annual_demand": 76434.13,
+            "annual_consumption": 627.2317308118078,
+            "annual_demand": 76434.13232635471,
             "annual_cost": -1.0
           }
         ],
@@ -1274,45 +1274,45 @@
             "id": "end_use_ELECTRICITY-Cooling",
             "type": "SPACE_COOLING",
             "energy_source": "ELECTRICITY",
-            "annual_site_energy_use": 37.54,
+            "annual_site_energy_use": 37.53582725858824,
             "annual_site_coincident_demand": 0.0,
-            "annual_site_non_coincident_demand": 19049.58,
+            "annual_site_non_coincident_demand": 19049.5781448959,
             "is_regulated": true
           },
           {
             "id": "end_use_ELECTRICITY-Fans",
             "type": "FANS_INTERIOR_VENTILATION",
             "energy_source": "ELECTRICITY",
-            "annual_site_energy_use": 81.72,
-            "annual_site_coincident_demand": 3284.77,
-            "annual_site_non_coincident_demand": 3284.77,
+            "annual_site_energy_use": 81.7197851949942,
+            "annual_site_coincident_demand": 3284.7683765990755,
+            "annual_site_non_coincident_demand": 3284.7683765990755,
             "is_regulated": true
           },
           {
             "id": "end_use_ELECTRICITY-Heating",
             "type": "SPACE_HEATING",
             "energy_source": "ELECTRICITY",
-            "annual_site_energy_use": 135.14,
-            "annual_site_coincident_demand": 44221.46,
-            "annual_site_non_coincident_demand": 56218.23,
+            "annual_site_energy_use": 135.14254764224023,
+            "annual_site_coincident_demand": 44221.45895115745,
+            "annual_site_non_coincident_demand": 56218.23446456492,
             "is_regulated": true
           },
           {
             "id": "end_use_ELECTRICITY-Interior Equipment",
             "type": "MISC_EQUIPMENT",
             "energy_source": "ELECTRICITY",
-            "annual_site_energy_use": 197.83,
-            "annual_site_coincident_demand": 11525.86,
-            "annual_site_non_coincident_demand": 13402.16,
+            "annual_site_energy_use": 197.82648674403328,
+            "annual_site_coincident_demand": 11525.857054273338,
+            "annual_site_non_coincident_demand": 13402.159365434112,
             "is_regulated": true
           },
           {
             "id": "end_use_ELECTRICITY-Interior Lighting",
             "type": "INTERIOR_LIGHTING",
             "energy_source": "ELECTRICITY",
-            "annual_site_energy_use": 175.01,
-            "annual_site_coincident_demand": 17402.05,
-            "annual_site_non_coincident_demand": 18317.95,
+            "annual_site_energy_use": 175.00708397208555,
+            "annual_site_coincident_demand": 17402.047944324826,
+            "annual_site_non_coincident_demand": 18317.945204552445,
             "is_regulated": true
           }
         ]
