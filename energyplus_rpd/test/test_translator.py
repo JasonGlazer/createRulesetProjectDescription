@@ -3885,7 +3885,8 @@ class TestTranslator(TestCase):
                                                           'motor_heat_to_airflow_fraction': 1.0,
                                                           'motor_heat_to_zone_fraction': 0.0,
                                                           'motor_location_zone': 'N/A',
-                                                          'specification_method': 'SIMPLE'}]}},
+                                                          'specification_method': 'SIMPLE',
+                                                          'operating_points': []}]}},
                          {'id': 'PERIMETER_ZN_1 ZN PSZ-AC-2',
                           'heating_system': {'id': 'PERIMETER_ZN_1 ZN PSZ-AC-2-heating', 'design_capacity': 8521.475,
                                              'type': 'HEAT_PUMP', 'energy_source_type': 'ELECTRICITY',
@@ -3902,7 +3903,8 @@ class TestTranslator(TestCase):
                                               'design_electric_power': 384.51, 'design_pressure_rise': 622.72,
                                               'total_efficiency': 0.56, 'motor_efficiency': 0.85,
                                               'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
-                                              'motor_location_zone': 'N/A', 'specification_method': 'SIMPLE'}]}},
+                                              'motor_location_zone': 'N/A', 'specification_method': 'SIMPLE',
+                                              'operating_points': []}]}},
                          {'id': 'PERIMETER_ZN_2 ZN PSZ-AC-3',
                           'heating_system': {'id': 'PERIMETER_ZN_2 ZN PSZ-AC-3-heating', 'design_capacity': 7154.994,
                                              'type': 'HEAT_PUMP', 'energy_source_type': 'ELECTRICITY',
@@ -3919,7 +3921,8 @@ class TestTranslator(TestCase):
                                               'design_electric_power': 322.85, 'design_pressure_rise': 622.72,
                                               'total_efficiency': 0.56, 'motor_efficiency': 0.85,
                                               'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
-                                              'motor_location_zone': 'N/A', 'specification_method': 'SIMPLE'}]}},
+                                              'motor_location_zone': 'N/A', 'specification_method': 'SIMPLE',
+                                              'operating_points': []}]}},
                          {'id': 'PERIMETER_ZN_3 ZN PSZ-AC-4',
                           'heating_system': {'id': 'PERIMETER_ZN_3 ZN PSZ-AC-4-heating', 'design_capacity': 7943.433,
                                              'type': 'HEAT_PUMP', 'energy_source_type': 'ELECTRICITY',
@@ -3936,7 +3939,8 @@ class TestTranslator(TestCase):
                                               'design_electric_power': 358.43, 'design_pressure_rise': 622.72,
                                               'total_efficiency': 0.56, 'motor_efficiency': 0.85,
                                               'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
-                                              'motor_location_zone': 'N/A', 'specification_method': 'SIMPLE'}]}},
+                                              'motor_location_zone': 'N/A', 'specification_method': 'SIMPLE',
+                                              'operating_points': []}]}},
                          {'id': 'PERIMETER_ZN_4 ZN PSZ-AC-5',
                           'heating_system': {'id': 'PERIMETER_ZN_4 ZN PSZ-AC-5-heating', 'design_capacity': 8664.576,
                                              'type': 'HEAT_PUMP', 'energy_source_type': 'ELECTRICITY',
@@ -3953,7 +3957,8 @@ class TestTranslator(TestCase):
                                               'design_electric_power': 390.97, 'design_pressure_rise': 622.72,
                                               'total_efficiency': 0.56, 'motor_efficiency': 0.85,
                                               'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
-                                              'motor_location_zone': 'N/A', 'specification_method': 'SIMPLE'}]}}]
+                                              'motor_location_zone': 'N/A', 'specification_method': 'SIMPLE',
+                                              'operating_points': []}]}}]
 
         expected_terminals = {'CORE_ZN ZN': [
             {'id': 'ADU CORE_ZN ZN PSZ-AC-1 DIFFUSER', 'type': 'CONSTANT_AIR_VOLUME', 'heating_source': 'NONE',
@@ -4544,33 +4549,97 @@ class TestTranslator(TestCase):
         expected = {'BASEMENT STORY 0 VAV_PFP_BOXES (SYS8) FAN': (
             {'design_airflow': 7.69, 'is_airflow_calculated': True, 'design_electric_power': 16476.98,
              'design_pressure_rise': 1363.04, 'total_efficiency': 0.64, 'motor_efficiency': 0.92,
-             'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0, 'motor_location_zone': 'N/A'},
+             'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0, 'motor_location_zone': 'N/A',
+             'operating_points': []},
             {'type': 'Fan:VariableVolume', 'fan_energy_index': 1.17, 'purpose': 'N/A',
              'airloop_name': 'BASEMENT STORY 0 VAV_PFP_BOXES (SYS8)'}), 'BASEMENT ZN PFP TERM FAN': (
             {'design_airflow': 7.67, 'is_airflow_calculated': True, 'design_electric_power': 5688.78,
              'design_pressure_rise': 365.09, 'total_efficiency': 0.49, 'motor_efficiency': 0.9,
-             'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0, 'motor_location_zone': 'N/A'},
+             'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0, 'motor_location_zone': 'N/A',
+             'operating_points': []},
             {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.11, 'purpose': 'N/A', 'airloop_name': 'N/A'}),
             'CORE_BOTTOM ZN PFP TERM FAN': (
                 {'design_airflow': 7.94, 'is_airflow_calculated': True,
                  'design_electric_power': 5888.98, 'design_pressure_rise': 365.09, 'total_efficiency': 0.49,
                  'motor_efficiency': 0.9, 'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
-                 'motor_location_zone': 'N/A'},
+                 'motor_location_zone': 'N/A', 'operating_points': []},
                 {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.11, 'purpose': 'N/A', 'airloop_name': 'N/A'}),
             'DATACENTER_BASEMENT_ZN_6 ZN PSZ-VAV FAN': (
                 {'design_airflow': 30.36, 'is_airflow_calculated': True,
                  'design_electric_power': 0.0, 'design_pressure_rise': 0.0, 'total_efficiency': 0.57,
                  'motor_efficiency': 0.94, 'motor_heat_to_airflow_fraction': 1.0,
-                 'motor_heat_to_zone_fraction': 0.0, 'motor_location_zone': 'N/A'},
+                 'motor_heat_to_zone_fraction': 0.0, 'motor_location_zone': 'N/A', 'operating_points': []},
                 {'type': 'Fan:VariableVolume', 'fan_energy_index': 0.0, 'purpose': 'N/A',
                  'airloop_name': 'DATACENTER_BASEMENT_ZN_6 ZN PSZ-VAV'}), 'PERIMETER_BOT_ZN_2 ZN PFP TERM FAN': (
                 {'design_airflow': 1.53, 'is_airflow_calculated': True, 'design_electric_power': 1137.67,
                  'design_pressure_rise': 342.66, 'total_efficiency': 0.46, 'motor_efficiency': 0.84,
                  'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
-                 'motor_location_zone': 'N/A'},
+                 'motor_location_zone': 'N/A', 'operating_points': []},
                 {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.23, 'purpose': 'N/A', 'airloop_name': 'N/A'})}
 
         self.assertEqual(gathered_equipment_fans, expected)
+
+    def test_gather_fan_operating_points(self):
+        t = self.set_minimal_files()
+
+        # example from large_office_cz2-tampa_proposed_final.json
+        t.json_results_object['TabularReports'] = [
+            {
+                "For": "Entire Facility",
+                "ReportName": "EquipmentSummary",
+                "Tables": [
+                    {
+                        "Cols": [
+                            "Type",
+                            "Flow Frac 0.0",
+                            "Flow Frac 0.1",
+                            "Flow Frac 0.2",
+                            "Flow Frac 0.3",
+                            "Flow Frac 0.4",
+                            "Flow Frac 0.5",
+                            "Flow Frac 0.6",
+                            "Flow Frac 0.7",
+                            "Flow Frac 0.8",
+                            "Flow Frac 0.9",
+                            "Flow Frac 1.0"
+                        ],
+                        "Rows": {
+                            "VAV_TOP WITH REHEAT FAN": [
+                                "Fan:VariableVolume",
+                                "0",
+                                "0.07299888211992077",
+                                "0.07299888211992077",
+                                "0.08613818698357442",
+                                "0.12477522357601585",
+                                "0.18461026749094692",
+                                "0.2713074445311406",
+                                "0.3905308804993697",
+                                "0.5479447011984077",
+                                "0.7492130324310267",
+                                "1"
+                            ]
+                        },
+                        "TableName": "Fan Power Fractions"
+                    },
+                ]
+            },
+        ]
+
+        gathered = t.gather_fan_operating_points('VAV_TOP WITH REHEAT FAN', 1000, 1000)
+
+        expected = [{'airflow': 0.0, 'power': 0.0},
+                    {'airflow': 100.0, 'power': 72.99888211992076},
+                    {'airflow': 200.0, 'power': 72.99888211992076},
+                    {'airflow': 300.0, 'power': 86.13818698357443},
+                    {'airflow': 400.0, 'power': 124.77522357601585},
+                    {'airflow': 500.0, 'power': 184.6102674909469},
+                    {'airflow': 600.0, 'power': 271.30744453114056},
+                    {'airflow': 700.0, 'power': 390.5308804993697},
+                    {'airflow': 800.0, 'power': 547.9447011984076},
+                    {'airflow': 900.0, 'power': 749.2130324310267},
+                    {'airflow': 1000.0, 'power': 1000.0}]
+
+        self.assertEqual(gathered, expected)
 
     def test_process_heating_metrics(self):
         t = self.set_minimal_files()
