@@ -7475,8 +7475,8 @@ Fan:
       EPout Report: "Equipment Summary"
       EPout Table: "Fan Operating Points"
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Need to go to the curve and pick points. No EnergyPlus output report for this"
+      EPstatus: "DoneUsingOutput"
+      EP Notes: ""
 
 FanOperatingPoint:
   Object Type: "Data Group"
@@ -7498,8 +7498,8 @@ FanOperatingPoint:
       EPout Report: "Equipment Summary"
       EPout Table: "Fan Operating Points"
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Need to go to the curve and pick points. Do we need an input to specify these?"
+      EPstatus: "DoneUsingOutput"
+      EP Notes: ""
     power:
       Description: "power"
       Data Type: "Numeric"
@@ -7517,8 +7517,8 @@ FanOperatingPoint:
       EPout Report: "Equipment Summary"
       EPout Table: "Fan Operating Points"
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Need to go to the curve and pick points"
+      EPstatus: "DoneUsingOutput"
+      EP Notes: ""
 
 FanSpecificationMethodOptions:
   Object Type: "Enumeration"

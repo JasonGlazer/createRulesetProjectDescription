@@ -1708,6 +1708,8 @@ class Translator:
                          'purpose': purpose,
                          'airloop_name': airloop_name}
             #  for Fan:SystemModel need to add some additional fields to understand later if variable speed or not
+            equipment_fan['operating_points'] = self.gather_fan_operating_points(row_key, max_air_flow_rate,
+                                                                                 rated_electricity_rate)
             if type == 'Fan:SystemModel':
                 fan_system_model = self.get_epjson_by_uc_name('Fan:SystemModel', row_key)
                 if 'speed_control_method' in fan_system_model:
@@ -1716,6 +1718,29 @@ class Translator:
                     fan_extra['number_of_speeds'] = fan_system_model['number_of_speeds']
             equipment_fans[row_key] = (equipment_fan, fan_extra)
         return equipment_fans
+
+    def gather_fan_operating_points(self, fan_name, max_flow, max_elec):
+        operating_points = []
+        fractions = self.get_table_dictionary('EquipmentSummary', 'Fan Power Fractions')
+        column_headings = ['Flow Frac 0.0',
+                           'Flow Frac 0.1',
+                           'Flow Frac 0.2',
+                           'Flow Frac 0.3',
+                           'Flow Frac 0.4',
+                           'Flow Frac 0.5',
+                           'Flow Frac 0.6',
+                           'Flow Frac 0.7',
+                           'Flow Frac 0.8',
+                           'Flow Frac 0.9',
+                           'Flow Frac 1.0']
+        if fan_name in fractions:
+            for count, heading in enumerate(column_headings):
+                operating_point = {
+                    'airflow': max_flow * count / 10.,
+                    'power': max_elec * float(fractions[fan_name][heading])
+                }
+                operating_points.append(operating_point)
+        return operating_points
 
     def gather_air_terminal(self):
         air_terminal_by_zone = {}
