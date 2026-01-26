@@ -653,6 +653,7 @@ class Translator:
         lights_by_space = self.gather_interior_lighting()
         people_schedule_by_zone = self.gather_people_schedule_by_zone()
         equipment_by_zone = self.gather_miscellaneous_equipment()
+        people_annual_list = self.gather_table_into_list("PEOPLE INTERNAL GAIN ANNUAL", "Custom Annual Report")
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'InputVerificationandResultsSummary':
                 tables = tabular_report['Tables']
@@ -688,10 +689,32 @@ class Translator:
                                 people = floor_area / people_density
                             else:
                                 people = 0
-                            space = {'id': space_name, 'floor_area': floor_area,
-                                     'number_of_occupants': round(people, 2)}
+
+                            space = {'id': space_name,
+                                     'floor_area': floor_area,
+                                     'number_of_occupants': round(people, 2),
+                                     }
                             if zone_name in people_schedule_by_zone:
                                 space['occupant_multiplier_schedule'] = people_schedule_by_zone[zone_name]
+
+                            # get the sensible and latent from annual
+                            # this only works if space name is subset of people input object name
+                            sensible = 0
+                            latent = 0
+                            for people_annual_row in people_annual_list:
+                                if space_name in people_annual_row['first column']:
+                                    people_count = float(people_annual_row['People Occupant Count {AT MAX/MIN} []'])
+                                    if people_count > 0:
+                                        sens = float(people_annual_row['People Sensible Heating Rate {AT MAX/MIN} [W]'])
+                                        sensible = sens / people_count
+                                        lat = float(people_annual_row['People Latent Gain Rate {AT MAX/MIN} [W]'])
+                                        latent = lat / people_count
+                                    break
+                            if sensible > 0:
+                                space['occupant_sensible_heat_gain'] = sensible
+                            if latent > 0:
+                                space['occupant_latent_heat_gain'] = latent
+
                             if space_name in lights_by_space:
                                 space['interior_lighting'] = lights_by_space[space_name]
                             if space_type:

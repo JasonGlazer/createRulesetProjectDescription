@@ -2009,8 +2009,8 @@ Space:
       EPout Report: "Required Output:Table:Annual"
       EPout Table: "People Internal Gain Annual"
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Often calculated internally. "
+      EPstatus: "PartialUsingOutput"
+      EP Notes: "Does not work if people name does not include space name. Need to add space name to the Initialization Summary report People Internal Gains Nominal table"
     occupant_latent_heat_gain:
       Description: "Latent heat gain of each occupant."
       Data Type: "Numeric"
@@ -2028,8 +2028,8 @@ Space:
       EPout Report: "Required Output:Table:Annual"
       EPout Table: "People Internal Gain Annual"
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "One minus the sensible. Often calculated internally."
+      EPstatus: "PartialUsingOutput"
+      EP Notes: "Does not work if people name does not include space name. Need to add space name to the Initialization Summary report People Internal Gains Nominal table"
     status_type:
       Description: "Choice of new, existing, addition, alteration, etc."
       Data Type: "<StatusOptions>"
