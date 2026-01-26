@@ -1862,6 +1862,7 @@ class Translator:
     def add_boilers(self):
         boilers = []
         tabular_reports = self.json_results_object['TabularReports']
+        operation_load_based = self.gather_table_into_list('ControlSummary', 'PlantEquipmentOperation Load Based')
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'EquipmentSummary':
                 tables = tabular_report['Tables']
@@ -1892,6 +1893,11 @@ class Translator:
                                         [float(rows[boiler_name][reference_efficiency_column]), ],
                                     'auxiliary_power': float(rows[boiler_name][parasitic_load_column]),
                                 }
+                                for operation_row in operation_load_based:
+                                    if boiler_name == operation_row['Equipment']:
+                                        boiler['operation_lower_limit'] = float(operation_row['Lower Limit [W]'])
+                                        boiler['operation_upper_limit'] = float(operation_row['Upper Limit [W]'])
+                                        break
                                 boilers.append(boiler)
         self.model_description['boilers'] = boilers
         return boilers
