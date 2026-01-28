@@ -1316,6 +1316,8 @@ class Translator:
                             elif 'variable' not in equipment_fan_extra['type'].lower():
                                 fan_system['fan_control'] = 'CONSTANT'
                         fan_system['supply_fans'] = fans
+                        if 'air_energy_recovery' in equipment_fan_extra:
+                            fan_system['air_energy_recovery'] = equipment_fan_extra['air_energy_recovery']
                         # add exhaust fans
                         if hvac_name in exhaust_fan_names:
                             fan_names = exhaust_fan_names[hvac_name]
@@ -1710,6 +1712,8 @@ class Translator:
             #  for Fan:SystemModel need to add some additional fields to understand later if variable speed or not
             equipment_fan['operating_points'] = self.gather_fan_operating_points(row_key, max_air_flow_rate,
                                                                                  rated_electricity_rate)
+            if airloop_name != 'N/A':
+                fan_extra['air_energy_recovery'] = self.gather_air_heat_recovery(airloop_name)
             if type == 'Fan:SystemModel':
                 fan_system_model = self.get_epjson_by_uc_name('Fan:SystemModel', row_key)
                 if 'speed_control_method' in fan_system_model:
@@ -1718,6 +1722,36 @@ class Translator:
                     fan_extra['number_of_speeds'] = fan_system_model['number_of_speeds']
             equipment_fans[row_key] = (equipment_fan, fan_extra)
         return equipment_fans
+
+    def gather_air_heat_recovery(self, airloop_name):
+        heat_recovery = {}
+        table_in = self.gather_table_into_list('EquipmentSummary', 'Air Heat Recovery')
+        for row_in in table_in:
+            if airloop_name == row_in['Airloop Name']:
+                if row_in['Type'] == 'HeatExchanger:AirToAir:SensibleAndLatent':
+                    if float(row_in['Latent Effectiveness at 100% Heating Air Flow']) > 0:
+                        option = 'ENTHALPY'
+                    else:
+                        option = 'ENTHALPY'
+                    if row_in['Plate/Rotary'] == 'Rotary':
+                        option += '_HEAT_WHEEL'
+                    else:
+                        option += '_HEAT_EXCHANGE'
+                else:
+                    option = 'SENSIBLE_HEAT_EXCHANGE'
+                sensible_effectiveness = max(float(row_in['Sensible Effectiveness at 100% Heating Air Flow']),
+                                             float(row_in['Sensible Effectiveness at 100% Cooling Air Flow']))
+                latent_effectiveness = max(float(row_in['Latent Effectiveness at 100% Heating Air Flow']),
+                                             float(row_in['Latent Effectiveness at 100% Cooling Air Flow']))
+                heat_recovery = {
+                    'id': row_in['first column'],
+                    'type': option,
+                    'design_sensible_effectiveness': sensible_effectiveness,
+                    'design_latent_effectiveness': latent_effectiveness,
+                    'outdoor_airflow': float(row_in['Supply Air Flow Rate [m3/s]']),
+                    'exhaust_airflow': float(row_in['Exhaust Air Flow Rate [m3/s]']),
+                }
+        return heat_recovery
 
     def gather_fan_operating_points(self, fan_name, max_flow, max_elec):
         operating_points = []
