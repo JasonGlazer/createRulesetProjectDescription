@@ -862,6 +862,7 @@ class Translator:
     def gather_subsurface(self):
         tabular_reports = self.json_results_object['TabularReports']
         subsurface_by_surface = {}
+        classification_by_subsurface = self.get_subsurface_classification()
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'EnvelopeSummary':
                 tables = tabular_report['Tables']
@@ -916,7 +917,6 @@ class Translator:
 
                             subsurface = {
                                 'id': fenestration_name,
-                                'classification': 'WINDOW',
                                 'glazed_area': glass_area,
                                 'opaque_area': frame_area + divider_area,
                                 'u_factor': u_factor,
@@ -924,12 +924,30 @@ class Translator:
                                 'visible_transmittance': visible_trans,
                                 'has_automatic_shades': shade_control == 'Yes'
                             }
+                            if fenestration_name in classification_by_subsurface:
+                                subsurface['classification'] = classification_by_subsurface[fenestration_name]
+                            else:
+                                subsurface['classification'] = 'WINDOW'
                             if parent_surface_name not in subsurface_by_surface:
                                 subsurface_by_surface[parent_surface_name] = [subsurface, ]
                             else:
                                 subsurface_by_surface[parent_surface_name].append(subsurface)
         # print(subsurface_by_surface)
         return subsurface_by_surface
+
+    def get_subsurface_classification(self):
+        classification_by_subsurface = {}
+        heat_transfer_surfaces_table = self.gather_table_into_list('InitializationSummary', 'HeatTransfer Surface')
+        for table_row in heat_transfer_surfaces_table:
+            if table_row['Surface Class'] == 'Door':
+                classification_by_subsurface[table_row['Surface Name']] = 'DOOR'
+            elif table_row['Surface Class'] == 'Window':
+                tilt = float(table_row['Tilt {deg}'])
+                if tilt > 60:  # based on 90.1 definition of wall.
+                    classification_by_subsurface[table_row['Surface Name']] = 'WINDOW'
+                else:
+                    classification_by_subsurface[table_row['Surface Name']] = 'SKYLIGHT'
+        return classification_by_subsurface
 
     def gather_surfaces(self):
         tabular_reports = self.json_results_object['TabularReports']
