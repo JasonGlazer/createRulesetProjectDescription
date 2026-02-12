@@ -1742,7 +1742,7 @@ class Translator:
                 sensible_effectiveness = max(float(row_in['Sensible Effectiveness at 100% Heating Air Flow']),
                                              float(row_in['Sensible Effectiveness at 100% Cooling Air Flow']))
                 latent_effectiveness = max(float(row_in['Latent Effectiveness at 100% Heating Air Flow']),
-                                             float(row_in['Latent Effectiveness at 100% Cooling Air Flow']))
+                                           float(row_in['Latent Effectiveness at 100% Cooling Air Flow']))
                 heat_recovery = {
                     'id': row_in['first column'],
                     'type': option,
