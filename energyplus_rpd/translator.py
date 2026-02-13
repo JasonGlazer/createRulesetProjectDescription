@@ -241,6 +241,56 @@ class Translator:
                     surfaces_to_zone[surface_name.upper()] = fields['zone_name'].upper()
         return surfaces_to_zone
 
+    def get_dynamic_fenestration(self):
+        dynamic_fenestrations = []
+        if 'WindowShadingControl' in self.epjson_object:
+            window_shading_control = self.epjson_object['WindowShadingControl']
+            for name, fields in window_shading_control.items():
+                if "shading_type" in fields:
+                    if fields["shading_type"] == "SwitchableGlazing":
+                        surfaces = fields['fenestration_surfaces']
+                        for surface in surfaces:
+                            named_surface = surface['fenestration_surface_name']
+                            if named_surface not in dynamic_fenestrations:
+                                dynamic_fenestrations.append(named_surface.lower())
+        return dynamic_fenestrations
+
+    def find_window_overhangs(self):
+        windows_with_overhangs = []
+        if 'Shading:Overhang' in self.epjson_object:
+            shading = self.epjson_object['Shading:Overhang']
+            for shading_name, fields in shading.items():
+                if 'window_or_door_name' in fields:
+                    named_shading = fields['window_or_door_name']
+                    if named_shading not in windows_with_overhangs:
+                        windows_with_overhangs.append(named_shading.lower())
+        if 'Shading:Overhang:Projection' in self.epjson_object:
+            shading = self.epjson_object['Shading:Overhang:Projection']
+            for shading_name, fields in shading.items():
+                if 'window_or_door_name' in fields:
+                    named_shading = fields['window_or_door_name']
+                    if named_shading not in windows_with_overhangs:
+                        windows_with_overhangs.append(named_shading.lower())
+        return windows_with_overhangs
+
+    def find_window_fins(self):
+        windows_with_fins = []
+        if 'Shading:Fin' in self.epjson_object:
+            shading = self.epjson_object['Shading:Fin']
+            for shading_name, fields in shading.items():
+                if 'window_or_door_name' in fields:
+                    named_shading = fields['window_or_door_name']
+                    if named_shading not in windows_with_fins:
+                        windows_with_fins.append(named_shading.lower())
+        if 'Shading:Fin:Projection' in self.epjson_object:
+            shading = self.epjson_object['Shading:Fin:Projection']
+            for shading_name, fields in shading.items():
+                if 'window_or_door_name' in fields:
+                    named_shading = fields['window_or_door_name']
+                    if named_shading not in windows_with_fins:
+                        windows_with_fins.append(named_shading.lower())
+        return windows_with_fins
+
     def get_adjacent_surface_for_each_surface(self):
         adjacent_by_surface = {}
         if 'BuildingSurface:Detailed' in self.epjson_object:
@@ -863,6 +913,9 @@ class Translator:
         tabular_reports = self.json_results_object['TabularReports']
         subsurface_by_surface = {}
         classification_by_subsurface = self.get_subsurface_classification()
+        dynamic_fenestrations = self.get_dynamic_fenestration()
+        windows_with_overhangs = self.find_window_overhangs()
+        windows_with_fins = self.find_window_fins()
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'EnvelopeSummary':
                 tables = tabular_report['Tables']
@@ -928,6 +981,12 @@ class Translator:
                                 subsurface['classification'] = classification_by_subsurface[fenestration_name]
                             else:
                                 subsurface['classification'] = 'WINDOW'
+                            if fenestration_name.lower() in dynamic_fenestrations:
+                                subsurface['dynamic_glazing_type'] = 'AUTOMATIC_DYNAMIC'
+                            else:
+                                subsurface['dynamic_glazing_type'] = 'NOT_DYNAMIC'
+                            subsurface['has_shading_overhang'] = fenestration_name.lower() in windows_with_overhangs
+                            subsurface['has_shading_sidefins'] = fenestration_name.lower() in windows_with_fins
                             if parent_surface_name not in subsurface_by_surface:
                                 subsurface_by_surface[parent_surface_name] = [subsurface, ]
                             else:

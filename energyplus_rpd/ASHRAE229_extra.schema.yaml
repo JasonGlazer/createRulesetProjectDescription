@@ -3495,7 +3495,7 @@ Subsurface:
       EPout Report: "Envelope Summary"
       EPout Table: Exterior Fenestration Shaded State"
       EPout Column: "Frame and Divider"
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingInput"
       EP Notes: "Use AUTOMATIC_DYNAMIC or NOT_DYNAMIC not sure how to do MANUAL_DYNAMIC from current outputs. The current outputs do not indicate if Shading Type==SwitchableGlazing which is what this field is about so it must be read from input."
     solar_heat_gain_coefficient:
       Description: "Subsurface SHGC"
@@ -3607,7 +3607,7 @@ Subsurface:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingInput"
       EP Notes: "read from input"
     has_shading_sidefins:
       Description: "Identifies whether subsurface has sidefins"
@@ -3624,7 +3624,7 @@ Subsurface:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingInput"
       EP Notes: "read from input"
     has_manual_interior_shades:
       Description: "Are there manually-operated interior shading such as blinds, curtains or shades"
