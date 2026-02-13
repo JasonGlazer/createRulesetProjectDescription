@@ -1731,7 +1731,9 @@ class Translator:
             equipment_fan['operating_points'] = self.gather_fan_operating_points(row_key, max_air_flow_rate,
                                                                                  rated_electricity_rate)
             if airloop_name != 'N/A':
-                fan_extra['air_energy_recovery'] = self.gather_air_heat_recovery(airloop_name)
+                air_energy_recovery = self.gather_air_heat_recovery(airloop_name)
+                if air_energy_recovery:
+                    fan_extra['air_energy_recovery']
             if type == 'Fan:SystemModel':
                 fan_system_model = self.get_epjson_by_uc_name('Fan:SystemModel', row_key)
                 if 'speed_control_method' in fan_system_model:

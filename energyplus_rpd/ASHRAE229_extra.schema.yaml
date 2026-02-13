@@ -3496,7 +3496,7 @@ Subsurface:
       EPout Table: Exterior Fenestration Shaded State"
       EPout Column: "Frame and Divider"
       EPstatus: "ToDo"
-      EP Notes: "Use AUTOMATIC_DYNAMIC or NOT_DYNAMIC not sure how to do MANUAL_DYNAMIC from current outputs"
+      EP Notes: "Use AUTOMATIC_DYNAMIC or NOT_DYNAMIC not sure how to do MANUAL_DYNAMIC from current outputs. The current outputs do not indicate if Shading Type==SwitchableGlazing which is what this field is about so it must be read from input."
     solar_heat_gain_coefficient:
       Description: "Subsurface SHGC"
       Data Type: "Numeric"
