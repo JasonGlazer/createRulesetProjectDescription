@@ -566,7 +566,10 @@ class TestTranslator(TestCase):
                         'u_factor': 2.045,
                         'solar_heat_gain_coefficient': 0.381,
                         'visible_transmittance': 0.42,
-                        'has_automatic_shades': False
+                        'has_automatic_shades': False,
+                        'dynamic_glazing_type': 'NOT_DYNAMIC',
+                        'has_shading_overhang': False,
+                        'has_shading_sidefins': False
                     },
                     {
                         'id': 'PERIMETER_ZN_2_WALL_EAST_WINDOW_2',
@@ -576,7 +579,10 @@ class TestTranslator(TestCase):
                         'u_factor': 2.045,
                         'solar_heat_gain_coefficient': 0.381,
                         'visible_transmittance': 0.42,
-                        'has_automatic_shades': False
+                        'has_automatic_shades': False,
+                        'dynamic_glazing_type': 'NOT_DYNAMIC',
+                        'has_shading_overhang': False,
+                        'has_shading_sidefins': False
                     },
                     {
                         'id': 'PERIMETER_ZN_2_WALL_EAST_WINDOW_3',
@@ -586,7 +592,10 @@ class TestTranslator(TestCase):
                         'u_factor': 2.045,
                         'solar_heat_gain_coefficient': 0.381,
                         'visible_transmittance': 0.42,
-                        'has_automatic_shades': False
+                        'has_automatic_shades': False,
+                        'dynamic_glazing_type': 'NOT_DYNAMIC',
+                        'has_shading_overhang': False,
+                        'has_shading_sidefins': False
                     },
                     {
                         'id': 'PERIMETER_ZN_2_WALL_EAST_WINDOW_4',
@@ -596,7 +605,10 @@ class TestTranslator(TestCase):
                         'u_factor': 2.045,
                         'solar_heat_gain_coefficient': 0.381,
                         'visible_transmittance': 0.42,
-                        'has_automatic_shades': False
+                        'has_automatic_shades': False,
+                        'dynamic_glazing_type': 'NOT_DYNAMIC',
+                        'has_shading_overhang': False,
+                        'has_shading_sidefins': False
                     }
                 ]
         }
