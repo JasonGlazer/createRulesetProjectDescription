@@ -3882,7 +3882,6 @@ class TestTranslator(TestCase):
         expected_hvac = [
             {
                 "fan_system": {
-                    "air_energy_recovery": {},
                     "fan_control": "CONSTANT",
                     "id": "CORE_ZN ZN PSZ-AC-1 FAN-fansystem",
                     "supply_fans": [
@@ -3922,7 +3921,6 @@ class TestTranslator(TestCase):
             },
             {
                 "fan_system": {
-                    "air_energy_recovery": {},
                     "fan_control": "CONSTANT",
                     "id": "PERIMETER_ZN_1 ZN PSZ-AC-2 FAN-fansystem",
                     "supply_fans": [
@@ -3962,7 +3960,6 @@ class TestTranslator(TestCase):
             },
             {
                 "fan_system": {
-                    "air_energy_recovery": {},
                     "fan_control": "CONSTANT",
                     "id": "PERIMETER_ZN_2 ZN PSZ-AC-3 FAN-fansystem",
                     "supply_fans": [
@@ -4002,7 +3999,6 @@ class TestTranslator(TestCase):
             },
             {
                 "fan_system": {
-                    "air_energy_recovery": {},
                     "fan_control": "CONSTANT",
                     "id": "PERIMETER_ZN_3 ZN PSZ-AC-4 FAN-fansystem",
                     "supply_fans": [
@@ -4042,7 +4038,6 @@ class TestTranslator(TestCase):
             },
             {
                 "fan_system": {
-                    "air_energy_recovery": {},
                     "fan_control": "CONSTANT",
                     "id": "PERIMETER_ZN_4 ZN PSZ-AC-5 FAN-fansystem",
                     "supply_fans": [
@@ -4675,7 +4670,7 @@ class TestTranslator(TestCase):
                  'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
                  'motor_location_zone': 'N/A', 'operating_points': []},
                 {'type': 'Fan:VariableVolume', 'fan_energy_index': 1.17, 'purpose': 'N/A',
-                 'airloop_name': 'BASEMENT STORY 0 VAV_PFP_BOXES (SYS8)', 'air_energy_recovery': {}}),
+                 'airloop_name': 'BASEMENT STORY 0 VAV_PFP_BOXES (SYS8)'}),
             'BASEMENT ZN PFP TERM FAN': (
                 {'design_airflow': 7.67, 'is_airflow_calculated': True, 'design_electric_power': 5688.78,
                  'design_pressure_rise': 365.09, 'total_efficiency': 0.49, 'motor_efficiency': 0.9,
@@ -4694,7 +4689,7 @@ class TestTranslator(TestCase):
                  'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
                  'motor_location_zone': 'N/A', 'operating_points': []},
                 {'type': 'Fan:VariableVolume', 'fan_energy_index': 0.0, 'purpose': 'N/A',
-                 'airloop_name': 'DATACENTER_BASEMENT_ZN_6 ZN PSZ-VAV', 'air_energy_recovery': {}}),
+                 'airloop_name': 'DATACENTER_BASEMENT_ZN_6 ZN PSZ-VAV'}),
             'PERIMETER_BOT_ZN_2 ZN PFP TERM FAN': (
                 {'design_airflow': 1.53, 'is_airflow_calculated': True, 'design_electric_power': 1137.67,
                  'design_pressure_rise': 342.66, 'total_efficiency': 0.46, 'motor_efficiency': 0.84,
