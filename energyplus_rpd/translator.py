@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Dict
+from typing import Any, Dict, List, Optional, Tuple
 from datetime import datetime
 from datetime import timezone
 
@@ -9,8 +9,12 @@ from energyplus_rpd.validator import Validator
 from energyplus_rpd.status_reporter import StatusReporter
 from energyplus_rpd.compliance_parameter_handler import ComplianceParameterHandler
 
+JsonDict = Dict[str, Any]
+JsonList = List[Any]
+TableRows = Dict[str, JsonList]
 
-def energy_source_convert(energy_name_input):
+
+def energy_source_convert(energy_name_input: str) -> str:
     energy_source_map = {'ELECTRICITY': 'ELECTRICITY',
                          'NATURALGAS': 'NATURAL_GAS',
                          'PROPANE': 'PROPANE',
@@ -25,7 +29,7 @@ def energy_source_convert(energy_name_input):
     return energy_source_map[energy_type]
 
 
-def heating_type_convert(coil_type):
+def heating_type_convert(coil_type: str) -> str:
     coil_map = {'COIL:HEATING:WATER': 'FLUID_LOOP',
                 'COIL:HEATING:STEAM': 'FLUID_LOOP',
                 'COIL:HEATING:ELECTRIC': 'ELECTRIC_RESISTANCE',
@@ -39,7 +43,7 @@ def heating_type_convert(coil_type):
     return coil_map[coil_type.upper()]
 
 
-def cooling_type_convert(coil_type):
+def cooling_type_convert(coil_type: str) -> str:
     coil_map = {'COIL:COOLING:WATER': 'FLUID_LOOP',
                 'COIL:COOLING:WATER:DETAILEDGEOMETRY': 'FLUID_LOOP',
                 'COILSYSTEM:COOLING:WATER': 'FLUID_LOOP',
@@ -59,7 +63,7 @@ def cooling_type_convert(coil_type):
     return coil_map[coil_type.upper()]
 
 
-def source_from_coil(coil_type):
+def source_from_coil(coil_type: str) -> str:
     source = 'OTHER'
     if 'ELECTRIC' in coil_type.upper() or 'DX' in coil_type.upper():
         source = 'ELECTRICITY'
@@ -68,7 +72,7 @@ def source_from_coil(coil_type):
     return source
 
 
-def is_float(string):
+def is_float(string: str) -> bool:
     try:
         float(string)
         return True
@@ -76,7 +80,7 @@ def is_float(string):
         return False
 
 
-def to_float_or_none(value):
+def to_float_or_none(value: Any) -> Optional[float]:
     if value is None:
         return None
     value_string = str(value).strip()
@@ -87,7 +91,7 @@ def to_float_or_none(value):
     return None
 
 
-def non_empty_string(value):
+def non_empty_string(value: Any) -> str:
     if value is None:
         return ''
     value_string = str(value).strip()
@@ -352,7 +356,8 @@ class Translator:
                 optical_by_construction[construction_name] = optical
         return optical_by_construction
 
-    def first_last_layer(self, layer_dict):
+    @staticmethod
+    def first_last_layer(layer_dict):
         first_layer = ''
         last_layer = ''
         layer_names = [f'Layer {x}' for x in range(10, 1, -1)]  # list of layers in reverse order
@@ -1118,7 +1123,8 @@ class Translator:
             self.model_description['weather']['ground_temperature_schedule'] = 'schedule_of_ground_temperatures'
         return ground_schedule
 
-    def twelve_to_8760(self, list_of_twelve):
+    @staticmethod
+    def twelve_to_8760(list_of_twelve):
         list_of_8760 = []
         number_of_days_in_month = [31,  # January
                                    28,  # February
@@ -1363,47 +1369,47 @@ class Translator:
         # print(self.terminals_by_zone)
         return hvac_systems, self.terminals_by_zone
 
-    def get_table(self, report_name, table_name):
-        tabular_reports = self.json_results_object['TabularReports']
+    def get_table(self, report_name: str, table_name: str) -> JsonDict:
+        tabular_reports: List[JsonDict] = self.json_results_object['TabularReports']
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == report_name:
-                tables = tabular_report['Tables']
+                tables: List[JsonDict] = tabular_report['Tables']
                 for table in tables:
                     if table['TableName'] == table_name:
                         return table
-        return []
+        return {}
 
-    def gather_coil_connections(self):
-        connection_by_coil = {}
-        table = self.get_table('CoilSizingDetails', 'Coil Connections')
+    def gather_coil_connections(self) -> Dict[str, Dict[str, str]]:
+        connection_by_coil: Dict[str, Dict[str, str]] = {}
+        table: JsonDict = self.get_table('CoilSizingDetails', 'Coil Connections')
         if not table:
             return connection_by_coil
-        rows = table['Rows']
-        row_keys = list(rows.keys())
-        cols = table['Cols']
-        plant_loop_name_column = cols.index('Plant Loop Name')
+        rows: TableRows = table['Rows']
+        row_keys: List[str] = list(rows.keys())
+        cols: List[str] = table['Cols']
+        plant_loop_name_column: int = cols.index('Plant Loop Name')
         for row_key in row_keys:
             if row_key == 'None':
                 continue
-            plant_loop_name = rows[row_key][plant_loop_name_column]
-            connection = {'plant_loop_name': plant_loop_name}
+            plant_loop_name: str = str(rows[row_key][plant_loop_name_column])
+            connection: Dict[str, str] = {'plant_loop_name': plant_loop_name}
             connection_by_coil[row_key] = connection
         # print(connection_by_coil)
         return connection_by_coil
 
-    def gather_table_into_list(self, report_name, table_name):
+    def gather_table_into_list(self, report_name: str, table_name: str) -> List[JsonDict]:
         # transform the rows and columns format into a list of dictionaries
-        list_of_dict = []
-        table = self.get_table(report_name, table_name)
+        list_of_dict: List[JsonDict] = []
+        table: JsonDict = self.get_table(report_name, table_name)
         if not table:
             return list_of_dict
-        rows = table['Rows']
-        row_keys = list(rows.keys())
-        cols = table['Cols']
+        rows: TableRows = table['Rows']
+        row_keys: List[str] = list(rows.keys())
+        cols: List[str] = table['Cols']
         for row_key in row_keys:
-            arrangement = {}
+            arrangement: JsonDict = {}
             for col in cols:
-                col_index = cols.index(col)
+                col_index: int = cols.index(col)
                 arrangement[col] = rows[row_key][col_index]
             arrangement["first column"] = row_key
             list_of_dict.append(arrangement)
@@ -1411,30 +1417,35 @@ class Translator:
 #            print(item)
         return list_of_dict
 
-    def get_table_dictionary(self, report_name, table_name, ignore_first_column=False):
+    def get_table_dictionary(
+            self,
+            report_name: str,
+            table_name: str,
+            ignore_first_column: bool = False
+    ) -> Dict[str, JsonDict]:
         # transform the rows and columns format into a dictionary of dictionaries
-        dict_of_dict = {}
-        table = self.get_table(report_name, table_name)
+        dict_of_dict: Dict[str, JsonDict] = {}
+        table: JsonDict = self.get_table(report_name, table_name)
         if not table:
             return dict_of_dict
-        rows = table['Rows']
-        row_keys = list(rows.keys())
-        cols = table['Cols']
+        rows: TableRows = table['Rows']
+        row_keys: List[str] = list(rows.keys())
+        cols: List[str] = table['Cols']
         if not ignore_first_column:
             for row_key in row_keys:
-                arrangement = {}
+                arrangement: JsonDict = {}
                 for col in cols:
-                    col_index = cols.index(col)
+                    col_index: int = cols.index(col)
                     arrangement[col] = rows[row_key][col_index]
                 dict_of_dict[row_key] = arrangement
         else:
             if cols:
                 for row_key in row_keys:
-                    arrangement = {}
+                    arrangement: JsonDict = {}
                     for col in cols[1:]:
-                        col_index = cols.index(col)
+                        col_index: int = cols.index(col)
                         arrangement[col] = rows[row_key][col_index]
-                    dict_of_dict[rows[row_key][0]] = arrangement
+                    dict_of_dict[str(rows[row_key][0])] = arrangement
 #        for item in dict_of_dict.items():
 #            print(item)
         return dict_of_dict
@@ -1559,7 +1570,8 @@ class Translator:
                 coil_efficiencies[row_key]['IEER2023'] = float(dx_2023_rows[row_key][ieer_2023_column])
         return coil_efficiencies
 
-    def process_cooling_metrics(self, coil_name, coil_efficiencies):
+    @staticmethod
+    def process_cooling_metrics(coil_name, coil_efficiencies):
         metric_types = []
         metric_values = []
         if coil_name in coil_efficiencies:
@@ -1636,7 +1648,8 @@ class Translator:
                 coil_efficiencies[row_key]['Region Number'] = dx2_rows[row_key][hspf2_region_column]
         return coil_efficiencies
 
-    def process_heating_metrics(self, coil_name, coil_efficiencies):
+    @staticmethod
+    def process_heating_metrics(coil_name, coil_efficiencies):
         metric_types = []
         metric_values = []
         if coil_name in coil_efficiencies:
@@ -1687,7 +1700,7 @@ class Translator:
             motor_heat_to_zone_frac = float(rows[row_key][motor_heat_to_zone_frac_column])
             motor_loss_zone_name = rows[row_key][motor_loss_zone_name_column]
             # extra columns of data not necessarily used now
-            type = rows[row_key][type_column]
+            extra_type = rows[row_key][type_column]
             fan_energy_index = float(rows[row_key][fan_energy_index_column])
             purpose = rows[row_key][purpose_column]
             airloop_name = rows[row_key][airloop_name_column]
@@ -1700,12 +1713,12 @@ class Translator:
                              'motor_heat_to_airflow_fraction': motor_heat_in_air,
                              'motor_heat_to_zone_fraction': motor_heat_to_zone_frac,
                              'motor_location_zone': motor_loss_zone_name}
-            fan_extra = {'type': type,
+            fan_extra = {'type': extra_type,
                          'fan_energy_index': fan_energy_index,
                          'purpose': purpose,
                          'airloop_name': airloop_name}
             #  for Fan:SystemModel need to add some additional fields to understand later if variable speed or not
-            if type == 'Fan:SystemModel':
+            if extra_type == 'Fan:SystemModel':
                 fan_system_model = self.get_epjson_by_uc_name('Fan:SystemModel', row_key)
                 if 'speed_control_method' in fan_system_model:
                     fan_extra['speed_control_method'] = fan_system_model['speed_control_method']
@@ -2065,52 +2078,59 @@ class Translator:
         self.model_description['fluid_loops'] = fluid_loops
         return fluid_loops
 
-    def gather_service_water_heater_loops(self):
-        loop_by_heater = {}
-        plant_loop_arrangements = self.gather_table_into_list('HVACTopology', 'Plant Loop Component Arrangement')
+    def gather_service_water_heater_loops(self) -> Dict[str, str]:
+        loop_by_heater: Dict[str, str] = {}
+        plant_loop_arrangements: List[JsonDict] = self.gather_table_into_list(
+            'HVACTopology',
+            'Plant Loop Component Arrangement'
+        )
         for arrangement_row in plant_loop_arrangements:
-            component_type = non_empty_string(arrangement_row.get('Component Type'))
+            component_type: str = non_empty_string(arrangement_row.get('Component Type'))
             if 'WATERHEATER' in component_type.upper():
-                component_name = non_empty_string(arrangement_row.get('Component Name'))
-                loop_name = non_empty_string(arrangement_row.get('Loop Name'))
+                component_name: str = non_empty_string(arrangement_row.get('Component Name'))
+                loop_name: str = non_empty_string(arrangement_row.get('Loop Name'))
                 if component_name and loop_name:
                     loop_by_heater[component_name] = loop_name
         return loop_by_heater
 
-    def gather_mains_schedule(self):
-        mains_schedule = ''
-        is_ground_based = None
-        mains_info_table = self.get_table_dictionary(
+    def gather_mains_schedule(self) -> Tuple[str, Optional[bool]]:
+        mains_schedule: str = ''
+        is_ground_based: Optional[bool] = None
+        mains_info_table: Dict[str, JsonDict] = self.get_table_dictionary(
             'InitializationSummary',
             'Site Water Mains Temperature Information'
         )
-        for _, row in mains_info_table.items():
-            schedule_name = non_empty_string(row.get('Water Mains Temperature Schedule Name{}'))
+        for row in mains_info_table.values():
+            schedule_name: str = non_empty_string(row.get('Water Mains Temperature Schedule Name{}'))
             if schedule_name:
                 mains_schedule = schedule_name
                 self.schedules_used_names.append(schedule_name)
-            method = non_empty_string(row.get('Calculation Method{}')).upper()
+            method: str = non_empty_string(row.get('Calculation Method{}')).upper()
             if method:
                 is_ground_based = method == 'CORRELATION'
             break
         return mains_schedule, is_ground_based
 
-    def add_service_water_heating_distribution_systems(self):
-        systems = []
-        system_id_by_connection = {}
-        system_id_by_loop = {}
+    def add_service_water_heating_distribution_systems(
+            self
+    ) -> Tuple[List[JsonDict], Dict[str, str], Dict[str, str]]:
+        systems: List[JsonDict] = []
+        system_id_by_connection: Dict[str, str] = {}
+        system_id_by_loop: Dict[str, str] = {}
         mains_schedule, is_ground_based = self.gather_mains_schedule()
-        connection_table = self.get_table_dictionary('EquipmentSummary', 'WaterUse Connections')
+        connection_table: Dict[str, JsonDict] = self.get_table_dictionary('EquipmentSummary', 'WaterUse Connections')
         for connection_name, row in connection_table.items():
             connection_name = non_empty_string(connection_name)
             if not connection_name or connection_name.upper() == 'NONE':
                 continue
-            system = {'id': connection_name}
-            loop_name = non_empty_string(row.get('PlantLoop Name'))
+            system: JsonDict = {'id': connection_name}
+            loop_name: str = non_empty_string(row.get('PlantLoop Name'))
             if loop_name:
                 system_id_by_loop[loop_name] = connection_name
                 system['is_central_system'] = True
-            design_supply_temperature = to_float_or_none(row.get('Hot Water Supply Temperature Schedule Maximum [C]'))
+            design_supply_temperature: Optional[float] = to_float_or_none(
+                row.get('Hot Water Supply Temperature Schedule Maximum [C]')
+            )
             if design_supply_temperature is not None:
                 system['design_supply_temperature'] = design_supply_temperature
             if mains_schedule:
@@ -2120,7 +2140,7 @@ class Translator:
             systems.append(system)
             system_id_by_connection[connection_name] = connection_name
 
-        loop_by_heater = self.gather_service_water_heater_loops()
+        loop_by_heater: Dict[str, str] = self.gather_service_water_heater_loops()
         for _, loop_name in loop_by_heater.items():
             if loop_name and loop_name not in system_id_by_loop:
                 system = {'id': loop_name}
@@ -2135,27 +2155,34 @@ class Translator:
             self.model_description['service_water_heating_distribution_systems'] = systems
         return systems, system_id_by_connection, system_id_by_loop
 
-    def add_service_water_heating_equipment(self, system_id_by_loop, default_system_id):
-        equipment_list = []
-        service_water_table = self.get_table_dictionary('EquipmentSummary', 'Service Water Heating')
-        loop_by_heater = self.gather_service_water_heater_loops()
+    def add_service_water_heating_equipment(
+            self,
+            system_id_by_loop: Dict[str, str],
+            default_system_id: str
+    ) -> List[JsonDict]:
+        equipment_list: List[JsonDict] = []
+        service_water_table: Dict[str, JsonDict] = self.get_table_dictionary(
+            'EquipmentSummary',
+            'Service Water Heating'
+        )
+        loop_by_heater: Dict[str, str] = self.gather_service_water_heater_loops()
         for heater_name, row in service_water_table.items():
             heater_name = non_empty_string(heater_name)
             if not heater_name or heater_name.upper() == 'NONE':
                 continue
-            loop_name = loop_by_heater.get(heater_name, '')
-            distribution_system = ''
+            loop_name: str = loop_by_heater.get(heater_name, '')
+            distribution_system: str = ''
             if loop_name in system_id_by_loop:
                 distribution_system = system_id_by_loop[loop_name]
             elif default_system_id:
                 distribution_system = default_system_id
             if not distribution_system:
                 continue
-            equipment = {
+            equipment: JsonDict = {
                 'id': heater_name,
                 'distribution_system': distribution_system
             }
-            fuel_type = non_empty_string(row.get('Fuel Type'))
+            fuel_type: str = non_empty_string(row.get('Fuel Type'))
             if fuel_type:
                 try:
                     equipment['heater_fuel_type'] = energy_source_convert(fuel_type)
@@ -2165,13 +2192,13 @@ class Translator:
                     else:
                         equipment['heater_fuel_type'] = 'OTHER'
 
-            metric_types = []
-            metric_values = []
-            thermal_efficiency = to_float_or_none(row.get('Thermal Efficiency [W/W]'))
+            metric_types: List[str] = []
+            metric_values: List[float] = []
+            thermal_efficiency: Optional[float] = to_float_or_none(row.get('Thermal Efficiency [W/W]'))
             if thermal_efficiency is not None:
                 metric_types.append('THERMAL_EFFICIENCY')
                 metric_values.append(thermal_efficiency)
-            energy_factor = to_float_or_none(row.get('Energy Factor'))
+            energy_factor: Optional[float] = to_float_or_none(row.get('Energy Factor'))
             if energy_factor is not None:
                 metric_types.append('ENERGY_FACTOR')
                 metric_values.append(energy_factor)
@@ -2179,20 +2206,22 @@ class Translator:
                 equipment['efficiency_metric_types'] = metric_types
                 equipment['efficiency_metric_values'] = metric_values
 
-            input_power = to_float_or_none(row.get('Input [W]'))
+            input_power: Optional[float] = to_float_or_none(row.get('Input [W]'))
             if input_power is not None:
                 equipment['input_power'] = input_power
-            recovery_efficiency = to_float_or_none(row.get('Recovery Efficiency [W/W]'))
+            recovery_efficiency: Optional[float] = to_float_or_none(row.get('Recovery Efficiency [W/W]'))
             if recovery_efficiency is not None:
                 equipment['recovery_efficiency'] = recovery_efficiency
-            setpoint_temperature = to_float_or_none(row.get('Set Point at 11am First Wednesday for Heater 1 [C]'))
+            setpoint_temperature: Optional[float] = to_float_or_none(
+                row.get('Set Point at 11am First Wednesday for Heater 1 [C]')
+            )
             if setpoint_temperature is not None:
                 equipment['setpoint_temperature'] = setpoint_temperature
 
-            storage_volume = to_float_or_none(row.get('Storage Volume [m3]'))
+            storage_volume: Optional[float] = to_float_or_none(row.get('Storage Volume [m3]'))
             if storage_volume is not None and storage_volume > 0:
-                tank_type = 'COMMERCIAL_STORAGE'
-                heater_type = non_empty_string(row.get('Type')).upper()
+                tank_type: str = 'COMMERCIAL_STORAGE'
+                heater_type: str = non_empty_string(row.get('Type')).upper()
                 if 'INSTANTANEOUS' in heater_type:
                     tank_type = 'COMMERCIAL_INSTANTANEOUS'
                 equipment['tank'] = {
@@ -2208,10 +2237,14 @@ class Translator:
             self.model_description['service_water_heating_equipment'] = equipment_list
         return equipment_list
 
-    def add_service_water_heating_uses(self, system_id_by_connection, default_system_id):
-        uses = []
-        water_use_table = self.get_table_dictionary('EquipmentSummary', 'Water Use')
-        serves_type_map = {
+    def add_service_water_heating_uses(
+            self,
+            system_id_by_connection: Dict[str, str],
+            default_system_id: str
+    ) -> List[JsonDict]:
+        uses: List[JsonDict] = []
+        water_use_table: Dict[str, JsonDict] = self.get_table_dictionary('EquipmentSummary', 'Water Use')
+        serves_type_map: Dict[str, str] = {
             'SHOWER': 'SHOWER',
             'BATH': 'BATH',
             'RESTROOM': 'RESTROOM_SINK',
@@ -2224,26 +2257,26 @@ class Translator:
             use_name = non_empty_string(use_name)
             if not use_name or use_name.upper() == 'NONE':
                 continue
-            connection_name = non_empty_string(row.get('WaterUse Connection Name'))
-            served_by = system_id_by_connection.get(connection_name, default_system_id)
+            connection_name: str = non_empty_string(row.get('WaterUse Connection Name'))
+            served_by: str = system_id_by_connection.get(connection_name, default_system_id)
             if not served_by:
                 continue
-            use = {
+            use: JsonDict = {
                 'id': use_name,
                 'served_by_distribution_system': served_by
             }
-            peak_flow = to_float_or_none(row.get('Peak Water Flow Rate [m3/s]'))
+            peak_flow: Optional[float] = to_float_or_none(row.get('Peak Water Flow Rate [m3/s]'))
             if peak_flow is not None:
                 use['use'] = peak_flow * 60000
                 use['use_units'] = 'VOLUME'
-            flow_schedule = non_empty_string(row.get('Peak Flow Multipler Schedule'))
+            flow_schedule: str = non_empty_string(row.get('Peak Flow Multipler Schedule'))
             if flow_schedule:
                 use['use_multiplier_schedule'] = flow_schedule
                 self.schedules_used_names.append(flow_schedule)
-            target_temperature = to_float_or_none(row.get('Target Temperature  Schedule Maximum [C]'))
+            target_temperature: Optional[float] = to_float_or_none(row.get('Target Temperature  Schedule Maximum [C]'))
             if target_temperature is not None:
                 use['temperature_at_fixture'] = target_temperature
-            end_use_subcategory = non_empty_string(row.get('End-Use Subcategory')).upper()
+            end_use_subcategory: str = non_empty_string(row.get('End-Use Subcategory')).upper()
             for key, value in serves_type_map.items():
                 if key in end_use_subcategory:
                     use['water_serves_type'] = value
@@ -2255,7 +2288,7 @@ class Translator:
             self.building_segment['service_water_heating_uses'] = [item['id'] for item in uses]
         return uses
 
-    def add_service_water_heating(self):
+    def add_service_water_heating(self) -> Tuple[List[JsonDict], List[JsonDict], List[JsonDict]]:
         systems, system_id_by_connection, system_id_by_loop = self.add_service_water_heating_distribution_systems()
         default_system_id = systems[0]['id'] if systems else ''
         equipment = self.add_service_water_heating_equipment(system_id_by_loop, default_system_id)
