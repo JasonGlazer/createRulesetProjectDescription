@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Dict
+from typing import Any, Dict, List, Optional, Tuple
 from datetime import datetime
 from datetime import timezone
 
@@ -9,8 +9,12 @@ from energyplus_rpd.validator import Validator
 from energyplus_rpd.status_reporter import StatusReporter
 from energyplus_rpd.compliance_parameter_handler import ComplianceParameterHandler
 
+JsonDict = Dict[str, Any]
+JsonList = List[Any]
+TableRows = Dict[str, JsonList]
 
-def energy_source_convert(energy_name_input):
+
+def energy_source_convert(energy_name_input: str) -> str:
     energy_source_map = {'ELECTRICITY': 'ELECTRICITY',
                          'NATURALGAS': 'NATURAL_GAS',
                          'PROPANE': 'PROPANE',
@@ -25,7 +29,7 @@ def energy_source_convert(energy_name_input):
     return energy_source_map[energy_type]
 
 
-def heating_type_convert(coil_type):
+def heating_type_convert(coil_type: str) -> str:
     coil_map = {'COIL:HEATING:WATER': 'FLUID_LOOP',
                 'COIL:HEATING:STEAM': 'FLUID_LOOP',
                 'COIL:HEATING:ELECTRIC': 'ELECTRIC_RESISTANCE',
@@ -39,7 +43,7 @@ def heating_type_convert(coil_type):
     return coil_map[coil_type.upper()]
 
 
-def cooling_type_convert(coil_type):
+def cooling_type_convert(coil_type: str) -> str:
     coil_map = {'COIL:COOLING:WATER': 'FLUID_LOOP',
                 'COIL:COOLING:WATER:DETAILEDGEOMETRY': 'FLUID_LOOP',
                 'COILSYSTEM:COOLING:WATER': 'FLUID_LOOP',
@@ -59,7 +63,7 @@ def cooling_type_convert(coil_type):
     return coil_map[coil_type.upper()]
 
 
-def source_from_coil(coil_type):
+def source_from_coil(coil_type: str) -> str:
     source = 'OTHER'
     if 'ELECTRIC' in coil_type.upper() or 'DX' in coil_type.upper():
         source = 'ELECTRICITY'
@@ -68,7 +72,7 @@ def source_from_coil(coil_type):
     return source
 
 
-def is_float(string):
+def is_float(string: str) -> bool:
     try:
         float(string)
         return True
@@ -382,7 +386,8 @@ class Translator:
                 optical_by_construction[construction_name] = optical
         return optical_by_construction
 
-    def first_last_layer(self, layer_dict):
+    @staticmethod
+    def first_last_layer(layer_dict):
         first_layer = ''
         last_layer = ''
         layer_names = [f'Layer {x}' for x in range(10, 1, -1)]  # list of layers in reverse order
@@ -1225,7 +1230,8 @@ class Translator:
             self.model_description['weather']['ground_temperature_schedule'] = 'schedule_of_ground_temperatures'
         return ground_schedule
 
-    def twelve_to_8760(self, list_of_twelve):
+    @staticmethod
+    def twelve_to_8760(list_of_twelve):
         list_of_8760 = []
         number_of_days_in_month = [31,  # January
                                    28,  # February
@@ -1605,30 +1611,30 @@ class Translator:
         self.building_segment["heating_ventilating_air_conditioning_systems"] = hvac_systems
         return hvac_systems, self.terminals_by_zone
 
-    def get_table(self, report_name, table_name):
-        tabular_reports = self.json_results_object['TabularReports']
+    def get_table(self, report_name: str, table_name: str) -> JsonDict:
+        tabular_reports: List[JsonDict] = self.json_results_object['TabularReports']
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == report_name:
-                tables = tabular_report['Tables']
+                tables: List[JsonDict] = tabular_report['Tables']
                 for table in tables:
                     if table['TableName'] == table_name:
                         return table
-        return []
+        return {}
 
-    def gather_coil_connections(self):
-        connection_by_coil = {}
-        table = self.get_table('CoilSizingDetails', 'Coil Connections')
+    def gather_coil_connections(self) -> Dict[str, Dict[str, str]]:
+        connection_by_coil: Dict[str, Dict[str, str]] = {}
+        table: JsonDict = self.get_table('CoilSizingDetails', 'Coil Connections')
         if not table:
             return connection_by_coil
-        rows = table['Rows']
-        row_keys = list(rows.keys())
-        cols = table['Cols']
-        plant_loop_name_column = cols.index('Plant Loop Name')
+        rows: TableRows = table['Rows']
+        row_keys: List[str] = list(rows.keys())
+        cols: List[str] = table['Cols']
+        plant_loop_name_column: int = cols.index('Plant Loop Name')
         for row_key in row_keys:
             if row_key == 'None':
                 continue
-            plant_loop_name = rows[row_key][plant_loop_name_column]
-            connection = {'plant_loop_name': plant_loop_name}
+            plant_loop_name: str = str(rows[row_key][plant_loop_name_column])
+            connection: Dict[str, str] = {'plant_loop_name': plant_loop_name}
             connection_by_coil[row_key] = connection
         # print(connection_by_coil)
         return connection_by_coil
@@ -1661,17 +1667,17 @@ class Translator:
 
     def gather_table_into_list(self, report_name, table_name):
         # transform the rows and columns format into a list of dictionaries
-        list_of_dict = []
-        table = self.get_table(report_name, table_name)
+        list_of_dict: List[JsonDict] = []
+        table: JsonDict = self.get_table(report_name, table_name)
         if not table:
             return list_of_dict
-        rows = table['Rows']
-        row_keys = list(rows.keys())
-        cols = table['Cols']
+        rows: TableRows = table['Rows']
+        row_keys: List[str] = list(rows.keys())
+        cols: List[str] = table['Cols']
         for row_key in row_keys:
-            arrangement = {}
+            arrangement: JsonDict = {}
             for col in cols:
-                col_index = cols.index(col)
+                col_index: int = cols.index(col)
                 arrangement[col] = rows[row_key][col_index]
             arrangement["first column"] = row_key
             list_of_dict.append(arrangement)
@@ -1679,30 +1685,35 @@ class Translator:
 #            print(item)
         return list_of_dict
 
-    def get_table_dictionary(self, report_name, table_name, ignore_first_column=False):
+    def get_table_dictionary(
+            self,
+            report_name: str,
+            table_name: str,
+            ignore_first_column: bool = False
+    ) -> Dict[str, JsonDict]:
         # transform the rows and columns format into a dictionary of dictionaries
-        dict_of_dict = {}
-        table = self.get_table(report_name, table_name)
+        dict_of_dict: Dict[str, JsonDict] = {}
+        table: JsonDict = self.get_table(report_name, table_name)
         if not table:
             return dict_of_dict
-        rows = table['Rows']
-        row_keys = list(rows.keys())
-        cols = table['Cols']
+        rows: TableRows = table['Rows']
+        row_keys: List[str] = list(rows.keys())
+        cols: List[str] = table['Cols']
         if not ignore_first_column:
             for row_key in row_keys:
-                arrangement = {}
+                arrangement: JsonDict = {}
                 for col in cols:
-                    col_index = cols.index(col)
+                    col_index: int = cols.index(col)
                     arrangement[col] = rows[row_key][col_index]
                 dict_of_dict[row_key] = arrangement
         else:
             if cols:
                 for row_key in row_keys:
-                    arrangement = {}
+                    arrangement: JsonDict = {}
                     for col in cols[1:]:
-                        col_index = cols.index(col)
+                        col_index: int = cols.index(col)
                         arrangement[col] = rows[row_key][col_index]
-                    dict_of_dict[rows[row_key][0]] = arrangement
+                    dict_of_dict[str(rows[row_key][0])] = arrangement
 #        for item in dict_of_dict.items():
 #            print(item)
         return dict_of_dict
@@ -1827,7 +1838,8 @@ class Translator:
                 coil_efficiencies[row_key]['IEER2023'] = float(dx_2023_rows[row_key][ieer_2023_column])
         return coil_efficiencies
 
-    def process_cooling_metrics(self, coil_name, coil_efficiencies):
+    @staticmethod
+    def process_cooling_metrics(coil_name, coil_efficiencies):
         metric_types = []
         metric_values = []
         if coil_name in coil_efficiencies:
@@ -1904,7 +1916,8 @@ class Translator:
                 coil_efficiencies[row_key]['Region Number'] = dx2_rows[row_key][hspf2_region_column]
         return coil_efficiencies
 
-    def process_heating_metrics(self, coil_name, coil_efficiencies):
+    @staticmethod
+    def process_heating_metrics(coil_name, coil_efficiencies):
         metric_types = []
         metric_values = []
         if coil_name in coil_efficiencies:
@@ -1955,7 +1968,7 @@ class Translator:
             motor_heat_to_zone_frac = float(rows[row_key][motor_heat_to_zone_frac_column])
             motor_loss_zone_name = rows[row_key][motor_loss_zone_name_column]
             # extra columns of data not necessarily used now
-            type = rows[row_key][type_column]
+            extra_type = rows[row_key][type_column]
             fan_energy_index = float(rows[row_key][fan_energy_index_column])
             purpose = rows[row_key][purpose_column]
             airloop_name = rows[row_key][airloop_name_column]
@@ -1968,7 +1981,7 @@ class Translator:
                              'motor_heat_to_airflow_fraction': motor_heat_in_air,
                              'motor_heat_to_zone_fraction': motor_heat_to_zone_frac,
                              'motor_location_zone': motor_loss_zone_name}
-            fan_extra = {'type': type,
+            fan_extra = {'type': extra_type,
                          'fan_energy_index': fan_energy_index,
                          'purpose': purpose,
                          'airloop_name': airloop_name}
