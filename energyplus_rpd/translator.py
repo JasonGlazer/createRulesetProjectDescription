@@ -2080,7 +2080,10 @@ class Translator:
     def gather_mains_schedule(self):
         mains_schedule = ''
         is_ground_based = None
-        mains_info_table = self.get_table_dictionary('InitializationSummary', 'Site Water Mains Temperature Information')
+        mains_info_table = self.get_table_dictionary(
+            'InitializationSummary',
+            'Site Water Mains Temperature Information'
+        )
         for _, row in mains_info_table.items():
             schedule_name = non_empty_string(row.get('Water Mains Temperature Schedule Name{}'))
             if schedule_name:
