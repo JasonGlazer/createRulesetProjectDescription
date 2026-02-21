@@ -4292,6 +4292,243 @@ class TestTranslator(TestCase):
 
         self.assertEqual(added_boilers, expected)
 
+    def test_add_service_water_heating(self):
+        t = self.set_minimal_files()
+        t.json_results_object['TabularReports'] = [
+            {
+                "For": "Entire Facility",
+                "ReportName": "InitializationSummary",
+                "Tables": [
+                    {
+                        "Cols": [
+                            "Calculation Method{}",
+                            "Water Mains Temperature Schedule Name{}",
+                            "Annual Average Outdoor Air Temperature{C}",
+                            "Maximum Difference In Monthly Average Outdoor Air Temperatures{deltaC}",
+                            "Fixed Default Water Mains Temperature{C}"
+                        ],
+                        "Rows": {
+                            "1": [
+                                "Schedule",
+                                "MAINS_TEMP_SCH",
+                                "11.5",
+                                "7.2",
+                                "10.0"
+                            ]
+                        },
+                        "TableName": "Site Water Mains Temperature Information"
+                    }
+                ]
+            },
+            {
+                "For": "Entire Facility",
+                "ReportName": "HVACTopology",
+                "Tables": [
+                    {
+                        "Cols": [
+                            "Object Type",
+                            "Loop Name",
+                            "Side",
+                            "Branch List Name",
+                            "Branch Name",
+                            "Component Type",
+                            "Component Name",
+                            "Component Branch Name"
+                        ],
+                        "Rows": {
+                            "1": [
+                                "PlantLoop",
+                                "SERVICE WATER HEATING LOOP",
+                                "Supply",
+                                "SWH LOOP SUPPLY SPLITTER",
+                                "SWH LOOP SUPPLY BRANCH",
+                                "WATERHEATER:MIXED",
+                                "MAIN SWH HEATER",
+                                "SWH LOOP SUPPLY MIXER"
+                            ]
+                        },
+                        "TableName": "Plant Loop Component Arrangement"
+                    }
+                ]
+            },
+            {
+                "For": "Entire Facility",
+                "ReportName": "EquipmentSummary",
+                "Tables": [
+                    {
+                        "Cols": [
+                            "Drain Water Heat Exchanger Type",
+                            "Drain Water Heat Exchanger Destination",
+                            "Drain Water Heat Exchanger U-Factor Times Area",
+                            "Average Heat Recovery Effectiveness",
+                            "Hot Water Supply Temperature Schedule ",
+                            "Hot Water Supply Temperature Schedule Maximum [C]",
+                            "Cold Water Supply Temperature Schedule",
+                            "Cold Water Supply Temperature Schedule Minimum [C]",
+                            "PlantLoop Name",
+                            "Branch Name",
+                            "Supply Water Storage Tank Name",
+                            "Reclamation Water Storage Tank Name"
+                        ],
+                        "Rows": {
+                            "SWH CONNECTION 1": [
+                                "None",
+                                "None",
+                                "0.0",
+                                "0.0",
+                                "SWH_SUPPLY_TEMP_SCH",
+                                "60.0",
+                                "CW_SUPPLY_TEMP_SCH",
+                                "12.0",
+                                "SERVICE WATER HEATING LOOP",
+                                "SWH LOOP SUPPLY BRANCH",
+                                "",
+                                ""
+                            ]
+                        },
+                        "TableName": "WaterUse Connections"
+                    },
+                    {
+                        "Cols": [
+                            "Type",
+                            "Storage Volume [m3]",
+                            "Input [W]",
+                            "Thermal Efficiency [W/W]",
+                            "Recovery Efficiency [W/W]",
+                            "Energy Factor",
+                            "Fuel Type",
+                            "Set Point Schedule Name for Heater 1",
+                            "Set Point at 11am First Wednesday for Heater 1 [C]",
+                            "Days with Same 11am Value for Heater 1",
+                            "Month Assumed for Heater 1",
+                            "Set Point Schedule Name for Heater 2",
+                            "Set Point at 11am First Wednesday for Heater 2 [C]",
+                            "Days with Same 11am Value for Heater 2",
+                            "Month Assumed for Heater 2",
+                            "Peak Use Water Flow Rate [m3/s]",
+                            "Use Flow Rate Fraction Schedule Name",
+                            "Ambient Temperature Zone Name"
+                        ],
+                        "Rows": {
+                            "MAIN SWH HEATER": [
+                                "WaterHeater:Mixed",
+                                "0.300",
+                                "8500.0",
+                                "0.82",
+                                "0.76",
+                                "0.64",
+                                "NaturalGas",
+                                "SWH_SETPOINT_SCH",
+                                "60.0",
+                                "31",
+                                "January",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "0.0003",
+                                "SWH_USE_FRAC_SCH",
+                                "CORE_ZN"
+                            ]
+                        },
+                        "TableName": "Service Water Heating"
+                    },
+                    {
+                        "Cols": [
+                            "Zone",
+                            "End-Use Subcategory",
+                            "WaterUse Connection Name",
+                            "Peak Water Flow Rate [m3/s]",
+                            "Peak Flow Multipler Schedule",
+                            "Peak Flow Multipler Schedule Maximum",
+                            "Target Temperature Schedule",
+                            "Target Temperature  Schedule Maximum [C]",
+                            "Hot Supply Temperature Schedule",
+                            "Hot Supply Temperature  Schedule Maximum [C]",
+                            "Cold Supply Temperature Schedule",
+                            "Cold Supply Temperature  Schedule Minimum [C]",
+                            "Sensible Fraction Schedule",
+                            "Sensible Fraction  Schedule Maximum",
+                            "Latent Fraction Schedule",
+                            "Latent Fraction  Schedule Maximum"
+                        ],
+                        "Rows": {
+                            "RESTROOM HOT WATER": [
+                                "CORE_ZN",
+                                "Restroom Sink",
+                                "SWH CONNECTION 1",
+                                "0.0002",
+                                "RESTROOM_WATER_SCH",
+                                "1.0",
+                                "TARGET_TEMP_SCH",
+                                "43.0",
+                                "HOT_SUPPLY_TEMP_SCH",
+                                "60.0",
+                                "COLD_SUPPLY_TEMP_SCH",
+                                "12.0",
+                                "SENSIBLE_FRAC_SCH",
+                                "0.2",
+                                "LATENT_FRAC_SCH",
+                                "0.1"
+                            ]
+                        },
+                        "TableName": "Water Use"
+                    }
+                ]
+            }
+        ]
+
+        added_systems, added_equipment, added_uses = t.add_service_water_heating()
+
+        expected_systems = [
+            {
+                'id': 'SWH CONNECTION 1',
+                'is_central_system': True,
+                'design_supply_temperature': 60.0,
+                'entering_water_mains_temperature_schedule': 'MAINS_TEMP_SCH',
+                'is_ground_temperature_used_for_entering_water': False
+            }
+        ]
+        expected_equipment = [
+            {
+                'id': 'MAIN SWH HEATER',
+                'distribution_system': 'SWH CONNECTION 1',
+                'heater_fuel_type': 'NATURAL_GAS',
+                'efficiency_metric_types': ['THERMAL_EFFICIENCY', 'ENERGY_FACTOR'],
+                'efficiency_metric_values': [0.82, 0.64],
+                'input_power': 8500.0,
+                'recovery_efficiency': 0.76,
+                'setpoint_temperature': 60.0,
+                'tank': {
+                    'id': 'MAIN SWH HEATER-tank',
+                    'storage_capacity': 300.0,
+                    'type': 'COMMERCIAL_STORAGE'
+                },
+                'hot_water_loop': 'SERVICE WATER HEATING LOOP'
+            }
+        ]
+        expected_uses = [
+            {
+                'id': 'RESTROOM HOT WATER',
+                'served_by_distribution_system': 'SWH CONNECTION 1',
+                'use': 12.0,
+                'use_units': 'VOLUME',
+                'use_multiplier_schedule': 'RESTROOM_WATER_SCH',
+                'temperature_at_fixture': 43.0,
+                'water_serves_type': 'RESTROOM_SINK'
+            }
+        ]
+
+        self.assertEqual(added_systems, expected_systems)
+        self.assertEqual(added_equipment, expected_equipment)
+        self.assertEqual(added_uses, expected_uses)
+        self.assertEqual(t.model_description['service_water_heating_distribution_systems'], expected_systems)
+        self.assertEqual(t.model_description['service_water_heating_equipment'], expected_equipment)
+        self.assertEqual(t.model_description['service_water_heating_uses'], expected_uses)
+        self.assertEqual(t.building_segment['service_water_heating_uses'], ['RESTROOM HOT WATER'])
+        self.assertIn('MAINS_TEMP_SCH', t.schedules_used_names)
+        self.assertIn('RESTROOM_WATER_SCH', t.schedules_used_names)
+
     def test_add_chillers(self):
         t = self.set_minimal_files()
 

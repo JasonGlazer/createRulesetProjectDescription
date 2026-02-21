@@ -76,6 +76,26 @@ def is_float(string):
         return False
 
 
+def to_float_or_none(value):
+    if value is None:
+        return None
+    value_string = str(value).strip()
+    if not value_string or value_string.upper() in {'N/A', 'NA'}:
+        return None
+    if is_float(value_string):
+        return float(value_string)
+    return None
+
+
+def non_empty_string(value):
+    if value is None:
+        return ''
+    value_string = str(value).strip()
+    if value_string.upper() in {'N/A', 'NA'}:
+        return ''
+    return value_string
+
+
 def terminal_option_convert(type_of_input_object):
     if 'VAV' in type_of_input_object.upper():
         option = 'VARIABLE_AIR_VOLUME'
@@ -2045,6 +2065,200 @@ class Translator:
         self.model_description['fluid_loops'] = fluid_loops
         return fluid_loops
 
+    def gather_service_water_heater_loops(self):
+        loop_by_heater = {}
+        plant_loop_arrangements = self.gather_table_into_list('HVACTopology', 'Plant Loop Component Arrangement')
+        for arrangement_row in plant_loop_arrangements:
+            component_type = non_empty_string(arrangement_row.get('Component Type'))
+            if 'WATERHEATER' in component_type.upper():
+                component_name = non_empty_string(arrangement_row.get('Component Name'))
+                loop_name = non_empty_string(arrangement_row.get('Loop Name'))
+                if component_name and loop_name:
+                    loop_by_heater[component_name] = loop_name
+        return loop_by_heater
+
+    def gather_mains_schedule(self):
+        mains_schedule = ''
+        is_ground_based = None
+        mains_info_table = self.get_table_dictionary('InitializationSummary', 'Site Water Mains Temperature Information')
+        for _, row in mains_info_table.items():
+            schedule_name = non_empty_string(row.get('Water Mains Temperature Schedule Name{}'))
+            if schedule_name:
+                mains_schedule = schedule_name
+                self.schedules_used_names.append(schedule_name)
+            method = non_empty_string(row.get('Calculation Method{}')).upper()
+            if method:
+                is_ground_based = method == 'CORRELATION'
+            break
+        return mains_schedule, is_ground_based
+
+    def add_service_water_heating_distribution_systems(self):
+        systems = []
+        system_id_by_connection = {}
+        system_id_by_loop = {}
+        mains_schedule, is_ground_based = self.gather_mains_schedule()
+        connection_table = self.get_table_dictionary('EquipmentSummary', 'WaterUse Connections')
+        for connection_name, row in connection_table.items():
+            connection_name = non_empty_string(connection_name)
+            if not connection_name or connection_name.upper() == 'NONE':
+                continue
+            system = {'id': connection_name}
+            loop_name = non_empty_string(row.get('PlantLoop Name'))
+            if loop_name:
+                system_id_by_loop[loop_name] = connection_name
+                system['is_central_system'] = True
+            design_supply_temperature = to_float_or_none(row.get('Hot Water Supply Temperature Schedule Maximum [C]'))
+            if design_supply_temperature is not None:
+                system['design_supply_temperature'] = design_supply_temperature
+            if mains_schedule:
+                system['entering_water_mains_temperature_schedule'] = mains_schedule
+            if is_ground_based is not None:
+                system['is_ground_temperature_used_for_entering_water'] = is_ground_based
+            systems.append(system)
+            system_id_by_connection[connection_name] = connection_name
+
+        loop_by_heater = self.gather_service_water_heater_loops()
+        for _, loop_name in loop_by_heater.items():
+            if loop_name and loop_name not in system_id_by_loop:
+                system = {'id': loop_name}
+                if mains_schedule:
+                    system['entering_water_mains_temperature_schedule'] = mains_schedule
+                if is_ground_based is not None:
+                    system['is_ground_temperature_used_for_entering_water'] = is_ground_based
+                systems.append(system)
+                system_id_by_loop[loop_name] = loop_name
+
+        if systems:
+            self.model_description['service_water_heating_distribution_systems'] = systems
+        return systems, system_id_by_connection, system_id_by_loop
+
+    def add_service_water_heating_equipment(self, system_id_by_loop, default_system_id):
+        equipment_list = []
+        service_water_table = self.get_table_dictionary('EquipmentSummary', 'Service Water Heating')
+        loop_by_heater = self.gather_service_water_heater_loops()
+        for heater_name, row in service_water_table.items():
+            heater_name = non_empty_string(heater_name)
+            if not heater_name or heater_name.upper() == 'NONE':
+                continue
+            loop_name = loop_by_heater.get(heater_name, '')
+            distribution_system = ''
+            if loop_name in system_id_by_loop:
+                distribution_system = system_id_by_loop[loop_name]
+            elif default_system_id:
+                distribution_system = default_system_id
+            if not distribution_system:
+                continue
+            equipment = {
+                'id': heater_name,
+                'distribution_system': distribution_system
+            }
+            fuel_type = non_empty_string(row.get('Fuel Type'))
+            if fuel_type:
+                try:
+                    equipment['heater_fuel_type'] = energy_source_convert(fuel_type)
+                except KeyError:
+                    if fuel_type.upper() in {'ELECTRICITY', 'NATURAL_GAS', 'PROPANE', 'FUEL_OIL', 'STEAM'}:
+                        equipment['heater_fuel_type'] = fuel_type.upper()
+                    else:
+                        equipment['heater_fuel_type'] = 'OTHER'
+
+            metric_types = []
+            metric_values = []
+            thermal_efficiency = to_float_or_none(row.get('Thermal Efficiency [W/W]'))
+            if thermal_efficiency is not None:
+                metric_types.append('THERMAL_EFFICIENCY')
+                metric_values.append(thermal_efficiency)
+            energy_factor = to_float_or_none(row.get('Energy Factor'))
+            if energy_factor is not None:
+                metric_types.append('ENERGY_FACTOR')
+                metric_values.append(energy_factor)
+            if metric_types:
+                equipment['efficiency_metric_types'] = metric_types
+                equipment['efficiency_metric_values'] = metric_values
+
+            input_power = to_float_or_none(row.get('Input [W]'))
+            if input_power is not None:
+                equipment['input_power'] = input_power
+            recovery_efficiency = to_float_or_none(row.get('Recovery Efficiency [W/W]'))
+            if recovery_efficiency is not None:
+                equipment['recovery_efficiency'] = recovery_efficiency
+            setpoint_temperature = to_float_or_none(row.get('Set Point at 11am First Wednesday for Heater 1 [C]'))
+            if setpoint_temperature is not None:
+                equipment['setpoint_temperature'] = setpoint_temperature
+
+            storage_volume = to_float_or_none(row.get('Storage Volume [m3]'))
+            if storage_volume is not None and storage_volume > 0:
+                tank_type = 'COMMERCIAL_STORAGE'
+                heater_type = non_empty_string(row.get('Type')).upper()
+                if 'INSTANTANEOUS' in heater_type:
+                    tank_type = 'COMMERCIAL_INSTANTANEOUS'
+                equipment['tank'] = {
+                    'id': heater_name + '-tank',
+                    'storage_capacity': storage_volume * 1000,
+                    'type': tank_type
+                }
+
+            if loop_name:
+                equipment['hot_water_loop'] = loop_name
+            equipment_list.append(equipment)
+        if equipment_list:
+            self.model_description['service_water_heating_equipment'] = equipment_list
+        return equipment_list
+
+    def add_service_water_heating_uses(self, system_id_by_connection, default_system_id):
+        uses = []
+        water_use_table = self.get_table_dictionary('EquipmentSummary', 'Water Use')
+        serves_type_map = {
+            'SHOWER': 'SHOWER',
+            'BATH': 'BATH',
+            'RESTROOM': 'RESTROOM_SINK',
+            'DISHWASHER': 'DISHWASHER',
+            'KITCHEN': 'KITCHEN_SINK',
+            'WASH': 'WASH_SINK',
+            'CLOTHES': 'CLOTHES_WASHER'
+        }
+        for use_name, row in water_use_table.items():
+            use_name = non_empty_string(use_name)
+            if not use_name or use_name.upper() == 'NONE':
+                continue
+            connection_name = non_empty_string(row.get('WaterUse Connection Name'))
+            served_by = system_id_by_connection.get(connection_name, default_system_id)
+            if not served_by:
+                continue
+            use = {
+                'id': use_name,
+                'served_by_distribution_system': served_by
+            }
+            peak_flow = to_float_or_none(row.get('Peak Water Flow Rate [m3/s]'))
+            if peak_flow is not None:
+                use['use'] = peak_flow * 60000
+                use['use_units'] = 'VOLUME'
+            flow_schedule = non_empty_string(row.get('Peak Flow Multipler Schedule'))
+            if flow_schedule:
+                use['use_multiplier_schedule'] = flow_schedule
+                self.schedules_used_names.append(flow_schedule)
+            target_temperature = to_float_or_none(row.get('Target Temperature  Schedule Maximum [C]'))
+            if target_temperature is not None:
+                use['temperature_at_fixture'] = target_temperature
+            end_use_subcategory = non_empty_string(row.get('End-Use Subcategory')).upper()
+            for key, value in serves_type_map.items():
+                if key in end_use_subcategory:
+                    use['water_serves_type'] = value
+                    break
+            uses.append(use)
+
+        if uses:
+            self.model_description['service_water_heating_uses'] = uses
+            self.building_segment['service_water_heating_uses'] = [item['id'] for item in uses]
+        return uses
+
+    def add_service_water_heating(self):
+        systems, system_id_by_connection, system_id_by_loop = self.add_service_water_heating_distribution_systems()
+        default_system_id = systems[0]['id'] if systems else ''
+        equipment = self.add_service_water_heating_equipment(system_id_by_loop, default_system_id)
+        uses = self.add_service_water_heating_uses(system_id_by_connection, default_system_id)
+        return systems, equipment, uses
+
     def add_simulation_outputs(self):
         source_map = {'Electricity': 'ELECTRICITY',
                       'Natural Gas': 'NATURAL_GAS',
@@ -2262,6 +2476,7 @@ class Translator:
         self.add_fluid_loops()
         self.add_zones()
         self.add_spaces()
+        self.add_service_water_heating()
         self.add_exterior_lighting()
         self.add_simulation_outputs()
         self.add_schedules()
