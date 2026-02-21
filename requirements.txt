@@ -4,7 +4,6 @@ pyyaml
 
 # developer requirements for running tests
 flake8
-nose
 pytest
 
 # developer requirements to generate documentation
