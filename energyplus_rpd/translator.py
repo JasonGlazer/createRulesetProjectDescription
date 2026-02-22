@@ -1154,6 +1154,23 @@ class Translator:
     def add_heating_ventilation_system(self):
         # only handles adding the heating and cooling capacities for the small office and medium office DOE prototypes
         hvac_systems = []
+        zone_hvac_terminals = {}
+        zone_hvac_equipment = self.gather_zone_hvac_equipment_by_zone()
+
+        def merge_terminal(zone_name, terminal):
+            zone_key = zone_name.upper()
+            if zone_key not in self.terminals_by_zone:
+                self.terminals_by_zone[zone_key] = [terminal, ]
+            else:
+                matched = False
+                for existing_terminal in self.terminals_by_zone[zone_key]:
+                    if existing_terminal.get('id') == terminal.get('id'):
+                        existing_terminal.update(terminal)
+                        matched = True
+                        break
+                if not matched:
+                    self.terminals_by_zone[zone_key].append(terminal)
+
         coil_connections = self.gather_coil_connections()
         cooling_coil_efficiencies = self.gather_cooling_coil_efficiencies()
         heating_coil_efficiencies = self.gather_heating_coil_efficiencies()
@@ -1319,7 +1336,8 @@ class Translator:
                         fan_system['exhaust_fans'] = xfans
                     hvac_system['fan_system'] = fan_system
             for zone in zone_name_list:
-                if zone in air_terminals:
+                use_air_terminal = hvac_type == 'AirLoopHVAC' or hvac_type.upper() == 'ZONEHVAC:AIRDISTRIBUTIONUNIT'
+                if use_air_terminal and zone in air_terminals:
                     current_air_terminal = air_terminals[zone]
                     terminal = {
                         'id': current_air_terminal['terminal_name'],
@@ -1350,7 +1368,86 @@ class Translator:
                     if current_air_terminal['min_oa_schedule_name'] != 'n/a':
                         terminal['minimum_outdoor_airflow_multiplier_schedule'] = (
                             current_air_terminal)['min_oa_schedule_name']
-                    self.terminals_by_zone[zone.upper()] = [terminal, ]
+                    merge_terminal(zone, terminal)
+                # Some ZoneHVAC equipment does not appear in EquipmentSummary:Air Terminals.
+                # Build terminal groups directly from ZoneHVAC coil-sizing rows.
+                if hvac_type.upper().startswith('ZONEHVAC:') and hvac_type.upper() != 'ZONEHVAC:AIRDISTRIBUTIONUNIT':
+                    zone_key = zone.upper()
+                    terminal_key = (zone_key, hvac_name)
+                    if terminal_key not in zone_hvac_terminals:
+                        terminal = {
+                            'id': hvac_name + '-terminal',
+                            'served_by_heating_ventilating_air_conditioning_system': hvac_name
+                        }
+                        if hvac_type.upper() == 'ZONEHVAC:WATERTOAIRHEATPUMP':
+                            terminal['type'] = 'CONSTANT_AIR_VOLUME'
+                            terminal['is_supply_ducted'] = False
+                        elif hvac_type.upper() == 'ZONEHVAC:BASEBOARD:CONVECTIVE:WATER':
+                            terminal['type'] = 'BASEBOARD'
+                            terminal['is_supply_ducted'] = False
+                            terminal['heating_source'] = 'HOT_WATER'
+                        zone_hvac_terminals[terminal_key] = terminal
+
+                    terminal = zone_hvac_terminals[terminal_key]
+                    if supply_fan_name_for_coil != 'unknown' and supply_fan_name_for_coil in equipment_fans:
+                        equipment_fan, _ = equipment_fans[supply_fan_name_for_coil]
+                        if 'design_airflow' in equipment_fan and equipment_fan['design_airflow'] > 0:
+                            terminal['primary_airflow'] = equipment_fan['design_airflow'] * 1000
+                    if 'HEATING' in coil_type.upper():
+                        if leaving_drybulb != -999:
+                            terminal['supply_design_heating_setpoint_temperature'] = leaving_drybulb
+                        if total_capacity > 0:
+                            terminal['heating_capacity'] = total_capacity
+                        if hvac_type.upper() == 'ZONEHVAC:BASEBOARD:CONVECTIVE:WATER' and row_key in coil_connections:
+                            terminal['heating_from_loop'] = coil_connections[row_key]['plant_loop_name']
+                    elif 'COOLING' in coil_type.upper():
+                        if leaving_drybulb != -999:
+                            terminal['supply_design_cooling_setpoint_temperature'] = leaving_drybulb
+                        if sensible_capacity > 0:
+                            terminal['cooling_capacity'] = sensible_capacity
+        for (zone_key, _), terminal in zone_hvac_terminals.items():
+            merge_terminal(zone_key, terminal)
+
+        # Add ZoneHVAC terminals that may not be represented in CoilSizingDetails:Coils
+        # (e.g. ZoneHVAC:Baseboard:Convective:Water).
+        zone_baseboards = self.epjson_object.get('ZoneHVAC:Baseboard:Convective:Water', {})
+        zone_wtr_hp = self.epjson_object.get('ZoneHVAC:WaterToAirHeatPump', {})
+        for zone_name, equipments in zone_hvac_equipment.items():
+            for object_type, object_name in equipments:
+                object_type_uc = object_type.upper()
+                if object_type_uc == 'ZONEHVAC:BASEBOARD:CONVECTIVE:WATER':
+                    object_name_uc = object_name.upper()
+                    terminal = {
+                        'id': object_name_uc + '-terminal',
+                        'type': 'BASEBOARD',
+                        'is_supply_ducted': False,
+                        'heating_source': 'HOT_WATER'
+                    }
+                    if object_name in zone_baseboards:
+                        zone_baseboard = zone_baseboards[object_name]
+                        if 'heating_design_capacity' in zone_baseboard and is_float(zone_baseboard['heating_design_capacity']):
+                            terminal['heating_capacity'] = float(zone_baseboard['heating_design_capacity'])
+                    merge_terminal(zone_name, terminal)
+                elif object_type_uc == 'ZONEHVAC:WATERTOAIRHEATPUMP':
+                    object_name_uc = object_name.upper()
+                    terminal = {
+                        'id': object_name_uc + '-terminal',
+                        'type': 'CONSTANT_AIR_VOLUME',
+                        'is_supply_ducted': False,
+                        'served_by_heating_ventilating_air_conditioning_system': object_name_uc
+                    }
+                    if object_name in zone_wtr_hp:
+                        zone_hp = zone_wtr_hp[object_name]
+                        airflows = []
+                        for airflow_field in ['cooling_supply_air_flow_rate',
+                                              'heating_supply_air_flow_rate',
+                                              'no_load_supply_air_flow_rate']:
+                            airflow_value = zone_hp.get(airflow_field)
+                            if is_float(airflow_value):
+                                airflows.append(float(airflow_value))
+                        if airflows:
+                            terminal['primary_airflow'] = max(airflows) * 1000
+                    merge_terminal(zone_name, terminal)
         self.building_segment['heating_ventilating_air_conditioning_systems'] = hvac_systems
         # print(self.terminals_by_zone)
         return hvac_systems, self.terminals_by_zone
@@ -1777,6 +1874,34 @@ class Translator:
             air_terminal_by_zone[zone_name] = terminal
         # print(air_terminal_by_zone)
         return air_terminal_by_zone
+
+    def gather_zone_hvac_equipment_by_zone(self):
+        # dictionary: zone name -> list of tuples(object_type, object_name)
+        zone_equipment_by_zone = {}
+        equipment_connections = self.epjson_object.get('ZoneHVAC:EquipmentConnections', {})
+        equipment_lists = self.epjson_object.get('ZoneHVAC:EquipmentList', {})
+        for equipment_connection in equipment_connections.values():
+            zone_name = equipment_connection.get('zone_name', '').upper()
+            equipment_list_name = equipment_connection.get('zone_conditioning_equipment_list_name')
+            if not zone_name or equipment_list_name not in equipment_lists:
+                continue
+            equipment_list = equipment_lists[equipment_list_name]
+            equipment = []
+            if 'equipment' in equipment_list and isinstance(equipment_list['equipment'], list):
+                for equipment_item in equipment_list['equipment']:
+                    object_type = equipment_item.get('zone_equipment_object_type')
+                    object_name = equipment_item.get('zone_equipment_name')
+                    if object_type and object_name:
+                        equipment.append((object_type, object_name))
+            else:
+                # backward compatibility with older epJSON variants
+                for index in range(1, 21):
+                    object_type = equipment_list.get(f'zone_equipment_{index}_object_type')
+                    object_name = equipment_list.get(f'zone_equipment_{index}_name')
+                    if object_type and object_name:
+                        equipment.append((object_type, object_name))
+            zone_equipment_by_zone[zone_name] = equipment
+        return zone_equipment_by_zone
 
     def add_chillers(self):
         chillers = []
