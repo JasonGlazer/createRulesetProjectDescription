@@ -1155,6 +1155,7 @@ class Translator:
         # only handles adding the heating and cooling capacities for the small office and medium office DOE prototypes
         hvac_systems = []
         coil_connections = self.gather_coil_connections()
+        supply_fan_names_by_coil_connection = self.gather_supply_fan_names_by_coil_connection()
         cooling_coil_efficiencies = self.gather_cooling_coil_efficiencies()
         heating_coil_efficiencies = self.gather_heating_coil_efficiencies()
         equipment_fans = self.gather_equipment_fans()
@@ -1179,15 +1180,22 @@ class Translator:
         is_autosized_coil_column = cols.index('Autosized Coil Capacity?')
         leaving_drybulb_column = cols.index('Coil Leaving Air Drybulb at Rating Conditions [C]')
         supply_fan_name_for_coil_column = cols.index('Supply Fan Name for Coil')
+        non_unknown_supply_fan_by_hvac = {}
         terminal_capacity_by_zone = dict()
         for row_key in row_keys:
             if row_key == 'None':
                 continue
             hvac_type = rows[row_key][hvac_type_column]
+            hvac_name = rows[row_key][hvac_name_column]
+            supply_fan_name_for_coil = rows[row_key][supply_fan_name_for_coil_column]
             zone_name = rows[row_key][zone_names_column]
             total_capacity = float(rows[row_key][total_capacity_column])
             if hvac_type == 'ZONEHVAC:AIRDISTRIBUTIONUNIT':
                 terminal_capacity_by_zone[zone_name] = total_capacity
+            if (hvac_type == 'AirLoopHVAC' and
+                    supply_fan_name_for_coil and
+                    supply_fan_name_for_coil.lower() != 'unknown'):
+                non_unknown_supply_fan_by_hvac[hvac_name] = supply_fan_name_for_coil
         previously_added_hvac_systems = []
         for row_key in row_keys:
             if row_key == 'None':
@@ -1210,6 +1218,10 @@ class Translator:
             is_autosized_coil = rows[row_key][is_autosized_coil_column]
             leaving_drybulb = float(rows[row_key][leaving_drybulb_column])
             supply_fan_name_for_coil = rows[row_key][supply_fan_name_for_coil_column]
+            if supply_fan_name_for_coil and supply_fan_name_for_coil.lower() == 'unknown':
+                supply_fan_name_for_coil = non_unknown_supply_fan_by_hvac.get(hvac_name, supply_fan_name_for_coil)
+            if supply_fan_name_for_coil and supply_fan_name_for_coil.lower() == 'unknown':
+                supply_fan_name_for_coil = supply_fan_names_by_coil_connection.get(row_key, supply_fan_name_for_coil)
             if sensible_capacity == -999:
                 sensible_capacity = 0  # removes error but not sure if this makes sense
             oversize_ratio = 1.
@@ -1270,7 +1282,7 @@ class Translator:
                 if cooling_system:
                     hvac_system['cooling_system'] = cooling_system
                 # add the fansystem
-                if supply_fan_name_for_coil != 'unknown':
+                if supply_fan_name_for_coil and supply_fan_name_for_coil.lower() != 'unknown':
                     if supply_fan_name_for_coil in equipment_fans:
                         fan = {'id': supply_fan_name_for_coil}
                         equipment_fan, equipment_fan_extra = equipment_fans[supply_fan_name_for_coil]
@@ -1370,6 +1382,32 @@ class Translator:
             connection_by_coil[row_key] = connection
         # print(connection_by_coil)
         return connection_by_coil
+
+    def gather_supply_fan_names_by_coil_connection(self):
+        supply_fan_name_by_coil = {}
+        table = self.get_table('CoilSizingDetails', 'Coil Connections')
+        if not table:
+            return supply_fan_name_by_coil
+        rows = table['Rows']
+        row_keys = list(rows.keys())
+        cols = table['Cols']
+        supply_fan_name_column = -1
+        if 'Supply Fan Name for HVAC' in cols:
+            supply_fan_name_column = cols.index('Supply Fan Name for HVAC')
+        elif 'Supply Fan Name for Coil' in cols:
+            supply_fan_name_column = cols.index('Supply Fan Name for Coil')
+        if supply_fan_name_column == -1:
+            return supply_fan_name_by_coil
+        for row_key in row_keys:
+            if row_key == 'None':
+                continue
+            supply_fan_name = rows[row_key][supply_fan_name_column]
+            if not supply_fan_name:
+                continue
+            if supply_fan_name.lower() == 'unknown':
+                continue
+            supply_fan_name_by_coil[row_key] = supply_fan_name
+        return supply_fan_name_by_coil
 
     def gather_table_into_list(self, report_name, table_name):
         # transform the rows and columns format into a list of dictionaries
