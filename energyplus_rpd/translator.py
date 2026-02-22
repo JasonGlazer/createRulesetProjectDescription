@@ -1188,7 +1188,6 @@ class Translator:
             total_capacity = float(rows[row_key][total_capacity_column])
             if hvac_type == 'ZONEHVAC:AIRDISTRIBUTIONUNIT':
                 terminal_capacity_by_zone[zone_name] = total_capacity
-        previously_added_hvac_systems = []
         for row_key in row_keys:
             if row_key == 'None':
                 continue
@@ -1218,10 +1217,8 @@ class Translator:
             heating_system = {}
             cooling_system = {}
             if hvac_type == 'AirLoopHVAC':
-                if hvac_name in previously_added_hvac_systems:
-                    continue
-                else:
-                    previously_added_hvac_systems.append(hvac_name)
+                hvac_system_list = list(filter(lambda x: (x['id'] == hvac_name), hvac_systems))
+                existing_hvac_system = bool(hvac_system_list)
                 if 'HEATING' in coil_type.upper():
                     heating_system['id'] = hvac_name + '-heating'
                     heating_system['design_capacity'] = total_capacity
@@ -1259,7 +1256,6 @@ class Translator:
                     if metric_values:
                         cooling_system['efficiency_metric_values'] = metric_values
                         cooling_system['efficiency_metric_types'] = metric_types
-                hvac_system_list = list(filter(lambda x: (x['id'] == hvac_name), hvac_systems))
                 if hvac_system_list:
                     hvac_system = hvac_system_list[0]
                 else:
@@ -1305,40 +1301,41 @@ class Translator:
                             fan_system['exhaust_fans'] = xfans
                         hvac_system['fan_system'] = fan_system
                 # print(hvac_system)
-                hvac_systems.append(hvac_system)
-                for zone in zone_name_list:
-                    if zone in air_terminals:
-                        current_air_terminal = air_terminals[zone]
-                        terminal = {
-                            'id': current_air_terminal['terminal_name'],
-                            'type': terminal_option_convert(current_air_terminal['type_input']),
-                            'heating_source': terminal_heating_source_convert(current_air_terminal['heat_coil_type']),
-                            'cooling_source': terminal_cooling_source_convert(current_air_terminal['chill_coil_type']),
-                            'served_by_heating_ventilating_air_conditioning_system': hvac_name,
-                            'primary_airflow': current_air_terminal['primary_airflow_rate'] * 1000,  # m3 to L
-                            'supply_design_heating_setpoint_temperature': current_air_terminal['supply_heat_set_point'],
-                            'supply_design_cooling_setpoint_temperature': current_air_terminal['supply_cool_set_point'],
-                            'minimum_airflow': current_air_terminal['min_flow'] * 1000,
-                            'minimum_outdoor_airflow': current_air_terminal['min_oa_flow'] * 1000,
-                            'heating_capacity': current_air_terminal['heating_capacity'],
-                            'cooling_capacity': current_air_terminal['cooling_capacity']
-                        }
-                        if zone in terminal_capacity_by_zone:
-                            terminal['heating_capacity'] = terminal_capacity_by_zone[zone]
-                        if current_air_terminal['fan_name']:
-                            terminal_fan = {'id': current_air_terminal['fan_name']}
-                            equipment_fan, equipment_fan_extra = equipment_fans[current_air_terminal['fan_name']]
-                            terminal_fan.update(equipment_fan)
-                            terminal['fan'] = terminal_fan
-                            terminal['fan_configuration'] = terminal_config_convert(current_air_terminal['type_input'])
-                        if current_air_terminal['secondary_airflow_rate'] > 0:
-                            terminal['secondary_airflow'] = current_air_terminal['secondary_airflow_rate'] * 1000
-                        if current_air_terminal['max_flow_during_reheat'] > 0:
-                            terminal['maximum_heating_airflow'] = current_air_terminal['max_flow_during_reheat'] * 1000
-                        if current_air_terminal['min_oa_schedule_name'] != 'n/a':
-                            terminal['minimum_outdoor_airflow_multiplier_schedule'] = (
-                                current_air_terminal)['min_oa_schedule_name']
-                        self.terminals_by_zone[zone.upper()] = [terminal, ]
+                if not existing_hvac_system:
+                    hvac_systems.append(hvac_system)
+                    for zone in zone_name_list:
+                        if zone in air_terminals:
+                            current_air_terminal = air_terminals[zone]
+                            terminal = {
+                                'id': current_air_terminal['terminal_name'],
+                                'type': terminal_option_convert(current_air_terminal['type_input']),
+                                'heating_source': terminal_heating_source_convert(current_air_terminal['heat_coil_type']),
+                                'cooling_source': terminal_cooling_source_convert(current_air_terminal['chill_coil_type']),
+                                'served_by_heating_ventilating_air_conditioning_system': hvac_name,
+                                'primary_airflow': current_air_terminal['primary_airflow_rate'] * 1000,  # m3 to L
+                                'supply_design_heating_setpoint_temperature': current_air_terminal['supply_heat_set_point'],
+                                'supply_design_cooling_setpoint_temperature': current_air_terminal['supply_cool_set_point'],
+                                'minimum_airflow': current_air_terminal['min_flow'] * 1000,
+                                'minimum_outdoor_airflow': current_air_terminal['min_oa_flow'] * 1000,
+                                'heating_capacity': current_air_terminal['heating_capacity'],
+                                'cooling_capacity': current_air_terminal['cooling_capacity']
+                            }
+                            if zone in terminal_capacity_by_zone:
+                                terminal['heating_capacity'] = terminal_capacity_by_zone[zone]
+                            if current_air_terminal['fan_name']:
+                                terminal_fan = {'id': current_air_terminal['fan_name']}
+                                equipment_fan, equipment_fan_extra = equipment_fans[current_air_terminal['fan_name']]
+                                terminal_fan.update(equipment_fan)
+                                terminal['fan'] = terminal_fan
+                                terminal['fan_configuration'] = terminal_config_convert(current_air_terminal['type_input'])
+                            if current_air_terminal['secondary_airflow_rate'] > 0:
+                                terminal['secondary_airflow'] = current_air_terminal['secondary_airflow_rate'] * 1000
+                            if current_air_terminal['max_flow_during_reheat'] > 0:
+                                terminal['maximum_heating_airflow'] = current_air_terminal['max_flow_during_reheat'] * 1000
+                            if current_air_terminal['min_oa_schedule_name'] != 'n/a':
+                                terminal['minimum_outdoor_airflow_multiplier_schedule'] = (
+                                    current_air_terminal)['min_oa_schedule_name']
+                            self.terminals_by_zone[zone.upper()] = [terminal, ]
         self.building_segment['heating_ventilating_air_conditioning_systems'] = hvac_systems
         # print(self.terminals_by_zone)
         return hvac_systems, self.terminals_by_zone
