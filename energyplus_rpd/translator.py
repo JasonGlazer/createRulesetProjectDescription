@@ -1154,6 +1154,8 @@ class Translator:
     def add_heating_ventilation_system(self):
         hvac_systems = []
         zone_hvac_terminals = {}
+
+        # Used later to add ZoneHVAC terminals that might not show up in CoilSizingDetails:Coils
         zone_hvac_equipment = self.gather_zone_hvac_equipment_by_zone()
 
         def merge_terminal(zone_name, terminal):
@@ -1182,7 +1184,10 @@ class Translator:
 
         rows = coils_table["Rows"]
         cols = coils_table["Cols"]
-        col = lambda name: cols.index(name)
+
+        # flake8 E731 fix: do not assign lambda
+        def col(name: str) -> int:
+            return cols.index(name)
 
         terminal_capacity_by_zone = {}
         non_unknown_supply_fan_by_hvac = {}
@@ -1227,11 +1232,13 @@ class Translator:
             leaving_db = float(r[col("Coil Leaving Air Drybulb at Rating Conditions [C]")])
             supply_fan = r[col("Supply Fan Name for Coil")]
 
+            # Combined "unknown fan" resolution logic
             if supply_fan and supply_fan.lower() == "unknown":
                 supply_fan = non_unknown_supply_fan_by_hvac.get(hvac_name, supply_fan)
             if supply_fan and supply_fan.lower() == "unknown":
                 supply_fan = supply_fan_names_by_coil_connection.get(rk, supply_fan)
 
+            # Normalize sentinel/negative capacities (combined approach)
             if sensible_capacity < 0:
                 sensible_capacity = 0
             if total_capacity < 0:
@@ -1265,6 +1272,7 @@ class Translator:
                     if leaving_db != -999:
                         hs["heating_coil_setpoint"] = leaving_db
 
+                    # Combined loop mapping logic (water-to-air HP vs generic water)
                     if "WATERTOAIRHEATPUMP" in coil_type.upper() and rk in coil_connections:
                         hs["water_source_heat_pump_loop"] = coil_connections[rk]["plant_loop_name"]
                     elif "WATER" in coil_type.upper() and rk in coil_connections:
@@ -1296,6 +1304,7 @@ class Translator:
                 if rated_sensible_capacity != -999:
                     cs["rated_sensible_cool_capacity"] = rated_sensible_capacity
 
+                # Combined loop mapping logic (water-to-air HP vs generic water)
                 if "WATERTOAIRHEATPUMP" in coil_type.upper() and rk in coil_connections:
                     cs["condenser_water_loop"] = coil_connections[rk]["plant_loop_name"]
                 elif "WATER" in coil_type.upper() and rk in coil_connections:
@@ -1330,7 +1339,7 @@ class Translator:
 
                 hvac["fan_system"] = fs
 
-            # ---------- Air terminals ----------
+            # ---------- Air terminals (from EquipmentSummary:Air Terminals) ----------
             for zone in zones:
                 use_air_terminal = hvac_type == "AirLoopHVAC" or hvac_type.upper() == "ZONEHVAC:AIRDISTRIBUTIONUNIT"
                 if use_air_terminal and zone in air_terminals:
@@ -1364,7 +1373,7 @@ class Translator:
 
                     merge_terminal(zone, t)
 
-                # ---------- ZoneHVAC terminals from coil rows ----------
+                # ---------- ZoneHVAC terminals inferred from coil sizing rows ----------
                 if hvac_type.upper().startswith("ZONEHVAC:") and hvac_type.upper() != "ZONEHVAC:AIRDISTRIBUTIONUNIT":
                     key = (zone.upper(), hvac_name)
                     if key not in zone_hvac_terminals:
@@ -1402,8 +1411,55 @@ class Translator:
                         if sensible_capacity > 0:
                             terminal["cooling_capacity"] = sensible_capacity
 
+        # Merge inferred ZoneHVAC terminals
         for (zone_key, _), terminal in zone_hvac_terminals.items():
             merge_terminal(zone_key, terminal)
+
+        # ---------- Add ZoneHVAC terminals that may not be represented in CoilSizingDetails:Coils ----------
+        zone_baseboards = self.epjson_object.get("ZoneHVAC:Baseboard:Convective:Water", {})
+        zone_wtr_hp = self.epjson_object.get("ZoneHVAC:WaterToAirHeatPump", {})
+
+        for zone_name_uc, equipments in zone_hvac_equipment.items():
+            for object_type, object_name in equipments:
+                obj_type_uc = (object_type or "").upper()
+                obj_name = object_name or ""
+                obj_name_uc = obj_name.upper()
+
+                if obj_type_uc == "ZONEHVAC:BASEBOARD:CONVECTIVE:WATER":
+                    t = {
+                        "id": f"{obj_name_uc}-terminal",
+                        "type": "BASEBOARD",
+                        "is_supply_ducted": False,
+                        "heating_source": "HOT_WATER",
+                    }
+                    if obj_name in zone_baseboards:
+                        bb = zone_baseboards[obj_name]
+                        cap = bb.get("heating_design_capacity")
+                        if is_float(cap):
+                            t["heating_capacity"] = float(cap)
+                    merge_terminal(zone_name_uc, t)
+
+                elif obj_type_uc == "ZONEHVAC:WATERTOAIRHEATPUMP":
+                    t = {
+                        "id": f"{obj_name_uc}-terminal",
+                        "type": "CONSTANT_AIR_VOLUME",
+                        "is_supply_ducted": False,
+                        "served_by_heating_ventilating_air_conditioning_system": obj_name_uc,
+                    }
+                    if obj_name in zone_wtr_hp:
+                        hp = zone_wtr_hp[obj_name]
+                        airflows = []
+                        for field in (
+                                "cooling_supply_air_flow_rate",
+                                "heating_supply_air_flow_rate",
+                                "no_load_supply_air_flow_rate",
+                        ):
+                            v = hp.get(field)
+                            if is_float(v):
+                                airflows.append(float(v))
+                        if airflows:
+                            t["primary_airflow"] = max(airflows) * 1000
+                    merge_terminal(zone_name_uc, t)
 
         self.building_segment["heating_ventilating_air_conditioning_systems"] = hvac_systems
         return hvac_systems, self.terminals_by_zone
