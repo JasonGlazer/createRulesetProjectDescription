@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-02-22T16:18Z",
+    "time_of_creation": "2026-02-22T14:48Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -41,6 +41,14 @@
                     "oversizing_factor": 1.0,
                     "is_calculated_size": false,
                     "chilled_water_loop": "CHILLED_WATER_LOOP"
+                  },
+                  "heating_system": {
+                    "id": "SINGLE_ZONE_VAV_CORE ZONE_AHU-heating",
+                    "design_capacity": 60000.0,
+                    "type": "ELECTRIC_RESISTANCE",
+                    "energy_source_type": "ELECTRICITY",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": false
                   },
                   "fan_system": {
                     "id": "SINGLE_ZONE_VAV_CORE ZONE_AHU_FANSYSTEMMODEL_VAV-fansystem",
@@ -76,6 +84,14 @@
                     "is_calculated_size": false,
                     "chilled_water_loop": "CHILLED_WATER_LOOP"
                   },
+                  "heating_system": {
+                    "id": "SINGLE_ZONE_VAV_PERIMETER_ZONE_1_AHU-heating",
+                    "design_capacity": 60000.0,
+                    "type": "ELECTRIC_RESISTANCE",
+                    "energy_source_type": "ELECTRICITY",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": false
+                  },
                   "fan_system": {
                     "id": "SINGLE_ZONE_VAV_PERIMETER ZONE_1_AHU_FANSYSTEMMODEL_VAV-fansystem",
                     "minimum_airflow": 141.58423296,
@@ -109,6 +125,14 @@
                     "oversizing_factor": 1.0,
                     "is_calculated_size": false,
                     "chilled_water_loop": "CHILLED_WATER_LOOP"
+                  },
+                  "heating_system": {
+                    "id": "SINGLE_ZONE_VAV_PERIMETER_ZONE_2_AHU-heating",
+                    "design_capacity": 60000.0,
+                    "type": "ELECTRIC_RESISTANCE",
+                    "energy_source_type": "ELECTRICITY",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": false
                   },
                   "fan_system": {
                     "id": "SINGLE_ZONE_VAV_PERIMETER ZONE_2_AHU_FANSYSTEMMODEL_VAV-fansystem",
@@ -144,6 +168,14 @@
                     "is_calculated_size": false,
                     "chilled_water_loop": "CHILLED_WATER_LOOP"
                   },
+                  "heating_system": {
+                    "id": "SINGLE_ZONE_VAV_PERIMETER_ZONE_3_AHU-heating",
+                    "design_capacity": 60000.0,
+                    "type": "ELECTRIC_RESISTANCE",
+                    "energy_source_type": "ELECTRICITY",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": false
+                  },
                   "fan_system": {
                     "id": "SINGLE_ZONE_VAV_PERIMETER ZONE_3_AHU_FANSYSTEMMODEL_VAV-fansystem",
                     "minimum_airflow": 141.58423296,
@@ -177,6 +209,14 @@
                     "oversizing_factor": 1.0,
                     "is_calculated_size": false,
                     "chilled_water_loop": "CHILLED_WATER_LOOP"
+                  },
+                  "heating_system": {
+                    "id": "SINGLE_ZONE_VAV_PERIMETER_ZONE_4_AHU-heating",
+                    "design_capacity": 60000.0,
+                    "type": "ELECTRIC_RESISTANCE",
+                    "energy_source_type": "ELECTRICITY",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": false
                   },
                   "fan_system": {
                     "id": "SINGLE_ZONE_VAV_PERIMETER ZONE_4_AHU_FANSYSTEMMODEL_VAV-fansystem",
