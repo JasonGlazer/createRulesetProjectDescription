@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-02-22T19:34Z",
+    "time_of_creation": "2026-02-22T16:16Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -52,16 +52,16 @@
                     ]
                   },
                   "fan_system": {
-                    "id": "VAV SYS SUPPLY FAN VSD-fansystem",
+                    "id": "VAV SYS RETURN FAN VSD-fansystem",
                     "minimum_airflow": 471.94744320000007,
                     "minimum_outdoor_airflow": 0.0,
                     "supply_fans": [
                       {
-                        "id": "VAV SYS SUPPLY FAN VSD",
+                        "id": "VAV SYS RETURN FAN VSD",
                         "design_airflow": 4.719474432,
                         "is_airflow_calculated": true,
-                        "design_electric_power": 7457.7528264,
-                        "design_pressure_rise": 948.125,
+                        "design_electric_power": 3918.562473465831,
+                        "design_pressure_rise": 498.17782,
                         "total_efficiency": 0.6,
                         "motor_efficiency": 0.9,
                         "motor_heat_to_airflow_fraction": 1.0,
@@ -70,87 +70,6 @@
                         "specification_method": "SIMPLE"
                       }
                     ]
-                  },
-                  "heating_system": {
-                    "id": "PVAV WITH REHEAT-heating",
-                    "design_capacity": 43960.6605258333,
-                    "type": "FLUID_LOOP",
-                    "energy_source_type": "OTHER",
-                    "hot_water_loop": "HW LOOP",
-                    "rated_capacity": 43989.80972900975,
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": true,
-                    "heating_coil_setpoint": 32.210343965812015
-                  }
-                },
-                {
-                  "id": "ADU AT SD VAV REHEAT CORE ZONE 1",
-                  "heating_system": {
-                    "id": "ADU AT SD VAV REHEAT CORE ZONE 1-heating",
-                    "design_capacity": 7033.70568413333,
-                    "type": "FLUID_LOOP",
-                    "energy_source_type": "OTHER",
-                    "hot_water_loop": "HW LOOP",
-                    "rated_capacity": 7038.369556641563,
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": true,
-                    "heating_coil_setpoint": 32.21034396581203
-                  }
-                },
-                {
-                  "id": "ADU AT SD VAV REHEAT PRM ZONE 1",
-                  "heating_system": {
-                    "id": "ADU AT SD VAV REHEAT PRM ZONE 1-heating",
-                    "design_capacity": 7033.70568413333,
-                    "type": "FLUID_LOOP",
-                    "energy_source_type": "OTHER",
-                    "hot_water_loop": "HW LOOP",
-                    "rated_capacity": 7038.369556641563,
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": true,
-                    "heating_coil_setpoint": 32.21034396581203
-                  }
-                },
-                {
-                  "id": "ADU AT SD VAV REHEAT PRM ZONE 2",
-                  "heating_system": {
-                    "id": "ADU AT SD VAV REHEAT PRM ZONE 2-heating",
-                    "design_capacity": 7033.70568413333,
-                    "type": "FLUID_LOOP",
-                    "energy_source_type": "OTHER",
-                    "hot_water_loop": "HW LOOP",
-                    "rated_capacity": 7038.369556641563,
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": true,
-                    "heating_coil_setpoint": 32.21034396581203
-                  }
-                },
-                {
-                  "id": "ADU AT SD VAV REHEAT PRM ZONE 3",
-                  "heating_system": {
-                    "id": "ADU AT SD VAV REHEAT PRM ZONE 3-heating",
-                    "design_capacity": 7033.70568413333,
-                    "type": "FLUID_LOOP",
-                    "energy_source_type": "OTHER",
-                    "hot_water_loop": "HW LOOP",
-                    "rated_capacity": 7038.369556641563,
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": true,
-                    "heating_coil_setpoint": 32.21034396581203
-                  }
-                },
-                {
-                  "id": "ADU AT SD VAV REHEAT PRM ZONE 4",
-                  "heating_system": {
-                    "id": "ADU AT SD VAV REHEAT PRM ZONE 4-heating",
-                    "design_capacity": 7033.70568413333,
-                    "type": "FLUID_LOOP",
-                    "energy_source_type": "OTHER",
-                    "hot_water_loop": "HW LOOP",
-                    "rated_capacity": 7038.369556641563,
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": true,
-                    "heating_coil_setpoint": 32.21034396581203
                   }
                 }
               ],
@@ -240,11 +159,11 @@
                   },
                   "terminals": [
                     {
-                      "id": "ADU AT SD VAV REHEAT CORE ZONE 1~~~00000001",
+                      "id": "ADU AT SD VAV REHEAT CORE ZONE 1",
                       "type": "VARIABLE_AIR_VOLUME",
                       "heating_source": "HOT_WATER",
                       "cooling_source": "NONE",
-                      "served_by_heating_ventilating_air_conditioning_system": "ADU AT SD VAV REHEAT CORE ZONE 1",
+                      "served_by_heating_ventilating_air_conditioning_system": "PVAV WITH REHEAT",
                       "primary_airflow": 943.8948864,
                       "supply_design_heating_setpoint_temperature": 32.2222222222223,
                       "supply_design_cooling_setpoint_temperature": 12.7777777777778,
@@ -252,13 +171,6 @@
                       "minimum_outdoor_airflow": 117.9868608,
                       "heating_capacity": 7033.70568413333,
                       "cooling_capacity": 8561.777539226661
-                    },
-                    {
-                      "id": "HW BB CORE ZONE 1-terminal",
-                      "type": "BASEBOARD",
-                      "is_supply_ducted": false,
-                      "heating_source": "HOT_WATER",
-                      "heating_capacity": 1758.42642103333
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
@@ -407,11 +319,11 @@
                   },
                   "terminals": [
                     {
-                      "id": "ADU AT SD VAV REHEAT PRM ZONE 1~~~00000002",
+                      "id": "ADU AT SD VAV REHEAT PRM ZONE 1",
                       "type": "VARIABLE_AIR_VOLUME",
                       "heating_source": "HOT_WATER",
                       "cooling_source": "NONE",
-                      "served_by_heating_ventilating_air_conditioning_system": "ADU AT SD VAV REHEAT PRM ZONE 1",
+                      "served_by_heating_ventilating_air_conditioning_system": "PVAV WITH REHEAT",
                       "primary_airflow": 943.8948864,
                       "supply_design_heating_setpoint_temperature": 32.2222222222223,
                       "supply_design_cooling_setpoint_temperature": 12.7777777777778,
@@ -419,13 +331,6 @@
                       "minimum_outdoor_airflow": 117.9868608,
                       "heating_capacity": 7033.70568413333,
                       "cooling_capacity": 4175.3920078365545
-                    },
-                    {
-                      "id": "HW BB PRM ZONE 1-terminal",
-                      "type": "BASEBOARD",
-                      "is_supply_ducted": false,
-                      "heating_source": "HOT_WATER",
-                      "heating_capacity": 1758.42642103333
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
@@ -564,11 +469,11 @@
                   },
                   "terminals": [
                     {
-                      "id": "ADU AT SD VAV REHEAT PRM ZONE 2~~~00000003",
+                      "id": "ADU AT SD VAV REHEAT PRM ZONE 2",
                       "type": "VARIABLE_AIR_VOLUME",
                       "heating_source": "HOT_WATER",
                       "cooling_source": "NONE",
-                      "served_by_heating_ventilating_air_conditioning_system": "ADU AT SD VAV REHEAT PRM ZONE 2",
+                      "served_by_heating_ventilating_air_conditioning_system": "PVAV WITH REHEAT",
                       "primary_airflow": 943.8948864,
                       "supply_design_heating_setpoint_temperature": 32.2222222222223,
                       "supply_design_cooling_setpoint_temperature": 12.7777777777778,
@@ -576,13 +481,6 @@
                       "minimum_outdoor_airflow": 117.9868608,
                       "heating_capacity": 7033.70568413333,
                       "cooling_capacity": 2075.357649107875
-                    },
-                    {
-                      "id": "HW BB PRM ZONE 2-terminal",
-                      "type": "BASEBOARD",
-                      "is_supply_ducted": false,
-                      "heating_source": "HOT_WATER",
-                      "heating_capacity": 1758.42642103333
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
@@ -731,11 +629,11 @@
                   },
                   "terminals": [
                     {
-                      "id": "ADU AT SD VAV REHEAT PRM ZONE 3~~~00000004",
+                      "id": "ADU AT SD VAV REHEAT PRM ZONE 3",
                       "type": "VARIABLE_AIR_VOLUME",
                       "heating_source": "HOT_WATER",
                       "cooling_source": "NONE",
-                      "served_by_heating_ventilating_air_conditioning_system": "ADU AT SD VAV REHEAT PRM ZONE 3",
+                      "served_by_heating_ventilating_air_conditioning_system": "PVAV WITH REHEAT",
                       "primary_airflow": 943.8948864,
                       "supply_design_heating_setpoint_temperature": 32.2222222222223,
                       "supply_design_cooling_setpoint_temperature": 12.7777777777778,
@@ -743,13 +641,6 @@
                       "minimum_outdoor_airflow": 117.9868608,
                       "heating_capacity": 7033.70568413333,
                       "cooling_capacity": 5299.106445225251
-                    },
-                    {
-                      "id": "HW BB PRM ZONE 3-terminal",
-                      "type": "BASEBOARD",
-                      "is_supply_ducted": false,
-                      "heating_source": "HOT_WATER",
-                      "heating_capacity": 1758.42642103333
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
@@ -888,11 +779,11 @@
                   },
                   "terminals": [
                     {
-                      "id": "ADU AT SD VAV REHEAT PRM ZONE 4~~~00000005",
+                      "id": "ADU AT SD VAV REHEAT PRM ZONE 4",
                       "type": "VARIABLE_AIR_VOLUME",
                       "heating_source": "HOT_WATER",
                       "cooling_source": "NONE",
-                      "served_by_heating_ventilating_air_conditioning_system": "ADU AT SD VAV REHEAT PRM ZONE 4",
+                      "served_by_heating_ventilating_air_conditioning_system": "PVAV WITH REHEAT",
                       "primary_airflow": 943.8948864,
                       "supply_design_heating_setpoint_temperature": 32.2222222222223,
                       "supply_design_cooling_setpoint_temperature": 12.7777777777778,
@@ -900,13 +791,6 @@
                       "minimum_outdoor_airflow": 117.9868608,
                       "heating_capacity": 7033.70568413333,
                       "cooling_capacity": 3289.389451725935
-                    },
-                    {
-                      "id": "HW BB PRM ZONE 4-terminal",
-                      "type": "BASEBOARD",
-                      "is_supply_ducted": false,
-                      "heating_source": "HOT_WATER",
-                      "heating_capacity": 1758.42642103333
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",

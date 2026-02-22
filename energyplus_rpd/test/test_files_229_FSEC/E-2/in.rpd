@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-02-22T19:34Z",
+    "time_of_creation": "2026-02-22T16:16Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -61,87 +61,6 @@
                         "specification_method": "SIMPLE"
                       }
                     ]
-                  },
-                  "heating_system": {
-                    "id": "VAV WITH REHEAT-heating",
-                    "design_capacity": 87921.0,
-                    "type": "FLUID_LOOP",
-                    "energy_source_type": "OTHER",
-                    "hot_water_loop": "HW LOOP",
-                    "rated_capacity": 87979.29819347177,
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": true,
-                    "heating_coil_setpoint": 32.21034396581203
-                  }
-                },
-                {
-                  "id": "ADU AT SD VAV REHEAT CORE ZONE 1",
-                  "heating_system": {
-                    "id": "ADU AT SD VAV REHEAT CORE ZONE 1-heating",
-                    "design_capacity": 1758.42642103333,
-                    "type": "FLUID_LOOP",
-                    "energy_source_type": "OTHER",
-                    "hot_water_loop": "HW LOOP",
-                    "rated_capacity": 1759.592389160388,
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": true,
-                    "heating_coil_setpoint": 32.21034396581202
-                  }
-                },
-                {
-                  "id": "ADU AT SD VAV REHEAT PRM ZONE 1",
-                  "heating_system": {
-                    "id": "ADU AT SD VAV REHEAT PRM ZONE 1-heating",
-                    "design_capacity": 52817.34194180052,
-                    "type": "FLUID_LOOP",
-                    "energy_source_type": "OTHER",
-                    "hot_water_loop": "HW LOOP",
-                    "rated_capacity": 9335.995455584854,
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": true,
-                    "heating_coil_setpoint": 82.14071215349347
-                  }
-                },
-                {
-                  "id": "ADU AT SD VAV REHEAT PRM ZONE 2",
-                  "heating_system": {
-                    "id": "ADU AT SD VAV REHEAT PRM ZONE 2-heating",
-                    "design_capacity": 21085.310187396637,
-                    "type": "FLUID_LOOP",
-                    "energy_source_type": "OTHER",
-                    "hot_water_loop": "HW LOOP",
-                    "rated_capacity": 8708.680991273717,
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": true,
-                    "heating_coil_setpoint": 77.73682861148254
-                  }
-                },
-                {
-                  "id": "ADU AT SD VAV REHEAT PRM ZONE 3",
-                  "heating_system": {
-                    "id": "ADU AT SD VAV REHEAT PRM ZONE 3-heating",
-                    "design_capacity": 26950.161006891645,
-                    "type": "FLUID_LOOP",
-                    "energy_source_type": "OTHER",
-                    "hot_water_loop": "HW LOOP",
-                    "rated_capacity": 9055.178623519154,
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": true,
-                    "heating_coil_setpoint": 80.16931711095796
-                  }
-                },
-                {
-                  "id": "ADU AT SD VAV REHEAT PRM ZONE 4",
-                  "heating_system": {
-                    "id": "ADU AT SD VAV REHEAT PRM ZONE 4-heating",
-                    "design_capacity": 20716.91875361071,
-                    "type": "FLUID_LOOP",
-                    "energy_source_type": "OTHER",
-                    "hot_water_loop": "HW LOOP",
-                    "rated_capacity": 8676.698632345959,
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": true,
-                    "heating_coil_setpoint": 77.51230551799492
                   }
                 }
               ],
@@ -231,11 +150,11 @@
                   },
                   "terminals": [
                     {
-                      "id": "ADU AT SD VAV REHEAT CORE ZONE 1~~~00000001",
+                      "id": "ADU AT SD VAV REHEAT CORE ZONE 1",
                       "type": "VARIABLE_AIR_VOLUME",
                       "heating_source": "HOT_WATER",
                       "cooling_source": "NONE",
-                      "served_by_heating_ventilating_air_conditioning_system": "ADU AT SD VAV REHEAT CORE ZONE 1",
+                      "served_by_heating_ventilating_air_conditioning_system": "VAV WITH REHEAT",
                       "primary_airflow": 943.8948864,
                       "supply_design_heating_setpoint_temperature": 32.2222222222223,
                       "supply_design_cooling_setpoint_temperature": 12.7777777777778,
@@ -391,11 +310,11 @@
                   },
                   "terminals": [
                     {
-                      "id": "ADU AT SD VAV REHEAT PRM ZONE 1~~~00000002",
+                      "id": "ADU AT SD VAV REHEAT PRM ZONE 1",
                       "type": "VARIABLE_AIR_VOLUME",
                       "heating_source": "HOT_WATER",
                       "cooling_source": "NONE",
-                      "served_by_heating_ventilating_air_conditioning_system": "ADU AT SD VAV REHEAT PRM ZONE 1",
+                      "served_by_heating_ventilating_air_conditioning_system": "VAV WITH REHEAT",
                       "primary_airflow": 2364.639863640611,
                       "supply_design_heating_setpoint_temperature": 32.2222222222223,
                       "supply_design_cooling_setpoint_temperature": 12.7777777777778,
@@ -541,11 +460,11 @@
                   },
                   "terminals": [
                     {
-                      "id": "ADU AT SD VAV REHEAT PRM ZONE 2~~~00000003",
+                      "id": "ADU AT SD VAV REHEAT PRM ZONE 2",
                       "type": "VARIABLE_AIR_VOLUME",
                       "heating_source": "HOT_WATER",
                       "cooling_source": "NONE",
-                      "served_by_heating_ventilating_air_conditioning_system": "ADU AT SD VAV REHEAT PRM ZONE 2",
+                      "served_by_heating_ventilating_air_conditioning_system": "VAV WITH REHEAT",
                       "primary_airflow": 943.6997136759096,
                       "supply_design_heating_setpoint_temperature": 32.2222222222223,
                       "supply_design_cooling_setpoint_temperature": 12.7777777777778,
@@ -701,11 +620,11 @@
                   },
                   "terminals": [
                     {
-                      "id": "ADU AT SD VAV REHEAT PRM ZONE 3~~~00000004",
+                      "id": "ADU AT SD VAV REHEAT PRM ZONE 3",
                       "type": "VARIABLE_AIR_VOLUME",
                       "heating_source": "HOT_WATER",
                       "cooling_source": "NONE",
-                      "served_by_heating_ventilating_air_conditioning_system": "ADU AT SD VAV REHEAT PRM ZONE 3",
+                      "served_by_heating_ventilating_air_conditioning_system": "VAV WITH REHEAT",
                       "primary_airflow": 1206.0586498205128,
                       "supply_design_heating_setpoint_temperature": 32.2222222222223,
                       "supply_design_cooling_setpoint_temperature": 12.7777777777778,
@@ -851,11 +770,11 @@
                   },
                   "terminals": [
                     {
-                      "id": "ADU AT SD VAV REHEAT PRM ZONE 4~~~00000005",
+                      "id": "ADU AT SD VAV REHEAT PRM ZONE 4",
                       "type": "VARIABLE_AIR_VOLUME",
                       "heating_source": "HOT_WATER",
                       "cooling_source": "NONE",
-                      "served_by_heating_ventilating_air_conditioning_system": "ADU AT SD VAV REHEAT PRM ZONE 4",
+                      "served_by_heating_ventilating_air_conditioning_system": "VAV WITH REHEAT",
                       "primary_airflow": 927.0523390536077,
                       "supply_design_heating_setpoint_temperature": 32.2222222222223,
                       "supply_design_cooling_setpoint_temperature": 12.7777777777778,

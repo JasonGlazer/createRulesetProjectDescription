@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-02-22T19:35Z",
+    "time_of_creation": "2026-02-22T16:17Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -41,14 +41,6 @@
                     "oversizing_factor": 1.0,
                     "is_calculated_size": false,
                     "chilled_water_loop": "CHILLED_WATER_LOOP"
-                  },
-                  "heating_system": {
-                    "id": "SINGLE_ZONE_CV_CORE ZONE_AHU-heating",
-                    "design_capacity": 60000.0,
-                    "type": "ELECTRIC_RESISTANCE",
-                    "energy_source_type": "ELECTRICITY",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false
                   },
                   "fan_system": {
                     "id": "SINGLE_ZONE_CV_CORE ZONE_AHU_FANSYSTEMMODEL_CONSTANTVOLUME-fansystem",
@@ -85,14 +77,6 @@
                     "is_calculated_size": false,
                     "chilled_water_loop": "CHILLED_WATER_LOOP"
                   },
-                  "heating_system": {
-                    "id": "SINGLE_ZONE_CV_PERIMETER_ZONE_1_AHU-heating",
-                    "design_capacity": 60000.0,
-                    "type": "ELECTRIC_RESISTANCE",
-                    "energy_source_type": "ELECTRICITY",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false
-                  },
                   "fan_system": {
                     "id": "SINGLE_ZONE_CV_PERIMETER_ZONE_1_AHU_FANSYSTEMMODEL_CONSTANTVOLUME-fansystem",
                     "minimum_airflow": 943.8948864,
@@ -127,14 +111,6 @@
                     "oversizing_factor": 1.0,
                     "is_calculated_size": false,
                     "chilled_water_loop": "CHILLED_WATER_LOOP"
-                  },
-                  "heating_system": {
-                    "id": "SINGLE_ZONE_CV_PERIMETER_ZONE_2_AHU-heating",
-                    "design_capacity": 60000.0,
-                    "type": "ELECTRIC_RESISTANCE",
-                    "energy_source_type": "ELECTRICITY",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false
                   },
                   "fan_system": {
                     "id": "SINGLE_ZONE_CV_PERIMETER_ZONE_2_AHU_FANSYSTEMMODEL_CONSTANTVOLUME-fansystem",
@@ -171,14 +147,6 @@
                     "is_calculated_size": false,
                     "chilled_water_loop": "CHILLED_WATER_LOOP"
                   },
-                  "heating_system": {
-                    "id": "SINGLE_ZONE_CV_PERIMETER_ZONE_3_AHU-heating",
-                    "design_capacity": 60000.0,
-                    "type": "ELECTRIC_RESISTANCE",
-                    "energy_source_type": "ELECTRICITY",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false
-                  },
                   "fan_system": {
                     "id": "SINGLE_ZONE_CV_PERIMETER_ZONE_3_AHU_FANSYSTEMMODEL_CONSTANTVOLUME-fansystem",
                     "minimum_airflow": 943.8948864,
@@ -213,14 +181,6 @@
                     "oversizing_factor": 1.0,
                     "is_calculated_size": false,
                     "chilled_water_loop": "CHILLED_WATER_LOOP"
-                  },
-                  "heating_system": {
-                    "id": "SINGLE_ZONE_CV_PERIMETER_ZONE_4_AHU-heating",
-                    "design_capacity": 60000.0,
-                    "type": "ELECTRIC_RESISTANCE",
-                    "energy_source_type": "ELECTRICITY",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false
                   },
                   "fan_system": {
                     "id": "SINGLE_ZONE_CV_PERIMETER_ZONE_4_AHU_FANSYSTEMMODEL_CONSTANTVOLUME-fansystem",
@@ -325,22 +285,6 @@
                     "flow_rate": 0.0,
                     "multiplier_schedule": "Constant-1.0"
                   },
-                  "terminals": [
-                    {
-                      "id": "ADU SINGLE_ZONE_CV_CORE_ZONE_1_AHU_DIFFUSER",
-                      "type": "CONSTANT_AIR_VOLUME",
-                      "heating_source": "NONE",
-                      "cooling_source": "NONE",
-                      "served_by_heating_ventilating_air_conditioning_system": "SINGLE_ZONE_CV_CORE ZONE_AHU",
-                      "primary_airflow": 943.8948864,
-                      "supply_design_heating_setpoint_temperature": 32.2222222222223,
-                      "supply_design_cooling_setpoint_temperature": 12.7777777777778,
-                      "minimum_airflow": 749.45486772684,
-                      "minimum_outdoor_airflow": 117.9868608,
-                      "heating_capacity": 856.8196606181112,
-                      "cooling_capacity": 0.0
-                    }
-                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
@@ -481,22 +425,6 @@
                     "flow_rate": 114.0,
                     "multiplier_schedule": "Constant-1.0"
                   },
-                  "terminals": [
-                    {
-                      "id": "ADU SINGLE_ZONE_CV_PERIMETER_ZONE_1_AHU_DIFFUSER",
-                      "type": "CONSTANT_AIR_VOLUME",
-                      "heating_source": "NONE",
-                      "cooling_source": "NONE",
-                      "served_by_heating_ventilating_air_conditioning_system": "SINGLE_ZONE_CV_PERIMETER_ZONE_1_AHU",
-                      "primary_airflow": 943.8948864,
-                      "supply_design_heating_setpoint_temperature": 32.2222222222223,
-                      "supply_design_cooling_setpoint_temperature": 12.7777777777778,
-                      "minimum_airflow": 157.99166342676,
-                      "minimum_outdoor_airflow": 117.9868608,
-                      "heating_capacity": 862.4413063924768,
-                      "cooling_capacity": 0.0
-                    }
-                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
@@ -627,22 +555,6 @@
                     "flow_rate": 77.28999999999999,
                     "multiplier_schedule": "Constant-1.0"
                   },
-                  "terminals": [
-                    {
-                      "id": "ADU SINGLE_ZONE_CV_CORE_ZONE_2_AHU_DIFFUSER",
-                      "type": "CONSTANT_AIR_VOLUME",
-                      "heating_source": "NONE",
-                      "cooling_source": "NONE",
-                      "served_by_heating_ventilating_air_conditioning_system": "SINGLE_ZONE_CV_PERIMETER_ZONE_2_AHU",
-                      "primary_airflow": 943.8948864,
-                      "supply_design_heating_setpoint_temperature": 32.2222222222223,
-                      "supply_design_cooling_setpoint_temperature": 12.7777777777778,
-                      "minimum_airflow": 100.02179190420007,
-                      "minimum_outdoor_airflow": 117.9868608,
-                      "heating_capacity": 864.5045288764541,
-                      "cooling_capacity": 0.0
-                    }
-                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
@@ -783,22 +695,6 @@
                     "flow_rate": 80.53,
                     "multiplier_schedule": "CONSTANT SCHEDULE"
                   },
-                  "terminals": [
-                    {
-                      "id": "ADU SINGLE_ZONE_CV_CORE_ZONE_3_AHU_DIFFUSER",
-                      "type": "CONSTANT_AIR_VOLUME",
-                      "heating_source": "NONE",
-                      "cooling_source": "NONE",
-                      "served_by_heating_ventilating_air_conditioning_system": "SINGLE_ZONE_CV_PERIMETER_ZONE_3_AHU",
-                      "primary_airflow": 943.8948864,
-                      "supply_design_heating_setpoint_temperature": 32.2222222222223,
-                      "supply_design_cooling_setpoint_temperature": 12.7777777777778,
-                      "minimum_airflow": 157.99166342676,
-                      "minimum_outdoor_airflow": 117.9868608,
-                      "heating_capacity": 861.062817038117,
-                      "cooling_capacity": 0.0
-                    }
-                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
@@ -929,22 +825,6 @@
                     "flow_rate": 53.690000000000005,
                     "multiplier_schedule": "CONSTANT SCHEDULE"
                   },
-                  "terminals": [
-                    {
-                      "id": "ADU SINGLE_ZONE_CV_CORE_ZONE_4_AHU_DIFFUSER",
-                      "type": "CONSTANT_AIR_VOLUME",
-                      "heating_source": "NONE",
-                      "cooling_source": "NONE",
-                      "served_by_heating_ventilating_air_conditioning_system": "SINGLE_ZONE_CV_PERIMETER_ZONE_4_AHU",
-                      "primary_airflow": 943.8948864,
-                      "supply_design_heating_setpoint_temperature": 32.2222222222223,
-                      "supply_design_cooling_setpoint_temperature": 12.7777777777778,
-                      "minimum_airflow": 100.01523094704001,
-                      "minimum_outdoor_airflow": 117.9868608,
-                      "heating_capacity": 858.711032004753,
-                      "cooling_capacity": 0.0
-                    }
-                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {

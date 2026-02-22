@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-02-22T19:35Z",
+    "time_of_creation": "2026-02-22T16:17Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -52,178 +52,6 @@
                         "design_pressure_rise": 1017.592,
                         "total_efficiency": 0.4802499426207744,
                         "motor_efficiency": 0.93,
-                        "motor_heat_to_airflow_fraction": 1.0,
-                        "motor_heat_to_zone_fraction": 0.0,
-                        "motor_location_zone": "N/A",
-                        "specification_method": "SIMPLE"
-                      }
-                    ]
-                  },
-                  "cooling_system": {
-                    "id": "PVAV_RH_AHU-cooling",
-                    "design_total_cool_capacity": 87921.3210516667,
-                    "design_sensible_cool_capacity": 70812.28178106519,
-                    "type": "DIRECT_EXPANSION",
-                    "rated_total_cool_capacity": 87964.35821654978,
-                    "rated_sensible_cool_capacity": 64109.28127618265,
-                    "oversizing_factor": 1.0623442176685511,
-                    "is_calculated_size": false,
-                    "efficiency_metric_values": [
-                      2.7218641776275647,
-                      9.28738607985432,
-                      9.319387769668868,
-                      9.016687575673279
-                    ],
-                    "efficiency_metric_types": [
-                      "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
-                      "ENERGY_EFFICIENCY_RATIO",
-                      "SEASONAL_ENERGY_EFFICIENCY_RATIO",
-                      "INTEGRATED_ENERGY_EFFICIENCY_RATIO"
-                    ]
-                  }
-                },
-                {
-                  "id": "PARALLEL PIU ELEC RHT AIR DISTRIBUTION UNIT",
-                  "heating_system": {
-                    "id": "PARALLEL PIU ELEC RHT AIR DISTRIBUTION UNIT-heating",
-                    "design_capacity": 8792.0,
-                    "type": "ELECTRIC_RESISTANCE",
-                    "energy_source_type": "ELECTRICITY",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false
-                  },
-                  "fan_system": {
-                    "id": "PARALLEL PIU ELEC RHT FAN-fansystem",
-                    "fan_control": "CONSTANT",
-                    "supply_fans": [
-                      {
-                        "id": "PARALLEL PIU ELEC RHT FAN",
-                        "design_airflow": 2.8316846592,
-                        "is_airflow_calculated": true,
-                        "design_electric_power": 1011.3159497142858,
-                        "design_pressure_rise": 250.0,
-                        "total_efficiency": 0.7,
-                        "motor_efficiency": 0.9,
-                        "motor_heat_to_airflow_fraction": 1.0,
-                        "motor_heat_to_zone_fraction": 0.0,
-                        "motor_location_zone": "N/A",
-                        "specification_method": "SIMPLE"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "id": "PARALLEL PIU ELEC RHT 1 AIR DISTRIBUTION UNIT",
-                  "heating_system": {
-                    "id": "PARALLEL PIU ELEC RHT 1 AIR DISTRIBUTION UNIT-heating",
-                    "design_capacity": 8792.0,
-                    "type": "ELECTRIC_RESISTANCE",
-                    "energy_source_type": "ELECTRICITY",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false
-                  },
-                  "fan_system": {
-                    "id": "PARALLEL PIU ELEC RHT FAN 1-fansystem",
-                    "fan_control": "CONSTANT",
-                    "supply_fans": [
-                      {
-                        "id": "PARALLEL PIU ELEC RHT FAN 1",
-                        "design_airflow": 2.8316846592,
-                        "is_airflow_calculated": true,
-                        "design_electric_power": 1011.3159497142858,
-                        "design_pressure_rise": 250.0,
-                        "total_efficiency": 0.7,
-                        "motor_efficiency": 0.9,
-                        "motor_heat_to_airflow_fraction": 1.0,
-                        "motor_heat_to_zone_fraction": 0.0,
-                        "motor_location_zone": "N/A",
-                        "specification_method": "SIMPLE"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "id": "PARALLEL PIU ELEC RHT 2 AIR DISTRIBUTION UNIT",
-                  "heating_system": {
-                    "id": "PARALLEL PIU ELEC RHT 2 AIR DISTRIBUTION UNIT-heating",
-                    "design_capacity": 8792.0,
-                    "type": "ELECTRIC_RESISTANCE",
-                    "energy_source_type": "ELECTRICITY",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false
-                  },
-                  "fan_system": {
-                    "id": "PARALLEL PIU ELEC RHT FAN 2-fansystem",
-                    "fan_control": "CONSTANT",
-                    "supply_fans": [
-                      {
-                        "id": "PARALLEL PIU ELEC RHT FAN 2",
-                        "design_airflow": 2.8316846592,
-                        "is_airflow_calculated": true,
-                        "design_electric_power": 1011.3159497142858,
-                        "design_pressure_rise": 250.0,
-                        "total_efficiency": 0.7,
-                        "motor_efficiency": 0.9,
-                        "motor_heat_to_airflow_fraction": 1.0,
-                        "motor_heat_to_zone_fraction": 0.0,
-                        "motor_location_zone": "N/A",
-                        "specification_method": "SIMPLE"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "id": "PARALLEL PIU ELEC RHT 3 AIR DISTRIBUTION UNIT",
-                  "heating_system": {
-                    "id": "PARALLEL PIU ELEC RHT 3 AIR DISTRIBUTION UNIT-heating",
-                    "design_capacity": 8792.0,
-                    "type": "ELECTRIC_RESISTANCE",
-                    "energy_source_type": "ELECTRICITY",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false
-                  },
-                  "fan_system": {
-                    "id": "PARALLEL PIU ELEC RHT FAN 3-fansystem",
-                    "fan_control": "CONSTANT",
-                    "supply_fans": [
-                      {
-                        "id": "PARALLEL PIU ELEC RHT FAN 3",
-                        "design_airflow": 2.8316846592,
-                        "is_airflow_calculated": true,
-                        "design_electric_power": 1011.3159497142858,
-                        "design_pressure_rise": 250.0,
-                        "total_efficiency": 0.7,
-                        "motor_efficiency": 0.9,
-                        "motor_heat_to_airflow_fraction": 1.0,
-                        "motor_heat_to_zone_fraction": 0.0,
-                        "motor_location_zone": "N/A",
-                        "specification_method": "SIMPLE"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "id": "PARALLEL PIU ELEC RHT 4 AIR DISTRIBUTION UNIT",
-                  "heating_system": {
-                    "id": "PARALLEL PIU ELEC RHT 4 AIR DISTRIBUTION UNIT-heating",
-                    "design_capacity": 8792.0,
-                    "type": "ELECTRIC_RESISTANCE",
-                    "energy_source_type": "ELECTRICITY",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false
-                  },
-                  "fan_system": {
-                    "id": "PARALLEL PIU ELEC RHT FAN 4-fansystem",
-                    "fan_control": "CONSTANT",
-                    "supply_fans": [
-                      {
-                        "id": "PARALLEL PIU ELEC RHT FAN 4",
-                        "design_airflow": 2.8316846592,
-                        "is_airflow_calculated": true,
-                        "design_electric_power": 1011.3159497142858,
-                        "design_pressure_rise": 250.0,
-                        "total_efficiency": 0.7,
-                        "motor_efficiency": 0.9,
                         "motor_heat_to_airflow_fraction": 1.0,
                         "motor_heat_to_zone_fraction": 0.0,
                         "motor_location_zone": "N/A",
@@ -317,7 +145,7 @@
                   },
                   "terminals": [
                     {
-                      "id": "PARALLEL PIU ELEC RHT AIR DISTRIBUTION UNIT~~~00000001",
+                      "id": "PARALLEL PIU ELEC RHT AIR DISTRIBUTION UNIT",
                       "type": "OTHER",
                       "heating_source": "ELECTRIC",
                       "cooling_source": "NONE",
@@ -330,7 +158,7 @@
                       "heating_capacity": 8792.0,
                       "cooling_capacity": 8074.279561132644,
                       "fan": {
-                        "id": "PARALLEL PIU ELEC RHT FAN~~~00000002",
+                        "id": "PARALLEL PIU ELEC RHT FAN",
                         "design_airflow": 2.8316846592,
                         "is_airflow_calculated": true,
                         "design_electric_power": 1011.3159497142858,
@@ -489,7 +317,7 @@
                   },
                   "terminals": [
                     {
-                      "id": "PARALLEL PIU ELEC RHT 1 AIR DISTRIBUTION UNIT~~~00000003",
+                      "id": "PARALLEL PIU ELEC RHT 1 AIR DISTRIBUTION UNIT",
                       "type": "OTHER",
                       "heating_source": "ELECTRIC",
                       "cooling_source": "NONE",
@@ -502,7 +330,7 @@
                       "heating_capacity": 8792.0,
                       "cooling_capacity": 2172.028388062186,
                       "fan": {
-                        "id": "PARALLEL PIU ELEC RHT FAN 1~~~00000004",
+                        "id": "PARALLEL PIU ELEC RHT FAN 1",
                         "design_airflow": 2.8316846592,
                         "is_airflow_calculated": true,
                         "design_electric_power": 1011.3159497142858,
@@ -651,7 +479,7 @@
                   },
                   "terminals": [
                     {
-                      "id": "PARALLEL PIU ELEC RHT 2 AIR DISTRIBUTION UNIT~~~00000005",
+                      "id": "PARALLEL PIU ELEC RHT 2 AIR DISTRIBUTION UNIT",
                       "type": "OTHER",
                       "heating_source": "ELECTRIC",
                       "cooling_source": "NONE",
@@ -664,7 +492,7 @@
                       "heating_capacity": 8792.0,
                       "cooling_capacity": 1323.336740485128,
                       "fan": {
-                        "id": "PARALLEL PIU ELEC RHT FAN 2~~~00000006",
+                        "id": "PARALLEL PIU ELEC RHT FAN 2",
                         "design_airflow": 2.8316846592,
                         "is_airflow_calculated": true,
                         "design_electric_power": 1011.3159497142858,
@@ -823,7 +651,7 @@
                   },
                   "terminals": [
                     {
-                      "id": "PARALLEL PIU ELEC RHT 3 AIR DISTRIBUTION UNIT~~~00000007",
+                      "id": "PARALLEL PIU ELEC RHT 3 AIR DISTRIBUTION UNIT",
                       "type": "OTHER",
                       "heating_source": "ELECTRIC",
                       "cooling_source": "NONE",
@@ -836,7 +664,7 @@
                       "heating_capacity": 8792.0,
                       "cooling_capacity": 5373.733276651573,
                       "fan": {
-                        "id": "PARALLEL PIU ELEC RHT FAN 3~~~00000008",
+                        "id": "PARALLEL PIU ELEC RHT FAN 3",
                         "design_airflow": 2.8316846592,
                         "is_airflow_calculated": true,
                         "design_electric_power": 1011.3159497142858,
@@ -985,7 +813,7 @@
                   },
                   "terminals": [
                     {
-                      "id": "PARALLEL PIU ELEC RHT 4 AIR DISTRIBUTION UNIT~~~00000009",
+                      "id": "PARALLEL PIU ELEC RHT 4 AIR DISTRIBUTION UNIT",
                       "type": "OTHER",
                       "heating_source": "ELECTRIC",
                       "cooling_source": "NONE",
@@ -998,7 +826,7 @@
                       "heating_capacity": 8792.0,
                       "cooling_capacity": 3382.9760961954557,
                       "fan": {
-                        "id": "PARALLEL PIU ELEC RHT FAN 4~~~00000010",
+                        "id": "PARALLEL PIU ELEC RHT FAN 4",
                         "design_airflow": 2.8316846592,
                         "is_airflow_calculated": true,
                         "design_electric_power": 1011.3159497142858,
