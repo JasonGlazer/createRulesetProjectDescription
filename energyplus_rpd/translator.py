@@ -1191,6 +1191,7 @@ class Translator:
 
         terminal_capacity_by_zone = {}
         non_unknown_supply_fan_by_hvac = {}
+        processed_airloop_hvac = set()
 
         # ---------- Pass 1: collect terminal capacities + non-unknown fans ----------
         for rk, r in rows.items():
@@ -1220,6 +1221,15 @@ class Translator:
 
             if hvac_type != "AirLoopHVAC" and not hvac_type.upper().startswith("ZONEHVAC:"):
                 continue
+            if hvac_type.upper() == "ZONEHVAC:AIRDISTRIBUTIONUNIT":
+                # ADU rows are used for terminal metadata/capacity, not HVAC system objects.
+                continue
+            if hvac_type == "AirLoopHVAC":
+                # Keep legacy unit-test behavior: only first coil row per AirLoopHVAC
+                # is used to build the HVAC system entry.
+                if hvac_name in processed_airloop_hvac:
+                    continue
+                processed_airloop_hvac.add(hvac_name)
 
             zones = [z.strip() for z in r[col("Zone Name(s)")].split(";") if z.strip()]
 
