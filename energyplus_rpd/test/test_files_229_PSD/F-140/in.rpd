@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-01-19T20:48Z",
+    "time_of_creation": "2026-02-22T14:48Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -57,6 +57,28 @@
                         "motor_location_zone": "N/A",
                         "specification_method": "SIMPLE"
                       }
+                    ]
+                  },
+                  "cooling_system": {
+                    "id": "PVAV_RH_AHU-cooling",
+                    "design_total_cool_capacity": 87921.3210516667,
+                    "design_sensible_cool_capacity": 70812.28178106519,
+                    "type": "DIRECT_EXPANSION",
+                    "rated_total_cool_capacity": 87964.35821654978,
+                    "rated_sensible_cool_capacity": 64109.28127618265,
+                    "oversizing_factor": 1.0623442176685511,
+                    "is_calculated_size": false,
+                    "efficiency_metric_values": [
+                      2.7218641776275647,
+                      9.28738607985432,
+                      9.319387769668868,
+                      9.016687575673279
+                    ],
+                    "efficiency_metric_types": [
+                      "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
+                      "ENERGY_EFFICIENCY_RATIO",
+                      "SEASONAL_ENERGY_EFFICIENCY_RATIO",
+                      "INTEGRATED_ENERGY_EFFICIENCY_RATIO"
                     ]
                   }
                 }

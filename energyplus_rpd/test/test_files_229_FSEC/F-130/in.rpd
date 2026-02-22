@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-01-19T20:47Z",
+    "time_of_creation": "2026-02-22T14:47Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -72,6 +72,17 @@
                         "specification_method": "SIMPLE"
                       }
                     ]
+                  },
+                  "heating_system": {
+                    "id": "PVAV_RH_AHU-heating",
+                    "design_capacity": 43960.6605258333,
+                    "type": "FLUID_LOOP",
+                    "energy_source_type": "OTHER",
+                    "hot_water_loop": "HW PLANT LOOP",
+                    "rated_capacity": 43989.80972900975,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "heating_coil_setpoint": 32.210343965812015
                   }
                 }
               ],
