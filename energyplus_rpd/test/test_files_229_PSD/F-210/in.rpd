@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-02-22T19:22Z",
+    "time_of_creation": "2026-02-22T19:36Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -331,6 +331,16 @@
                     "flow_rate": 0.0,
                     "multiplier_schedule": "Constant-1.0"
                   },
+                  "terminals": [
+                    {
+                      "id": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW-terminal",
+                      "served_by_heating_ventilating_air_conditioning_system": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW",
+                      "primary_airflow": 943.8948864,
+                      "supply_design_cooling_setpoint_temperature": 12.774487560178091,
+                      "supply_design_heating_setpoint_temperature": 49.060719485942705,
+                      "heating_capacity": 25011.116570617083
+                    }
+                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
@@ -472,6 +482,16 @@
                     "flow_rate": 114.0,
                     "multiplier_schedule": "Constant-1.0"
                   },
+                  "terminals": [
+                    {
+                      "id": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW 2-terminal",
+                      "served_by_heating_ventilating_air_conditioning_system": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW 2",
+                      "primary_airflow": 943.8948864,
+                      "supply_design_cooling_setpoint_temperature": 14.726454622802258,
+                      "supply_design_heating_setpoint_temperature": 49.0607194859427,
+                      "heating_capacity": 5558.021870733154
+                    }
+                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
@@ -603,6 +623,16 @@
                     "flow_rate": 77.32,
                     "multiplier_schedule": "Constant-1.0"
                   },
+                  "terminals": [
+                    {
+                      "id": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW 1-terminal",
+                      "served_by_heating_ventilating_air_conditioning_system": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW 1",
+                      "primary_airflow": 943.8948864,
+                      "supply_design_cooling_setpoint_temperature": 14.726454241445088,
+                      "supply_design_heating_setpoint_temperature": 49.0607194859427,
+                      "heating_capacity": 5558.021870733154
+                    }
+                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
@@ -744,6 +774,16 @@
                     "flow_rate": 80.49000000000001,
                     "multiplier_schedule": "CONSTANT SCHEDULE"
                   },
+                  "terminals": [
+                    {
+                      "id": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW 3-terminal",
+                      "served_by_heating_ventilating_air_conditioning_system": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW 3",
+                      "primary_airflow": 943.8948864,
+                      "supply_design_cooling_setpoint_temperature": 20.296549569481574,
+                      "supply_design_heating_setpoint_temperature": 45.54923519577539,
+                      "heating_capacity": 6380.495313467345
+                    }
+                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
@@ -875,6 +915,16 @@
                     "flow_rate": 53.72,
                     "multiplier_schedule": "CONSTANT SCHEDULE"
                   },
+                  "terminals": [
+                    {
+                      "id": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW 4-terminal",
+                      "served_by_heating_ventilating_air_conditioning_system": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW 4",
+                      "primary_airflow": 943.8948864,
+                      "supply_design_cooling_setpoint_temperature": 20.884936928490056,
+                      "supply_design_heating_setpoint_temperature": 49.0607194859427,
+                      "heating_capacity": 5558.021870733154
+                    }
+                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {

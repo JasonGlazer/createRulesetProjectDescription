@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-02-22T19:21Z",
+    "time_of_creation": "2026-02-22T19:34Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -252,6 +252,13 @@
                       "minimum_outdoor_airflow": 117.9868608,
                       "heating_capacity": 7033.70568413333,
                       "cooling_capacity": 8561.777539226661
+                    },
+                    {
+                      "id": "HW BB CORE ZONE 1-terminal",
+                      "type": "BASEBOARD",
+                      "is_supply_ducted": false,
+                      "heating_source": "HOT_WATER",
+                      "heating_capacity": 1758.42642103333
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
@@ -412,6 +419,13 @@
                       "minimum_outdoor_airflow": 117.9868608,
                       "heating_capacity": 7033.70568413333,
                       "cooling_capacity": 4175.3920078365545
+                    },
+                    {
+                      "id": "HW BB PRM ZONE 1-terminal",
+                      "type": "BASEBOARD",
+                      "is_supply_ducted": false,
+                      "heating_source": "HOT_WATER",
+                      "heating_capacity": 1758.42642103333
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
@@ -562,6 +576,13 @@
                       "minimum_outdoor_airflow": 117.9868608,
                       "heating_capacity": 7033.70568413333,
                       "cooling_capacity": 2075.357649107875
+                    },
+                    {
+                      "id": "HW BB PRM ZONE 2-terminal",
+                      "type": "BASEBOARD",
+                      "is_supply_ducted": false,
+                      "heating_source": "HOT_WATER",
+                      "heating_capacity": 1758.42642103333
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
@@ -722,6 +743,13 @@
                       "minimum_outdoor_airflow": 117.9868608,
                       "heating_capacity": 7033.70568413333,
                       "cooling_capacity": 5299.106445225251
+                    },
+                    {
+                      "id": "HW BB PRM ZONE 3-terminal",
+                      "type": "BASEBOARD",
+                      "is_supply_ducted": false,
+                      "heating_source": "HOT_WATER",
+                      "heating_capacity": 1758.42642103333
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
@@ -872,6 +900,13 @@
                       "minimum_outdoor_airflow": 117.9868608,
                       "heating_capacity": 7033.70568413333,
                       "cooling_capacity": 3289.389451725935
+                    },
+                    {
+                      "id": "HW BB PRM ZONE 4-terminal",
+                      "type": "BASEBOARD",
+                      "is_supply_ducted": false,
+                      "heating_source": "HOT_WATER",
+                      "heating_capacity": 1758.42642103333
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",

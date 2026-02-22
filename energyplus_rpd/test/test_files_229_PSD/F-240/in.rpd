@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-02-22T19:23Z",
+    "time_of_creation": "2026-02-22T19:36Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -378,7 +378,7 @@
                       "type": "CONSTANT_AIR_VOLUME",
                       "heating_source": "NONE",
                       "cooling_source": "NONE",
-                      "served_by_heating_ventilating_air_conditioning_system": "CORE_ZONE_WTR_TO_AIR_HP_ELEC_BACKUP",
+                      "served_by_heating_ventilating_air_conditioning_system": "DOAS_AIRLOOP",
                       "primary_airflow": 94.38948864000001,
                       "supply_design_heating_setpoint_temperature": 32.2222222222223,
                       "supply_design_cooling_setpoint_temperature": 12.7777777777778,
@@ -386,6 +386,15 @@
                       "minimum_outdoor_airflow": 0.0,
                       "heating_capacity": 5190.390479619039,
                       "cooling_capacity": 8074.24979485201
+                    },
+                    {
+                      "id": "CORE_ZONE_WTR_TO_AIR_HP_ELEC_BACKUP-terminal",
+                      "served_by_heating_ventilating_air_conditioning_system": "CORE_ZONE_WTR_TO_AIR_HP_ELEC_BACKUP",
+                      "type": "CONSTANT_AIR_VOLUME",
+                      "is_supply_ducted": false,
+                      "primary_airflow": 943.8948864,
+                      "cooling_capacity": 19536.513600134753,
+                      "heating_capacity": 14231.417360050018
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
@@ -536,7 +545,7 @@
                       "type": "CONSTANT_AIR_VOLUME",
                       "heating_source": "NONE",
                       "cooling_source": "NONE",
-                      "served_by_heating_ventilating_air_conditioning_system": "PERIMETER_ZONE_1_WTR_TO_AIR_HP_ELEC_BACKUP",
+                      "served_by_heating_ventilating_air_conditioning_system": "DOAS_AIRLOOP",
                       "primary_airflow": 94.38948864000001,
                       "supply_design_heating_setpoint_temperature": 32.2222222222223,
                       "supply_design_cooling_setpoint_temperature": 12.7777777777778,
@@ -544,6 +553,15 @@
                       "minimum_outdoor_airflow": 0.0,
                       "heating_capacity": 1405.480102414513,
                       "cooling_capacity": 2172.0197309242894
+                    },
+                    {
+                      "id": "PERIMETER_ZONE_1_WTR_TO_AIR_HP_ELEC_BACKUP-terminal",
+                      "served_by_heating_ventilating_air_conditioning_system": "PERIMETER_ZONE_1_WTR_TO_AIR_HP_ELEC_BACKUP",
+                      "type": "CONSTANT_AIR_VOLUME",
+                      "is_supply_ducted": false,
+                      "primary_airflow": 943.8948864,
+                      "cooling_capacity": 5196.891119927934,
+                      "heating_capacity": 3735.703249488519
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
@@ -684,7 +702,7 @@
                       "type": "CONSTANT_AIR_VOLUME",
                       "heating_source": "NONE",
                       "cooling_source": "NONE",
-                      "served_by_heating_ventilating_air_conditioning_system": "PERIMETER_ZONE_2_WTR_TO_AIR_HP_ELEC_BACKUP",
+                      "served_by_heating_ventilating_air_conditioning_system": "DOAS_AIRLOOP",
                       "primary_airflow": 94.38948864000001,
                       "supply_design_heating_setpoint_temperature": 32.2222222222223,
                       "supply_design_cooling_setpoint_temperature": 12.7777777777778,
@@ -692,6 +710,15 @@
                       "minimum_outdoor_airflow": 0.0,
                       "heating_capacity": 858.340278666244,
                       "cooling_capacity": 1323.3317234753542
+                    },
+                    {
+                      "id": "PERIMETER_ZONE_2_WTR_TO_AIR_HP_ELEC_BACKUP-terminal",
+                      "served_by_heating_ventilating_air_conditioning_system": "PERIMETER_ZONE_2_WTR_TO_AIR_HP_ELEC_BACKUP",
+                      "type": "CONSTANT_AIR_VOLUME",
+                      "is_supply_ducted": false,
+                      "primary_airflow": 943.8948864,
+                      "cooling_capacity": 3168.634977177619,
+                      "heating_capacity": 2279.8310335412225
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
@@ -842,7 +869,7 @@
                       "type": "CONSTANT_AIR_VOLUME",
                       "heating_source": "NONE",
                       "cooling_source": "NONE",
-                      "served_by_heating_ventilating_air_conditioning_system": "PERIMETER_ZONE_3_WTR_TO_AIR_HP_ELEC_BACKUP",
+                      "served_by_heating_ventilating_air_conditioning_system": "DOAS_AIRLOOP",
                       "primary_airflow": 94.38948864000001,
                       "supply_design_heating_setpoint_temperature": 32.2222222222223,
                       "supply_design_cooling_setpoint_temperature": 12.7777777777778,
@@ -850,6 +877,15 @@
                       "minimum_outdoor_airflow": 0.0,
                       "heating_capacity": 3471.040746653363,
                       "cooling_capacity": 5373.723602518666
+                    },
+                    {
+                      "id": "PERIMETER_ZONE_3_WTR_TO_AIR_HP_ELEC_BACKUP-terminal",
+                      "served_by_heating_ventilating_air_conditioning_system": "PERIMETER_ZONE_3_WTR_TO_AIR_HP_ELEC_BACKUP",
+                      "type": "CONSTANT_AIR_VOLUME",
+                      "is_supply_ducted": false,
+                      "primary_airflow": 943.8948864,
+                      "cooling_capacity": 12055.705452986003,
+                      "heating_capacity": 7862.465909625652
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
@@ -990,7 +1026,7 @@
                       "type": "CONSTANT_AIR_VOLUME",
                       "heating_source": "NONE",
                       "cooling_source": "NONE",
-                      "served_by_heating_ventilating_air_conditioning_system": "PERIMETER_ZONE_4_WTR_TO_AIR_HP_ELEC_BACKUP",
+                      "served_by_heating_ventilating_air_conditioning_system": "DOAS_AIRLOOP",
                       "primary_airflow": 94.38948864000001,
                       "supply_design_heating_setpoint_temperature": 32.2222222222223,
                       "supply_design_cooling_setpoint_temperature": 12.7777777777778,
@@ -998,6 +1034,15 @@
                       "minimum_outdoor_airflow": 0.0,
                       "heating_capacity": 2179.2185329232193,
                       "cooling_capacity": 3382.9698730127284
+                    },
+                    {
+                      "id": "PERIMETER_ZONE_4_WTR_TO_AIR_HP_ELEC_BACKUP-terminal",
+                      "served_by_heating_ventilating_air_conditioning_system": "PERIMETER_ZONE_4_WTR_TO_AIR_HP_ELEC_BACKUP",
+                      "type": "CONSTANT_AIR_VOLUME",
+                      "is_supply_ducted": false,
+                      "primary_airflow": 943.8948864,
+                      "cooling_capacity": 7591.391314545295,
+                      "heating_capacity": 4953.169475279442
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",

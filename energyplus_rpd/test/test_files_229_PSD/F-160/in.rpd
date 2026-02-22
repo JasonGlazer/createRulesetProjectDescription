@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-02-22T19:22Z",
+    "time_of_creation": "2026-02-22T19:35Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -289,6 +289,14 @@
                     "flow_rate": 0.0,
                     "multiplier_schedule": "Constant-1.0"
                   },
+                  "terminals": [
+                    {
+                      "id": "CV UNIT HEATER GAS-terminal",
+                      "served_by_heating_ventilating_air_conditioning_system": "CV UNIT HEATER GAS",
+                      "primary_airflow": 117.9868608,
+                      "heating_capacity": 17584.2642103333
+                    }
+                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
@@ -428,6 +436,14 @@
                     "flow_rate": 114.0,
                     "multiplier_schedule": "Constant-1.0"
                   },
+                  "terminals": [
+                    {
+                      "id": "CV UNIT HEATER GAS 3-terminal",
+                      "served_by_heating_ventilating_air_conditioning_system": "CV UNIT HEATER GAS 3",
+                      "primary_airflow": 117.9868608,
+                      "heating_capacity": 17584.2642103333
+                    }
+                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
@@ -557,6 +573,14 @@
                     "flow_rate": 77.32,
                     "multiplier_schedule": "Constant-1.0"
                   },
+                  "terminals": [
+                    {
+                      "id": "CV UNIT HEATER GAS 2-terminal",
+                      "served_by_heating_ventilating_air_conditioning_system": "CV UNIT HEATER GAS 2",
+                      "primary_airflow": 117.9868608,
+                      "heating_capacity": 17584.2642103333
+                    }
+                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
@@ -696,6 +720,14 @@
                     "flow_rate": 80.49000000000001,
                     "multiplier_schedule": "CONSTANT SCHEDULE"
                   },
+                  "terminals": [
+                    {
+                      "id": "CV UNIT HEATER GAS 1-terminal",
+                      "served_by_heating_ventilating_air_conditioning_system": "CV UNIT HEATER GAS 1",
+                      "primary_airflow": 117.9868608,
+                      "heating_capacity": 17584.2642103333
+                    }
+                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
@@ -825,6 +857,14 @@
                     "flow_rate": 53.72,
                     "multiplier_schedule": "CONSTANT SCHEDULE"
                   },
+                  "terminals": [
+                    {
+                      "id": "CV UNIT HEATER GAS 4-terminal",
+                      "served_by_heating_ventilating_air_conditioning_system": "CV UNIT HEATER GAS 4",
+                      "primary_airflow": 117.9868608,
+                      "heating_capacity": 17584.2642103333
+                    }
+                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
