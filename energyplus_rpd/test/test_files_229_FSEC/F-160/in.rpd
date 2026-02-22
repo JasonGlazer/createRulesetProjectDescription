@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-01-19T20:47Z",
+    "time_of_creation": "2026-02-22T19:22Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -28,7 +28,188 @@
           "building_segments": [
             {
               "id": "segment 1",
-              "heating_ventilating_air_conditioning_systems": [],
+              "heating_ventilating_air_conditioning_systems": [
+                {
+                  "id": "CV UNIT HEATER GAS",
+                  "heating_system": {
+                    "id": "CV UNIT HEATER GAS-heating",
+                    "design_capacity": 17584.2642103333,
+                    "type": "FURNACE",
+                    "energy_source_type": "NATURAL_GAS",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": false,
+                    "efficiency_metric_values": [
+                      0.78
+                    ],
+                    "efficiency_metric_types": [
+                      "THERMAL_EFFICIENCY"
+                    ]
+                  },
+                  "fan_system": {
+                    "id": "CV UNIT HEATER FAN-fansystem",
+                    "fan_control": "CONSTANT",
+                    "supply_fans": [
+                      {
+                        "id": "CV UNIT HEATER FAN",
+                        "design_airflow": 0.1179868608,
+                        "is_airflow_calculated": true,
+                        "design_electric_power": 90.00711952457144,
+                        "design_pressure_rise": 534.0,
+                        "total_efficiency": 0.7,
+                        "motor_efficiency": 0.9,
+                        "motor_heat_to_airflow_fraction": 1.0,
+                        "motor_heat_to_zone_fraction": 0.0,
+                        "motor_location_zone": "N/A",
+                        "specification_method": "SIMPLE"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "id": "CV UNIT HEATER GAS 1",
+                  "heating_system": {
+                    "id": "CV UNIT HEATER GAS 1-heating",
+                    "design_capacity": 17584.2642103333,
+                    "type": "FURNACE",
+                    "energy_source_type": "NATURAL_GAS",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": false,
+                    "efficiency_metric_values": [
+                      0.78
+                    ],
+                    "efficiency_metric_types": [
+                      "THERMAL_EFFICIENCY"
+                    ]
+                  },
+                  "fan_system": {
+                    "id": "CV UNIT HEATER FAN 1-fansystem",
+                    "fan_control": "CONSTANT",
+                    "supply_fans": [
+                      {
+                        "id": "CV UNIT HEATER FAN 1",
+                        "design_airflow": 0.1179868608,
+                        "is_airflow_calculated": true,
+                        "design_electric_power": 90.00711952457144,
+                        "design_pressure_rise": 534.0,
+                        "total_efficiency": 0.7,
+                        "motor_efficiency": 0.9,
+                        "motor_heat_to_airflow_fraction": 1.0,
+                        "motor_heat_to_zone_fraction": 0.0,
+                        "motor_location_zone": "N/A",
+                        "specification_method": "SIMPLE"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "id": "CV UNIT HEATER GAS 2",
+                  "heating_system": {
+                    "id": "CV UNIT HEATER GAS 2-heating",
+                    "design_capacity": 17584.2642103333,
+                    "type": "FURNACE",
+                    "energy_source_type": "NATURAL_GAS",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": false,
+                    "efficiency_metric_values": [
+                      0.78
+                    ],
+                    "efficiency_metric_types": [
+                      "THERMAL_EFFICIENCY"
+                    ]
+                  },
+                  "fan_system": {
+                    "id": "CV UNIT HEATER FAN 2-fansystem",
+                    "fan_control": "CONSTANT",
+                    "supply_fans": [
+                      {
+                        "id": "CV UNIT HEATER FAN 2",
+                        "design_airflow": 0.1179868608,
+                        "is_airflow_calculated": true,
+                        "design_electric_power": 90.00711952457144,
+                        "design_pressure_rise": 534.0,
+                        "total_efficiency": 0.7,
+                        "motor_efficiency": 0.9,
+                        "motor_heat_to_airflow_fraction": 1.0,
+                        "motor_heat_to_zone_fraction": 0.0,
+                        "motor_location_zone": "N/A",
+                        "specification_method": "SIMPLE"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "id": "CV UNIT HEATER GAS 3",
+                  "heating_system": {
+                    "id": "CV UNIT HEATER GAS 3-heating",
+                    "design_capacity": 17584.2642103333,
+                    "type": "FURNACE",
+                    "energy_source_type": "NATURAL_GAS",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": false,
+                    "efficiency_metric_values": [
+                      0.78
+                    ],
+                    "efficiency_metric_types": [
+                      "THERMAL_EFFICIENCY"
+                    ]
+                  },
+                  "fan_system": {
+                    "id": "CV UNIT HEATER FAN 3-fansystem",
+                    "fan_control": "CONSTANT",
+                    "supply_fans": [
+                      {
+                        "id": "CV UNIT HEATER FAN 3",
+                        "design_airflow": 0.1179868608,
+                        "is_airflow_calculated": true,
+                        "design_electric_power": 90.00711952457144,
+                        "design_pressure_rise": 534.0,
+                        "total_efficiency": 0.7,
+                        "motor_efficiency": 0.9,
+                        "motor_heat_to_airflow_fraction": 1.0,
+                        "motor_heat_to_zone_fraction": 0.0,
+                        "motor_location_zone": "N/A",
+                        "specification_method": "SIMPLE"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "id": "CV UNIT HEATER GAS 4",
+                  "heating_system": {
+                    "id": "CV UNIT HEATER GAS 4-heating",
+                    "design_capacity": 17584.2642103333,
+                    "type": "FURNACE",
+                    "energy_source_type": "NATURAL_GAS",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": false,
+                    "efficiency_metric_values": [
+                      0.78
+                    ],
+                    "efficiency_metric_types": [
+                      "THERMAL_EFFICIENCY"
+                    ]
+                  },
+                  "fan_system": {
+                    "id": "CV UNIT HEATER FAN 4-fansystem",
+                    "fan_control": "CONSTANT",
+                    "supply_fans": [
+                      {
+                        "id": "CV UNIT HEATER FAN 4",
+                        "design_airflow": 0.1179868608,
+                        "is_airflow_calculated": true,
+                        "design_electric_power": 90.00711952457144,
+                        "design_pressure_rise": 534.0,
+                        "total_efficiency": 0.7,
+                        "motor_efficiency": 0.9,
+                        "motor_heat_to_airflow_fraction": 1.0,
+                        "motor_heat_to_zone_fraction": 0.0,
+                        "motor_location_zone": "N/A",
+                        "specification_method": "SIMPLE"
+                      }
+                    ]
+                  }
+                }
+              ],
               "zones": [
                 {
                   "id": "CORE ZONE 1",

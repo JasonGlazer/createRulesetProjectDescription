@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-01-19T20:48Z",
+    "time_of_creation": "2026-02-22T19:22Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -28,7 +28,228 @@
           "building_segments": [
             {
               "id": "segment 1",
-              "heating_ventilating_air_conditioning_systems": [],
+              "heating_ventilating_air_conditioning_systems": [
+                {
+                  "id": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW",
+                  "cooling_system": {
+                    "id": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW-cooling",
+                    "design_total_cool_capacity": 2011.0393972106697,
+                    "design_sensible_cool_capacity": 0,
+                    "type": "FLUID_LOOP",
+                    "rated_total_cool_capacity": 3578.2917275923805,
+                    "rated_sensible_cool_capacity": 3578.2917275923805,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "chilled_water_loop": "CHILLED_WATER_LOOP"
+                  },
+                  "fan_system": {
+                    "id": "FAN COIL WITH CONST FAN VAR FLUID FLOW - FAN-fansystem",
+                    "fan_control": "CONSTANT",
+                    "supply_fans": [
+                      {
+                        "id": "FAN COIL WITH CONST FAN VAR FLUID FLOW - FAN",
+                        "design_airflow": 0.9438948864,
+                        "is_airflow_calculated": true,
+                        "design_electric_power": 337.1053165714286,
+                        "design_pressure_rise": 250.0,
+                        "total_efficiency": 0.7,
+                        "motor_efficiency": 0.9,
+                        "motor_heat_to_airflow_fraction": 1.0,
+                        "motor_heat_to_zone_fraction": 0.0,
+                        "motor_location_zone": "N/A",
+                        "specification_method": "SIMPLE"
+                      }
+                    ]
+                  },
+                  "heating_system": {
+                    "id": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW-heating",
+                    "design_capacity": 25011.116570617083,
+                    "type": "FLUID_LOOP",
+                    "energy_source_type": "OTHER",
+                    "hot_water_loop": "HW_LOOP",
+                    "rated_capacity": 17127.427975003102,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "heating_coil_setpoint": 49.060719485942705
+                  }
+                },
+                {
+                  "id": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW 1",
+                  "cooling_system": {
+                    "id": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW 1-cooling",
+                    "design_total_cool_capacity": 446.8995054400717,
+                    "design_sensible_cool_capacity": 0,
+                    "type": "FLUID_LOOP",
+                    "rated_total_cool_capacity": 1731.3674499677707,
+                    "rated_sensible_cool_capacity": 1731.3674499677707,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "chilled_water_loop": "CHILLED_WATER_LOOP"
+                  },
+                  "fan_system": {
+                    "id": "FAN COIL WITH CONST FAN VAR FLUID FLOW - FAN 1-fansystem",
+                    "fan_control": "CONSTANT",
+                    "supply_fans": [
+                      {
+                        "id": "FAN COIL WITH CONST FAN VAR FLUID FLOW - FAN 1",
+                        "design_airflow": 0.9438948864,
+                        "is_airflow_calculated": true,
+                        "design_electric_power": 337.1053165714286,
+                        "design_pressure_rise": 250.0,
+                        "total_efficiency": 0.7,
+                        "motor_efficiency": 0.9,
+                        "motor_heat_to_airflow_fraction": 1.0,
+                        "motor_heat_to_zone_fraction": 0.0,
+                        "motor_location_zone": "N/A",
+                        "specification_method": "SIMPLE"
+                      }
+                    ]
+                  },
+                  "heating_system": {
+                    "id": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW 1-heating",
+                    "design_capacity": 5558.021870733154,
+                    "type": "FLUID_LOOP",
+                    "energy_source_type": "OTHER",
+                    "hot_water_loop": "HW_LOOP",
+                    "rated_capacity": 3806.092343206628,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "heating_coil_setpoint": 49.0607194859427
+                  }
+                },
+                {
+                  "id": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW 2",
+                  "cooling_system": {
+                    "id": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW 2-cooling",
+                    "design_total_cool_capacity": 446.8983082462877,
+                    "design_sensible_cool_capacity": 0,
+                    "type": "FLUID_LOOP",
+                    "rated_total_cool_capacity": 1731.3629652139919,
+                    "rated_sensible_cool_capacity": 1731.3629652139919,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "chilled_water_loop": "CHILLED_WATER_LOOP"
+                  },
+                  "fan_system": {
+                    "id": "FAN COIL WITH CONST FAN VAR FLUID FLOW - FAN 2-fansystem",
+                    "fan_control": "CONSTANT",
+                    "supply_fans": [
+                      {
+                        "id": "FAN COIL WITH CONST FAN VAR FLUID FLOW - FAN 2",
+                        "design_airflow": 0.9438948864,
+                        "is_airflow_calculated": true,
+                        "design_electric_power": 337.1053165714286,
+                        "design_pressure_rise": 250.0,
+                        "total_efficiency": 0.7,
+                        "motor_efficiency": 0.9,
+                        "motor_heat_to_airflow_fraction": 1.0,
+                        "motor_heat_to_zone_fraction": 0.0,
+                        "motor_location_zone": "N/A",
+                        "specification_method": "SIMPLE"
+                      }
+                    ]
+                  },
+                  "heating_system": {
+                    "id": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW 2-heating",
+                    "design_capacity": 5558.021870733154,
+                    "type": "FLUID_LOOP",
+                    "energy_source_type": "OTHER",
+                    "hot_water_loop": "HW_LOOP",
+                    "rated_capacity": 3806.092343206628,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "heating_coil_setpoint": 49.0607194859427
+                  }
+                },
+                {
+                  "id": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW 3",
+                  "cooling_system": {
+                    "id": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW 3-cooling",
+                    "design_total_cool_capacity": 4578.976806228612,
+                    "design_sensible_cool_capacity": 0,
+                    "type": "FLUID_LOOP",
+                    "rated_total_cool_capacity": 9031.713221139862,
+                    "rated_sensible_cool_capacity": 9031.71322113986,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "chilled_water_loop": "CHILLED_WATER_LOOP"
+                  },
+                  "fan_system": {
+                    "id": "FAN COIL WITH CONST FAN VAR FLUID FLOW - FAN 3-fansystem",
+                    "fan_control": "CONSTANT",
+                    "supply_fans": [
+                      {
+                        "id": "FAN COIL WITH CONST FAN VAR FLUID FLOW - FAN 3",
+                        "design_airflow": 0.9438948864,
+                        "is_airflow_calculated": true,
+                        "design_electric_power": 337.1053165714286,
+                        "design_pressure_rise": 250.0,
+                        "total_efficiency": 0.7,
+                        "motor_efficiency": 0.9,
+                        "motor_heat_to_airflow_fraction": 1.0,
+                        "motor_heat_to_zone_fraction": 0.0,
+                        "motor_location_zone": "N/A",
+                        "specification_method": "SIMPLE"
+                      }
+                    ]
+                  },
+                  "heating_system": {
+                    "id": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW 3-heating",
+                    "design_capacity": 6380.495313467345,
+                    "type": "FLUID_LOOP",
+                    "energy_source_type": "OTHER",
+                    "hot_water_loop": "HW_LOOP",
+                    "rated_capacity": 4822.961543252712,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "heating_coil_setpoint": 45.54923519577539
+                  }
+                },
+                {
+                  "id": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW 4",
+                  "cooling_system": {
+                    "id": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW 4-cooling",
+                    "design_total_cool_capacity": 3079.5507005380464,
+                    "design_sensible_cool_capacity": 0,
+                    "type": "FLUID_LOOP",
+                    "rated_total_cool_capacity": 10149.878858354388,
+                    "rated_sensible_cool_capacity": 10149.878858354385,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "chilled_water_loop": "CHILLED_WATER_LOOP"
+                  },
+                  "fan_system": {
+                    "id": "FAN COIL WITH CONST FAN VAR FLUID FLOW - FAN 4-fansystem",
+                    "fan_control": "CONSTANT",
+                    "supply_fans": [
+                      {
+                        "id": "FAN COIL WITH CONST FAN VAR FLUID FLOW - FAN 4",
+                        "design_airflow": 0.9438948864,
+                        "is_airflow_calculated": true,
+                        "design_electric_power": 337.1053165714286,
+                        "design_pressure_rise": 250.0,
+                        "total_efficiency": 0.7,
+                        "motor_efficiency": 0.9,
+                        "motor_heat_to_airflow_fraction": 1.0,
+                        "motor_heat_to_zone_fraction": 0.0,
+                        "motor_location_zone": "N/A",
+                        "specification_method": "SIMPLE"
+                      }
+                    ]
+                  },
+                  "heating_system": {
+                    "id": "CORE_ZONE_FAN_COIL_WITH_CONST_FAN_VAR_FLUID_FLOW 4-heating",
+                    "design_capacity": 5558.021870733154,
+                    "type": "FLUID_LOOP",
+                    "energy_source_type": "OTHER",
+                    "hot_water_loop": "HW_LOOP",
+                    "rated_capacity": 3806.092343206628,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "heating_coil_setpoint": 49.0607194859427
+                  }
+                }
+              ],
               "zones": [
                 {
                   "id": "CORE ZONE 1",

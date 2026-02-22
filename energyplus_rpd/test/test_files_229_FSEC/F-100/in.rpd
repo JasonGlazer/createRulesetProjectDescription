@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-01-19T20:47Z",
+    "time_of_creation": "2026-02-22T19:21Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -28,7 +28,283 @@
           "building_segments": [
             {
               "id": "segment 1",
-              "heating_ventilating_air_conditioning_systems": [],
+              "heating_ventilating_air_conditioning_systems": [
+                {
+                  "id": "CORE_ZONE_CYCLING_PTAC_DX_CLG_HW_HTG",
+                  "cooling_system": {
+                    "id": "CORE_ZONE_CYCLING_PTAC_DX_CLG_HW_HTG-cooling",
+                    "design_total_cool_capacity": 17584.2642103333,
+                    "design_sensible_cool_capacity": 14162.456356213022,
+                    "type": "DIRECT_EXPANSION",
+                    "rated_total_cool_capacity": 17592.87164330991,
+                    "rated_sensible_cool_capacity": 12821.85625523653,
+                    "oversizing_factor": 0.978519521423796,
+                    "is_calculated_size": false,
+                    "efficiency_metric_values": [
+                      2.63199226655729,
+                      8.980730390454163,
+                      9.014052305596799,
+                      8.758168734773603
+                    ],
+                    "efficiency_metric_types": [
+                      "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
+                      "ENERGY_EFFICIENCY_RATIO",
+                      "SEASONAL_ENERGY_EFFICIENCY_RATIO",
+                      "INTEGRATED_ENERGY_EFFICIENCY_RATIO"
+                    ]
+                  },
+                  "fan_system": {
+                    "id": "CYCLING HW PTAC FAN-fansystem",
+                    "fan_control": "CONSTANT",
+                    "supply_fans": [
+                      {
+                        "id": "CYCLING HW PTAC FAN",
+                        "design_airflow": 0.9438948864,
+                        "is_airflow_calculated": true,
+                        "design_electric_power": 700.0553740800189,
+                        "design_pressure_rise": 445.000000000012,
+                        "total_efficiency": 0.6,
+                        "motor_efficiency": 0.8,
+                        "motor_heat_to_airflow_fraction": 1.0,
+                        "motor_heat_to_zone_fraction": 0.0,
+                        "motor_location_zone": "N/A",
+                        "specification_method": "SIMPLE"
+                      }
+                    ]
+                  },
+                  "heating_system": {
+                    "id": "CORE_ZONE_CYCLING_PTAC_DX_CLG_HW_HTG-heating",
+                    "design_capacity": 17584.2642103333,
+                    "type": "FLUID_LOOP",
+                    "energy_source_type": "OTHER",
+                    "hot_water_loop": "PTAC_HW_LOOP",
+                    "rated_capacity": 17595.92389160388,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "heating_coil_setpoint": 32.210343965812015
+                  }
+                },
+                {
+                  "id": "PERIMETER_ZONE_4_CYCLING_PTAC_DX_CLG_HW_HTG",
+                  "cooling_system": {
+                    "id": "PERIMETER_ZONE_4_CYCLING_PTAC_DX_CLG_HW_HTG-cooling",
+                    "design_total_cool_capacity": 17584.2642103333,
+                    "design_sensible_cool_capacity": 14162.456356213022,
+                    "type": "DIRECT_EXPANSION",
+                    "rated_total_cool_capacity": 17592.87164330991,
+                    "rated_sensible_cool_capacity": 12821.85625523653,
+                    "oversizing_factor": 1.0655351819004624,
+                    "is_calculated_size": false,
+                    "efficiency_metric_values": [
+                      2.63199226655729,
+                      8.980730390454163,
+                      9.014052305596799,
+                      8.758168734773603
+                    ],
+                    "efficiency_metric_types": [
+                      "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
+                      "ENERGY_EFFICIENCY_RATIO",
+                      "SEASONAL_ENERGY_EFFICIENCY_RATIO",
+                      "INTEGRATED_ENERGY_EFFICIENCY_RATIO"
+                    ]
+                  },
+                  "fan_system": {
+                    "id": "CYCLING HW PTAC FAN 1-fansystem",
+                    "fan_control": "CONSTANT",
+                    "supply_fans": [
+                      {
+                        "id": "CYCLING HW PTAC FAN 1",
+                        "design_airflow": 0.9438948864,
+                        "is_airflow_calculated": true,
+                        "design_electric_power": 700.0553740800189,
+                        "design_pressure_rise": 445.000000000012,
+                        "total_efficiency": 0.6,
+                        "motor_efficiency": 0.8,
+                        "motor_heat_to_airflow_fraction": 1.0,
+                        "motor_heat_to_zone_fraction": 0.0,
+                        "motor_location_zone": "N/A",
+                        "specification_method": "SIMPLE"
+                      }
+                    ]
+                  },
+                  "heating_system": {
+                    "id": "PERIMETER_ZONE_4_CYCLING_PTAC_DX_CLG_HW_HTG-heating",
+                    "design_capacity": 17584.2642103333,
+                    "type": "FLUID_LOOP",
+                    "energy_source_type": "OTHER",
+                    "hot_water_loop": "PTAC_HW_LOOP",
+                    "rated_capacity": 17595.92389160388,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "heating_coil_setpoint": 32.210343965812015
+                  }
+                },
+                {
+                  "id": "PERIMETER_ZONE_1_CYCLING_PTAC_DX_CLG_HW_HTG",
+                  "cooling_system": {
+                    "id": "PERIMETER_ZONE_1_CYCLING_PTAC_DX_CLG_HW_HTG-cooling",
+                    "design_total_cool_capacity": 17584.2642103333,
+                    "design_sensible_cool_capacity": 14162.456356213022,
+                    "type": "DIRECT_EXPANSION",
+                    "rated_total_cool_capacity": 17592.87164330991,
+                    "rated_sensible_cool_capacity": 12821.85625523653,
+                    "oversizing_factor": 0.9936943383552735,
+                    "is_calculated_size": false,
+                    "efficiency_metric_values": [
+                      2.63199226655729,
+                      8.980730390454163,
+                      9.014052305596799,
+                      8.758168734773603
+                    ],
+                    "efficiency_metric_types": [
+                      "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
+                      "ENERGY_EFFICIENCY_RATIO",
+                      "SEASONAL_ENERGY_EFFICIENCY_RATIO",
+                      "INTEGRATED_ENERGY_EFFICIENCY_RATIO"
+                    ]
+                  },
+                  "fan_system": {
+                    "id": "CYCLING HW PTAC FAN 2-fansystem",
+                    "fan_control": "CONSTANT",
+                    "supply_fans": [
+                      {
+                        "id": "CYCLING HW PTAC FAN 2",
+                        "design_airflow": 0.9438948864,
+                        "is_airflow_calculated": true,
+                        "design_electric_power": 700.0553740800189,
+                        "design_pressure_rise": 445.000000000012,
+                        "total_efficiency": 0.6,
+                        "motor_efficiency": 0.8,
+                        "motor_heat_to_airflow_fraction": 1.0,
+                        "motor_heat_to_zone_fraction": 0.0,
+                        "motor_location_zone": "N/A",
+                        "specification_method": "SIMPLE"
+                      }
+                    ]
+                  },
+                  "heating_system": {
+                    "id": "PERIMETER_ZONE_1_CYCLING_PTAC_DX_CLG_HW_HTG-heating",
+                    "design_capacity": 17584.2642103333,
+                    "type": "FLUID_LOOP",
+                    "energy_source_type": "OTHER",
+                    "hot_water_loop": "PTAC_HW_LOOP",
+                    "rated_capacity": 17595.92389160388,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "heating_coil_setpoint": 32.210343965812015
+                  }
+                },
+                {
+                  "id": "PERIMETER_ZONE_2_CYCLING_PTAC_DX_CLG_HW_HTG",
+                  "cooling_system": {
+                    "id": "PERIMETER_ZONE_2_CYCLING_PTAC_DX_CLG_HW_HTG-cooling",
+                    "design_total_cool_capacity": 17584.2642103333,
+                    "design_sensible_cool_capacity": 14162.456356213022,
+                    "type": "DIRECT_EXPANSION",
+                    "rated_total_cool_capacity": 17592.87164330991,
+                    "rated_sensible_cool_capacity": 12821.85625523653,
+                    "oversizing_factor": 0.9936943383552735,
+                    "is_calculated_size": false,
+                    "efficiency_metric_values": [
+                      2.63199226655729,
+                      8.980730390454163,
+                      9.014052305596799,
+                      8.758168734773603
+                    ],
+                    "efficiency_metric_types": [
+                      "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
+                      "ENERGY_EFFICIENCY_RATIO",
+                      "SEASONAL_ENERGY_EFFICIENCY_RATIO",
+                      "INTEGRATED_ENERGY_EFFICIENCY_RATIO"
+                    ]
+                  },
+                  "fan_system": {
+                    "id": "CYCLING HW PTAC FAN 3-fansystem",
+                    "fan_control": "CONSTANT",
+                    "supply_fans": [
+                      {
+                        "id": "CYCLING HW PTAC FAN 3",
+                        "design_airflow": 0.9438948864,
+                        "is_airflow_calculated": true,
+                        "design_electric_power": 700.0553740800189,
+                        "design_pressure_rise": 445.000000000012,
+                        "total_efficiency": 0.6,
+                        "motor_efficiency": 0.8,
+                        "motor_heat_to_airflow_fraction": 1.0,
+                        "motor_heat_to_zone_fraction": 0.0,
+                        "motor_location_zone": "N/A",
+                        "specification_method": "SIMPLE"
+                      }
+                    ]
+                  },
+                  "heating_system": {
+                    "id": "PERIMETER_ZONE_2_CYCLING_PTAC_DX_CLG_HW_HTG-heating",
+                    "design_capacity": 17584.2642103333,
+                    "type": "FLUID_LOOP",
+                    "energy_source_type": "OTHER",
+                    "hot_water_loop": "PTAC_HW_LOOP",
+                    "rated_capacity": 17595.92389160388,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "heating_coil_setpoint": 32.210343965812015
+                  }
+                },
+                {
+                  "id": "PERIMETER_ZONE_3_CYCLING_PTAC_DX_CLG_HW_HTG",
+                  "cooling_system": {
+                    "id": "PERIMETER_ZONE_3_CYCLING_PTAC_DX_CLG_HW_HTG-cooling",
+                    "design_total_cool_capacity": 17584.2642103333,
+                    "design_sensible_cool_capacity": 14162.456356213022,
+                    "type": "DIRECT_EXPANSION",
+                    "rated_total_cool_capacity": 17592.87164330991,
+                    "rated_sensible_cool_capacity": 12821.85625523653,
+                    "oversizing_factor": 1.0623442176685511,
+                    "is_calculated_size": false,
+                    "efficiency_metric_values": [
+                      2.63199226655729,
+                      8.980730390454163,
+                      9.014052305596799,
+                      8.758168734773603
+                    ],
+                    "efficiency_metric_types": [
+                      "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
+                      "ENERGY_EFFICIENCY_RATIO",
+                      "SEASONAL_ENERGY_EFFICIENCY_RATIO",
+                      "INTEGRATED_ENERGY_EFFICIENCY_RATIO"
+                    ]
+                  },
+                  "fan_system": {
+                    "id": "CYCLING HW PTAC FAN 4-fansystem",
+                    "fan_control": "CONSTANT",
+                    "supply_fans": [
+                      {
+                        "id": "CYCLING HW PTAC FAN 4",
+                        "design_airflow": 0.9438948864,
+                        "is_airflow_calculated": true,
+                        "design_electric_power": 700.0553740800189,
+                        "design_pressure_rise": 445.000000000012,
+                        "total_efficiency": 0.6,
+                        "motor_efficiency": 0.8,
+                        "motor_heat_to_airflow_fraction": 1.0,
+                        "motor_heat_to_zone_fraction": 0.0,
+                        "motor_location_zone": "N/A",
+                        "specification_method": "SIMPLE"
+                      }
+                    ]
+                  },
+                  "heating_system": {
+                    "id": "PERIMETER_ZONE_3_CYCLING_PTAC_DX_CLG_HW_HTG-heating",
+                    "design_capacity": 17584.2642103333,
+                    "type": "FLUID_LOOP",
+                    "energy_source_type": "OTHER",
+                    "hot_water_loop": "PTAC_HW_LOOP",
+                    "rated_capacity": 17595.92389160388,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "heating_coil_setpoint": 32.210343965812015
+                  }
+                }
+              ],
               "zones": [
                 {
                   "id": "CORE ZONE 1",

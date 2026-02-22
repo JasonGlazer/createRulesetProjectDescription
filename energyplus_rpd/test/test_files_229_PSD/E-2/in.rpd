@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-01-19T20:48Z",
+    "time_of_creation": "2026-02-22T19:22Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -30,6 +30,76 @@
               "id": "segment 1",
               "heating_ventilating_air_conditioning_systems": [
                 {
+                  "id": "ADU VAV_HW_RHT_CORE_ZONE",
+                  "heating_system": {
+                    "id": "ADU VAV_HW_RHT_CORE_ZONE-heating",
+                    "design_capacity": 1758.42642103333,
+                    "type": "FLUID_LOOP",
+                    "energy_source_type": "OTHER",
+                    "hot_water_loop": "HOT_WATER_HEATING_LOOP",
+                    "rated_capacity": 1759.592389160388,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "heating_coil_setpoint": 32.21034396581202
+                  }
+                },
+                {
+                  "id": "ADU VAV_HW_RHT_PERIMETER_ZONE 1",
+                  "heating_system": {
+                    "id": "ADU VAV_HW_RHT_PERIMETER_ZONE 1-heating",
+                    "design_capacity": 1758.42642103333,
+                    "type": "FLUID_LOOP",
+                    "energy_source_type": "OTHER",
+                    "hot_water_loop": "HOT_WATER_HEATING_LOOP",
+                    "rated_capacity": 1759.592389160388,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "heating_coil_setpoint": 32.21034396581202
+                  }
+                },
+                {
+                  "id": "ADU VAV_HW_RHT_PERIMETER_ZONE 2",
+                  "heating_system": {
+                    "id": "ADU VAV_HW_RHT_PERIMETER_ZONE 2-heating",
+                    "design_capacity": 1758.42642103333,
+                    "type": "FLUID_LOOP",
+                    "energy_source_type": "OTHER",
+                    "hot_water_loop": "HOT_WATER_HEATING_LOOP",
+                    "rated_capacity": 1759.592389160388,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "heating_coil_setpoint": 32.21034396581202
+                  }
+                },
+                {
+                  "id": "ADU VAV_HW_RHT_PERIMETER_ZONE 3",
+                  "heating_system": {
+                    "id": "ADU VAV_HW_RHT_PERIMETER_ZONE 3-heating",
+                    "design_capacity": 1758.42642103333,
+                    "type": "FLUID_LOOP",
+                    "energy_source_type": "OTHER",
+                    "hot_water_loop": "HOT_WATER_HEATING_LOOP",
+                    "rated_capacity": 1759.592389160388,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "heating_coil_setpoint": 32.21034396581202
+                  }
+                },
+                {
+                  "id": "ADU VAV_HW_RHT_PERIMETER_ZONE 4",
+                  "heating_system": {
+                    "id": "ADU VAV_HW_RHT_PERIMETER_ZONE 4-heating",
+                    "design_capacity": 0.0,
+                    "type": "FLUID_LOOP",
+                    "energy_source_type": "OTHER",
+                    "hot_water_loop": "HOT_WATER_HEATING_LOOP",
+                    "rated_capacity": 0.0,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "heating_coil_setpoint": 16.6
+                  }
+                },
+                {
                   "id": "VAV_AHU_1",
                   "cooling_system": {
                     "id": "VAV_AHU_1-cooling",
@@ -41,6 +111,17 @@
                     "oversizing_factor": 1.0,
                     "is_calculated_size": false,
                     "chilled_water_loop": "SECONDARY_CHILLED_WATER_LOOP"
+                  },
+                  "heating_system": {
+                    "id": "VAV_AHU_1-heating",
+                    "design_capacity": 139821.06576388673,
+                    "type": "FLUID_LOOP",
+                    "energy_source_type": "OTHER",
+                    "hot_water_loop": "HOT_WATER_HEATING_LOOP",
+                    "rated_capacity": 139378.96654756498,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": false,
+                    "heating_coil_setpoint": 46.38800579896197
                   }
                 }
               ],
@@ -128,6 +209,23 @@
                     "flow_rate": 0.0,
                     "multiplier_schedule": "Constant-1.0"
                   },
+                  "terminals": [
+                    {
+                      "id": "ADU VAV_HW_RHT_CORE_ZONE~~~00000001",
+                      "type": "VARIABLE_AIR_VOLUME",
+                      "heating_source": "HOT_WATER",
+                      "cooling_source": "NONE",
+                      "served_by_heating_ventilating_air_conditioning_system": "ADU VAV_HW_RHT_CORE_ZONE",
+                      "primary_airflow": 943.8948864,
+                      "supply_design_heating_setpoint_temperature": 32.2222222222223,
+                      "supply_design_cooling_setpoint_temperature": 12.7777777777778,
+                      "minimum_airflow": 749.5631948508,
+                      "minimum_outdoor_airflow": 78.6579072,
+                      "heating_capacity": 1758.42642103333,
+                      "cooling_capacity": 10557.360909903126,
+                      "minimum_outdoor_airflow_multiplier_schedule": "Constant-1.0"
+                    }
+                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
@@ -272,6 +370,23 @@
                     "flow_rate": 114.0,
                     "multiplier_schedule": "Constant-1.0"
                   },
+                  "terminals": [
+                    {
+                      "id": "ADU VAV_HW_RHT_PERIMETER_ZONE 1~~~00000002",
+                      "type": "VARIABLE_AIR_VOLUME",
+                      "heating_source": "HOT_WATER",
+                      "cooling_source": "NONE",
+                      "served_by_heating_ventilating_air_conditioning_system": "ADU VAV_HW_RHT_PERIMETER_ZONE 1",
+                      "primary_airflow": 943.8948864,
+                      "supply_design_heating_setpoint_temperature": 32.2222222222223,
+                      "supply_design_cooling_setpoint_temperature": 12.7777777777778,
+                      "minimum_airflow": 157.94130837888,
+                      "minimum_outdoor_airflow": 78.6579072,
+                      "heating_capacity": 1758.42642103333,
+                      "cooling_capacity": 10561.43387783452,
+                      "minimum_outdoor_airflow_multiplier_schedule": "Constant-1.0"
+                    }
+                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
@@ -406,6 +521,23 @@
                     "flow_rate": 77.32,
                     "multiplier_schedule": "Constant-1.0"
                   },
+                  "terminals": [
+                    {
+                      "id": "ADU VAV_HW_RHT_PERIMETER_ZONE 2~~~00000003",
+                      "type": "VARIABLE_AIR_VOLUME",
+                      "heating_source": "HOT_WATER",
+                      "cooling_source": "NONE",
+                      "served_by_heating_ventilating_air_conditioning_system": "ADU VAV_HW_RHT_PERIMETER_ZONE 2",
+                      "primary_airflow": 943.8948864,
+                      "supply_design_heating_setpoint_temperature": 32.2222222222223,
+                      "supply_design_cooling_setpoint_temperature": 12.7777777777778,
+                      "minimum_airflow": 141.58423296,
+                      "minimum_outdoor_airflow": 78.6579072,
+                      "heating_capacity": 1758.42642103333,
+                      "cooling_capacity": 10561.598049623839,
+                      "minimum_outdoor_airflow_multiplier_schedule": "Constant-1.0"
+                    }
+                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
@@ -550,6 +682,23 @@
                     "flow_rate": 80.49000000000001,
                     "multiplier_schedule": "CONSTANT SCHEDULE"
                   },
+                  "terminals": [
+                    {
+                      "id": "ADU VAV_HW_RHT_PERIMETER_ZONE 3~~~00000004",
+                      "type": "VARIABLE_AIR_VOLUME",
+                      "heating_source": "HOT_WATER",
+                      "cooling_source": "NONE",
+                      "served_by_heating_ventilating_air_conditioning_system": "ADU VAV_HW_RHT_PERIMETER_ZONE 3",
+                      "primary_airflow": 943.8948864,
+                      "supply_design_heating_setpoint_temperature": 32.2222222222223,
+                      "supply_design_cooling_setpoint_temperature": 12.7777777777778,
+                      "minimum_airflow": 157.8998648448,
+                      "minimum_outdoor_airflow": 78.6579072,
+                      "heating_capacity": 1758.42642103333,
+                      "cooling_capacity": 10560.742277697604,
+                      "minimum_outdoor_airflow_multiplier_schedule": "Constant-1.0"
+                    }
+                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
@@ -684,6 +833,23 @@
                     "flow_rate": 53.72,
                     "multiplier_schedule": "CONSTANT SCHEDULE"
                   },
+                  "terminals": [
+                    {
+                      "id": "ADU VAV_HW_RHT_PERIMETER_ZONE 4~~~00000005",
+                      "type": "VARIABLE_AIR_VOLUME",
+                      "heating_source": "HOT_WATER",
+                      "cooling_source": "NONE",
+                      "served_by_heating_ventilating_air_conditioning_system": "ADU VAV_HW_RHT_PERIMETER_ZONE 4",
+                      "primary_airflow": 943.8948864,
+                      "supply_design_heating_setpoint_temperature": 32.2222222222223,
+                      "supply_design_cooling_setpoint_temperature": 12.7777777777778,
+                      "minimum_airflow": 141.58423296,
+                      "minimum_outdoor_airflow": 78.6579072,
+                      "heating_capacity": 0.0,
+                      "cooling_capacity": 10560.831327774078,
+                      "minimum_outdoor_airflow_multiplier_schedule": "Constant-1.0"
+                    }
+                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {

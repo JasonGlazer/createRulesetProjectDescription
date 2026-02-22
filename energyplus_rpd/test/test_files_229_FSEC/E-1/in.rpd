@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-01-19T20:47Z",
+    "time_of_creation": "2026-02-22T19:21Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -73,6 +73,14 @@
                         "specification_method": "SIMPLE"
                       }
                     ]
+                  },
+                  "heating_system": {
+                    "id": "PSZHP-CORE ZONE-heating",
+                    "design_capacity": 15313.851497293546,
+                    "type": "ELECTRIC_RESISTANCE",
+                    "energy_source_type": "ELECTRICITY",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true
                   }
                 },
                 {
@@ -119,6 +127,14 @@
                         "specification_method": "SIMPLE"
                       }
                     ]
+                  },
+                  "heating_system": {
+                    "id": "PSZHP-PRM ZONE 1-heating",
+                    "design_capacity": 2051.932105245003,
+                    "type": "ELECTRIC_RESISTANCE",
+                    "energy_source_type": "ELECTRICITY",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true
                   }
                 },
                 {
@@ -165,6 +181,14 @@
                         "specification_method": "SIMPLE"
                       }
                     ]
+                  },
+                  "heating_system": {
+                    "id": "PSZHP-PRM ZONE 2-heating",
+                    "design_capacity": 1599.8887886214197,
+                    "type": "ELECTRIC_RESISTANCE",
+                    "energy_source_type": "ELECTRICITY",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true
                   }
                 },
                 {
@@ -211,6 +235,14 @@
                         "specification_method": "SIMPLE"
                       }
                     ]
+                  },
+                  "heating_system": {
+                    "id": "PSZHP-PRM ZONE 3-heating",
+                    "design_capacity": 2895.5351253603358,
+                    "type": "ELECTRIC_RESISTANCE",
+                    "energy_source_type": "ELECTRICITY",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true
                   }
                 },
                 {
@@ -257,6 +289,14 @@
                         "specification_method": "SIMPLE"
                       }
                     ]
+                  },
+                  "heating_system": {
+                    "id": "PSZHP-PRM ZONE 4-heating",
+                    "design_capacity": 1620.9417998482845,
+                    "type": "ELECTRIC_RESISTANCE",
+                    "energy_source_type": "ELECTRICITY",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true
                   }
                 }
               ],

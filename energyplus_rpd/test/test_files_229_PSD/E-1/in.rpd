@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-01-19T20:48Z",
+    "time_of_creation": "2026-02-22T19:22Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -73,6 +73,25 @@
                         "specification_method": "SIMPLE"
                       }
                     ]
+                  },
+                  "heating_system": {
+                    "id": "PSZ_HP_CORE_ZONE-heating",
+                    "design_capacity": 14643.903524391582,
+                    "type": "HEAT_PUMP",
+                    "energy_source_type": "ELECTRICITY",
+                    "rated_capacity": 11517.733485039393,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "heating_coil_setpoint": 36.01693293475431,
+                    "efficiency_metric_values": [
+                      8.113162186630161,
+                      8.207073008457224
+                    ],
+                    "efficiency_metric_types": [
+                      "HEATING_SEASONAL_PERFORMANCE_FACTOR",
+                      "HEATING_SEASONAL_PERFORMANCE_FACTOR_2"
+                    ],
+                    "heatpump_low_shutoff_temperature": -23.333333333333
                   }
                 },
                 {
@@ -119,6 +138,25 @@
                         "specification_method": "SIMPLE"
                       }
                     ]
+                  },
+                  "heating_system": {
+                    "id": "PSZ_HP_PERIMETER_ZONE_1-heating",
+                    "design_capacity": 5249.297868802443,
+                    "type": "HEAT_PUMP",
+                    "energy_source_type": "ELECTRICITY",
+                    "rated_capacity": 4128.681518267772,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "heating_coil_setpoint": 34.30894760707721,
+                    "efficiency_metric_values": [
+                      8.057560881823287,
+                      8.102720373809674
+                    ],
+                    "efficiency_metric_types": [
+                      "HEATING_SEASONAL_PERFORMANCE_FACTOR",
+                      "HEATING_SEASONAL_PERFORMANCE_FACTOR_2"
+                    ],
+                    "heatpump_low_shutoff_temperature": -23.333333333333
                   }
                 },
                 {
@@ -165,6 +203,25 @@
                         "specification_method": "SIMPLE"
                       }
                     ]
+                  },
+                  "heating_system": {
+                    "id": "PSZ_HP_PERIMETER_ZONE_2-heating",
+                    "design_capacity": 3360.255323597989,
+                    "type": "HEAT_PUMP",
+                    "energy_source_type": "ELECTRICITY",
+                    "rated_capacity": 2642.910423059103,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "heating_coil_setpoint": 34.43254373838131,
+                    "efficiency_metric_values": [
+                      8.104584088657232,
+                      8.111011847863187
+                    ],
+                    "efficiency_metric_types": [
+                      "HEATING_SEASONAL_PERFORMANCE_FACTOR",
+                      "HEATING_SEASONAL_PERFORMANCE_FACTOR_2"
+                    ],
+                    "heatpump_low_shutoff_temperature": -23.333333333333
                   }
                 },
                 {
@@ -211,6 +268,25 @@
                         "specification_method": "SIMPLE"
                       }
                     ]
+                  },
+                  "heating_system": {
+                    "id": "PSZ_HP_PERIMETER_ZONE_3-heating",
+                    "design_capacity": 9069.462937447926,
+                    "type": "HEAT_PUMP",
+                    "energy_source_type": "ELECTRICITY",
+                    "rated_capacity": 7133.320483297006,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "heating_coil_setpoint": 34.26682472643876,
+                    "efficiency_metric_values": [
+                      8.02016008764616,
+                      8.099865281447165
+                    ],
+                    "efficiency_metric_types": [
+                      "HEATING_SEASONAL_PERFORMANCE_FACTOR",
+                      "HEATING_SEASONAL_PERFORMANCE_FACTOR_2"
+                    ],
+                    "heatpump_low_shutoff_temperature": -23.333333333333
                   }
                 },
                 {
@@ -257,6 +333,25 @@
                         "specification_method": "SIMPLE"
                       }
                     ]
+                  },
+                  "heating_system": {
+                    "id": "PSZ_HP_PERIMETER_ZONE_4-heating",
+                    "design_capacity": 5803.035067643524,
+                    "type": "HEAT_PUMP",
+                    "energy_source_type": "ELECTRICITY",
+                    "rated_capacity": 4564.207296376092,
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "heating_coil_setpoint": 34.26682472643876,
+                    "efficiency_metric_values": [
+                      7.960936988042559,
+                      8.099865281447164
+                    ],
+                    "efficiency_metric_types": [
+                      "HEATING_SEASONAL_PERFORMANCE_FACTOR",
+                      "HEATING_SEASONAL_PERFORMANCE_FACTOR_2"
+                    ],
+                    "heatpump_low_shutoff_temperature": -23.333333333333
                   }
                 }
               ],
