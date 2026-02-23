@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-02-22T14:47Z",
+    "time_of_creation": "2026-01-26T12:02Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -41,34 +41,6 @@
                     "oversizing_factor": 1.0,
                     "is_calculated_size": false,
                     "chilled_water_loop": "CHILLED_WATER_LOOP"
-                  },
-                  "heating_system": {
-                    "id": "PVAV_RH_AHU-heating",
-                    "design_capacity": 150000.0,
-                    "type": "ELECTRIC_RESISTANCE",
-                    "energy_source_type": "ELECTRICITY",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false
-                  },
-                  "fan_system": {
-                    "id": "PVAV_RH_AHU_FANSYSTEMMODEL_VAV-fansystem",
-                    "minimum_airflow": 707.9211648,
-                    "minimum_outdoor_airflow": 0.0,
-                    "supply_fans": [
-                      {
-                        "id": "PVAV_RH_AHU_FANSYSTEMMODEL_VAV",
-                        "design_airflow": 4.719474432,
-                        "is_airflow_calculated": false,
-                        "design_electric_power": 10000.0,
-                        "design_pressure_rise": 1017.592,
-                        "total_efficiency": 0.4802499426207744,
-                        "motor_efficiency": 0.93,
-                        "motor_heat_to_airflow_fraction": 1.0,
-                        "motor_heat_to_zone_fraction": 0.0,
-                        "motor_location_zone": "N/A",
-                        "specification_method": "SIMPLE"
-                      }
-                    ]
                   }
                 }
               ],

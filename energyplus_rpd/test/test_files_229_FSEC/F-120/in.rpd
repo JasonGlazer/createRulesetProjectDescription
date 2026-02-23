@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-02-22T14:47Z",
+    "time_of_creation": "2026-01-26T12:02Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -73,20 +73,6 @@
                         "specification_method": "SIMPLE"
                       }
                     ]
-                  },
-                  "heating_system": {
-                    "id": "PSZ_AC_CORE_ZONE-heating",
-                    "design_capacity": 17584.0,
-                    "type": "FURNACE",
-                    "energy_source_type": "NATURAL_GAS",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false,
-                    "efficiency_metric_values": [
-                      0.78
-                    ],
-                    "efficiency_metric_types": [
-                      "THERMAL_EFFICIENCY"
-                    ]
                   }
                 },
                 {
@@ -125,28 +111,6 @@
                         "specification_method": "SIMPLE"
                       }
                     ]
-                  },
-                  "cooling_system": {
-                    "id": "PSZ_AC_PERIMETER_ZONE_1-cooling",
-                    "design_total_cool_capacity": 17584.0,
-                    "design_sensible_cool_capacity": 14162.35708598975,
-                    "type": "DIRECT_EXPANSION",
-                    "rated_total_cool_capacity": 17592.607303646626,
-                    "rated_sensible_cool_capacity": 12821.751413322929,
-                    "oversizing_factor": 1.0623442176685511,
-                    "is_calculated_size": false,
-                    "efficiency_metric_values": [
-                      2.556484925767422,
-                      8.723088649347936,
-                      8.757394639139433,
-                      8.539257509693556
-                    ],
-                    "efficiency_metric_types": [
-                      "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
-                      "ENERGY_EFFICIENCY_RATIO",
-                      "SEASONAL_ENERGY_EFFICIENCY_RATIO",
-                      "INTEGRATED_ENERGY_EFFICIENCY_RATIO"
-                    ]
                   }
                 },
                 {
@@ -184,28 +148,6 @@
                         "motor_location_zone": "N/A",
                         "specification_method": "SIMPLE"
                       }
-                    ]
-                  },
-                  "cooling_system": {
-                    "id": "PSZ_AC_PERIMETER_ZONE_2-cooling",
-                    "design_total_cool_capacity": 17584.0,
-                    "design_sensible_cool_capacity": 14162.35708598975,
-                    "type": "DIRECT_EXPANSION",
-                    "rated_total_cool_capacity": 17592.607303646626,
-                    "rated_sensible_cool_capacity": 12821.751413322929,
-                    "oversizing_factor": 1.0655351819004624,
-                    "is_calculated_size": false,
-                    "efficiency_metric_values": [
-                      2.6319860450825376,
-                      8.980709161901142,
-                      9.014030516636003,
-                      8.758131896324436
-                    ],
-                    "efficiency_metric_types": [
-                      "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
-                      "ENERGY_EFFICIENCY_RATIO",
-                      "SEASONAL_ENERGY_EFFICIENCY_RATIO",
-                      "INTEGRATED_ENERGY_EFFICIENCY_RATIO"
                     ]
                   }
                 },
@@ -253,20 +195,6 @@
                         "specification_method": "SIMPLE"
                       }
                     ]
-                  },
-                  "heating_system": {
-                    "id": "PSZ_AC_PERIMETER_ZONE_3-heating",
-                    "design_capacity": 17584.0,
-                    "type": "FURNACE",
-                    "energy_source_type": "NATURAL_GAS",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false,
-                    "efficiency_metric_values": [
-                      0.78
-                    ],
-                    "efficiency_metric_types": [
-                      "THERMAL_EFFICIENCY"
-                    ]
                   }
                 },
                 {
@@ -312,20 +240,6 @@
                         "motor_location_zone": "N/A",
                         "specification_method": "SIMPLE"
                       }
-                    ]
-                  },
-                  "heating_system": {
-                    "id": "PSZ_AC_PERIMETER_ZONE_4-heating",
-                    "design_capacity": 17584.0,
-                    "type": "FURNACE",
-                    "energy_source_type": "NATURAL_GAS",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false,
-                    "efficiency_metric_values": [
-                      0.78
-                    ],
-                    "efficiency_metric_types": [
-                      "THERMAL_EFFICIENCY"
                     ]
                   }
                 }

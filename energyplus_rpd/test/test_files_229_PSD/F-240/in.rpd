@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-02-22T14:49Z",
+    "time_of_creation": "2026-01-26T12:02Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -72,20 +72,6 @@
                         "motor_location_zone": "N/A",
                         "specification_method": "SIMPLE"
                       }
-                    ]
-                  },
-                  "heating_system": {
-                    "id": "DOAS_AIRLOOP-heating",
-                    "design_capacity": 16749.73541123112,
-                    "type": "FURNACE",
-                    "energy_source_type": "NATURAL_GAS",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": true,
-                    "efficiency_metric_values": [
-                      0.8
-                    ],
-                    "efficiency_metric_types": [
-                      "THERMAL_EFFICIENCY"
                     ]
                   }
                 }

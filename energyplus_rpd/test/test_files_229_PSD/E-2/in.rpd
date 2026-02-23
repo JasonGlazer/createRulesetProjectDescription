@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-02-22T14:48Z",
+    "time_of_creation": "2026-01-26T12:02Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -41,17 +41,6 @@
                     "oversizing_factor": 1.0,
                     "is_calculated_size": false,
                     "chilled_water_loop": "SECONDARY_CHILLED_WATER_LOOP"
-                  },
-                  "heating_system": {
-                    "id": "VAV_AHU_1-heating",
-                    "design_capacity": 139821.06576388673,
-                    "type": "FLUID_LOOP",
-                    "energy_source_type": "OTHER",
-                    "hot_water_loop": "HOT_WATER_HEATING_LOOP",
-                    "rated_capacity": 139378.96654756498,
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false,
-                    "heating_coil_setpoint": 46.38800579896197
                   }
                 }
               ],
