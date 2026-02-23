@@ -35,7 +35,7 @@ def heating_type_convert(coil_type):
                 'COIL:HEATING:DX:SINGLESPEED': 'HEAT_PUMP',
                 'COIL:HEATING:DX:MULTISPEED': 'HEAT_PUMP',
                 'COIL:HEATING:DX:VARIABLESPEED': 'HEAT_PUMP',
-                'COIL:HEATING:WATERTOAIRHEATPUMP:EQUATIONFIT': 'HEAT_PUMP'}
+                'COIL:HEATING:WATERTOAIRHEATPUMP:EQUATIONFIT': 'FLUID_LOOP'}
     return coil_map[coil_type.upper()]
 
 
@@ -240,6 +240,56 @@ class Translator:
                 if 'zone_name' in fields:
                     surfaces_to_zone[surface_name.upper()] = fields['zone_name'].upper()
         return surfaces_to_zone
+
+    def get_dynamic_fenestration(self):
+        dynamic_fenestrations = []
+        if 'WindowShadingControl' in self.epjson_object:
+            window_shading_control = self.epjson_object['WindowShadingControl']
+            for name, fields in window_shading_control.items():
+                if "shading_type" in fields:
+                    if fields["shading_type"] == "SwitchableGlazing":
+                        surfaces = fields['fenestration_surfaces']
+                        for surface in surfaces:
+                            named_surface = surface['fenestration_surface_name']
+                            if named_surface not in dynamic_fenestrations:
+                                dynamic_fenestrations.append(named_surface.lower())
+        return dynamic_fenestrations
+
+    def find_window_overhangs(self):
+        windows_with_overhangs = []
+        if 'Shading:Overhang' in self.epjson_object:
+            shading = self.epjson_object['Shading:Overhang']
+            for shading_name, fields in shading.items():
+                if 'window_or_door_name' in fields:
+                    named_shading = fields['window_or_door_name']
+                    if named_shading not in windows_with_overhangs:
+                        windows_with_overhangs.append(named_shading.lower())
+        if 'Shading:Overhang:Projection' in self.epjson_object:
+            shading = self.epjson_object['Shading:Overhang:Projection']
+            for shading_name, fields in shading.items():
+                if 'window_or_door_name' in fields:
+                    named_shading = fields['window_or_door_name']
+                    if named_shading not in windows_with_overhangs:
+                        windows_with_overhangs.append(named_shading.lower())
+        return windows_with_overhangs
+
+    def find_window_fins(self):
+        windows_with_fins = []
+        if 'Shading:Fin' in self.epjson_object:
+            shading = self.epjson_object['Shading:Fin']
+            for shading_name, fields in shading.items():
+                if 'window_or_door_name' in fields:
+                    named_shading = fields['window_or_door_name']
+                    if named_shading not in windows_with_fins:
+                        windows_with_fins.append(named_shading.lower())
+        if 'Shading:Fin:Projection' in self.epjson_object:
+            shading = self.epjson_object['Shading:Fin:Projection']
+            for shading_name, fields in shading.items():
+                if 'window_or_door_name' in fields:
+                    named_shading = fields['window_or_door_name']
+                    if named_shading not in windows_with_fins:
+                        windows_with_fins.append(named_shading.lower())
+        return windows_with_fins
 
     def get_adjacent_surface_for_each_surface(self):
         adjacent_by_surface = {}
@@ -653,6 +703,7 @@ class Translator:
         lights_by_space = self.gather_interior_lighting()
         people_schedule_by_zone = self.gather_people_schedule_by_zone()
         equipment_by_zone = self.gather_miscellaneous_equipment()
+        people_annual_list = self.gather_table_into_list("PEOPLE INTERNAL GAIN ANNUAL", "Custom Annual Report")
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'InputVerificationandResultsSummary':
                 tables = tabular_report['Tables']
@@ -688,10 +739,32 @@ class Translator:
                                 people = floor_area / people_density
                             else:
                                 people = 0
-                            space = {'id': space_name, 'floor_area': floor_area,
-                                     'number_of_occupants': round(people, 2)}
+
+                            space = {'id': space_name,
+                                     'floor_area': floor_area,
+                                     'number_of_occupants': round(people, 2),
+                                     }
                             if zone_name in people_schedule_by_zone:
                                 space['occupant_multiplier_schedule'] = people_schedule_by_zone[zone_name]
+
+                            # get the sensible and latent from annual
+                            # this only works if space name is subset of people input object name
+                            sensible = 0
+                            latent = 0
+                            for people_annual_row in people_annual_list:
+                                if space_name in people_annual_row['first column']:
+                                    people_count = float(people_annual_row['People Occupant Count {AT MAX/MIN} []'])
+                                    if people_count > 0:
+                                        sens = float(people_annual_row['People Sensible Heating Rate {AT MAX/MIN} [W]'])
+                                        sensible = sens / people_count
+                                        lat = float(people_annual_row['People Latent Gain Rate {AT MAX/MIN} [W]'])
+                                        latent = lat / people_count
+                                    break
+                            if sensible > 0:
+                                space['occupant_sensible_heat_gain'] = sensible
+                            if latent > 0:
+                                space['occupant_latent_heat_gain'] = latent
+
                             if space_name in lights_by_space:
                                 space['interior_lighting'] = lights_by_space[space_name]
                             if space_type:
@@ -839,6 +912,10 @@ class Translator:
     def gather_subsurface(self):
         tabular_reports = self.json_results_object['TabularReports']
         subsurface_by_surface = {}
+        classification_by_subsurface = self.get_subsurface_classification()
+        dynamic_fenestrations = self.get_dynamic_fenestration()
+        windows_with_overhangs = self.find_window_overhangs()
+        windows_with_fins = self.find_window_fins()
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'EnvelopeSummary':
                 tables = tabular_report['Tables']
@@ -893,7 +970,6 @@ class Translator:
 
                             subsurface = {
                                 'id': fenestration_name,
-                                'classification': 'WINDOW',
                                 'glazed_area': glass_area,
                                 'opaque_area': frame_area + divider_area,
                                 'u_factor': u_factor,
@@ -901,12 +977,36 @@ class Translator:
                                 'visible_transmittance': visible_trans,
                                 'has_automatic_shades': shade_control == 'Yes'
                             }
+                            if fenestration_name in classification_by_subsurface:
+                                subsurface['classification'] = classification_by_subsurface[fenestration_name]
+                            else:
+                                subsurface['classification'] = 'WINDOW'
+                            if fenestration_name.lower() in dynamic_fenestrations:
+                                subsurface['dynamic_glazing_type'] = 'AUTOMATIC_DYNAMIC'
+                            else:
+                                subsurface['dynamic_glazing_type'] = 'NOT_DYNAMIC'
+                            subsurface['has_shading_overhang'] = fenestration_name.lower() in windows_with_overhangs
+                            subsurface['has_shading_sidefins'] = fenestration_name.lower() in windows_with_fins
                             if parent_surface_name not in subsurface_by_surface:
                                 subsurface_by_surface[parent_surface_name] = [subsurface, ]
                             else:
                                 subsurface_by_surface[parent_surface_name].append(subsurface)
         # print(subsurface_by_surface)
         return subsurface_by_surface
+
+    def get_subsurface_classification(self):
+        classification_by_subsurface = {}
+        heat_transfer_surfaces_table = self.gather_table_into_list('InitializationSummary', 'HeatTransfer Surface')
+        for table_row in heat_transfer_surfaces_table:
+            if table_row['Surface Class'] == 'Door':
+                classification_by_subsurface[table_row['Surface Name']] = 'DOOR'
+            elif table_row['Surface Class'] == 'Window':
+                tilt = float(table_row['Tilt {deg}'])
+                if tilt > 60:  # based on 90.1 definition of wall.
+                    classification_by_subsurface[table_row['Surface Name']] = 'WINDOW'
+                else:
+                    classification_by_subsurface[table_row['Surface Name']] = 'SKYLIGHT'
+        return classification_by_subsurface
 
     def gather_surfaces(self):
         tabular_reports = self.json_results_object['TabularReports']
@@ -1344,6 +1444,9 @@ class Translator:
                 elif "variable" not in fan_extra.get("type", "").lower():
                     fs["fan_control"] = "CONSTANT"
 
+                if "air_energy_recovery" in fan_extra:
+                    fs["air_energy_recovery"] = fan_extra["air_energy_recovery"]
+
                 if hvac_name in exhaust_fan_names:
                     fs["exhaust_fans"] = [{"id": n, **equipment_fans[n][0]} for n in exhaust_fan_names[hvac_name]]
 
@@ -1371,9 +1474,10 @@ class Translator:
                     if zone in terminal_capacity_by_zone:
                         t["heating_capacity"] = terminal_capacity_by_zone[zone]
                     if at.get("fan_name"):
-                        tfan, _ = equipment_fans[at["fan_name"]]
-                        t["fan"] = {"id": at["fan_name"], **tfan}
-                        t["fan_configuration"] = terminal_config_convert(at["type_input"])
+                        if at["fan_name"] in equipment_fans:
+                            tfan, _ = equipment_fans[at["fan_name"]]
+                            t["fan"] = {"id": at["fan_name"], **tfan}
+                            t["fan_configuration"] = terminal_config_convert(at["type_input"])
                     if at.get("secondary_airflow_rate", 0) > 0:
                         t["secondary_airflow"] = at["secondary_airflow_rate"] * 1000
                     if at.get("max_flow_during_reheat", 0) > 0:
@@ -1842,6 +1946,12 @@ class Translator:
                          'purpose': purpose,
                          'airloop_name': airloop_name}
             #  for Fan:SystemModel need to add some additional fields to understand later if variable speed or not
+            equipment_fan['operating_points'] = self.gather_fan_operating_points(row_key, max_air_flow_rate,
+                                                                                 rated_electricity_rate)
+            if airloop_name != 'N/A':
+                air_energy_recovery = self.gather_air_heat_recovery(airloop_name)
+                if air_energy_recovery:
+                    fan_extra['air_energy_recovery']
             if type == 'Fan:SystemModel':
                 fan_system_model = self.get_epjson_by_uc_name('Fan:SystemModel', row_key)
                 if 'speed_control_method' in fan_system_model:
@@ -1850,6 +1960,59 @@ class Translator:
                     fan_extra['number_of_speeds'] = fan_system_model['number_of_speeds']
             equipment_fans[row_key] = (equipment_fan, fan_extra)
         return equipment_fans
+
+    def gather_air_heat_recovery(self, airloop_name):
+        heat_recovery = {}
+        table_in = self.gather_table_into_list('EquipmentSummary', 'Air Heat Recovery')
+        for row_in in table_in:
+            if airloop_name == row_in['Airloop Name']:
+                if row_in['Type'] == 'HeatExchanger:AirToAir:SensibleAndLatent':
+                    if float(row_in['Latent Effectiveness at 100% Heating Air Flow']) > 0:
+                        option = 'ENTHALPY'
+                    else:
+                        option = 'ENTHALPY'
+                    if row_in['Plate/Rotary'] == 'Rotary':
+                        option += '_HEAT_WHEEL'
+                    else:
+                        option += '_HEAT_EXCHANGE'
+                else:
+                    option = 'SENSIBLE_HEAT_EXCHANGE'
+                sensible_effectiveness = max(float(row_in['Sensible Effectiveness at 100% Heating Air Flow']),
+                                             float(row_in['Sensible Effectiveness at 100% Cooling Air Flow']))
+                latent_effectiveness = max(float(row_in['Latent Effectiveness at 100% Heating Air Flow']),
+                                           float(row_in['Latent Effectiveness at 100% Cooling Air Flow']))
+                heat_recovery = {
+                    'id': row_in['first column'],
+                    'type': option,
+                    'design_sensible_effectiveness': sensible_effectiveness,
+                    'design_latent_effectiveness': latent_effectiveness,
+                    'outdoor_airflow': float(row_in['Supply Air Flow Rate [m3/s]']),
+                    'exhaust_airflow': float(row_in['Exhaust Air Flow Rate [m3/s]']),
+                }
+        return heat_recovery
+
+    def gather_fan_operating_points(self, fan_name, max_flow, max_elec):
+        operating_points = []
+        fractions = self.get_table_dictionary('EquipmentSummary', 'Fan Power Fractions')
+        column_headings = ['Flow Frac 0.0',
+                           'Flow Frac 0.1',
+                           'Flow Frac 0.2',
+                           'Flow Frac 0.3',
+                           'Flow Frac 0.4',
+                           'Flow Frac 0.5',
+                           'Flow Frac 0.6',
+                           'Flow Frac 0.7',
+                           'Flow Frac 0.8',
+                           'Flow Frac 0.9',
+                           'Flow Frac 1.0']
+        if fan_name in fractions:
+            for count, heading in enumerate(column_headings):
+                operating_point = {
+                    'airflow': max_flow * count / 10.,
+                    'power': max_elec * float(fractions[fan_name][heading])
+                }
+                operating_points.append(operating_point)
+        return operating_points
 
     def gather_air_terminal(self):
         air_terminal_by_zone = {}
@@ -2024,6 +2187,7 @@ class Translator:
     def add_boilers(self):
         boilers = []
         tabular_reports = self.json_results_object['TabularReports']
+        operation_load_based = self.gather_table_into_list('ControlSummary', 'PlantEquipmentOperation Load Based')
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'EquipmentSummary':
                 tables = tabular_report['Tables']
@@ -2054,6 +2218,11 @@ class Translator:
                                         [float(rows[boiler_name][reference_efficiency_column]), ],
                                     'auxiliary_power': float(rows[boiler_name][parasitic_load_column]),
                                 }
+                                for operation_row in operation_load_based:
+                                    if boiler_name == operation_row['Equipment']:
+                                        boiler['operation_lower_limit'] = float(operation_row['Lower Limit [W]'])
+                                        boiler['operation_upper_limit'] = float(operation_row['Upper Limit [W]'])
+                                        break
                                 boilers.append(boiler)
         self.model_description['boilers'] = boilers
         return boilers
