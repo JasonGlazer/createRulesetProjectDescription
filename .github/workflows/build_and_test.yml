@@ -33,7 +33,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run Tests
-        run: nosetests
+        run: python -m unittest discover
 
 #      - name: Coveralls
 #        if: ${{ matrix.os == 'ubuntu-22.04' }}
