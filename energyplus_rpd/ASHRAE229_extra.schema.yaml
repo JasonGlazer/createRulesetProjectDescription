@@ -4450,11 +4450,11 @@ Schedule:
       Used by RCT Test: True
       EPin Object: ""
       EPin Field: ""
-      EPout File: ""
-      EPout Report: ""
-      EPout Table: ""
+      EPout File: "table.html"
+      EPout Report: "InitializationSummary"
+      EPout Table: "Schedule - Hourly, DaySchedule - Hourly, WeekSchedule - Hourly"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     hourly_heating_design_year:
       Description: "Hourly values for heating design year"
@@ -4486,11 +4486,11 @@ Schedule:
       Used by RCT Test: True
       EPin Object: ""
       EPin Field: ""
-      EPout File: ""
-      EPout Report: ""
-      EPout Table: ""
+      EPout File: "table.html"
+      EPout Report: "InitializationSummary"
+      EPout Table: "Schedule - Hourly, DaySchedule - Hourly, WeekSchedule - Hourly"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     hourly_cooling_design_year:
       Description: "Hourly values for cooling design year"
