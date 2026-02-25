@@ -1154,17 +1154,19 @@ class Translator:
                         summer_day = init_week_schedules[week1_name]['SummerDesignDay']
                         winter_day = init_week_schedules[week1_name]['WinterDesignDay']
                     if not summer_day or not winter_day:
-                        week2_name =  init_schedules[schedule_name]['WeekSchedule 2']
+                        week2_name = init_schedules[schedule_name]['WeekSchedule 2']
                         if week2_name:
                             if week2_name in init_week_schedules:
                                 summer_day = init_week_schedules[week1_name]['SummerDesignDay']
                                 winter_day = init_week_schedules[week1_name]['WinterDesignDay']
                     if summer_day:
                         if summer_day in init_day_schedules:
-                            design_cooling_hourly = [float(init_day_schedules[summer_day][f"{index:02d}" +":00"]) for index in range(1,24)]
+                            day = init_day_schedules[summer_day]
+                            design_cooling_hourly = [float(day[f"{x:02d}:00"]) for x in range(1, 24)]
                     if winter_day:
                         if winter_day in init_day_schedules:
-                            design_heating_hourly = [float(init_day_schedules[winter_day][f"{index:02d}" +":00"]) for index in range(1,24)]
+                            day = init_day_schedules[winter_day]
+                            design_heating_hourly = [float(day[f"{x:02d}:00"]) for x in range(1, 24)]
             schedule = {
                 'id': schedule_name,
                 'sequence_type': 'HOURLY',
