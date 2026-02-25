@@ -1252,197 +1252,330 @@ class Translator:
         return shadows_cast
 
     def add_heating_ventilation_system(self):
-        # only handles adding the heating and cooling capacities for the small office and medium office DOE prototypes
         hvac_systems = []
+        zone_hvac_terminals = {}
+
+        # Used later to add ZoneHVAC terminals that might not show up in CoilSizingDetails:Coils
+        zone_hvac_equipment = self.gather_zone_hvac_equipment_by_zone()
+
+        def merge_terminal(zone_name, terminal):
+            zone_key = zone_name.upper()
+            if zone_key not in self.terminals_by_zone:
+                self.terminals_by_zone[zone_key] = [terminal]
+                return
+            for existing in self.terminals_by_zone[zone_key]:
+                if existing.get("id") == terminal.get("id"):
+                    existing.update(terminal)
+                    return
+            self.terminals_by_zone[zone_key].append(terminal)
+
         coil_connections = self.gather_coil_connections()
+        supply_fan_names_by_coil_connection = self.gather_supply_fan_names_by_coil_connection()
         cooling_coil_efficiencies = self.gather_cooling_coil_efficiencies()
         heating_coil_efficiencies = self.gather_heating_coil_efficiencies()
         equipment_fans = self.gather_equipment_fans()
         air_terminals = self.gather_air_terminal()
         exhaust_fan_names = self.gather_exhaust_fans_by_airloop()
         air_flows_62 = self.gather_airflows_from_62()
-        coils_table = self.get_table('CoilSizingDetails', 'Coils')
+
+        coils_table = self.get_table("CoilSizingDetails", "Coils")
         if not coils_table:
-            return hvac_systems
-        rows = coils_table['Rows']
-        row_keys = list(rows.keys())
-        cols = coils_table['Cols']
-        coil_type_column = cols.index('Coil Type')
-        hvac_type_column = cols.index('HVAC Type')
-        hvac_name_column = cols.index('HVAC Name')
-        zone_names_column = cols.index('Zone Name(s)')
-        total_capacity_column = cols.index('Coil Final Gross Total Capacity [W]')
-        sensible_capacity_column = cols.index('Coil Final Gross Sensible Capacity [W]')
-        rated_capacity_column = cols.index('Coil Total Capacity at Rating Conditions [W]')
-        rated_sensible_capacity_column = cols.index('Coil Sensible Capacity at Rating Conditions [W]')
-        ideal_load_peak_column = cols.index('Coil Total Capacity at Ideal Loads Peak [W]')
-        is_autosized_coil_column = cols.index('Autosized Coil Capacity?')
-        leaving_drybulb_column = cols.index('Coil Leaving Air Drybulb at Rating Conditions [C]')
-        supply_fan_name_for_coil_column = cols.index('Supply Fan Name for Coil')
-        terminal_capacity_by_zone = dict()
-        for row_key in row_keys:
-            if row_key == 'None':
+            return hvac_systems, self.terminals_by_zone
+
+        rows = coils_table["Rows"]
+        cols = coils_table["Cols"]
+
+        # flake8 E731 fix: do not assign lambda
+        def col(name: str) -> int:
+            return cols.index(name)
+
+        terminal_capacity_by_zone = {}
+        non_unknown_supply_fan_by_hvac = {}
+        processed_airloop_hvac = set()
+
+        # ---------- Pass 1: collect terminal capacities + non-unknown fans ----------
+        for rk, r in rows.items():
+            if rk == "None":
                 continue
-            hvac_type = rows[row_key][hvac_type_column]
-            zone_name = rows[row_key][zone_names_column]
-            total_capacity = float(rows[row_key][total_capacity_column])
-            if hvac_type == 'ZONEHVAC:AIRDISTRIBUTIONUNIT':
-                terminal_capacity_by_zone[zone_name] = total_capacity
-        previously_added_hvac_systems = []
-        for row_key in row_keys:
-            if row_key == 'None':
+
+            hvac_type = r[col("HVAC Type")]
+            hvac_name = r[col("HVAC Name")]
+            zone = r[col("Zone Name(s)")]
+            total_cap = float(r[col("Coil Final Gross Total Capacity [W]")])
+            supply_fan = r[col("Supply Fan Name for Coil")]
+
+            if hvac_type == "ZONEHVAC:AIRDISTRIBUTIONUNIT":
+                terminal_capacity_by_zone[zone] = total_cap
+
+            if hvac_type == "AirLoopHVAC" and supply_fan and supply_fan.lower() != "unknown":
+                non_unknown_supply_fan_by_hvac[hvac_name] = supply_fan
+
+        # ---------- Pass 2: build systems ----------
+        for rk, r in rows.items():
+            if rk == "None":
                 continue
-            coil_type = rows[row_key][coil_type_column]
-            hvac_type = rows[row_key][hvac_type_column]
-            hvac_name = rows[row_key][hvac_name_column]
-            zone_names = rows[row_key][zone_names_column]
-            if ';' in zone_names:
-                zone_name_list = zone_names.split(';')
-            else:
-                zone_name_list = [zone_names, ]
-            zone_name_list = [name.strip() for name in zone_name_list if name]
-            # print(zone_name_list)
-            total_capacity = float(rows[row_key][total_capacity_column])
-            sensible_capacity = float(rows[row_key][sensible_capacity_column])
-            rated_capacity = float(rows[row_key][rated_capacity_column])
-            rated_sensible_capacity = float(rows[row_key][rated_sensible_capacity_column])
-            ideal_load_peak = float(rows[row_key][ideal_load_peak_column])
-            is_autosized_coil = rows[row_key][is_autosized_coil_column]
-            leaving_drybulb = float(rows[row_key][leaving_drybulb_column])
-            supply_fan_name_for_coil = rows[row_key][supply_fan_name_for_coil_column]
-            if sensible_capacity == -999:
-                sensible_capacity = 0  # removes error but not sure if this makes sense
-            oversize_ratio = 1.
-            if ideal_load_peak != -999 and ideal_load_peak != 0.:
-                oversize_ratio = total_capacity / ideal_load_peak
-            heating_system = {}
-            cooling_system = {}
-            if hvac_type == 'AirLoopHVAC':
-                if hvac_name in previously_added_hvac_systems:
+
+            coil_type = r[col("Coil Type")]
+            hvac_type = r[col("HVAC Type")]
+            hvac_name = r[col("HVAC Name")]
+
+            if hvac_type != "AirLoopHVAC" and not hvac_type.upper().startswith("ZONEHVAC:"):
+                continue
+            if hvac_type.upper() == "ZONEHVAC:AIRDISTRIBUTIONUNIT":
+                # ADU rows are used for terminal metadata/capacity, not HVAC system objects.
+                continue
+            if hvac_type == "AirLoopHVAC":
+                # Keep legacy unit-test behavior: only first coil row per AirLoopHVAC
+                # is used to build the HVAC system entry.
+                if hvac_name in processed_airloop_hvac:
                     continue
+                processed_airloop_hvac.add(hvac_name)
+
+            zones = [z.strip() for z in r[col("Zone Name(s)")].split(";") if z.strip()]
+
+            total_capacity = float(r[col("Coil Final Gross Total Capacity [W]")])
+            sensible_capacity = float(r[col("Coil Final Gross Sensible Capacity [W]")])
+            rated_capacity = float(r[col("Coil Total Capacity at Rating Conditions [W]")])
+            rated_sensible_capacity = float(r[col("Coil Sensible Capacity at Rating Conditions [W]")])
+            ideal_load_peak = float(r[col("Coil Total Capacity at Ideal Loads Peak [W]")])
+            is_autosized = r[col("Autosized Coil Capacity?")]
+            leaving_db = float(r[col("Coil Leaving Air Drybulb at Rating Conditions [C]")])
+            supply_fan = r[col("Supply Fan Name for Coil")]
+
+            # Combined "unknown fan" resolution logic
+            if supply_fan and supply_fan.lower() == "unknown":
+                supply_fan = non_unknown_supply_fan_by_hvac.get(hvac_name, supply_fan)
+            if supply_fan and supply_fan.lower() == "unknown":
+                supply_fan = supply_fan_names_by_coil_connection.get(rk, supply_fan)
+
+            # Normalize sentinel/negative capacities (combined approach)
+            if sensible_capacity < 0:
+                sensible_capacity = 0
+            if total_capacity < 0:
+                total_capacity = sensible_capacity
+
+            oversize = 1.0
+            if ideal_load_peak > 0:
+                oversize = total_capacity / ideal_load_peak
+
+            hvac = next((x for x in hvac_systems if x["id"] == hvac_name), None)
+            if not hvac:
+                hvac = {"id": hvac_name}
+                hvac_systems.append(hvac)
+
+            # ---------- Heating ----------
+            if "HEATING" in coil_type.upper():
+                is_sup = heating_coil_efficiencies.get(rk, {}).get("used_as_sup_heat", False)
+                if is_sup and hvac.get("heating_system", {}).get("type") == "HEAT_PUMP":
+                    hvac["heating_system"]["heatpump_auxiliary_heat_type"] = heating_type_convert(coil_type)
                 else:
-                    previously_added_hvac_systems.append(hvac_name)
-                if 'HEATING' in coil_type.upper():
-                    heating_system['id'] = hvac_name + '-heating'
-                    heating_system['design_capacity'] = total_capacity
-                    heating_system['type'] = heating_type_convert(coil_type)
-                    heating_system['energy_source_type'] = source_from_coil(coil_type)
-                    if 'WATER' in coil_type.upper():
-                        heating_system['hot_water_loop'] = coil_connections[row_key]['plant_loop_name']
+                    hs = {
+                        "id": f"{hvac_name}-heating",
+                        "design_capacity": total_capacity,
+                        "type": heating_type_convert(coil_type),
+                        "energy_source_type": source_from_coil(coil_type),
+                        "oversizing_factor": oversize,
+                        "is_calculated_size": is_autosized == "Yes",
+                    }
                     if rated_capacity != -999:
-                        heating_system['rated_capacity'] = rated_capacity
-                    heating_system['oversizing_factor'] = oversize_ratio
-                    heating_system['is_calculated_size'] = is_autosized_coil == 'Yes'
-                    if leaving_drybulb != -999:
-                        heating_system['heating_coil_setpoint'] = leaving_drybulb
-                    metric_types, metric_values = self.process_heating_metrics(row_key, heating_coil_efficiencies)
-                    if metric_values:
-                        heating_system['efficiency_metric_values'] = metric_values
-                        heating_system['efficiency_metric_types'] = metric_types
-                    if 'minimum_temperature_compressor' in heating_coil_efficiencies[row_key]:
-                        heating_system['heatpump_low_shutoff_temperature'] = heating_coil_efficiencies[row_key][
-                            'minimum_temperature_compressor']
-                elif 'COOLING' in coil_type.upper():
-                    cooling_system['id'] = hvac_name + '-cooling'
-                    cooling_system['design_total_cool_capacity'] = total_capacity
-                    cooling_system['design_sensible_cool_capacity'] = sensible_capacity
-                    cooling_system['type'] = cooling_type_convert(coil_type)
-                    if rated_capacity != -999:
-                        cooling_system['rated_total_cool_capacity'] = rated_capacity
-                    if rated_sensible_capacity != -999:
-                        cooling_system['rated_sensible_cool_capacity'] = rated_sensible_capacity
-                    cooling_system['oversizing_factor'] = oversize_ratio
-                    cooling_system['is_calculated_size'] = is_autosized_coil == 'Yes'
-                    if 'WATER' in coil_type.upper():
-                        cooling_system['chilled_water_loop'] = coil_connections[row_key]['plant_loop_name']
-                    metric_types, metric_values = self.process_cooling_metrics(row_key, cooling_coil_efficiencies)
-                    if metric_values:
-                        cooling_system['efficiency_metric_values'] = metric_values
-                        cooling_system['efficiency_metric_types'] = metric_types
-                hvac_system_list = list(filter(lambda x: (x['id'] == hvac_name), hvac_systems))
-                if hvac_system_list:
-                    hvac_system = hvac_system_list[0]
-                else:
-                    hvac_system = {'id': hvac_name}
-#                hvac_system = {'id': hvac_name}
-                if heating_system:
-                    hvac_system['heating_system'] = heating_system
-                if cooling_system:
-                    hvac_system['cooling_system'] = cooling_system
-                # add the fansystem
-                if supply_fan_name_for_coil != 'unknown':
-                    if supply_fan_name_for_coil in equipment_fans:
-                        fan = {'id': supply_fan_name_for_coil}
-                        equipment_fan, equipment_fan_extra = equipment_fans[supply_fan_name_for_coil]
-                        fan.update(equipment_fan)
-                        fan['specification_method'] = 'SIMPLE'
-                        fans = [fan, ]
-                        fan_system = {'id': supply_fan_name_for_coil + '-fansystem'}
-                        if hvac_name in air_flows_62:
-                            min_primary, min_outdoor = air_flows_62[hvac_name]
-                            fan_system['minimum_airflow'] = min_primary
-                            fan_system['minimum_outdoor_airflow'] = min_outdoor
-                        # note cannot differentiate between different types of variables flow fan (INLET_VANE,
-                        # DISCHARGE_DAMPER, or VARIABLE_SPEED_DRIVE) so can only see if constant or not
-                        # for Fan:SystemModel need to get info from epJSON
-                        if 'type' in equipment_fan_extra:
-                            if equipment_fan_extra['type'] == 'Fan:SystemModel':
-                                if (equipment_fan_extra['speed_control_method'] == 'Discrete' and
-                                        equipment_fan_extra['number_of_speeds'] == 1):
-                                    fan_system['fan_control'] = 'CONSTANT'
-                            elif 'variable' not in equipment_fan_extra['type'].lower():
-                                fan_system['fan_control'] = 'CONSTANT'
-                        fan_system['supply_fans'] = fans
-                        if 'air_energy_recovery' in equipment_fan_extra:
-                            fan_system['air_energy_recovery'] = equipment_fan_extra['air_energy_recovery']
-                        # add exhaust fans
-                        if hvac_name in exhaust_fan_names:
-                            fan_names = exhaust_fan_names[hvac_name]
-                            xfans = []
-                            for fan_name in fan_names:
-                                xfan = {'id': fan_name}
-                                equipment_fan, equipment_fan_extra = equipment_fans[fan_name]
-                                xfan.update(equipment_fan)
-                                xfans.append(xfan)
-                            fan_system['exhaust_fans'] = xfans
-                        hvac_system['fan_system'] = fan_system
-                # print(hvac_system)
-                hvac_systems.append(hvac_system)
-                for zone in zone_name_list:
-                    if zone in air_terminals:
-                        current_air_terminal = air_terminals[zone]
+                        hs["rated_capacity"] = rated_capacity
+                    if leaving_db != -999:
+                        hs["heating_coil_setpoint"] = leaving_db
+
+                    # Combined loop mapping logic (water-to-air HP vs generic water)
+                    if "WATERTOAIRHEATPUMP" in coil_type.upper() and rk in coil_connections:
+                        hs["water_source_heat_pump_loop"] = coil_connections[rk]["plant_loop_name"]
+                    elif "WATER" in coil_type.upper() and rk in coil_connections:
+                        hs["hot_water_loop"] = coil_connections[rk]["plant_loop_name"]
+
+                    mt, mv = self.process_heating_metrics(rk, heating_coil_efficiencies)
+                    if mv:
+                        hs["efficiency_metric_types"] = mt
+                        hs["efficiency_metric_values"] = mv
+
+                    min_temp = heating_coil_efficiencies.get(rk, {}).get("minimum_temperature_compressor")
+                    if min_temp is not None:
+                        hs["heatpump_low_shutoff_temperature"] = min_temp
+
+                    hvac["heating_system"] = hs
+
+            # ---------- Cooling ----------
+            elif "COOLING" in coil_type.upper():
+                cs = {
+                    "id": f"{hvac_name}-cooling",
+                    "design_total_cool_capacity": total_capacity,
+                    "design_sensible_cool_capacity": sensible_capacity,
+                    "type": cooling_type_convert(coil_type),
+                    "oversizing_factor": oversize,
+                    "is_calculated_size": is_autosized == "Yes",
+                }
+                if rated_capacity != -999:
+                    cs["rated_total_cool_capacity"] = rated_capacity
+                if rated_sensible_capacity != -999:
+                    cs["rated_sensible_cool_capacity"] = rated_sensible_capacity
+
+                # Combined loop mapping logic (water-to-air HP vs generic water)
+                if "WATERTOAIRHEATPUMP" in coil_type.upper() and rk in coil_connections:
+                    cs["condenser_water_loop"] = coil_connections[rk]["plant_loop_name"]
+                elif "WATER" in coil_type.upper() and rk in coil_connections:
+                    cs["chilled_water_loop"] = coil_connections[rk]["plant_loop_name"]
+
+                mt, mv = self.process_cooling_metrics(rk, cooling_coil_efficiencies)
+                if mv:
+                    cs["efficiency_metric_types"] = mt
+                    cs["efficiency_metric_values"] = mv
+
+                hvac["cooling_system"] = cs
+
+            # ---------- Fan system ----------
+            if supply_fan and supply_fan.lower() != "unknown" and supply_fan in equipment_fans:
+                fan, fan_extra = equipment_fans[supply_fan]
+                fs = {
+                    "id": f"{supply_fan}-fansystem",
+                    "supply_fans": [{"id": supply_fan, **fan, "specification_method": "SIMPLE"}],
+                }
+
+                if hvac_name in air_flows_62:
+                    fs["minimum_airflow"], fs["minimum_outdoor_airflow"] = air_flows_62[hvac_name]
+
+                if fan_extra.get("type") == "Fan:SystemModel":
+                    if fan_extra.get("speed_control_method") == "Discrete" and fan_extra.get("number_of_speeds") == 1:
+                        fs["fan_control"] = "CONSTANT"
+                elif "variable" not in fan_extra.get("type", "").lower():
+                    fs["fan_control"] = "CONSTANT"
+
+                if "air_energy_recovery" in fan_extra:
+                    fs["air_energy_recovery"] = fan_extra["air_energy_recovery"]
+
+                if hvac_name in exhaust_fan_names:
+                    fs["exhaust_fans"] = [{"id": n, **equipment_fans[n][0]} for n in exhaust_fan_names[hvac_name]]
+
+                hvac["fan_system"] = fs
+
+            # ---------- Air terminals (from EquipmentSummary:Air Terminals) ----------
+            for zone in zones:
+                use_air_terminal = hvac_type == "AirLoopHVAC" or hvac_type.upper() == "ZONEHVAC:AIRDISTRIBUTIONUNIT"
+                if use_air_terminal and zone in air_terminals:
+                    at = air_terminals[zone]
+                    t = {
+                        "id": at["terminal_name"],
+                        "type": terminal_option_convert(at["type_input"]),
+                        "heating_source": terminal_heating_source_convert(at["heat_coil_type"]),
+                        "cooling_source": terminal_cooling_source_convert(at["chill_coil_type"]),
+                        "served_by_heating_ventilating_air_conditioning_system": hvac_name,
+                        "primary_airflow": at["primary_airflow_rate"] * 1000,
+                        "supply_design_heating_setpoint_temperature": at["supply_heat_set_point"],
+                        "supply_design_cooling_setpoint_temperature": at["supply_cool_set_point"],
+                        "minimum_airflow": at["min_flow"] * 1000,
+                        "minimum_outdoor_airflow": at["min_oa_flow"] * 1000,
+                        "heating_capacity": at["heating_capacity"],
+                        "cooling_capacity": at["cooling_capacity"],
+                    }
+                    if zone in terminal_capacity_by_zone:
+                        t["heating_capacity"] = terminal_capacity_by_zone[zone]
+                    if at.get("fan_name"):
+                        if at["fan_name"] in equipment_fans:
+                            tfan, _ = equipment_fans[at["fan_name"]]
+                            t["fan"] = {"id": at["fan_name"], **tfan}
+                            t["fan_configuration"] = terminal_config_convert(at["type_input"])
+                    if at.get("secondary_airflow_rate", 0) > 0:
+                        t["secondary_airflow"] = at["secondary_airflow_rate"] * 1000
+                    if at.get("max_flow_during_reheat", 0) > 0:
+                        t["maximum_heating_airflow"] = at["max_flow_during_reheat"] * 1000
+                    if at.get("min_oa_schedule_name") and at["min_oa_schedule_name"] != "n/a":
+                        t["minimum_outdoor_airflow_multiplier_schedule"] = at["min_oa_schedule_name"]
+
+                    merge_terminal(zone, t)
+
+                # ---------- ZoneHVAC terminals inferred from coil sizing rows ----------
+                if hvac_type.upper().startswith("ZONEHVAC:") and hvac_type.upper() != "ZONEHVAC:AIRDISTRIBUTIONUNIT":
+                    key = (zone.upper(), hvac_name)
+                    if key not in zone_hvac_terminals:
                         terminal = {
-                            'id': current_air_terminal['terminal_name'],
-                            'type': terminal_option_convert(current_air_terminal['type_input']),
-                            'heating_source': terminal_heating_source_convert(current_air_terminal['heat_coil_type']),
-                            'cooling_source': terminal_cooling_source_convert(current_air_terminal['chill_coil_type']),
-                            'served_by_heating_ventilating_air_conditioning_system': hvac_name,
-                            'primary_airflow': current_air_terminal['primary_airflow_rate'] * 1000,  # m3 to L
-                            'supply_design_heating_setpoint_temperature': current_air_terminal['supply_heat_set_point'],
-                            'supply_design_cooling_setpoint_temperature': current_air_terminal['supply_cool_set_point'],
-                            'minimum_airflow': current_air_terminal['min_flow'] * 1000,
-                            'minimum_outdoor_airflow': current_air_terminal['min_oa_flow'] * 1000,
-                            'heating_capacity': current_air_terminal['heating_capacity'],
-                            'cooling_capacity': current_air_terminal['cooling_capacity']
+                            "id": f"{hvac_name}-terminal",
+                            "served_by_heating_ventilating_air_conditioning_system": hvac_name,
                         }
-                        if zone in terminal_capacity_by_zone:
-                            terminal['heating_capacity'] = terminal_capacity_by_zone[zone]
-                        if current_air_terminal['fan_name']:
-                            terminal_fan = {'id': current_air_terminal['fan_name']}
-                            equipment_fan, equipment_fan_extra = equipment_fans[current_air_terminal['fan_name']]
-                            terminal_fan.update(equipment_fan)
-                            terminal['fan'] = terminal_fan
-                            terminal['fan_configuration'] = terminal_config_convert(current_air_terminal['type_input'])
-                        if current_air_terminal['secondary_airflow_rate'] > 0:
-                            terminal['secondary_airflow'] = current_air_terminal['secondary_airflow_rate'] * 1000
-                        if current_air_terminal['max_flow_during_reheat'] > 0:
-                            terminal['maximum_heating_airflow'] = current_air_terminal['max_flow_during_reheat'] * 1000
-                        if current_air_terminal['min_oa_schedule_name'] != 'n/a':
-                            terminal['minimum_outdoor_airflow_multiplier_schedule'] = (
-                                current_air_terminal)['min_oa_schedule_name']
-                        self.terminals_by_zone[zone.upper()] = [terminal, ]
-        self.building_segment['heating_ventilating_air_conditioning_systems'] = hvac_systems
-        # print(self.terminals_by_zone)
+                        if hvac_type.upper() == "ZONEHVAC:WATERTOAIRHEATPUMP":
+                            terminal["type"] = "CONSTANT_AIR_VOLUME"
+                            terminal["is_supply_ducted"] = False
+                        elif hvac_type.upper() == "ZONEHVAC:BASEBOARD:CONVECTIVE:WATER":
+                            terminal["type"] = "BASEBOARD"
+                            terminal["is_supply_ducted"] = False
+                            terminal["heating_source"] = "HOT_WATER"
+                        zone_hvac_terminals[key] = terminal
+
+                    terminal = zone_hvac_terminals[key]
+
+                    if supply_fan and supply_fan in equipment_fans:
+                        efan, _ = equipment_fans[supply_fan]
+                        if efan.get("design_airflow", 0) > 0:
+                            terminal["primary_airflow"] = efan["design_airflow"] * 1000
+
+                    if "HEATING" in coil_type.upper():
+                        if leaving_db != -999:
+                            terminal["supply_design_heating_setpoint_temperature"] = leaving_db
+                        if total_capacity > 0:
+                            terminal["heating_capacity"] = total_capacity
+                        if hvac_type.upper() == "ZONEHVAC:BASEBOARD:CONVECTIVE:WATER" and rk in coil_connections:
+                            terminal["heating_from_loop"] = coil_connections[rk]["plant_loop_name"]
+
+                    elif "COOLING" in coil_type.upper():
+                        if leaving_db != -999:
+                            terminal["supply_design_cooling_setpoint_temperature"] = leaving_db
+                        if sensible_capacity > 0:
+                            terminal["cooling_capacity"] = sensible_capacity
+
+        # Merge inferred ZoneHVAC terminals
+        for (zone_key, _), terminal in zone_hvac_terminals.items():
+            merge_terminal(zone_key, terminal)
+
+        # ---------- Add ZoneHVAC terminals that may not be represented in CoilSizingDetails:Coils ----------
+        zone_baseboards = self.epjson_object.get("ZoneHVAC:Baseboard:Convective:Water", {})
+        zone_wtr_hp = self.epjson_object.get("ZoneHVAC:WaterToAirHeatPump", {})
+
+        for zone_name_uc, equipments in zone_hvac_equipment.items():
+            for object_type, object_name in equipments:
+                obj_type_uc = (object_type or "").upper()
+                obj_name = object_name or ""
+                obj_name_uc = obj_name.upper()
+
+                if obj_type_uc == "ZONEHVAC:BASEBOARD:CONVECTIVE:WATER":
+                    t = {
+                        "id": f"{obj_name_uc}-terminal",
+                        "type": "BASEBOARD",
+                        "is_supply_ducted": False,
+                        "heating_source": "HOT_WATER",
+                    }
+                    if obj_name in zone_baseboards:
+                        bb = zone_baseboards[obj_name]
+                        cap = bb.get("heating_design_capacity")
+                        if is_float(cap):
+                            t["heating_capacity"] = float(cap)
+                    merge_terminal(zone_name_uc, t)
+
+                elif obj_type_uc == "ZONEHVAC:WATERTOAIRHEATPUMP":
+                    t = {
+                        "id": f"{obj_name_uc}-terminal",
+                        "type": "CONSTANT_AIR_VOLUME",
+                        "is_supply_ducted": False,
+                        "served_by_heating_ventilating_air_conditioning_system": obj_name_uc,
+                    }
+                    if obj_name in zone_wtr_hp:
+                        hp = zone_wtr_hp[obj_name]
+                        airflows = []
+                        for field in (
+                                "cooling_supply_air_flow_rate",
+                                "heating_supply_air_flow_rate",
+                                "no_load_supply_air_flow_rate",
+                        ):
+                            v = hp.get(field)
+                            if is_float(v):
+                                airflows.append(float(v))
+                        if airflows:
+                            t["primary_airflow"] = max(airflows) * 1000
+                    merge_terminal(zone_name_uc, t)
+
+        self.building_segment["heating_ventilating_air_conditioning_systems"] = hvac_systems
         return hvac_systems, self.terminals_by_zone
 
     def get_table(self, report_name, table_name):
@@ -1472,6 +1605,32 @@ class Translator:
             connection_by_coil[row_key] = connection
         # print(connection_by_coil)
         return connection_by_coil
+
+    def gather_supply_fan_names_by_coil_connection(self):
+        supply_fan_name_by_coil = {}
+        table = self.get_table('CoilSizingDetails', 'Coil Connections')
+        if not table:
+            return supply_fan_name_by_coil
+        rows = table['Rows']
+        row_keys = list(rows.keys())
+        cols = table['Cols']
+        supply_fan_name_column = -1
+        if 'Supply Fan Name for HVAC' in cols:
+            supply_fan_name_column = cols.index('Supply Fan Name for HVAC')
+        elif 'Supply Fan Name for Coil' in cols:
+            supply_fan_name_column = cols.index('Supply Fan Name for Coil')
+        if supply_fan_name_column == -1:
+            return supply_fan_name_by_coil
+        for row_key in row_keys:
+            if row_key == 'None':
+                continue
+            supply_fan_name = rows[row_key][supply_fan_name_column]
+            if not supply_fan_name:
+                continue
+            if supply_fan_name.lower() == 'unknown':
+                continue
+            supply_fan_name_by_coil[row_key] = supply_fan_name
+        return supply_fan_name_by_coil
 
     def gather_table_into_list(self, report_name, table_name):
         # transform the rows and columns format into a list of dictionaries
@@ -1926,6 +2085,34 @@ class Translator:
             air_terminal_by_zone[zone_name] = terminal
         # print(air_terminal_by_zone)
         return air_terminal_by_zone
+
+    def gather_zone_hvac_equipment_by_zone(self):
+        # dictionary: zone name -> list of tuples(object_type, object_name)
+        zone_equipment_by_zone = {}
+        equipment_connections = self.epjson_object.get('ZoneHVAC:EquipmentConnections', {})
+        equipment_lists = self.epjson_object.get('ZoneHVAC:EquipmentList', {})
+        for equipment_connection in equipment_connections.values():
+            zone_name = equipment_connection.get('zone_name', '').upper()
+            equipment_list_name = equipment_connection.get('zone_conditioning_equipment_list_name')
+            if not zone_name or equipment_list_name not in equipment_lists:
+                continue
+            equipment_list = equipment_lists[equipment_list_name]
+            equipment = []
+            if 'equipment' in equipment_list and isinstance(equipment_list['equipment'], list):
+                for equipment_item in equipment_list['equipment']:
+                    object_type = equipment_item.get('zone_equipment_object_type')
+                    object_name = equipment_item.get('zone_equipment_name')
+                    if object_type and object_name:
+                        equipment.append((object_type, object_name))
+            else:
+                # backward compatibility with older epJSON variants
+                for index in range(1, 21):
+                    object_type = equipment_list.get(f'zone_equipment_{index}_object_type')
+                    object_name = equipment_list.get(f'zone_equipment_{index}_name')
+                    if object_type and object_name:
+                        equipment.append((object_type, object_name))
+            zone_equipment_by_zone[zone_name] = equipment
+        return zone_equipment_by_zone
 
     def add_chillers(self):
         chillers = []

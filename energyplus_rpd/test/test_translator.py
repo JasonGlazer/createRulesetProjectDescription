@@ -1527,6 +1527,156 @@ class TestTranslator(TestCase):
 
         self.assertEqual(added_terminals_by_zone, expected_terminals)
 
+    def test_add_heating_ventilation_system_uses_coil_connection_fan_name_when_unknown(self):
+        t = self.set_minimal_files()
+
+        t.json_results_object['TabularReports'] = [
+            {'For': 'Entire Facility', 'ReportName': 'CoilSizingDetails',
+             'Tables':
+                 [
+                     {
+                         "Cols": [
+                             "Coil Type",
+                             "HVAC Type",
+                             "HVAC Name",
+                             "Zone Name(s)",
+                             "Coil Final Gross Total Capacity [W]",
+                             "Coil Final Gross Sensible Capacity [W]",
+                             "Coil Total Capacity at Rating Conditions [W]",
+                             "Coil Sensible Capacity at Rating Conditions [W]",
+                             "Coil Total Capacity at Ideal Loads Peak [W]",
+                             "Autosized Coil Capacity?",
+                             "Coil Leaving Air Drybulb at Rating Conditions [C]",
+                             "Supply Fan Name for Coil"
+                         ],
+                         "Rows": {
+                             "TEST HEAT COIL": [
+                                 "Coil:Heating:Electric",
+                                 "AirLoopHVAC",
+                                 "TEST AIRLOOP",
+                                 "TEST ZONE",
+                                 "1000.0",
+                                 "1000.0",
+                                 "1000.0",
+                                 "1000.0",
+                                 "500.0",
+                                 "Yes",
+                                 "40.0",
+                                 "unknown"
+                             ]
+                         },
+                         "TableName": "Coils"
+                     },
+                     {
+                         "Cols": [
+                             "Supply Fan Name for HVAC",
+                             "Plant Loop Name"
+                         ],
+                         "Rows": {
+                             "TEST HEAT COIL": [
+                                 "MAIN FAN",
+                                 "unknown"
+                             ]
+                         },
+                         "TableName": "Coil Connections"
+                     }
+                 ]
+             }
+        ]
+
+        t.gather_coil_connections = lambda: {'TEST HEAT COIL': {'plant_loop_name': 'unknown'}}
+        t.gather_cooling_coil_efficiencies = lambda: {}
+        t.gather_heating_coil_efficiencies = lambda: {'TEST HEAT COIL': {}}
+        t.gather_equipment_fans = lambda: {'MAIN FAN': ({'design_airflow': 1.0}, {'type': 'Fan:OnOff'})}
+        t.gather_air_terminal = lambda: {}
+        t.gather_exhaust_fans_by_airloop = lambda: {}
+        t.gather_airflows_from_62 = lambda: {}
+
+        added_hvac_systems, added_terminals_by_zone = t.add_heating_ventilation_system()
+
+        self.assertEqual(len(added_hvac_systems), 1)
+        self.assertEqual(added_hvac_systems[0]['id'], 'TEST AIRLOOP')
+        self.assertIn('fan_system', added_hvac_systems[0])
+        self.assertEqual(added_hvac_systems[0]['fan_system']['id'], 'MAIN FAN-fansystem')
+        self.assertEqual(added_hvac_systems[0]['fan_system']['supply_fans'][0]['id'], 'MAIN FAN')
+        self.assertEqual(added_terminals_by_zone, {})
+
+    def test_add_heating_ventilation_system_uses_known_fan_from_other_coil_row_for_same_hvac(self):
+        t = self.set_minimal_files()
+
+        t.json_results_object['TabularReports'] = [
+            {'For': 'Entire Facility', 'ReportName': 'CoilSizingDetails',
+             'Tables':
+                 [
+                     {
+                         "Cols": [
+                             "Coil Type",
+                             "HVAC Type",
+                             "HVAC Name",
+                             "Zone Name(s)",
+                             "Coil Final Gross Total Capacity [W]",
+                             "Coil Final Gross Sensible Capacity [W]",
+                             "Coil Total Capacity at Rating Conditions [W]",
+                             "Coil Sensible Capacity at Rating Conditions [W]",
+                             "Coil Total Capacity at Ideal Loads Peak [W]",
+                             "Autosized Coil Capacity?",
+                             "Coil Leaving Air Drybulb at Rating Conditions [C]",
+                             "Supply Fan Name for Coil"
+                         ],
+                         "Rows": {
+                             "TEST CLG COIL": [
+                                 "Coil:Cooling:DX:SingleSpeed",
+                                 "AirLoopHVAC",
+                                 "TEST AIRLOOP",
+                                 "TEST ZONE",
+                                 "1000.0",
+                                 "800.0",
+                                 "1000.0",
+                                 "800.0",
+                                 "500.0",
+                                 "Yes",
+                                 "12.0",
+                                 "unknown"
+                             ],
+                             "TEST HTG COIL": [
+                                 "Coil:Heating:Electric",
+                                 "AirLoopHVAC",
+                                 "TEST AIRLOOP",
+                                 "TEST ZONE",
+                                 "900.0",
+                                 "900.0",
+                                 "900.0",
+                                 "900.0",
+                                 "450.0",
+                                 "Yes",
+                                 "40.0",
+                                 "MAIN FAN"
+                             ]
+                         },
+                         "TableName": "Coils"
+                     }
+                 ]
+             }
+        ]
+
+        t.gather_coil_connections = lambda: {}
+        t.gather_cooling_coil_efficiencies = lambda: {}
+        t.gather_heating_coil_efficiencies = lambda: {'TEST HTG COIL': {}}
+        t.gather_equipment_fans = lambda: {'MAIN FAN': ({'design_airflow': 1.0}, {'type': 'Fan:OnOff'})}
+        t.gather_air_terminal = lambda: {}
+        t.gather_exhaust_fans_by_airloop = lambda: {}
+        t.gather_airflows_from_62 = lambda: {}
+        t.gather_supply_fan_names_by_coil_connection = lambda: {}
+
+        added_hvac_systems, added_terminals_by_zone = t.add_heating_ventilation_system()
+
+        self.assertEqual(len(added_hvac_systems), 1)
+        self.assertEqual(added_hvac_systems[0]['id'], 'TEST AIRLOOP')
+        self.assertIn('fan_system', added_hvac_systems[0])
+        self.assertEqual(added_hvac_systems[0]['fan_system']['id'], 'MAIN FAN-fansystem')
+        self.assertEqual(added_hvac_systems[0]['fan_system']['supply_fans'][0]['id'], 'MAIN FAN')
+        self.assertEqual(added_terminals_by_zone, {})
+
     def test_add_heating_ventilation_system_hp(self):
         #  uses the small office proposed model
         t = self.set_minimal_files()
