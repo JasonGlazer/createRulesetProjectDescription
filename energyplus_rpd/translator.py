@@ -1124,6 +1124,11 @@ class Translator:
         if 'Rows' in self.json_hourly_results_object:
             rows = self.json_hourly_results_object['Rows']
         schedules = []
+
+        init_week_schedules = self.get_table_dictionary('InitializationSummary', 'WeekSchedule - Hourly', True)
+        init_day_schedules = self.get_table_dictionary('InitializationSummary', 'DaySchedule - Hourly', True)
+        init_schedules = self.get_table_dictionary('InitializationSummary', 'Schedule - Hourly', True)
+
         for schedule_name, count in selected_names.items():
             hourly = []
             design_heating_hourly = []
@@ -1140,6 +1145,26 @@ class Translator:
                 design_cooling_hourly = hourly[:24]
                 design_heating_hourly = hourly[24:48]
                 hourly = hourly[48:]
+            else:
+                #  the Hourly JSON file does not contain the summer and winter design days
+                #  assume that weekschedule1 or 2 contains both
+                if schedule_name in init_schedules:
+                    week1_name = init_schedules[schedule_name]['WeekSchedule 1']
+                    if week1_name in init_week_schedules:
+                        summer_day = init_week_schedules[week1_name]['SummerDesignDay']
+                        winter_day = init_week_schedules[week1_name]['WinterDesignDay']
+                    if not summer_day or not winter_day:
+                        week2_name =  init_schedules[schedule_name]['WeekSchedule 2']
+                        if week2_name:
+                            if week2_name in init_week_schedules:
+                                summer_day = init_week_schedules[week1_name]['SummerDesignDay']
+                                winter_day = init_week_schedules[week1_name]['WinterDesignDay']
+                    if summer_day:
+                        if summer_day in init_day_schedules:
+                            design_cooling_hourly = [float(init_day_schedules[summer_day][f"{index:02d}" +":00"]) for index in range(1,24)]
+                    if winter_day:
+                        if winter_day in init_day_schedules:
+                            design_heating_hourly = [float(init_day_schedules[winter_day][f"{index:02d}" +":00"]) for index in range(1,24)]
             schedule = {
                 'id': schedule_name,
                 'sequence_type': 'HOURLY',
