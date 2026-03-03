@@ -2371,7 +2371,8 @@ class Translator:
     def add_fluid_loops(self):
         fluid_loops = []
         plant_loop_arrangements = self.gather_table_into_list('HVACTopology', 'Plant Loop Component Arrangement')
-        loop_equip_summary = self.get_table_dictionary('EquipmentSummary', 'PlantLoop or CondenserLoop')
+        loop_equip_summaries = self.get_table_dictionary('EquipmentSummary', 'PlantLoop or CondenserLoop')
+        loop_comp_summaries = self.get_table_dictionary('ComponentSizingSummary', 'PlantLoop')
         loop_types = {}
         if plant_loop_arrangements:
             if plant_loop_arrangements[0]['first column'] == 'None':
@@ -2431,6 +2432,17 @@ class Translator:
                 design_control['flow_control'] = 'VARIABLE_FLOW'
             else:
                 design_control['flow_control'] = 'FIXED_FLOW'
+            if loop_name in loop_equip_summaries:
+                design_control['design_supply_temperature'] = loop_equip_summaries[loop_name][
+                    'Design Supply Temperature [C]']
+                design_control['design_return_temperature'] = loop_equip_summaries[loop_name][
+                    'Design Return Temperature [C]']
+            if loop_name in loop_comp_summaries:
+                sizing_option = loop_comp_summaries[loop_name]['Sizing Option']
+                if sizing_option == 'NonCoincident':
+                    design_control['is_sized_using_coincident_load'] = False
+                elif sizing_option == 'Coincident':
+                    design_control['is_sized_using_coincident_load'] = True
             if 'COOLING' in loop_type or 'CONDENSER' == loop_type:
                 fluid_loop['cooling_or_condensing_design_and_control'] = design_control
                 design_control['has_integrated_waterside_economizer'] = do_share_branch('chiller',
@@ -2438,6 +2450,7 @@ class Translator:
                                                                                         plant_loop_arrangements)
             if 'HEATING' in loop_type:
                 fluid_loop['heating_design_and_control'] = design_control
+
             fluid_loops.append(fluid_loop)
         self.model_description['fluid_loops'] = fluid_loops
         return fluid_loops

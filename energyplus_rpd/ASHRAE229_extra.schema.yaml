@@ -8266,7 +8266,7 @@ FluidLoopDesignAndControl:
       EPout Report: "Equipment Summary"
       EPout Table: "PlantLoop or CondenserLoop"
       EPout Column: "Design Supply Temperature "
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "2019 LargeHotel is a good example"
     design_return_temperature:
       Description: "Design Return Temperature"
@@ -8284,7 +8284,7 @@ FluidLoopDesignAndControl:
       EPout Report: "Equipment Summary"
       EPout Table: "PlantLoop or CondenserLoop"
       EPout Column: "Design Supply Temperature "
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "2019 LargeHotel is a good example"
     is_sized_using_coincident_load:
       Description: "True if the loop is sized based on coincident load"
@@ -8301,8 +8301,8 @@ FluidLoopDesignAndControl:
       EPout Report: "Component Sizing Summary"
       EPout Table: "PlantLoop"
       EPout Column: "Sizing option (Coincident/NonCoincident)"
-      EPstatus: "ToDo"
-      EP Notes: "These were added to Component Sizing Summary - PlantLoop but only are partially implemented and do not appear for the Large Office example. Bug: The value shown is 1.0 instead of either coincident or noncoincedent. Partially implemented and do not appear for the Large Office example."
+      EPstatus: "DoneUsingOutput"
+      EP Notes: "2019 LargeHotel is a good example"
     minimum_flow_fraction:
       Description: "Minimum fraction of full flow allowed"
       Data Type: "Numeric"
