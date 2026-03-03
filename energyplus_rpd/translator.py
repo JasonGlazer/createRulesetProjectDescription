@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List
 from datetime import datetime
 from datetime import timezone
 
@@ -1155,6 +1155,8 @@ class Translator:
                 #  assume that weekschedule1 or 2 contains both
                 if schedule_name in init_schedules:
                     week1_name = init_schedules[schedule_name]['WeekSchedule 1']
+                    summer_day = None
+                    winter_day = None
                     if week1_name in init_week_schedules:
                         summer_day = init_week_schedules[week1_name]['SummerDesignDay']
                         winter_day = init_week_schedules[week1_name]['WinterDesignDay']
@@ -1573,7 +1575,7 @@ class Translator:
                 obj_name_uc = obj_name.upper()
 
                 if obj_type_uc == "ZONEHVAC:BASEBOARD:CONVECTIVE:WATER":
-                    t = {
+                    t: JsonDict = {
                         "id": f"{obj_name_uc}-terminal",
                         "type": "BASEBOARD",
                         "is_supply_ducted": False,
@@ -1587,7 +1589,7 @@ class Translator:
                     merge_terminal(zone_name_uc, t)
 
                 elif obj_type_uc == "ZONEHVAC:WATERTOAIRHEATPUMP":
-                    t = {
+                    t: JsonDict = {
                         "id": f"{obj_name_uc}-terminal",
                         "type": "CONSTANT_AIR_VOLUME",
                         "is_supply_ducted": False,
@@ -1874,8 +1876,8 @@ class Translator:
                 continue
             coil_type = heating_coils_rows[row_key][type_column]
             used_as_sup_heat = 'Y' in heating_coils_rows[row_key][used_as_sup_heat_column]
-            coil_efficiency = {'type': coil_type,
-                               'used_as_sup_heat': used_as_sup_heat}
+            coil_efficiency: JsonDict = {'type': coil_type,
+                                         'used_as_sup_heat': used_as_sup_heat}
             nominal_efficiency_string = heating_coils_rows[row_key][nominal_efficiency_column]
             if is_float(nominal_efficiency_string):
                 nominal_efficiency = float(nominal_efficiency_string)
