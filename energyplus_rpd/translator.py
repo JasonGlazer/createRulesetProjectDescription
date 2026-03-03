@@ -2013,7 +2013,7 @@ class Translator:
             if airloop_name != 'N/A':
                 air_energy_recovery = self.gather_air_heat_recovery(airloop_name)
                 if air_energy_recovery:
-                    fan_extra['air_energy_recovery']
+                    fan_extra['air_energy_recovery'] = air_energy_recovery
             if extra_type == 'Fan:SystemModel':
                 fan_system_model = self.get_epjson_by_uc_name('Fan:SystemModel', row_key)
                 if 'speed_control_method' in fan_system_model:
