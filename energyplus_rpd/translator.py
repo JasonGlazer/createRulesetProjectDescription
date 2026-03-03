@@ -2673,3 +2673,4 @@ class Translator:
             print(message)
         self.output_file.write(self.project_description)
         self.status_reporter.generate()
+
