@@ -2371,6 +2371,7 @@ class Translator:
     def add_fluid_loops(self):
         fluid_loops = []
         plant_loop_arrangements = self.gather_table_into_list('HVACTopology', 'Plant Loop Component Arrangement')
+        loop_equip_summary = self.get_table_dictionary('EquipmentSummary', 'PlantLoop or CondenserLoop')
         loop_types = {}
         if plant_loop_arrangements:
             if plant_loop_arrangements[0]['first column'] == 'None':
