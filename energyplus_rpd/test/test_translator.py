@@ -6865,46 +6865,46 @@ class TestTranslator(TestCase):
                     "Rows": {
                         "78": [
                             "BATH_ZN_1_FLR_1",
+                            "",
+                            "",
                             "FAN:ZONEEXHAUST",
                             "BATH_ZN_1_FLR_1 EXHAUST FAN",
-                            "",
-                            "",
                             "",
                             ""
                         ],
                         "87": [
                             "GYM_ZN_1_FLR_1",
+                            "",
+                            "",
                             "FAN:ZONEEXHAUST",
                             "GYM_ZN_1_FLR_1 DUMMY EXHAUST FAN",
-                            "",
-                            "",
                             "",
                             ""
                         ],
                         "91": [
                             "KITCHEN_ZN_1_FLR_1",
+                            "",
+                            "",
                             "FAN:ZONEEXHAUST",
                             "KITCHEN_ZN_1_FLR_1 EXHAUST FAN",
-                            "",
-                            "",
                             "",
                             ""
                         ],
                         "95": [
                             "CAFETERIA_ZN_1_FLR_1",
+                            "",
+                            "",
                             "FAN:ZONEEXHAUST",
                             "CAFETERIA_ZN_1_FLR_1 DUMMY EXHAUST FAN",
-                            "",
-                            "",
                             "",
                             ""
                         ],
                         "99": [
                             "LIBRARY_MEDIA_CENTER_ZN_1_FLR_1",
+                            "",
+                            "",
                             "FAN:ZONEEXHAUST",
                             "LIBRARY_MEDIA_CENTER_ZN_1_FLR_1 DUMMY EXHAUST FAN",
-                            "",
-                            "",
                             "",
                             ""
                         ],
