@@ -2373,6 +2373,8 @@ class Translator:
         plant_loop_arrangements = self.gather_table_into_list('HVACTopology', 'Plant Loop Component Arrangement')
         loop_equip_summaries = self.get_table_dictionary('EquipmentSummary', 'PlantLoop or CondenserLoop')
         loop_comp_summaries = self.get_table_dictionary('ComponentSizingSummary', 'PlantLoop')
+        oa_reset_control_summaries = self.gather_table_into_list('ControlSummary', 'SetpointManager:OutdoorAirReset')
+        return_control_summaries = self.gather_table_into_list('ControlSummary', 'SetpointManager:ReturnTemperature')
         loop_types = {}
         if plant_loop_arrangements:
             if plant_loop_arrangements[0]['first column'] == 'None':
@@ -2433,20 +2435,45 @@ class Translator:
             else:
                 design_control['flow_control'] = 'FIXED_FLOW'
             if loop_name in loop_equip_summaries:
-                design_control['design_supply_temperature'] = loop_equip_summaries[loop_name][
-                    'Design Supply Temperature [C]']
-                design_control['design_return_temperature'] = loop_equip_summaries[loop_name][
-                    'Design Return Temperature [C]']
+                temperature_string = loop_equip_summaries[loop_name]['Design Supply Temperature [C]']
+                if is_float(temperature_string):
+                    design_control['design_supply_temperature'] = float(temperature_string)
+                temperature_string = loop_equip_summaries[loop_name]['Design Return Temperature [C]']
+                if is_float(temperature_string):
+                    design_control['design_return_temperature'] = float(temperature_string)
             if loop_name in loop_comp_summaries:
-                sizing_option = loop_comp_summaries[loop_name]['Sizing Option']
-                if sizing_option == 'NonCoincident':
-                    design_control['is_sized_using_coincident_load'] = False
-                elif sizing_option == 'Coincident':
-                    design_control['is_sized_using_coincident_load'] = True
-                max_flow = float(loop_comp_summaries[loop_name]['Maximum Loop Flow Rate [m3/s]'])
-                if max_flow > 0:
-                    min_flow = float(loop_comp_summaries[loop_name]['Minimum Loop Flow Rate [m3/s]'])
-                    design_control['minimum_flow_fraction'] = min_flow / max_flow
+                if 'Sizing Option' in loop_comp_summaries[loop_name]:
+                    sizing_option = loop_comp_summaries[loop_name]['Sizing Option']
+                    if sizing_option == 'NonCoincident':
+                        design_control['is_sized_using_coincident_load'] = False
+                    elif sizing_option == 'Coincident':
+                        design_control['is_sized_using_coincident_load'] = True
+                if 'Maximum Loop Flow Rate [m3/s]' in loop_comp_summaries[loop_name]:
+                    max_flow = float(loop_comp_summaries[loop_name]['Maximum Loop Flow Rate [m3/s]'])
+                    if max_flow > 0 and 'Minimum Loop Flow Rate [m3/s]' in loop_comp_summaries[loop_name]:
+                        min_flow = float(loop_comp_summaries[loop_name]['Minimum Loop Flow Rate [m3/s]'])
+                        design_control['minimum_flow_fraction'] = min_flow / max_flow
+            for oa_reset_control in oa_reset_control_summaries:
+                if loop_name == oa_reset_control['Setpoint Node PlantLoop Name']:
+                    design_control['temperature_reset_type'] = 'OUTSIDE_AIR_RESET'
+                    design_control['outdoor_high_for_loop_supply_reset_temperature'] = float(
+                        oa_reset_control['Outdoor High Temperature [C]'])
+                    design_control['outdoor_low_for_loop_supply_reset_temperature'] = float(
+                        oa_reset_control['Outdoor Low Temperature [C]'])
+                    design_control['loop_supply_temperature_at_outdoor_high'] = float(
+                        oa_reset_control['Setpoint at Outdoor High Temperature [C]'])
+                    design_control['loop_supply_temperature_at_outdoor_low'] = float(
+                        oa_reset_control['Setpoint at Outdoor Low Temperature [C]'])
+            for return_control in return_control_summaries:
+                if loop_name == return_control['PlantLoop Name']:
+                    if 'COOLING' in loop_type or 'CONDENSER' == loop_type:
+                        design_control['temperature_reset_type'] = 'LOAD_RESET'
+                        design_control['loop_supply_temperature_at_low_load'] = float(
+                            oa_reset_control['Maximum Supply Temperature Setpoint [C]'])
+                    elif 'HEATING' in loop_type:
+                        design_control['temperature_reset_type'] = 'LOAD_RESET'
+                        design_control['loop_supply_temperature_at_low_load'] = float(
+                            oa_reset_control['Minimum Supply Temperature Setpoint [C]'])
             if 'COOLING' in loop_type or 'CONDENSER' == loop_type:
                 fluid_loop['cooling_or_condensing_design_and_control'] = design_control
                 design_control['has_integrated_waterside_economizer'] = do_share_branch('chiller',
