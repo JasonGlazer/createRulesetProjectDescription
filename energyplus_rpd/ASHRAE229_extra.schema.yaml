@@ -8315,12 +8315,12 @@ FluidLoopDesignAndControl:
       Used by RCT Test: True
       EPin Object: "PlantLoop, CondenserLoop"
       EPin Field: "Maximum Loop Flow Rate, Minimum Loop Flow Rate"
-      EPout File: ""
-      EPout Report: ""
-      EPout Table: ""
-      EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Divide the minimum by maximum. These were added to Component Sizing Summary - PlantLoop but only are partially implemented and do not appear for the Large Office example. Bug: Partially implemented and do not appear for the Large Office example."
+      EPout File: "table.html"
+      EPout Report: "ComponentSizingSummary"
+      EPout Table: "PlantLoop"
+      EPout Column: "Maximum Loop Flow Rate, Minimum Loop Flow Rate "
+      EPstatus: "DoneUsingOutput"
+      EP Notes: "Divide the minimum by maximum. These were added to Component Sizing Summary - PlantLoop but only are partially implemented and do not appear for the Large Office example. Bug: Partially implemented and do not appear for the Large Office example. 2019 LargeHotel is a good example"
     operation:
       Description: "Type of operation used by loop"
       Data Type: "<FluidLoopOperationOptions>"

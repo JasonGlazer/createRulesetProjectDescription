@@ -2443,6 +2443,10 @@ class Translator:
                     design_control['is_sized_using_coincident_load'] = False
                 elif sizing_option == 'Coincident':
                     design_control['is_sized_using_coincident_load'] = True
+                max_flow = float(loop_comp_summaries[loop_name]['Maximum Loop Flow Rate [m3/s]'])
+                if max_flow > 0:
+                    min_flow = float(loop_comp_summaries[loop_name]['Minimum Loop Flow Rate [m3/s]'])
+                    design_control['minimum_flow_fraction'] = min_flow / max_flow
             if 'COOLING' in loop_type or 'CONDENSER' == loop_type:
                 fluid_loop['cooling_or_condensing_design_and_control'] = design_control
                 design_control['has_integrated_waterside_economizer'] = do_share_branch('chiller',
