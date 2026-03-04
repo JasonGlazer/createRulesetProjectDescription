@@ -1730,8 +1730,8 @@ Zone:
       EPout Report: "HVAC Topology"
       EPout Table: "Zone Equipment Component Arrangement, Air Loop Supply Side Component Arrangement"
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: ""
+      EPstatus: "NotRequired"
+      EP Notes: "There does not seem to be corresponding concept in energyplus"
     supply_airflow_rate_multiplier_schedules:
       Description: "A list of IDs for Schedules containing the multipliers for the zonal supply airflow rates"
       Data Type: "[Reference]"
@@ -1748,8 +1748,8 @@ Zone:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: ""
+      EPstatus: "NotRequired"
+      EP Notes: "see zonal_supply_fans"
     zonal_exhaust_fans:
       Description: "A list of zonal exhaust fans"
       Data Type: "[{Fan}]"
@@ -1766,7 +1766,7 @@ Zone:
       EPout Report: "HVAC Topology"
       EPout Table: "Zone Equipment Component Arrangement, Air Loop Supply Side Component Arrangement"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     exhaust_airflow_rate_multiplier_schedules:
       Description: "A list of IDs for Schedules containing the multipliers for the zonal exhaust airflow rates"
@@ -1784,8 +1784,8 @@ Zone:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: ""
+      EPstatus: "NotRequired"
+      EP Notes: "This is not present in an output report."
     makeup_airflow_rate:
       Description: "Airflow rate for makeup air"
       Data Type: "Numeric"
