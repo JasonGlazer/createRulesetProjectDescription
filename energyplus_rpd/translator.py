@@ -600,6 +600,8 @@ class Translator:
                                                            ignore_first_column=True)
         setpoint_by_zone = self.gather_thermostat_setpoints()
         infiltration_by_zone = self.gather_infiltration()
+        exhaust_fans_by_zone = self.gather_exhaust_fans_by_zone()
+        equipment_fans = self.gather_equipment_fans()
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'InputVerificationandResultsSummary':
                 tables = tabular_report['Tables']
@@ -662,6 +664,13 @@ class Translator:
                             if zone_name.upper() in zone_info_init_summary:
                                 zone['floor_name'] = 'Floor at Height ' + zone_info_init_summary[zone_name.upper()][
                                     'Minimum Z {m}']
+                            if zone_name.upper() in exhaust_fans_by_zone:
+                                zone['zonal_exhaust_fans'] = [
+                                    {
+                                        "id": f"{zone_name} exhaust_fan",
+                                        **equipment_fans[exhaust_fans_by_zone[zone_name.upper()]][0],
+                                    }
+                                ]
                 break
         self.building_segment['zones'] = zones
         return zones
@@ -1746,7 +1755,8 @@ class Translator:
         zone_name_exh_fan = []  # list of tuples of zone name and exhaust fans
         for topology_zone_equip in topology_zone_equips:
             current_zone_name = topology_zone_equip['Zone Name']
-            if topology_zone_equip['Sub-Component Type'] == 'FAN:ZONEEXHAUST':  # only look in nested sub and sub-sub components
+            # only look in nested sub and sub-sub components
+            if topology_zone_equip['Sub-Component Type'] == 'FAN:ZONEEXHAUST':
                 zone_name_exh_fan.append((current_zone_name, topology_zone_equip['Sub-Component Name']))
             elif topology_zone_equip['Sub-Sub-Component Type'] == 'FAN:ZONEEXHAUST':
                 zone_name_exh_fan.append((current_zone_name, topology_zone_equip['Sub-Sub-Component Name']))
