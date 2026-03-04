@@ -1110,6 +1110,17 @@ class Translator:
                             self.schedules_used_names.append(schedule_name)
                             # print(infiltration)
                             infiltration_by_zone[zone_name.upper()] = infiltration
+        air_flow_network_annual = self.get_table_dictionary('AFN ZONE INFILTRATION ANNUAL', 'Custom Annual Report')
+        for name, afn in air_flow_network_annual.items():
+            if name == 'Annual Sum or Average' or name == 'Maximum of Rows' or name == 'Minimum of Rows' or name == '':
+                continue
+            infiltration = {
+                'id': name + 'AFN Infiltration',
+                'modeling_method': 'PRESSURE_BASED',
+                'algorithm_name': 'Air Flow Network',
+                'flow_rate': float(afn['AFN Zone Infiltration Volume {MAXIMUM} [m3/s]'])
+            }
+            infiltration_by_zone[name.upper()] = infiltration
         return infiltration_by_zone
 
     def add_schedules(self):

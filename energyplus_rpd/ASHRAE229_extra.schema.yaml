@@ -2276,8 +2276,8 @@ Infiltration:
       EPout Report: "Initialization Summary, Output:Table:Annual"
       EPout Table: "ZoneInfiltration Airflow Stats Nominal, Airflow Network Infiltration"
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "This was PartialUsingConstant. Set to WEATHER_DRIVEN for ZoneInfiltration:DesignFlowRate, ZoneInfiltration:EffectiveLeakageArea, ZoneInfiltration:FlowCoefficient and set to PRESSURE_BASED for airflow network. If coeffients are constant then could use CONSTANT_SCHEDULED and if schedule is absent then it could just be CONSTANT."
+      EPstatus: "DoneUsingOutput"
+      EP Notes: "Set to WEATHER_DRIVEN for ZoneInfiltration:DesignFlowRate, ZoneInfiltration:EffectiveLeakageArea, ZoneInfiltration:FlowCoefficient and set to PRESSURE_BASED for airflow network. If coeffients are constant then could use CONSTANT_SCHEDULED and if schedule is absent then it could just be CONSTANT."
     algorithm_name:
       Description: "Name of the algorithm used for modeling infiltration in the specific simulation engine."
       Data Type: "String"
@@ -2293,8 +2293,8 @@ Infiltration:
       EPout Report: "Initialization Summary, Output:Table:Annual"
       EPout Table: "ZoneInfiltration Airflow Stats Nominal, Airflow Network Infiltration"
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "This was PartialUsingConstant. Use ZoneInfiltration:DesignFlowRate, ZoneInfiltration:EffectiveLeakageArea, ZoneInfiltration:FlowCoefficient, or airflow network"
+      EPstatus: "DoneUsingOutput"
+      EP Notes: "Use ZoneInfiltration:DesignFlowRate, ZoneInfiltration:EffectiveLeakageArea, ZoneInfiltration:FlowCoefficient, or airflow network"
     measured_air_leakage_rate:
       Description: "Meaured air leakage rate from infiltration of outside air"
       Data Type: "Numeric"
@@ -2333,8 +2333,8 @@ Infiltration:
       EPout Report: "Initialization Summary, Output:Table:Annual"
       EPout Table: "ZoneInfiltration Airflow Stats Nominal, Airflow Network Infiltration"
       EPout Column: "Design Volume Flow Rate "
-      EPstatus: "ToDo"
-      EP Notes: "This was PartialUsingConstant"
+      EPstatus: "DoneUsingOutput"
+      EP Notes: ""
     multiplier_schedule:
       Description: "ID of the Schedule containing the multiplier for the infiltration"
       Data Type: "Reference"
@@ -2351,8 +2351,8 @@ Infiltration:
       EPout Report: "Initialization Summary, Output:Table:Annual"
       EPout Table: "ZoneInfiltration Airflow Stats Nominal, Airflow Network Infiltration"
       EPout Column: "Schedule Name"
-      EPstatus: "ToDo"
-      EP Notes: "This was PartialUsingConstant"
+      EPstatus: "DoneUsingOutput"
+      EP Notes: ""
 
 InfiltrationMethodOptions:
   Object Type: "Enumeration"
