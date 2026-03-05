@@ -842,8 +842,8 @@ RulesetModelDescription:
       EPout Report: "HVAC Topology"
       EPout Table: "Plant Loop Component Arrangement"
       EPout Column: "Component Type"
-      EPstatus: "ToDo"
-      EP Notes: "Look for these component types."
+      EPstatus: "DoneUsingOutput"
+      EP Notes: ""
     site_zone_type:
       Description: "Site zone type for Sec 9.4.2"
       Data Type: "<ExteriorLightingZoneOptions2019ASHRAE901>"
@@ -10262,7 +10262,7 @@ ExternalFluidSource:
       EPout Report: "HVAC Topology"
       EPout Table: "Plant Loop Component Arrangement"
       EPout Column: "Component Type"
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Look for these component types."
     reporting_name:
       Description: "Descriptive name used in RCT reports if id is not already a descriptive name"
@@ -10316,7 +10316,7 @@ ExternalFluidSource:
       EPout Report: "HVAC Topology"
       EPout Table: "Plant Loop Component Arrangement"
       EPout Column: "Loop Name"
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Look for these component types in component type."
     type:
       Description: "Type of external fluid source"
@@ -10333,7 +10333,7 @@ ExternalFluidSource:
       EPout Report: "HVAC Topology"
       EPout Table: "Plant Loop Component Arrangement"
       EPout Column: "Component Type"
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Look for these component types."
     energy_source_type:
       Description: "Source of energy for the external fluid source"
