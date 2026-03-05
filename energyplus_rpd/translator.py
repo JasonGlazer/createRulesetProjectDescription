@@ -482,6 +482,36 @@ class Translator:
                                     'ruleset_model_descriptions': [self.model_description, ],
                                     }
 
+    def add_external_fluid_source(self):
+        external_fluid_sources = []
+        plant_loop_arrangements = self.gather_table_into_list('HVACTopology', 'Plant Loop Component Arrangement')
+        for arrangement_row in plant_loop_arrangements:
+            comp_type = arrangement_row['Component Type']
+            if comp_type == 'DISTRICTCOOLING':
+                external_fluid = {
+                    "id": arrangement_row['Component Name'],
+                    "loop": arrangement_row['Loop Name'],
+                    "type": "CHILLED_WATER",
+                }
+                external_fluid_sources.append(external_fluid)
+            elif comp_type == 'DISTRICTHEATING:STEAM':
+                external_fluid = {
+                    "id": arrangement_row['Component Name'],
+                    "loop": arrangement_row['Loop Name'],
+                    "type": "STEAM",
+                }
+                external_fluid_sources.append(external_fluid)
+            elif comp_type == 'DISTRICTHEATING:WATER':
+                external_fluid = {
+                    "id": arrangement_row['Component Name'],
+                    "loop": arrangement_row['Loop Name'],
+                    "type": "HOT_WATER",
+                }
+                external_fluid_sources.append(external_fluid)
+        if external_fluid_sources:
+            self.model_description['external_fluid_sources'] = external_fluid_sources
+        return external_fluid_sources
+
     def add_weather(self):
         tabular_reports = self.json_results_object['TabularReports']
         weather_file = ''
@@ -2717,6 +2747,7 @@ class Translator:
         epjson = self.epjson_object
         Translator.validate_input_contents(epjson)
         self.create_skeleton()
+        self.add_external_fluid_source()
         self.add_weather()
         self.add_calendar()
         self.add_materials()
