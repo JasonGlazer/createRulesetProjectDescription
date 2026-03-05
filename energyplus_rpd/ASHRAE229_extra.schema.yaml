@@ -1049,7 +1049,7 @@ Building:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "ComplianceParameter"
       EP Notes: "Only need this input after supporting this data group"
     building_open_schedule:
       Description: "ID of the Schedule indicating when the building is open"
@@ -12623,7 +12623,7 @@ RefrigeratedCase:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "ComplianceParameter"
       EP Notes: ""
     reporting_name:
       Description: "Descriptive name used in RCT reports if id is not already a descriptive name"
@@ -12675,7 +12675,7 @@ RefrigeratedCase:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "ComplianceParameter"
       EP Notes: ""
     equipment_category:
       Description: "Equipment Class from referenced standard"
