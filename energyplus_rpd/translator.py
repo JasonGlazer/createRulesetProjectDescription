@@ -2098,6 +2098,12 @@ class Translator:
     def gather_air_heat_recovery(self, airloop_name):
         heat_recovery = {}
         table_in = self.gather_table_into_list('EquipmentSummary', 'Air Heat Recovery')
+        active_map = {
+            'WhenFansOn': 'WHEN_FANS_ON',
+            'Scheduled': 'SCHEDULED',
+            'WhenOutsideEconomizerLimits': 'OTHER',
+            'WhenMinimumOutdoorAir': 'WHEN_MINIMUM_OUTSIDE_AIR'
+        }
         for row_in in table_in:
             if airloop_name == row_in['Airloop Name']:
                 if row_in['Type'] == 'HeatExchanger:AirToAir:SensibleAndLatent':
@@ -2123,6 +2129,9 @@ class Translator:
                     'outdoor_airflow': float(row_in['Supply Air Flow Rate [m3/s]']),
                     'exhaust_airflow': float(row_in['Exhaust Air Flow Rate [m3/s]']),
                 }
+                active = row_in['Heat Recovery Active']
+                if active in active_map:
+                    heat_recovery['energy_recovery_operation'] = active_map[active]
         return heat_recovery
 
     def gather_fan_operating_points(self, fan_name, max_flow, max_elec):

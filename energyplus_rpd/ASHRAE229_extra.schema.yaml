@@ -6940,9 +6940,9 @@ AirEnergyRecovery:
       EPout File: "table.html"
       EPout Report: "Equipment Summary "
       EPout Table: "Air Heat Recovery"
-      EPout Column: "New column - Operation With Economizer"
-      EPstatus: "ToDo"
-      EP Notes: "Add new output to table. Add to new Controls report - Heat Recovery Operation With Economizer"
+      EPout Column: "Heat Recovery Active"
+      EPstatus: "DoneUsingOutput"
+      EP Notes: ""
     energy_recovery_supply_air_temperature_control:
       Description: "Energy recovery supply air temperature control"
       Data Type: "<EnergyRecoverySupplyAirTemperatureControlOptions>"
