@@ -1362,6 +1362,7 @@ class Translator:
         air_terminals = self.gather_air_terminal()
         exhaust_fan_names = self.gather_exhaust_fans_by_airloop()
         air_flows_62 = self.gather_airflows_from_62()
+        economizer_by_airloop = self.gather_economizer_by_airloop()
 
         coils_table = self.get_table("CoilSizingDetails", "Coils")
         if not coils_table:
@@ -1535,6 +1536,8 @@ class Translator:
                 if hvac_name in exhaust_fan_names:
                     fs["exhaust_fans"] = [{"id": n, **equipment_fans[n][0]} for n in exhaust_fan_names[hvac_name]]
 
+                if hvac_name in economizer_by_airloop:
+                    fs['air_economizer'] = economizer_by_airloop[hvac_name]
                 hvac["fan_system"] = fs
 
             # ---------- Air terminals (from EquipmentSummary:Air Terminals) ----------
@@ -1662,6 +1665,37 @@ class Translator:
 
         self.building_segment["heating_ventilating_air_conditioning_systems"] = hvac_systems
         return hvac_systems, self.terminals_by_zone
+
+    def gather_economizer_by_airloop(self):
+        economizers = {}
+        sys_econo_reps = self.gather_table_into_list('SystemSummary', 'Economizer')
+        airloop_supplies = self.gather_table_into_list('HVACTopology',
+                                                       "Air Loop Supply Side Component Arrangement")
+        ep_control_type_map = {
+            'FixedDryBulb': 'TEMPERATURE',
+            'FixedEnthalpy': 'ENTHALPY',
+            'DifferentialDryBulb': 'DIFFERENTIAL_TEMPERATURE',
+            'DifferentialEnthalpy': 'DIFFERENTIAL_ENTHALPY',
+            'FixedDewPointAndDryBulb': 'OTHER',
+            'ElectronicEnthalpy': 'OTHER',
+            'DifferentialDryBulbAndEnthalpy': 'OTHER',
+            'NoEconomizer': 'FIXED_FRACTION'
+        }
+        airloop_by_oa_sys = {}
+        for airloop_supply in airloop_supplies:
+            if (airloop_supply['Component Type'] == 'AIRLOOPHVAC:OUTDOORAIRSYSTEM' and
+                    airloop_supply['Sub-Component Type'] == ''):
+                airloop_by_oa_sys[airloop_supply['Component Name']] = airloop_supply['Airloop Name']
+        for sys_econo_rep in sys_econo_reps:
+            if sys_econo_rep['AirLoopHVAC:OutdoorAirSystem Name'] in airloop_by_oa_sys:
+                economizer = {'id': sys_econo_rep['first column'], }
+                if sys_econo_rep['High Limit Shutoff Control'] in ep_control_type_map:
+                    economizer['type'] = ep_control_type_map[sys_econo_rep['High Limit Shutoff Control']]
+                if sys_econo_rep['Outdoor Air Temperature Limit [C]']:
+                    economizer['high_limit_shutoff_temperature'] = float(
+                        sys_econo_rep['Outdoor Air Temperature Limit [C]'])
+                economizers[airloop_by_oa_sys[sys_econo_rep['AirLoopHVAC:OutdoorAirSystem Name']]] = economizer
+        return economizers
 
     def get_table(self, report_name: str, table_name: str) -> JsonDict:
         tabular_reports: List[JsonDict] = self.json_results_object['TabularReports']

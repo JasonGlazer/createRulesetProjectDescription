@@ -6400,7 +6400,7 @@ FanSystem:
       EPout Report: "System Summary"
       EPout Table: "Economizer"
       EPout Column: "first column"
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Controller:outsideair. either add connections here or add to topology report. Should be coupled with airloop name. The association of the Controller:OutdoorAir with the AirLoopHVAC:OutdoorAirSystem and AirLoop is missing."
     air_energy_recovery:
       Description: "Air side energy recovery related to the fan system"
@@ -6743,7 +6743,7 @@ AirEconomizer:
       EPout Report: "System Summary"
       EPout Table: "Economizer"
       EPout Column: "first column"
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Controller:outsideair. Should be coupled with airloop name. The association of the  Controller:OutdoorAir with the AirLoopHVAC:OutdoorAirSystem and AirLoop is missing."
     reporting_name:
       Description: "Descriptive name used in RCT reports if id is not already a descriptive name"
@@ -6795,7 +6795,7 @@ AirEconomizer:
       EPout Report: "System Summary"
       EPout Table: "Economizer"
       EPout Column: "High Limit Shutoff Control"
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Controller:outsideair. Should be coupled with airloop name. The association of the  Controller:OutdoorAir with the AirLoopHVAC:OutdoorAirSystem and AirLoop is missing."
     high_limit_shutoff_temperature:
       Description: "High limit temperature shutoff"
@@ -6813,7 +6813,7 @@ AirEconomizer:
       EPout Report: "System Summary"
       EPout Table: "Economizer"
       EPout Column: "Outdoor Air Temperature Limit "
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Controller:outsideair. Should be coupled with airloop name. The association of the  Controller:OutdoorAir with the AirLoopHVAC:OutdoorAirSystem and AirLoop is missing."
     is_integrated:
       Description: "True if the economizer and mechanical cooling system can work together"
