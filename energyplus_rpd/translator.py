@@ -1538,7 +1538,7 @@ class Translator:
                     fs["exhaust_fans"] = [{"id": n, **equipment_fans[n][0]} for n in exhaust_fan_names[hvac_name]]
 
                 if hvac_name in economizer_by_airloop:
-                    econo =  economizer_by_airloop[hvac_name]
+                    econo = economizer_by_airloop[hvac_name]
                     if 'XTRA-Maxair' in econo:
                         fs['maximum_outdoor_airflow'] = 1000 * econo['XTRA-Maxair']
                         del econo['XTRA-Maxair']
@@ -1841,17 +1841,17 @@ class Translator:
                                                        "Air Loop Supply Side Component Arrangement")
         blank_row = False
         for supply_row in airloop_supplies:
-           if supply_row['Supply Branch Name']:
-               if blank_row:
-                   if 'FAN:' in supply_row['Component Type']:
-                       return_fans[supply_row['Airloop Name']] = supply_row['Component Name']
-                   elif 'FAN:' in supply_row['Sub-Component Type']:
-                       return_fans[supply_row['Airloop Name']] = supply_row['Sub-Component Name']
-               blank_row = False
-           else:
-               # if empty string then the row is blank except for airloop name
-               blank_row = True
-               continue
+            if supply_row['Supply Branch Name']:
+                if blank_row:
+                    if 'FAN:' in supply_row['Component Type']:
+                        return_fans[supply_row['Airloop Name']] = supply_row['Component Name']
+                    elif 'FAN:' in supply_row['Sub-Component Type']:
+                        return_fans[supply_row['Airloop Name']] = supply_row['Sub-Component Name']
+                blank_row = False
+            else:
+                # if empty string then the row is blank except for airloop name
+                blank_row = True
+                continue
         return return_fans
 
     def gather_exhaust_fans_by_airloop(self):
