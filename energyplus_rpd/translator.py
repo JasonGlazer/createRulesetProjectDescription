@@ -1544,6 +1544,13 @@ class Translator:
                         del econo['XTRA-Maxair']
                     fs['air_economizer'] = economizer_by_airloop[hvac_name]
 
+                if 'speed_control_method' in fan_extra:
+                    method = fan_extra["speed_control_method"]
+                    if method == 'Discrete':
+                        fs['operation_during_occupied'] = 'CYCLING'
+                    elif method == 'Continuous':
+                        fs['operation_during_occupied'] = 'CONTINUOUS'
+
                 if hvac_name in possible_return_fans:
                     possible_fan = possible_return_fans[hvac_name]
                     if supply_fan != possible_fan:
@@ -2081,6 +2088,7 @@ class Translator:
         is_autosized_column = cols.index('Is Autosized')
         motor_eff_column = cols.index('Motor Efficiency')
         motor_heat_to_zone_frac_column = cols.index('Motor Heat to Zone Fraction')
+        speed_control_method_column = cols.index('Speed Control Method')
         motor_loss_zone_name_column = cols.index('Motor Loss Zone Name')
         airloop_name_column = cols.index('Airloop Name')
         for row_key in coil_row_keys:
@@ -2099,6 +2107,7 @@ class Translator:
             extra_type = rows[row_key][type_column]
             fan_energy_index = float(rows[row_key][fan_energy_index_column])
             purpose = rows[row_key][purpose_column]
+            speed_control_method = rows[row_key][speed_control_method_column]
             airloop_name = rows[row_key][airloop_name_column]
             equipment_fan = {'design_airflow': max_air_flow_rate,
                              'is_airflow_calculated': is_autosized,
@@ -2112,6 +2121,7 @@ class Translator:
             fan_extra = {'type': extra_type,
                          'fan_energy_index': fan_energy_index,
                          'purpose': purpose,
+                         'speed_control_method': speed_control_method,
                          'airloop_name': airloop_name}
             #  for Fan:SystemModel need to add some additional fields to understand later if variable speed or not
             equipment_fan['operating_points'] = self.gather_fan_operating_points(row_key, max_air_flow_rate,
