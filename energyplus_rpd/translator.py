@@ -1538,6 +1538,10 @@ class Translator:
                     fs["exhaust_fans"] = [{"id": n, **equipment_fans[n][0]} for n in exhaust_fan_names[hvac_name]]
 
                 if hvac_name in economizer_by_airloop:
+                    econo =  economizer_by_airloop[hvac_name]
+                    if 'XTRA-Maxair' in econo:
+                        fs['maximum_outdoor_airflow'] = 1000 * econo['XTRA-Maxair']
+                        del econo['XTRA-Maxair']
                     fs['air_economizer'] = economizer_by_airloop[hvac_name]
 
                 if hvac_name in possible_return_fans:
@@ -1702,6 +1706,9 @@ class Translator:
                 if sys_econo_rep['Outdoor Air Temperature Limit [C]']:
                     economizer['high_limit_shutoff_temperature'] = float(
                         sys_econo_rep['Outdoor Air Temperature Limit [C]'])
+                if sys_econo_rep['Maximum Outdoor Air [m3/s]']:
+                    # not used in economizer but just carried along in data structure
+                    economizer['XTRA-Maxair'] = float(sys_econo_rep['Maximum Outdoor Air [m3/s]'])
                 economizers[airloop_by_oa_sys[sys_econo_rep['AirLoopHVAC:OutdoorAirSystem Name']]] = economizer
         return economizers
 
