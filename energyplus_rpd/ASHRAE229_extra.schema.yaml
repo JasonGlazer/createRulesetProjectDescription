@@ -6347,7 +6347,7 @@ FanSystem:
       EPout Report: "HVAC Topology"
       EPout Table: "Air Loop Supply Side Component Arrangement"
       EPout Column: "Component Type"
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Add equipment summary report, fans table, add airloop and branch names, maybe easier in topology report. DisplacementVent_1ZoneOffice.idf is an example. Maybe look at the code in coil sizing details to see how supply fans are classified. DisplacementVent_1ZoneOffice.idf is an example. See when a fan:* appears before outdoor air portion or when two fans appear in the list."
     exhaust_fans:
       Description: "List of exhaust fans"
@@ -6383,8 +6383,8 @@ FanSystem:
       EPout Report: "HVAC Topology"
       EPout Table: "Air Loop Supply Side Component Arrangement"
       EPout Column: "Sub-Component Type"
-      EPstatus: "ToDo"
-      EP Notes: "5ZoneAirCooledConvCoef.idf example has relief fan. No outdoor air equipment reporting currently. Easy to figure out if it's outlet is outdoors but more complex if through HX. The Annual Heat Emissions Report shows the HVAC Relief Air so perhaps an approach to identify relief already exists in the code. If the AIRLOOPHVAC:OUTDOORAIRSYSTEM includes a subcomponent that is a fan it may be a relief fan. Need additional clarification on this."
+      EPstatus: "ComplianceParameter"
+      EP Notes: "5ZoneAirCooledConvCoef.idf example has relief fan. No outdoor air equipment reporting currently. Easy to figure out if it's outlet is outdoors but more complex if through HX. The Annual Heat Emissions Report shows the HVAC Relief Air so perhaps an approach to identify relief already exists in the code. If the AIRLOOPHVAC:OUTDOORAIRSYSTEM includes a subcomponent that is a fan it may be a relief fan. Not sure there is a definitive way to classify this.."
     air_economizer:
       Description: "Air side economizer related to the fan system"
       Data Type: "{AirEconomizer}"

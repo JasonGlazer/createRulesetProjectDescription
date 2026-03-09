@@ -1363,6 +1363,7 @@ class Translator:
         exhaust_fan_names = self.gather_exhaust_fans_by_airloop()
         air_flows_62 = self.gather_airflows_from_62()
         economizer_by_airloop = self.gather_economizer_by_airloop()
+        possible_return_fans = self.gather_possible_return_fans_by_airloop()
 
         coils_table = self.get_table("CoilSizingDetails", "Coils")
         if not coils_table:
@@ -1538,6 +1539,13 @@ class Translator:
 
                 if hvac_name in economizer_by_airloop:
                     fs['air_economizer'] = economizer_by_airloop[hvac_name]
+
+                if hvac_name in possible_return_fans:
+                    possible_fan = possible_return_fans[hvac_name]
+                    if supply_fan != possible_fan:
+                        return_fan, return_fan_extra = equipment_fans[possible_fan]
+                        fs['return_fans'] = [{"id": possible_fan, **fan, "specification_method": "SIMPLE"}],
+
                 hvac["fan_system"] = fs
 
             # ---------- Air terminals (from EquipmentSummary:Air Terminals) ----------
@@ -1812,6 +1820,25 @@ class Translator:
             if topology_zone_equip['Component Type'] == 'FAN:ZONEEXHAUST':
                 exh_fan_by_zone[current_zone_name] = topology_zone_equip['Component Name']
         return exh_fan_by_zone
+
+    def gather_possible_return_fans_by_airloop(self):
+        return_fans = {}
+        airloop_supplies = self.gather_table_into_list('HVACTopology',
+                                                       "Air Loop Supply Side Component Arrangement")
+        blank_row = False
+        for supply_row in airloop_supplies:
+           if supply_row['Supply Branch Name']:
+               if blank_row:
+                   if 'FAN:' in supply_row['Component Type']:
+                       return_fans[supply_row['Airloop Name']] = supply_row['Component Name']
+                   elif 'FAN:' in supply_row['Sub-Component Type']:
+                       return_fans[supply_row['Airloop Name']] = supply_row['Sub-Component Name']
+               blank_row = False
+           else:
+               # if empty string then the row is blank except for airloop name
+               blank_row = True
+               continue
+        return return_fans
 
     def gather_exhaust_fans_by_airloop(self):
         exh_fan_by_airloop = {}  # for each airloop name contains a list of exhaust fans
