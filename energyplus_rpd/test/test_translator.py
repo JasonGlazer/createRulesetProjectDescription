@@ -2121,6 +2121,8 @@ class TestTranslator(TestCase):
                             "Motor Efficiency",
                             "Motor Heat to Zone Fraction",
                             "Motor Loss Zone Name",
+                            "Speed Control Method",
+                            "Number of Speeds",
                             "Airloop Name"
                         ],
                         "Rows": {
@@ -2141,6 +2143,8 @@ class TestTranslator(TestCase):
                                 "0.85",
                                 "0.00",
                                 "N/A",
+                                "Continuous",
+                                "N/A",
                                 "CORE_ZN ZN PSZ-AC-1"
                             ],
                             "PERIMETER_ZN_1 ZN PSZ-AC-2 FAN": [
@@ -2159,6 +2163,8 @@ class TestTranslator(TestCase):
                                 "Yes",
                                 "0.85",
                                 "0.00",
+                                "N/A",
+                                "Continuous",
                                 "N/A",
                                 "PERIMETER_ZN_1 ZN PSZ-AC-2"
                             ],
@@ -2179,6 +2185,8 @@ class TestTranslator(TestCase):
                                 "0.85",
                                 "0.00",
                                 "N/A",
+                                "Continuous",
+                                "N/A",
                                 "PERIMETER_ZN_2 ZN PSZ-AC-3"
                             ],
                             "PERIMETER_ZN_3 ZN PSZ-AC-4 FAN": [
@@ -2198,6 +2206,8 @@ class TestTranslator(TestCase):
                                 "0.85",
                                 "0.00",
                                 "N/A",
+                                "Continuous",
+                                "N/A",
                                 "PERIMETER_ZN_3 ZN PSZ-AC-4"
                             ],
                             "PERIMETER_ZN_4 ZN PSZ-AC-5 FAN": [
@@ -2216,6 +2226,8 @@ class TestTranslator(TestCase):
                                 "Yes",
                                 "0.85",
                                 "0.00",
+                                "N/A",
+                                "Continuous",
                                 "N/A",
                                 "PERIMETER_ZN_4 ZN PSZ-AC-5"
                             ]
@@ -4034,6 +4046,7 @@ class TestTranslator(TestCase):
                 "fan_system": {
                     "fan_control": "CONSTANT",
                     "id": "CORE_ZN ZN PSZ-AC-1 FAN-fansystem",
+                    "operation_during_occupied": "CONTINUOUS",
                     "supply_fans": [
                         {
                             "design_airflow": 0.37,
@@ -4073,6 +4086,7 @@ class TestTranslator(TestCase):
                 "fan_system": {
                     "fan_control": "CONSTANT",
                     "id": "PERIMETER_ZN_1 ZN PSZ-AC-2 FAN-fansystem",
+                    "operation_during_occupied": "CONTINUOUS",
                     "supply_fans": [
                         {
                             "design_airflow": 0.34,
@@ -4112,6 +4126,7 @@ class TestTranslator(TestCase):
                 "fan_system": {
                     "fan_control": "CONSTANT",
                     "id": "PERIMETER_ZN_2 ZN PSZ-AC-3 FAN-fansystem",
+                    "operation_during_occupied": "CONTINUOUS",
                     "supply_fans": [
                         {
                             "design_airflow": 0.29,
@@ -4151,6 +4166,7 @@ class TestTranslator(TestCase):
                 "fan_system": {
                     "fan_control": "CONSTANT",
                     "id": "PERIMETER_ZN_3 ZN PSZ-AC-4 FAN-fansystem",
+                    "operation_during_occupied": "CONTINUOUS",
                     "supply_fans": [
                         {
                             "design_airflow": 0.32,
@@ -4190,6 +4206,7 @@ class TestTranslator(TestCase):
                 "fan_system": {
                     "fan_control": "CONSTANT",
                     "id": "PERIMETER_ZN_4 ZN PSZ-AC-5 FAN-fansystem",
+                    "operation_during_occupied": "CONTINUOUS",
                     "supply_fans": [
                         {
                             "design_airflow": 0.35,
@@ -4706,6 +4723,8 @@ class TestTranslator(TestCase):
                             "Motor Efficiency",
                             "Motor Heat to Zone Fraction",
                             "Motor Loss Zone Name",
+                            "Speed Control Method",
+                            "Number of Speeds",
                             "Airloop Name"
                         ],
                         "Rows": {
@@ -4726,6 +4745,8 @@ class TestTranslator(TestCase):
                                 "0.92",
                                 "0.00",
                                 "N/A",
+                                "Continuous",
+                                "N/A",
                                 "BASEMENT STORY 0 VAV_PFP_BOXES (SYS8)"
                             ],
                             "BASEMENT ZN PFP TERM FAN": [
@@ -4744,6 +4765,8 @@ class TestTranslator(TestCase):
                                 "Yes",
                                 "0.90",
                                 "0.00",
+                                "N/A",
+                                "Continuous",
                                 "N/A",
                                 "N/A"
                             ],
@@ -4764,6 +4787,8 @@ class TestTranslator(TestCase):
                                 "0.90",
                                 "0.00",
                                 "N/A",
+                                "Continuous",
+                                "N/A",
                                 "N/A"
                             ],
                             "DATACENTER_BASEMENT_ZN_6 ZN PSZ-VAV FAN": [
@@ -4782,6 +4807,8 @@ class TestTranslator(TestCase):
                                 "Yes",
                                 "0.94",
                                 "0.00",
+                                "N/A",
+                                "Continuous",
                                 "N/A",
                                 "DATACENTER_BASEMENT_ZN_6 ZN PSZ-VAV"
                             ],
@@ -4802,6 +4829,8 @@ class TestTranslator(TestCase):
                                 "0.84",
                                 "0.00",
                                 "N/A",
+                                "Continuous",
+                                "N/A",
                                 "N/A"
                             ],
                         },
@@ -4820,32 +4849,37 @@ class TestTranslator(TestCase):
                  'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
                  'motor_location_zone': 'N/A', 'operating_points': []},
                 {'type': 'Fan:VariableVolume', 'fan_energy_index': 1.17, 'purpose': 'N/A',
-                 'airloop_name': 'BASEMENT STORY 0 VAV_PFP_BOXES (SYS8)'}),
+                 'airloop_name': 'BASEMENT STORY 0 VAV_PFP_BOXES (SYS8)',
+                 'speed_control_method': 'Continuous'}),
             'BASEMENT ZN PFP TERM FAN': (
                 {'design_airflow': 7.67, 'is_airflow_calculated': True, 'design_electric_power': 5688.78,
                  'design_pressure_rise': 365.09, 'total_efficiency': 0.49, 'motor_efficiency': 0.9,
                  'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
                  'motor_location_zone': 'N/A', 'operating_points': []},
-                {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.11, 'purpose': 'N/A', 'airloop_name': 'N/A'}),
+                {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.11, 'purpose': 'N/A', 'airloop_name': 'N/A',
+                 'speed_control_method': 'Continuous'}),
             'CORE_BOTTOM ZN PFP TERM FAN': (
                 {'design_airflow': 7.94, 'is_airflow_calculated': True, 'design_electric_power': 5888.98,
                  'design_pressure_rise': 365.09, 'total_efficiency': 0.49, 'motor_efficiency': 0.9,
                  'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
                  'motor_location_zone': 'N/A', 'operating_points': []},
-                {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.11, 'purpose': 'N/A', 'airloop_name': 'N/A'}),
+                {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.11, 'purpose': 'N/A', 'airloop_name': 'N/A',
+                 'speed_control_method': 'Continuous'}),
             'DATACENTER_BASEMENT_ZN_6 ZN PSZ-VAV FAN': (
                 {'design_airflow': 30.36, 'is_airflow_calculated': True, 'design_electric_power': 0.0,
                  'design_pressure_rise': 0.0, 'total_efficiency': 0.57, 'motor_efficiency': 0.94,
                  'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
                  'motor_location_zone': 'N/A', 'operating_points': []},
                 {'type': 'Fan:VariableVolume', 'fan_energy_index': 0.0, 'purpose': 'N/A',
-                 'airloop_name': 'DATACENTER_BASEMENT_ZN_6 ZN PSZ-VAV'}),
+                 'airloop_name': 'DATACENTER_BASEMENT_ZN_6 ZN PSZ-VAV',
+                 'speed_control_method': 'Continuous'}),
             'PERIMETER_BOT_ZN_2 ZN PFP TERM FAN': (
                 {'design_airflow': 1.53, 'is_airflow_calculated': True, 'design_electric_power': 1137.67,
                  'design_pressure_rise': 342.66, 'total_efficiency': 0.46, 'motor_efficiency': 0.84,
                  'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
                  'motor_location_zone': 'N/A', 'operating_points': []},
-                {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.23, 'purpose': 'N/A', 'airloop_name': 'N/A'})}
+                {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.23, 'purpose': 'N/A', 'airloop_name': 'N/A',
+                 'speed_control_method': 'Continuous'})}
 
         self.assertEqual(gathered_equipment_fans, expected)
 

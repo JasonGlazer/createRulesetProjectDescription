@@ -1363,6 +1363,7 @@ class Translator:
         exhaust_fan_names = self.gather_exhaust_fans_by_airloop()
         air_flows_62 = self.gather_airflows_from_62()
         economizer_by_airloop = self.gather_economizer_by_airloop()
+        possible_return_fans = self.gather_possible_return_fans_by_airloop()
 
         coils_table = self.get_table("CoilSizingDetails", "Coils")
         if not coils_table:
@@ -1537,7 +1538,25 @@ class Translator:
                     fs["exhaust_fans"] = [{"id": n, **equipment_fans[n][0]} for n in exhaust_fan_names[hvac_name]]
 
                 if hvac_name in economizer_by_airloop:
+                    econo = economizer_by_airloop[hvac_name]
+                    if 'XTRA-Maxair' in econo:
+                        fs['maximum_outdoor_airflow'] = 1000 * econo['XTRA-Maxair']
+                        del econo['XTRA-Maxair']
                     fs['air_economizer'] = economizer_by_airloop[hvac_name]
+
+                if 'speed_control_method' in fan_extra:
+                    method = fan_extra["speed_control_method"]
+                    if method == 'Discrete':
+                        fs['operation_during_occupied'] = 'CYCLING'
+                    elif method == 'Continuous':
+                        fs['operation_during_occupied'] = 'CONTINUOUS'
+
+                if hvac_name in possible_return_fans:
+                    possible_fan = possible_return_fans[hvac_name]
+                    if supply_fan != possible_fan:
+                        return_fan, return_fan_extra = equipment_fans[possible_fan]
+                        fs['return_fans'] = [{"id": possible_fan, **fan, "specification_method": "SIMPLE"}],
+
                 hvac["fan_system"] = fs
 
             # ---------- Air terminals (from EquipmentSummary:Air Terminals) ----------
@@ -1694,6 +1713,9 @@ class Translator:
                 if sys_econo_rep['Outdoor Air Temperature Limit [C]']:
                     economizer['high_limit_shutoff_temperature'] = float(
                         sys_econo_rep['Outdoor Air Temperature Limit [C]'])
+                if sys_econo_rep['Maximum Outdoor Air [m3/s]']:
+                    # not used in economizer but just carried along in data structure
+                    economizer['XTRA-Maxair'] = float(sys_econo_rep['Maximum Outdoor Air [m3/s]'])
                 economizers[airloop_by_oa_sys[sys_econo_rep['AirLoopHVAC:OutdoorAirSystem Name']]] = economizer
         return economizers
 
@@ -1812,6 +1834,25 @@ class Translator:
             if topology_zone_equip['Component Type'] == 'FAN:ZONEEXHAUST':
                 exh_fan_by_zone[current_zone_name] = topology_zone_equip['Component Name']
         return exh_fan_by_zone
+
+    def gather_possible_return_fans_by_airloop(self):
+        return_fans = {}
+        airloop_supplies = self.gather_table_into_list('HVACTopology',
+                                                       "Air Loop Supply Side Component Arrangement")
+        blank_row = False
+        for supply_row in airloop_supplies:
+            if supply_row['Supply Branch Name']:
+                if blank_row:
+                    if 'FAN:' in supply_row['Component Type']:
+                        return_fans[supply_row['Airloop Name']] = supply_row['Component Name']
+                    elif 'FAN:' in supply_row['Sub-Component Type']:
+                        return_fans[supply_row['Airloop Name']] = supply_row['Sub-Component Name']
+                blank_row = False
+            else:
+                # if empty string then the row is blank except for airloop name
+                blank_row = True
+                continue
+        return return_fans
 
     def gather_exhaust_fans_by_airloop(self):
         exh_fan_by_airloop = {}  # for each airloop name contains a list of exhaust fans
@@ -2047,6 +2088,7 @@ class Translator:
         is_autosized_column = cols.index('Is Autosized')
         motor_eff_column = cols.index('Motor Efficiency')
         motor_heat_to_zone_frac_column = cols.index('Motor Heat to Zone Fraction')
+        speed_control_method_column = cols.index('Speed Control Method')
         motor_loss_zone_name_column = cols.index('Motor Loss Zone Name')
         airloop_name_column = cols.index('Airloop Name')
         for row_key in coil_row_keys:
@@ -2065,6 +2107,7 @@ class Translator:
             extra_type = rows[row_key][type_column]
             fan_energy_index = float(rows[row_key][fan_energy_index_column])
             purpose = rows[row_key][purpose_column]
+            speed_control_method = rows[row_key][speed_control_method_column]
             airloop_name = rows[row_key][airloop_name_column]
             equipment_fan = {'design_airflow': max_air_flow_rate,
                              'is_airflow_calculated': is_autosized,
@@ -2078,6 +2121,7 @@ class Translator:
             fan_extra = {'type': extra_type,
                          'fan_energy_index': fan_energy_index,
                          'purpose': purpose,
+                         'speed_control_method': speed_control_method,
                          'airloop_name': airloop_name}
             #  for Fan:SystemModel need to add some additional fields to understand later if variable speed or not
             equipment_fan['operating_points'] = self.gather_fan_operating_points(row_key, max_air_flow_rate,
@@ -2098,6 +2142,12 @@ class Translator:
     def gather_air_heat_recovery(self, airloop_name):
         heat_recovery = {}
         table_in = self.gather_table_into_list('EquipmentSummary', 'Air Heat Recovery')
+        active_map = {
+            'WhenFansOn': 'WHEN_FANS_ON',
+            'Scheduled': 'SCHEDULED',
+            'WhenOutsideEconomizerLimits': 'OTHER',
+            'WhenMinimumOutdoorAir': 'WHEN_MINIMUM_OUTSIDE_AIR'
+        }
         for row_in in table_in:
             if airloop_name == row_in['Airloop Name']:
                 if row_in['Type'] == 'HeatExchanger:AirToAir:SensibleAndLatent':
@@ -2123,6 +2173,9 @@ class Translator:
                     'outdoor_airflow': float(row_in['Supply Air Flow Rate [m3/s]']),
                     'exhaust_airflow': float(row_in['Exhaust Air Flow Rate [m3/s]']),
                 }
+                active = row_in['Heat Recovery Active']
+                if active in active_map:
+                    heat_recovery['energy_recovery_operation'] = active_map[active]
         return heat_recovery
 
     def gather_fan_operating_points(self, fan_name, max_flow, max_elec):
