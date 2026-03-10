@@ -6435,8 +6435,8 @@ FanSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Used by RCT. Add new SetpointManager report. Would need to find node name to find what AirLoop it is on. Not yet implemented in output reporting."
+      EPstatus: "ComplianceParameter"
+      EP Notes: "Used by RCT. Add new SetpointManager report. For OUTDOOR_AIR_RESET option hae Control Summary report we have SetpointManager:OutdoorAirReset table but it only shows node-name and would need to find node name to find what AirLoop it is on. Not yet implemented in output reporting. Other enumeration options not supported in output."
     operation_during_occupied:
       Description: "Operation during occupied times type"
       Data Type: "<FanSystemOperationOptions>"
@@ -6523,8 +6523,8 @@ FanSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Use difference between max and min temperature. Added to new setpoint manager report."
+      EPstatus: "ComplianceParameter"
+      EP Notes: "Use difference between max and min temperature. No output report supporting this yet."
     supply_air_temperature_reset_load_fraction:
       Description: "Supply air temperature reset load fraction during cooling operation"
       Data Type: "Numeric"
@@ -6541,8 +6541,8 @@ FanSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Not sure if mapping is complete. Added to new setpoint manager report."
+      EPstatus: "ComplianceParameter"
+      EP Notes: "No output report supporting this yet."
     supply_air_temperature_reset_schedule:
       Description: "ID of the Schedule for the supply air temperature reset during cooling operation"
       Data Type: "Reference"
@@ -6576,7 +6576,7 @@ FanSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "ComplianceParameter"
       EP Notes: "Is this talking about the SingleZoneVAV control type in PTAC/PTHP and UnitarySystem? I don't remember. Lets skip this one for now."
     fan_volume_reset_fraction:
       Description: "Fan volume reset load fraction"
@@ -6594,8 +6594,8 @@ FanSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "See previous."
+      EPstatus: "ComplianceParameter"
+      EP Notes: "Is this talking about the SingleZoneVAV control type in PTAC/PTHP and UnitarySystem? I don't remember. Lets skip this one for now. See previous."
     operating_schedule:
       Description: "ID of the Schedule indicating operation"
       Data Type: "Reference"
@@ -6612,8 +6612,8 @@ FanSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Added to new Controls report"
+      EPstatus: "ComplianceParameter"
+      EP Notes: "The Controls Summary report has AvailabilityManager:Scheduled but the columns do not include what fan system/airloop it is connected too"
     minimum_airflow:
       Description: "Minimum volume airflow"
       Data Type: "Numeric"
