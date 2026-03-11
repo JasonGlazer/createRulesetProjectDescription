@@ -2536,7 +2536,7 @@ Surface:
       EPout Report: "Envelope Summary"
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "ComplianceParameter"
       EP Notes: "Previously was PartialUsingOutput. Probably needs to be ComplianceParameter but will examine again. Used by RCT. Complicated mapping from input. Determine with table it is for exterior or interior but not others. Probably cannot be fully deteremined."
     adjacent_zone:
       Description: "ID of the adjacent Zone for interior surface. Only required when adjacent zone is explicity modeled when adjacent_to is set to INTERIOR."
@@ -8155,7 +8155,7 @@ FluidLoop:
       EPout Report: "HVAC Topology"
       EPout Table: "Plant Loop Component Arrangement"
       EPout Column: "Component Type"
-      EPstatus: "NotRequired"
+      EPstatus: "ComplianceParameter"
       EP Notes: "From topology report. Find both a constant and variable speed pump on the same plant loop. Probably other configurations need to be identified also. Can be a common pipe or a plate HX."
     cooling_or_condensing_design_and_control:
       Description: "Fluid loop design and control used for cooling or condensing loops"
