@@ -6162,8 +6162,8 @@ CoolingSystem:
       EPout Report: "table.html"
       EPout Table: "HVAC Topology"
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Based on the EnergyPlus input object, usually Mechanical cooling. Should be covered by new topology report. CoilSystem:Cooling:Water:HeatexchangerAssisted and Dehumidifier:Desiccant:NoFans would indicate SERIES_HEAT_RECOVERY and DESICCANT. Any place where a cooling coil is followed by a heating coil could do dehumidification also. Seems like the topology report should provide enough input for this. May need to check for many different configurations."
+      EPstatus: "PartialUsingOutput"
+      EP Notes: "CoilSystem:Cooling:Water:HeatexchangerAssisted and Dehumidifier:Desiccant:NoFans would indicate SERIES_HEAT_RECOVERY and DESICCANT. Determining if it is MECHANICAL_COOLING would require output reporting that does not exist to determine if the controls are present to control it that way."
     cooling_turndown_ratio:
       Description: "Cooling turndown ratio"
       Data Type: "Numeric"

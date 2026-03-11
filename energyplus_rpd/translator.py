@@ -1364,6 +1364,7 @@ class Translator:
         air_flows_62 = self.gather_airflows_from_62()
         economizer_by_airloop = self.gather_economizer_by_airloop()
         possible_return_fans = self.gather_possible_return_fans_by_airloop()
+        dehumid_option_by_airloop = self.gather_dehumid_option_by_airloop()
 
         coils_table = self.get_table("CoilSizingDetails", "Coils")
         if not coils_table:
@@ -1511,6 +1512,9 @@ class Translator:
                 if mv:
                     cs["efficiency_metric_types"] = mt
                     cs["efficiency_metric_values"] = mv
+
+                if hvac_name in dehumid_option_by_airloop:
+                    cs['dehumidification_type'] = dehumid_option_by_airloop['hvac_name']
 
                 hvac["cooling_system"] = cs
 
@@ -1718,6 +1722,21 @@ class Translator:
                     economizer['XTRA-Maxair'] = float(sys_econo_rep['Maximum Outdoor Air [m3/s]'])
                 economizers[airloop_by_oa_sys[sys_econo_rep['AirLoopHVAC:OutdoorAirSystem Name']]] = economizer
         return economizers
+
+    def gather_dehumid_option_by_airloop(self):
+        dehumid_options = {}
+        airloop_supplies = self.gather_table_into_list('HVACTopology',
+                                                       "Air Loop Supply Side Component Arrangement")
+        for airloop_supply in airloop_supplies:
+            if ('desiccant' in (airloop_supply['Component Type']).lower() or
+                    'desiccant' in (airloop_supply['Sub-Component Type']).lower() or
+                    'desiccant' in (airloop_supply['Sub-Component Type']).lower()):
+                dehumid_options[airloop_supply['Airloop Name']] = 'DESICCANT'
+            elif 'coilsystem:cooling:water:heatexchangerassisted ' in (airloop_supply['Component Type']).lower():
+                dehumid_options[airloop_supply['Airloop Name']] = 'SERIES_HEAT_RECOVERY'
+        # note that determining if it is MECHANICAL_COOLING would require output reporting that does not exist
+        # to determine if the controls are present to control it that way
+        return dehumid_options
 
     def get_table(self, report_name: str, table_name: str) -> JsonDict:
         tabular_reports: List[JsonDict] = self.json_results_object['TabularReports']
