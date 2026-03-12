@@ -7983,8 +7983,8 @@ Terminal:
       EPout Report: "Equipment Summary"
       EPout Table: "Air Terminals"
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Maybe this is a compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
       
 
 TerminalOptions:
