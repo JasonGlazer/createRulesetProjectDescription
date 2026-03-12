@@ -5771,12 +5771,12 @@ HeatingSystem:
       Used by RCT Test: True
       EPin Object: "AirLoopHVAC:UnitarySystem"
       EPin Field: "Maximum Outdoor Dry-Bulb Temperature for Supplemental Heater Operation"
-      EPout File: ""
-      EPout Report: ""
-      EPout Table: ""
-      EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Add column to Heating Coils table in Equipment Summary."
+      EPout File: "table.html"
+      EPout Report: "Equipment Summary"
+      EPout Table: "DX Heating Coils"
+      EPout Column: "Supplemental Heat High Shutoff Temperature [C]"
+      EPstatus: "DoneUsingOutput"
+      EP Notes: ""
     heatpump_low_shutoff_temperature:
       Description: "Heatpump low temperature shutoff"
       Data Type: "Numeric/Null"

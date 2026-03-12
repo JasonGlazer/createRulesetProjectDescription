@@ -1490,6 +1490,10 @@ class Translator:
                     if min_temp is not None:
                         hs["heatpump_low_shutoff_temperature"] = min_temp
 
+                    max_supplement_temp = heating_coil_efficiencies.get(rk, {}).get("max_temperature_supplement")
+                    if max_supplement_temp is not None:
+                        hs['heatpump_auxiliary_heat_high_shutoff_temperature'] = max_supplement_temp
+
                     hvac["heating_system"] = hs
 
             # ---------- Cooling ----------
@@ -2058,6 +2062,7 @@ class Translator:
         hspf_column = dx_cols.index('HSPF [Btu/W-h]')
         hspf_region_column = dx_cols.index('Region Number')
         minimum_temperature_column = dx_cols.index('Minimum Outdoor Dry-Bulb Temperature for Compressor Operation [C]')
+        supplement_high_temp_column = dx_cols.index('Supplemental Heat High Shutoff Temperature [C]')
         for row_key in dx_row_keys:
             if row_key == 'None':
                 continue
@@ -2072,6 +2077,12 @@ class Translator:
                         dx_rows[row_key][minimum_temperature_column])
                 except ValueError:
                     pass
+                try:
+                    coil_efficiencies[row_key]['max_temperature_supplement'] = float(
+                        dx_rows[row_key][supplement_high_temp_column])
+                except ValueError:
+                    pass
+
         dx2_table = self.get_table('EquipmentSummary', 'DX Heating Coils AHRI 2023')
         dx2_rows = dx2_table['Rows']
         dx2_row_keys = list(dx2_rows.keys())
