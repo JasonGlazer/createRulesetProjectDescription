@@ -502,6 +502,36 @@ class Translator:
                                     'ruleset_model_descriptions': [self.model_description, ],
                                     }
 
+    def add_external_fluid_source(self):
+        external_fluid_sources = []
+        plant_loop_arrangements = self.gather_table_into_list('HVACTopology', 'Plant Loop Component Arrangement')
+        for arrangement_row in plant_loop_arrangements:
+            comp_type = arrangement_row['Component Type']
+            if comp_type == 'DISTRICTCOOLING':
+                external_fluid = {
+                    "id": arrangement_row['Component Name'],
+                    "loop": arrangement_row['Loop Name'],
+                    "type": "CHILLED_WATER",
+                }
+                external_fluid_sources.append(external_fluid)
+            elif comp_type == 'DISTRICTHEATING:STEAM':
+                external_fluid = {
+                    "id": arrangement_row['Component Name'],
+                    "loop": arrangement_row['Loop Name'],
+                    "type": "STEAM",
+                }
+                external_fluid_sources.append(external_fluid)
+            elif comp_type == 'DISTRICTHEATING:WATER':
+                external_fluid = {
+                    "id": arrangement_row['Component Name'],
+                    "loop": arrangement_row['Loop Name'],
+                    "type": "HOT_WATER",
+                }
+                external_fluid_sources.append(external_fluid)
+        if external_fluid_sources:
+            self.model_description['external_fluid_sources'] = external_fluid_sources
+        return external_fluid_sources
+
     def add_weather(self):
         tabular_reports = self.json_results_object['TabularReports']
         weather_file = ''
@@ -620,6 +650,8 @@ class Translator:
                                                            ignore_first_column=True)
         setpoint_by_zone = self.gather_thermostat_setpoints()
         infiltration_by_zone = self.gather_infiltration()
+        exhaust_fans_by_zone = self.gather_exhaust_fans_by_zone()
+        equipment_fans = self.gather_equipment_fans()
         for tabular_report in tabular_reports:
             if tabular_report['ReportName'] == 'InputVerificationandResultsSummary':
                 tables = tabular_report['Tables']
@@ -682,6 +714,13 @@ class Translator:
                             if zone_name.upper() in zone_info_init_summary:
                                 zone['floor_name'] = 'Floor at Height ' + zone_info_init_summary[zone_name.upper()][
                                     'Minimum Z {m}']
+                            if zone_name.upper() in exhaust_fans_by_zone:
+                                zone['zonal_exhaust_fans'] = [
+                                    {
+                                        "id": f"{zone_name} exhaust_fan",
+                                        **equipment_fans[exhaust_fans_by_zone[zone_name.upper()]][0],
+                                    }
+                                ]
                 break
         self.building_segment['zones'] = zones
         return zones
@@ -1130,6 +1169,17 @@ class Translator:
                             self.schedules_used_names.append(schedule_name)
                             # print(infiltration)
                             infiltration_by_zone[zone_name.upper()] = infiltration
+        air_flow_network_annual = self.get_table_dictionary('AFN ZONE INFILTRATION ANNUAL', 'Custom Annual Report')
+        for name, afn in air_flow_network_annual.items():
+            if name == 'Annual Sum or Average' or name == 'Maximum of Rows' or name == 'Minimum of Rows' or name == '':
+                continue
+            infiltration = {
+                'id': name + 'AFN Infiltration',
+                'modeling_method': 'PRESSURE_BASED',
+                'algorithm_name': 'Air Flow Network',
+                'flow_rate': float(afn['AFN Zone Infiltration Volume {MAXIMUM} [m3/s]'])
+            }
+            infiltration_by_zone[name.upper()] = infiltration
         return infiltration_by_zone
 
     def add_schedules(self):
@@ -1332,6 +1382,10 @@ class Translator:
         air_terminals = self.gather_air_terminal()
         exhaust_fan_names = self.gather_exhaust_fans_by_airloop()
         air_flows_62 = self.gather_airflows_from_62()
+        economizer_by_airloop = self.gather_economizer_by_airloop()
+        possible_return_fans = self.gather_possible_return_fans_by_airloop()
+        dehumid_option_by_airloop = self.gather_dehumid_option_by_airloop()
+        humid_option_by_airloop = self.gather_humid_option_by_airloop()
 
         coils_table = self.get_table("CoilSizingDetails", "Coils")
         if not coils_table:
@@ -1416,6 +1470,10 @@ class Translator:
             hvac = next((x for x in hvac_systems if x["id"] == hvac_name), None)
             if not hvac:
                 hvac = {"id": hvac_name}
+
+                if hvac_name in humid_option_by_airloop:
+                    hvac['humidification_type'] = humid_option_by_airloop[hvac_name]
+
                 hvac_systems.append(hvac)
 
             # ---------- Heating ----------
@@ -1452,6 +1510,10 @@ class Translator:
                     if min_temp is not None:
                         hs["heatpump_low_shutoff_temperature"] = min_temp
 
+                    max_supplement_temp = heating_coil_efficiencies.get(rk, {}).get("max_temperature_supplement")
+                    if max_supplement_temp is not None:
+                        hs['heatpump_auxiliary_heat_high_shutoff_temperature'] = max_supplement_temp
+
                     hvac["heating_system"] = hs
 
             # ---------- Cooling ----------
@@ -1480,6 +1542,9 @@ class Translator:
                     cs["efficiency_metric_types"] = mt
                     cs["efficiency_metric_values"] = mv
 
+                if hvac_name in dehumid_option_by_airloop:
+                    cs['dehumidification_type'] = dehumid_option_by_airloop[hvac_name]
+
                 hvac["cooling_system"] = cs
 
             # ---------- Fan system ----------
@@ -1504,6 +1569,26 @@ class Translator:
 
                 if hvac_name in exhaust_fan_names:
                     fs["exhaust_fans"] = [{"id": n, **equipment_fans[n][0]} for n in exhaust_fan_names[hvac_name]]
+
+                if hvac_name in economizer_by_airloop:
+                    econo = economizer_by_airloop[hvac_name]
+                    if 'XTRA-Maxair' in econo:
+                        fs['maximum_outdoor_airflow'] = 1000 * econo['XTRA-Maxair']
+                        del econo['XTRA-Maxair']
+                    fs['air_economizer'] = economizer_by_airloop[hvac_name]
+
+                if 'speed_control_method' in fan_extra:
+                    method = fan_extra["speed_control_method"]
+                    if method == 'Discrete':
+                        fs['operation_during_occupied'] = 'CYCLING'
+                    elif method == 'Continuous':
+                        fs['operation_during_occupied'] = 'CONTINUOUS'
+
+                if hvac_name in possible_return_fans:
+                    possible_fan = possible_return_fans[hvac_name]
+                    if supply_fan != possible_fan:
+                        return_fan, return_fan_extra = equipment_fans[possible_fan]
+                        fs['return_fans'] = [{"id": possible_fan, **fan, "specification_method": "SIMPLE"}],
 
                 hvac["fan_system"] = fs
 
@@ -1633,6 +1718,66 @@ class Translator:
         self.building_segment["heating_ventilating_air_conditioning_systems"] = hvac_systems
         return hvac_systems, self.terminals_by_zone
 
+    def gather_economizer_by_airloop(self):
+        economizers = {}
+        sys_econo_reps = self.gather_table_into_list('SystemSummary', 'Economizer')
+        airloop_supplies = self.gather_table_into_list('HVACTopology',
+                                                       "Air Loop Supply Side Component Arrangement")
+        ep_control_type_map = {
+            'FixedDryBulb': 'TEMPERATURE',
+            'FixedEnthalpy': 'ENTHALPY',
+            'DifferentialDryBulb': 'DIFFERENTIAL_TEMPERATURE',
+            'DifferentialEnthalpy': 'DIFFERENTIAL_ENTHALPY',
+            'FixedDewPointAndDryBulb': 'OTHER',
+            'ElectronicEnthalpy': 'OTHER',
+            'DifferentialDryBulbAndEnthalpy': 'OTHER',
+            'NoEconomizer': 'FIXED_FRACTION'
+        }
+        airloop_by_oa_sys = {}
+        for airloop_supply in airloop_supplies:
+            if (airloop_supply['Component Type'] == 'AIRLOOPHVAC:OUTDOORAIRSYSTEM' and
+                    airloop_supply['Sub-Component Type'] == ''):
+                airloop_by_oa_sys[airloop_supply['Component Name']] = airloop_supply['Airloop Name']
+        for sys_econo_rep in sys_econo_reps:
+            if sys_econo_rep['AirLoopHVAC:OutdoorAirSystem Name'] in airloop_by_oa_sys:
+                economizer = {'id': sys_econo_rep['first column'], }
+                if sys_econo_rep['High Limit Shutoff Control'] in ep_control_type_map:
+                    economizer['type'] = ep_control_type_map[sys_econo_rep['High Limit Shutoff Control']]
+                if sys_econo_rep['Outdoor Air Temperature Limit [C]']:
+                    economizer['high_limit_shutoff_temperature'] = float(
+                        sys_econo_rep['Outdoor Air Temperature Limit [C]'])
+                if sys_econo_rep['Maximum Outdoor Air [m3/s]']:
+                    # not used in economizer but just carried along in data structure
+                    economizer['XTRA-Maxair'] = float(sys_econo_rep['Maximum Outdoor Air [m3/s]'])
+                economizers[airloop_by_oa_sys[sys_econo_rep['AirLoopHVAC:OutdoorAirSystem Name']]] = economizer
+        return economizers
+
+    def gather_dehumid_option_by_airloop(self):
+        dehumid_options = {}
+        airloop_supplies = self.gather_table_into_list('HVACTopology',
+                                                       "Air Loop Supply Side Component Arrangement")
+        for airloop_supply in airloop_supplies:
+            if ('desiccant' in (airloop_supply['Component Type']).lower() or
+                    'desiccant' in (airloop_supply['Sub-Component Type']).lower() or
+                    'desiccant' in (airloop_supply['Sub-Sub-Component Type']).lower()):
+                dehumid_options[airloop_supply['Airloop Name']] = 'DESICCANT'
+            elif 'coilsystem:cooling:water:heatexchangerassisted ' in (airloop_supply['Component Type']).lower():
+                dehumid_options[airloop_supply['Airloop Name']] = 'SERIES_HEAT_RECOVERY'
+        # note that determining if it is MECHANICAL_COOLING would require output reporting that does not exist
+        # to determine if the controls are present to control it that way
+        return dehumid_options
+
+    def gather_humid_option_by_airloop(self):
+        humid_options = {}
+        airloop_supplies = self.gather_table_into_list('HVACTopology',
+                                                       "Air Loop Supply Side Component Arrangement")
+        for airloop_supply in airloop_supplies:
+            if ('humidifier:steam:' in (airloop_supply['Component Type']).lower() or
+                    'humidifier:steam:' in (airloop_supply['Sub-Component Type']).lower() or
+                    'humidifier:steam:' in (airloop_supply['Sub-Sub-Component Type']).lower()):
+                humid_options[airloop_supply['Airloop Name']] = 'OTHER'
+        return humid_options
+
     def get_table(self, report_name: str, table_name: str) -> JsonDict:
         tabular_reports: List[JsonDict] = self.json_results_object['TabularReports']
         for tabular_report in tabular_reports:
@@ -1740,15 +1885,42 @@ class Translator:
 #            print(item)
         return dict_of_dict
 
+    def gather_exhaust_fans_by_zone(self):
+        exh_fan_by_zone = {}
+        topology_zone_equips = self.gather_table_into_list('HVACTopology', "Zone Equipment Component Arrangement")
+        for topology_zone_equip in topology_zone_equips:
+            current_zone_name = topology_zone_equip['Zone Name']
+            if topology_zone_equip['Component Type'] == 'FAN:ZONEEXHAUST':
+                exh_fan_by_zone[current_zone_name] = topology_zone_equip['Component Name']
+        return exh_fan_by_zone
+
+    def gather_possible_return_fans_by_airloop(self):
+        return_fans = {}
+        airloop_supplies = self.gather_table_into_list('HVACTopology',
+                                                       "Air Loop Supply Side Component Arrangement")
+        blank_row = False
+        for supply_row in airloop_supplies:
+            if supply_row['Supply Branch Name']:
+                if blank_row:
+                    if 'FAN:' in supply_row['Component Type']:
+                        return_fans[supply_row['Airloop Name']] = supply_row['Component Name']
+                    elif 'FAN:' in supply_row['Sub-Component Type']:
+                        return_fans[supply_row['Airloop Name']] = supply_row['Sub-Component Name']
+                blank_row = False
+            else:
+                # if empty string then the row is blank except for airloop name
+                blank_row = True
+                continue
+        return return_fans
+
     def gather_exhaust_fans_by_airloop(self):
         exh_fan_by_airloop = {}  # for each airloop name contains a list of exhaust fans
         topology_zone_equips = self.gather_table_into_list('HVACTopology', "Zone Equipment Component Arrangement")
         zone_name_exh_fan = []  # list of tuples of zone name and exhaust fans
         for topology_zone_equip in topology_zone_equips:
             current_zone_name = topology_zone_equip['Zone Name']
-            if topology_zone_equip['Component Type'] == 'FAN:ZONEEXHAUST':
-                zone_name_exh_fan.append((current_zone_name, topology_zone_equip['Component Name']))
-            elif topology_zone_equip['Sub-Component Type'] == 'FAN:ZONEEXHAUST':
+            # only look in nested sub and sub-sub components
+            if topology_zone_equip['Sub-Component Type'] == 'FAN:ZONEEXHAUST':
                 zone_name_exh_fan.append((current_zone_name, topology_zone_equip['Sub-Component Name']))
             elif topology_zone_equip['Sub-Sub-Component Type'] == 'FAN:ZONEEXHAUST':
                 zone_name_exh_fan.append((current_zone_name, topology_zone_equip['Sub-Sub-Component Name']))
@@ -1910,6 +2082,7 @@ class Translator:
         hspf_column = dx_cols.index('HSPF [Btu/W-h]')
         hspf_region_column = dx_cols.index('Region Number')
         minimum_temperature_column = dx_cols.index('Minimum Outdoor Dry-Bulb Temperature for Compressor Operation [C]')
+        supplement_high_temp_column = dx_cols.index('Supplemental Heat High Shutoff Temperature [C]')
         for row_key in dx_row_keys:
             if row_key == 'None':
                 continue
@@ -1924,6 +2097,12 @@ class Translator:
                         dx_rows[row_key][minimum_temperature_column])
                 except ValueError:
                     pass
+                try:
+                    coil_efficiencies[row_key]['max_temperature_supplement'] = float(
+                        dx_rows[row_key][supplement_high_temp_column])
+                except ValueError:
+                    pass
+
         dx2_table = self.get_table('EquipmentSummary', 'DX Heating Coils AHRI 2023')
         dx2_rows = dx2_table['Rows']
         dx2_row_keys = list(dx2_rows.keys())
@@ -1975,6 +2154,7 @@ class Translator:
         is_autosized_column = cols.index('Is Autosized')
         motor_eff_column = cols.index('Motor Efficiency')
         motor_heat_to_zone_frac_column = cols.index('Motor Heat to Zone Fraction')
+        speed_control_method_column = cols.index('Speed Control Method')
         motor_loss_zone_name_column = cols.index('Motor Loss Zone Name')
         airloop_name_column = cols.index('Airloop Name')
         for row_key in coil_row_keys:
@@ -1993,6 +2173,7 @@ class Translator:
             extra_type = rows[row_key][type_column]
             fan_energy_index = float(rows[row_key][fan_energy_index_column])
             purpose = rows[row_key][purpose_column]
+            speed_control_method = rows[row_key][speed_control_method_column]
             airloop_name = rows[row_key][airloop_name_column]
             equipment_fan = {'design_airflow': max_air_flow_rate,
                              'is_airflow_calculated': is_autosized,
@@ -2006,6 +2187,7 @@ class Translator:
             fan_extra = {'type': extra_type,
                          'fan_energy_index': fan_energy_index,
                          'purpose': purpose,
+                         'speed_control_method': speed_control_method,
                          'airloop_name': airloop_name}
             #  for Fan:SystemModel need to add some additional fields to understand later if variable speed or not
             equipment_fan['operating_points'] = self.gather_fan_operating_points(row_key, max_air_flow_rate,
@@ -2026,6 +2208,12 @@ class Translator:
     def gather_air_heat_recovery(self, airloop_name):
         heat_recovery = {}
         table_in = self.gather_table_into_list('EquipmentSummary', 'Air Heat Recovery')
+        active_map = {
+            'WhenFansOn': 'WHEN_FANS_ON',
+            'Scheduled': 'SCHEDULED',
+            'WhenOutsideEconomizerLimits': 'OTHER',
+            'WhenMinimumOutdoorAir': 'WHEN_MINIMUM_OUTSIDE_AIR'
+        }
         for row_in in table_in:
             if airloop_name == row_in['Airloop Name']:
                 if row_in['Type'] == 'HeatExchanger:AirToAir:SensibleAndLatent':
@@ -2051,6 +2239,9 @@ class Translator:
                     'outdoor_airflow': float(row_in['Supply Air Flow Rate [m3/s]']),
                     'exhaust_airflow': float(row_in['Exhaust Air Flow Rate [m3/s]']),
                 }
+                active = row_in['Heat Recovery Active']
+                if active in active_map:
+                    heat_recovery['energy_recovery_operation'] = active_map[active]
         return heat_recovery
 
     def gather_fan_operating_points(self, fan_name, max_flow, max_elec):
@@ -2391,6 +2582,10 @@ class Translator:
     def add_fluid_loops(self):
         fluid_loops = []
         plant_loop_arrangements = self.gather_table_into_list('HVACTopology', 'Plant Loop Component Arrangement')
+        loop_equip_summaries = self.get_table_dictionary('EquipmentSummary', 'PlantLoop or CondenserLoop')
+        loop_comp_summaries = self.get_table_dictionary('ComponentSizingSummary', 'PlantLoop')
+        oa_reset_control_summaries = self.gather_table_into_list('ControlSummary', 'SetpointManager:OutdoorAirReset')
+        return_control_summaries = self.gather_table_into_list('ControlSummary', 'SetpointManager:ReturnTemperature')
         loop_types = {}
         if plant_loop_arrangements:
             if plant_loop_arrangements[0]['first column'] == 'None':
@@ -2450,6 +2645,46 @@ class Translator:
                 design_control['flow_control'] = 'VARIABLE_FLOW'
             else:
                 design_control['flow_control'] = 'FIXED_FLOW'
+            if loop_name in loop_equip_summaries:
+                temperature_string = loop_equip_summaries[loop_name]['Design Supply Temperature [C]']
+                if is_float(temperature_string):
+                    design_control['design_supply_temperature'] = float(temperature_string)
+                temperature_string = loop_equip_summaries[loop_name]['Design Return Temperature [C]']
+                if is_float(temperature_string):
+                    design_control['design_return_temperature'] = float(temperature_string)
+            if loop_name in loop_comp_summaries:
+                if 'Sizing Option' in loop_comp_summaries[loop_name]:
+                    sizing_option = loop_comp_summaries[loop_name]['Sizing Option']
+                    if sizing_option == 'NonCoincident':
+                        design_control['is_sized_using_coincident_load'] = False
+                    elif sizing_option == 'Coincident':
+                        design_control['is_sized_using_coincident_load'] = True
+                if 'Maximum Loop Flow Rate [m3/s]' in loop_comp_summaries[loop_name]:
+                    max_flow = float(loop_comp_summaries[loop_name]['Maximum Loop Flow Rate [m3/s]'])
+                    if max_flow > 0 and 'Minimum Loop Flow Rate [m3/s]' in loop_comp_summaries[loop_name]:
+                        min_flow = float(loop_comp_summaries[loop_name]['Minimum Loop Flow Rate [m3/s]'])
+                        design_control['minimum_flow_fraction'] = min_flow / max_flow
+            for oa_reset_control in oa_reset_control_summaries:
+                if loop_name == oa_reset_control['Setpoint Node PlantLoop Name']:
+                    design_control['temperature_reset_type'] = 'OUTSIDE_AIR_RESET'
+                    design_control['outdoor_high_for_loop_supply_reset_temperature'] = float(
+                        oa_reset_control['Outdoor High Temperature [C]'])
+                    design_control['outdoor_low_for_loop_supply_reset_temperature'] = float(
+                        oa_reset_control['Outdoor Low Temperature [C]'])
+                    design_control['loop_supply_temperature_at_outdoor_high'] = float(
+                        oa_reset_control['Setpoint at Outdoor High Temperature [C]'])
+                    design_control['loop_supply_temperature_at_outdoor_low'] = float(
+                        oa_reset_control['Setpoint at Outdoor Low Temperature [C]'])
+            for return_control in return_control_summaries:
+                if loop_name == return_control['PlantLoop Name']:
+                    if 'COOLING' in loop_type or 'CONDENSER' == loop_type:
+                        design_control['temperature_reset_type'] = 'LOAD_RESET'
+                        design_control['loop_supply_temperature_at_low_load'] = float(
+                            oa_reset_control['Maximum Supply Temperature Setpoint [C]'])
+                    elif 'HEATING' in loop_type:
+                        design_control['temperature_reset_type'] = 'LOAD_RESET'
+                        design_control['loop_supply_temperature_at_low_load'] = float(
+                            oa_reset_control['Minimum Supply Temperature Setpoint [C]'])
             if 'COOLING' in loop_type or 'CONDENSER' == loop_type:
                 fluid_loop['cooling_or_condensing_design_and_control'] = design_control
                 design_control['has_integrated_waterside_economizer'] = do_share_branch('chiller',
@@ -2457,6 +2692,7 @@ class Translator:
                                                                                         plant_loop_arrangements)
             if 'HEATING' in loop_type:
                 fluid_loop['heating_design_and_control'] = design_control
+
             fluid_loops.append(fluid_loop)
         self.model_description['fluid_loops'] = fluid_loops
         return fluid_loops
@@ -2881,6 +3117,7 @@ class Translator:
         epjson = self.epjson_object
         Translator.validate_input_contents(epjson)
         self.create_skeleton()
+        self.add_external_fluid_source()
         self.add_weather()
         self.add_calendar()
         self.add_materials()
