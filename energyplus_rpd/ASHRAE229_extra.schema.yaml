@@ -2536,7 +2536,7 @@ Surface:
       EPout Report: "Envelope Summary"
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "ComplianceParameter"
       EP Notes: "Previously was PartialUsingOutput. Probably needs to be ComplianceParameter but will examine again. Used by RCT. Complicated mapping from input. Determine with table it is for exterior or interior but not others. Probably cannot be fully deteremined."
     adjacent_zone:
       Description: "ID of the adjacent Zone for interior surface. Only required when adjacent zone is explicity modeled when adjacent_to is set to INTERIOR."
@@ -5460,10 +5460,10 @@ HeatingVentilatingAirConditioningSystem:
       EPin Field: ""
       EPout File: "table.html"
       EPout Report: "HVAC Topology"
-      EPout Table: ""
-      EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "New element not sure if used by RCT. Maybe previously worked on when part of HeatingSystem. EnergyPlus has steam humidifiers so they would be Other using Humidifier:Steam:Gas and Humidifier:Steam:Electric. See if either is in the HVAC Topology. It is possible that Adiabitic might be able to use EvaporativeCooler:* in the supply side."
+      EPout Table: "Air Loop Supply Side Component Arrangement"
+      EPout Column: "Component"
+      EPstatus: "DoneUsingOutput"
+      EP Notes: "EnergyPlus has steam humidifiers so they would be Other using Humidifier:Steam:Gas and Humidifier:Steam:Electric. See if either is in the HVAC Topology. "
     status_type:
       Description: "Choice of new, existing, addition, alteration, etc. for each ruleset."
       Data Type: "<StatusOptions>"
@@ -5771,12 +5771,12 @@ HeatingSystem:
       Used by RCT Test: True
       EPin Object: "AirLoopHVAC:UnitarySystem"
       EPin Field: "Maximum Outdoor Dry-Bulb Temperature for Supplemental Heater Operation"
-      EPout File: ""
-      EPout Report: ""
-      EPout Table: ""
-      EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Add column to Heating Coils table in Equipment Summary."
+      EPout File: "table.html"
+      EPout Report: "Equipment Summary"
+      EPout Table: "DX Heating Coils"
+      EPout Column: "Supplemental Heat High Shutoff Temperature [C]"
+      EPstatus: "DoneUsingOutput"
+      EP Notes: ""
     heatpump_low_shutoff_temperature:
       Description: "Heatpump low temperature shutoff"
       Data Type: "Numeric/Null"
@@ -6162,8 +6162,8 @@ CoolingSystem:
       EPout Report: "table.html"
       EPout Table: "HVAC Topology"
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Based on the EnergyPlus input object, usually Mechanical cooling. Should be covered by new topology report. CoilSystem:Cooling:Water:HeatexchangerAssisted and Dehumidifier:Desiccant:NoFans would indicate SERIES_HEAT_RECOVERY and DESICCANT. Any place where a cooling coil is followed by a heating coil could do dehumidification also. Seems like the topology report should provide enough input for this. May need to check for many different configurations."
+      EPstatus: "PartialUsingOutput"
+      EP Notes: "CoilSystem:Cooling:Water:HeatexchangerAssisted and Dehumidifier:Desiccant:NoFans would indicate SERIES_HEAT_RECOVERY and DESICCANT. Determining if it is MECHANICAL_COOLING would require output reporting that does not exist to determine if the controls are present to control it that way."
     cooling_turndown_ratio:
       Description: "Cooling turndown ratio"
       Data Type: "Numeric"
@@ -7965,8 +7965,8 @@ Terminal:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "The Demand Controlled Ventilation field in the Controller:MechanicalVentilation should be added to the System Summary report"
+      EPstatus: "ComplianceParameter"
+      EP Notes: "The Demand Controlled Ventilation field in the Controller:MechanicalVentilation should have be added to the System Summary report but it wasn't"
     is_fan_first_stage_heat:
       Description: "True if the the only source of first stage heating is the heat from the fan itself"
       Data Type: "Boolean"
@@ -7983,8 +7983,8 @@ Terminal:
       EPout Report: "Equipment Summary"
       EPout Table: "Air Terminals"
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Maybe this is a compliance parameter"
+      EPstatus: "ComplianceParameter"
+      EP Notes: ""
       
 
 TerminalOptions:
@@ -8155,7 +8155,7 @@ FluidLoop:
       EPout Report: "HVAC Topology"
       EPout Table: "Plant Loop Component Arrangement"
       EPout Column: "Component Type"
-      EPstatus: "NotRequired"
+      EPstatus: "ComplianceParameter"
       EP Notes: "From topology report. Find both a constant and variable speed pump on the same plant loop. Probably other configurations need to be identified also. Can be a common pipe or a plate HX."
     cooling_or_condensing_design_and_control:
       Description: "Fluid loop design and control used for cooling or condensing loops"

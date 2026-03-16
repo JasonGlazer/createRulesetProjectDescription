@@ -1364,6 +1364,8 @@ class Translator:
         air_flows_62 = self.gather_airflows_from_62()
         economizer_by_airloop = self.gather_economizer_by_airloop()
         possible_return_fans = self.gather_possible_return_fans_by_airloop()
+        dehumid_option_by_airloop = self.gather_dehumid_option_by_airloop()
+        humid_option_by_airloop = self.gather_humid_option_by_airloop()
 
         coils_table = self.get_table("CoilSizingDetails", "Coils")
         if not coils_table:
@@ -1448,6 +1450,10 @@ class Translator:
             hvac = next((x for x in hvac_systems if x["id"] == hvac_name), None)
             if not hvac:
                 hvac = {"id": hvac_name}
+
+                if hvac_name in humid_option_by_airloop:
+                    hvac['humidification_type'] = humid_option_by_airloop[hvac_name]
+
                 hvac_systems.append(hvac)
 
             # ---------- Heating ----------
@@ -1484,6 +1490,10 @@ class Translator:
                     if min_temp is not None:
                         hs["heatpump_low_shutoff_temperature"] = min_temp
 
+                    max_supplement_temp = heating_coil_efficiencies.get(rk, {}).get("max_temperature_supplement")
+                    if max_supplement_temp is not None:
+                        hs['heatpump_auxiliary_heat_high_shutoff_temperature'] = max_supplement_temp
+
                     hvac["heating_system"] = hs
 
             # ---------- Cooling ----------
@@ -1511,6 +1521,9 @@ class Translator:
                 if mv:
                     cs["efficiency_metric_types"] = mt
                     cs["efficiency_metric_values"] = mv
+
+                if hvac_name in dehumid_option_by_airloop:
+                    cs['dehumidification_type'] = dehumid_option_by_airloop[hvac_name]
 
                 hvac["cooling_system"] = cs
 
@@ -1718,6 +1731,32 @@ class Translator:
                     economizer['XTRA-Maxair'] = float(sys_econo_rep['Maximum Outdoor Air [m3/s]'])
                 economizers[airloop_by_oa_sys[sys_econo_rep['AirLoopHVAC:OutdoorAirSystem Name']]] = economizer
         return economizers
+
+    def gather_dehumid_option_by_airloop(self):
+        dehumid_options = {}
+        airloop_supplies = self.gather_table_into_list('HVACTopology',
+                                                       "Air Loop Supply Side Component Arrangement")
+        for airloop_supply in airloop_supplies:
+            if ('desiccant' in (airloop_supply['Component Type']).lower() or
+                    'desiccant' in (airloop_supply['Sub-Component Type']).lower() or
+                    'desiccant' in (airloop_supply['Sub-Sub-Component Type']).lower()):
+                dehumid_options[airloop_supply['Airloop Name']] = 'DESICCANT'
+            elif 'coilsystem:cooling:water:heatexchangerassisted ' in (airloop_supply['Component Type']).lower():
+                dehumid_options[airloop_supply['Airloop Name']] = 'SERIES_HEAT_RECOVERY'
+        # note that determining if it is MECHANICAL_COOLING would require output reporting that does not exist
+        # to determine if the controls are present to control it that way
+        return dehumid_options
+
+    def gather_humid_option_by_airloop(self):
+        humid_options = {}
+        airloop_supplies = self.gather_table_into_list('HVACTopology',
+                                                       "Air Loop Supply Side Component Arrangement")
+        for airloop_supply in airloop_supplies:
+            if ('humidifier:steam:' in (airloop_supply['Component Type']).lower() or
+                    'humidifier:steam:' in (airloop_supply['Sub-Component Type']).lower() or
+                    'humidifier:steam:' in (airloop_supply['Sub-Sub-Component Type']).lower()):
+                humid_options[airloop_supply['Airloop Name']] = 'OTHER'
+        return humid_options
 
     def get_table(self, report_name: str, table_name: str) -> JsonDict:
         tabular_reports: List[JsonDict] = self.json_results_object['TabularReports']
@@ -2023,6 +2062,7 @@ class Translator:
         hspf_column = dx_cols.index('HSPF [Btu/W-h]')
         hspf_region_column = dx_cols.index('Region Number')
         minimum_temperature_column = dx_cols.index('Minimum Outdoor Dry-Bulb Temperature for Compressor Operation [C]')
+        supplement_high_temp_column = dx_cols.index('Supplemental Heat High Shutoff Temperature [C]')
         for row_key in dx_row_keys:
             if row_key == 'None':
                 continue
@@ -2037,6 +2077,12 @@ class Translator:
                         dx_rows[row_key][minimum_temperature_column])
                 except ValueError:
                     pass
+                try:
+                    coil_efficiencies[row_key]['max_temperature_supplement'] = float(
+                        dx_rows[row_key][supplement_high_temp_column])
+                except ValueError:
+                    pass
+
         dx2_table = self.get_table('EquipmentSummary', 'DX Heating Coils AHRI 2023')
         dx2_rows = dx2_table['Rows']
         dx2_row_keys = list(dx2_rows.keys())
