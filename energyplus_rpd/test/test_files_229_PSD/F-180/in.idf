@@ -5820,7 +5820,7 @@
     0.9438948864,            !- Design Maximum Air Flow Rate {m3/s}
     Continuous,              !- Speed Control Method
     0,                       !- Electric Power Minimum Flow Rate Fraction
-    1017.592,                !- Design Pressure Rise {Pa}
+    380,                !- Design Pressure Rise {Pa}
     0.93,                    !- Motor Efficiency
     1,                       !- Motor In Air Stream Fraction
     600,                     !- Design Electric Power Consumption {W}
@@ -6096,7 +6096,7 @@
     0.9438948864,            !- Design Maximum Air Flow Rate {m3/s}
     Continuous,              !- Speed Control Method
     0,                       !- Electric Power Minimum Flow Rate Fraction
-    1017.592,                !- Design Pressure Rise {Pa}
+    380,                !- Design Pressure Rise {Pa}
     0.93,                    !- Motor Efficiency
     1,                       !- Motor In Air Stream Fraction
     600,                     !- Design Electric Power Consumption {W}
@@ -6358,7 +6358,7 @@
     0.9438948864,            !- Design Maximum Air Flow Rate {m3/s}
     Continuous,              !- Speed Control Method
     0,                       !- Electric Power Minimum Flow Rate Fraction
-    1017.592,                !- Design Pressure Rise {Pa}
+    380,                !- Design Pressure Rise {Pa}
     0.93,                    !- Motor Efficiency
     1,                       !- Motor In Air Stream Fraction
     600,                     !- Design Electric Power Consumption {W}
@@ -6620,7 +6620,7 @@
     0.9438948864,            !- Design Maximum Air Flow Rate {m3/s}
     Continuous,              !- Speed Control Method
     0,                       !- Electric Power Minimum Flow Rate Fraction
-    1017.592,                !- Design Pressure Rise {Pa}
+    380,                !- Design Pressure Rise {Pa}
     0.93,                    !- Motor Efficiency
     1,                       !- Motor In Air Stream Fraction
     600,                     !- Design Electric Power Consumption {W}
@@ -6882,7 +6882,7 @@
     0.9438948864,            !- Design Maximum Air Flow Rate {m3/s}
     Continuous,              !- Speed Control Method
     0,                       !- Electric Power Minimum Flow Rate Fraction
-    1017.592,                !- Design Pressure Rise {Pa}
+    380,                !- Design Pressure Rise {Pa}
     0.93,                    !- Motor Efficiency
     1,                       !- Motor In Air Stream Fraction
     600,                     !- Design Electric Power Consumption {W}
