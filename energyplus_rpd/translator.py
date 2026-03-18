@@ -1568,7 +1568,7 @@ class Translator:
                     possible_fan = possible_return_fans[hvac_name]
                     if supply_fan != possible_fan:
                         return_fan, return_fan_extra = equipment_fans[possible_fan]
-                        fs['return_fans'] = [{"id": possible_fan, **fan, "specification_method": "SIMPLE"}],
+                        fs['return_fans'] = [{"id": possible_fan, **return_fan, "specification_method": "SIMPLE"},]
 
                 hvac["fan_system"] = fs
 
