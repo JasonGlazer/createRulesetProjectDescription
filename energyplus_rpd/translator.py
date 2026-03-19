@@ -1338,6 +1338,35 @@ class Translator:
 
     def add_heating_ventilation_system(self):
         hvac_systems = []
+        supply_topology_by_airloop = self.analyze_supply_topology_by_airloop()
+        coils_table = self.get_table_dictionary("CoilSizingDetails", "Coils")
+
+        for airloop, supply_top in supply_topology_by_airloop.items():
+            hvac = {"id": airloop}
+            hvac_systems.append(hvac)
+
+            if 'main_heating_coil' in supply_top:
+                heat_coil_name = supply_top['main_heating_coil']
+                heat_coil = coils_table[heat_coil_name]
+                hs = {"id": f"{airloop}-heating"}
+                hvac["heating_system"] = hs
+
+            if 'cooling_coil' in supply_top:
+                cool_coil_name = supply_top['cooling_coil']
+                cool_coil = coils_table[cool_coil_name]
+                cs = {'id': f"{airloop}-cooling"}
+                hvac["cooling_system"] = cs
+
+            if 'supply_fan' in supply_top:
+                supply_fan_name = supply_top['supply_fan']
+                fs = {'id': f"{supply_fan_name}-fansystem"}
+                hvac["fan_system"] = fs
+
+        self.building_segment["heating_ventilating_air_conditioning_systems"] = hvac_systems
+        return hvac_systems
+
+    def add_heating_ventilation_system_old(self):
+        hvac_systems = []
         zone_hvac_terminals = {}
 
         # Used later to add ZoneHVAC terminals that might not show up in CoilSizingDetails:Coils
@@ -1366,7 +1395,6 @@ class Translator:
         possible_return_fans = self.gather_possible_return_fans_by_airloop()
         dehumid_option_by_airloop = self.gather_dehumid_option_by_airloop()
         humid_option_by_airloop = self.gather_humid_option_by_airloop()
-        # topology_by_airloop = self.analyze_topology_by_airloop()
         supply_topology_by_airloop = self.analyze_supply_topology_by_airloop()
         zones_by_airloop, zone_by_terminal = self.analyze_demand_topology_by_airloop()
         equip_topology_by_zone = self.analyze_zone_equipment()
