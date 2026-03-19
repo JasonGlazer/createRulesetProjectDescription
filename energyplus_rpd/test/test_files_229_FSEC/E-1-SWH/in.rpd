@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-02-21T01:18Z",
+    "time_of_creation": "2026-03-19T19:53Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -36,28 +36,25 @@
                     "design_total_cool_capacity": 34762.72216,
                     "design_sensible_cool_capacity": 26344.928988956,
                     "type": "DIRECT_EXPANSION",
-                    "rated_total_cool_capacity": 34863.263320591504,
-                    "rated_sensible_cool_capacity": 24108.51958344964,
                     "oversizing_factor": 1.0393345061336334,
                     "is_calculated_size": false,
-                    "efficiency_metric_values": [
-                      2.705903834320606,
-                      9.232927127979675,
-                      9.201031060023643,
-                      9.035250251611949
-                    ],
+                    "rated_total_cool_capacity": 34863.263320591504,
+                    "rated_sensible_cool_capacity": 24108.51958344964,
                     "efficiency_metric_types": [
                       "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
                       "ENERGY_EFFICIENCY_RATIO",
                       "SEASONAL_ENERGY_EFFICIENCY_RATIO",
                       "INTEGRATED_ENERGY_EFFICIENCY_RATIO"
+                    ],
+                    "efficiency_metric_values": [
+                      2.705903834320606,
+                      9.232927127979675,
+                      9.201031060023643,
+                      9.035250251611949
                     ]
                   },
                   "fan_system": {
                     "id": "PSZHP FAN CV - CORE ZONE 1-fansystem",
-                    "minimum_airflow": 1639.7140119493479,
-                    "minimum_outdoor_airflow": 600.089944075776,
-                    "fan_control": "CONSTANT",
                     "supply_fans": [
                       {
                         "id": "PSZHP FAN CV - CORE ZONE 1",
@@ -70,9 +67,73 @@
                         "motor_heat_to_airflow_fraction": 1.0,
                         "motor_heat_to_zone_fraction": 0.0,
                         "motor_location_zone": "N/A",
+                        "operating_points": [
+                          {
+                            "airflow": 0.0,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 0.16556200000000001,
+                            "power": 84.767744
+                          },
+                          {
+                            "airflow": 0.33112400000000003,
+                            "power": 169.535488
+                          },
+                          {
+                            "airflow": 0.49668600000000007,
+                            "power": 254.303232
+                          },
+                          {
+                            "airflow": 0.6622480000000001,
+                            "power": 339.070976
+                          },
+                          {
+                            "airflow": 0.82781,
+                            "power": 423.83872
+                          },
+                          {
+                            "airflow": 0.9933720000000001,
+                            "power": 508.606464
+                          },
+                          {
+                            "airflow": 1.158934,
+                            "power": 593.374208
+                          },
+                          {
+                            "airflow": 1.3244960000000001,
+                            "power": 678.141952
+                          },
+                          {
+                            "airflow": 1.490058,
+                            "power": 762.909696
+                          },
+                          {
+                            "airflow": 1.65562,
+                            "power": 847.67744
+                          }
+                        ],
                         "specification_method": "SIMPLE"
                       }
-                    ]
+                    ],
+                    "minimum_airflow": 1639.7140119493479,
+                    "minimum_outdoor_airflow": 600.089944075776,
+                    "fan_control": "CONSTANT",
+                    "air_energy_recovery": {
+                      "id": "ERVHX CORE ZONE 1",
+                      "type": "ENTHALPY_HEAT_WHEEL",
+                      "design_sensible_effectiveness": 0.5,
+                      "design_latent_effectiveness": 0.5,
+                      "outdoor_airflow": 0.600089944075776,
+                      "exhaust_airflow": 0.600089944075776,
+                      "energy_recovery_operation": "OTHER"
+                    },
+                    "maximum_outdoor_airflow": 1639.7140119493479,
+                    "air_economizer": {
+                      "id": "OA CONTROLLER COREZONE",
+                      "type": "DIFFERENTIAL_TEMPERATURE"
+                    },
+                    "operation_during_occupied": "CYCLING"
                   }
                 },
                 {
@@ -82,28 +143,25 @@
                     "design_total_cool_capacity": 43577.73714,
                     "design_sensible_cool_capacity": 32271.929016398397,
                     "type": "DIRECT_EXPANSION",
-                    "rated_total_cool_capacity": 43703.773192293054,
-                    "rated_sensible_cool_capacity": 29647.491987772482,
                     "oversizing_factor": 1.0413902088946938,
                     "is_calculated_size": false,
-                    "efficiency_metric_values": [
-                      2.7235253377207256,
-                      9.293054193367274,
-                      9.264321236937516,
-                      9.141520462313164
-                    ],
+                    "rated_total_cool_capacity": 43703.773192293054,
+                    "rated_sensible_cool_capacity": 29647.491987772482,
                     "efficiency_metric_types": [
                       "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
                       "ENERGY_EFFICIENCY_RATIO",
                       "SEASONAL_ENERGY_EFFICIENCY_RATIO",
                       "INTEGRATED_ENERGY_EFFICIENCY_RATIO"
+                    ],
+                    "efficiency_metric_values": [
+                      2.7235253377207256,
+                      9.293054193367274,
+                      9.264321236937516,
+                      9.141520462313164
                     ]
                   },
                   "fan_system": {
                     "id": "PSZHP FAN CV - PRM ZONE 1-fansystem",
-                    "minimum_airflow": 1852.666909681954,
-                    "minimum_outdoor_airflow": 126.40434073919998,
-                    "fan_control": "CONSTANT",
                     "supply_fans": [
                       {
                         "id": "PSZHP FAN CV - PRM ZONE 1",
@@ -116,9 +174,73 @@
                         "motor_heat_to_airflow_fraction": 1.0,
                         "motor_heat_to_zone_fraction": 0.0,
                         "motor_location_zone": "N/A",
+                        "operating_points": [
+                          {
+                            "airflow": 0.0,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 0.198027,
+                            "power": 101.389824
+                          },
+                          {
+                            "airflow": 0.396054,
+                            "power": 202.779648
+                          },
+                          {
+                            "airflow": 0.594081,
+                            "power": 304.169472
+                          },
+                          {
+                            "airflow": 0.792108,
+                            "power": 405.559296
+                          },
+                          {
+                            "airflow": 0.9901350000000001,
+                            "power": 506.94912
+                          },
+                          {
+                            "airflow": 1.188162,
+                            "power": 608.338944
+                          },
+                          {
+                            "airflow": 1.386189,
+                            "power": 709.728768
+                          },
+                          {
+                            "airflow": 1.584216,
+                            "power": 811.118592
+                          },
+                          {
+                            "airflow": 1.782243,
+                            "power": 912.5084159999998
+                          },
+                          {
+                            "airflow": 1.9802700000000002,
+                            "power": 1013.89824
+                          }
+                        ],
                         "specification_method": "SIMPLE"
                       }
-                    ]
+                    ],
+                    "minimum_airflow": 1852.666909681954,
+                    "minimum_outdoor_airflow": 126.40434073919998,
+                    "fan_control": "CONSTANT",
+                    "air_energy_recovery": {
+                      "id": "ERVHX PRM ZONE 1",
+                      "type": "ENTHALPY_HEAT_WHEEL",
+                      "design_sensible_effectiveness": 0.5,
+                      "design_latent_effectiveness": 0.5,
+                      "outdoor_airflow": 0.12640434073919998,
+                      "exhaust_airflow": 0.12640434073919998,
+                      "energy_recovery_operation": "OTHER"
+                    },
+                    "maximum_outdoor_airflow": 1852.666909681954,
+                    "air_economizer": {
+                      "id": "OA CONTROLLER PRM ZONE 2",
+                      "type": "DIFFERENTIAL_TEMPERATURE"
+                    },
+                    "operation_during_occupied": "CYCLING"
                   }
                 },
                 {
@@ -128,28 +250,25 @@
                     "design_total_cool_capacity": 19280.73486,
                     "design_sensible_cool_capacity": 14347.3732313718,
                     "type": "DIRECT_EXPANSION",
-                    "rated_total_cool_capacity": 19336.498831847748,
-                    "rated_sensible_cool_capacity": 13170.826541078368,
                     "oversizing_factor": 1.0424289181422404,
                     "is_calculated_size": false,
-                    "efficiency_metric_values": [
-                      2.7201017329352832,
-                      9.281372368943927,
-                      9.252020542763784,
-                      9.120779239683793
-                    ],
+                    "rated_total_cool_capacity": 19336.498831847748,
+                    "rated_sensible_cool_capacity": 13170.826541078368,
                     "efficiency_metric_types": [
                       "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
                       "ENERGY_EFFICIENCY_RATIO",
                       "SEASONAL_ENERGY_EFFICIENCY_RATIO",
                       "INTEGRATED_ENERGY_EFFICIENCY_RATIO"
+                    ],
+                    "efficiency_metric_values": [
+                      2.7201017329352832,
+                      9.281372368943927,
+                      9.252020542763784,
+                      9.120779239683793
                     ]
                   },
                   "fan_system": {
                     "id": "PSZHP FAN CV - PRM ZONE 2-fansystem",
-                    "minimum_airflow": 943.7834176069222,
-                    "minimum_outdoor_airflow": 80.07591726720004,
-                    "fan_control": "CONSTANT",
                     "supply_fans": [
                       {
                         "id": "PSZHP FAN CV - PRM ZONE 2",
@@ -162,9 +281,73 @@
                         "motor_heat_to_airflow_fraction": 1.0,
                         "motor_heat_to_zone_fraction": 0.0,
                         "motor_location_zone": "N/A",
+                        "operating_points": [
+                          {
+                            "airflow": 0.0,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 0.08843100000000001,
+                            "power": 45.276672
+                          },
+                          {
+                            "airflow": 0.17686200000000002,
+                            "power": 90.553344
+                          },
+                          {
+                            "airflow": 0.265293,
+                            "power": 135.830016
+                          },
+                          {
+                            "airflow": 0.35372400000000004,
+                            "power": 181.106688
+                          },
+                          {
+                            "airflow": 0.44215499999999996,
+                            "power": 226.38336
+                          },
+                          {
+                            "airflow": 0.530586,
+                            "power": 271.660032
+                          },
+                          {
+                            "airflow": 0.619017,
+                            "power": 316.936704
+                          },
+                          {
+                            "airflow": 0.7074480000000001,
+                            "power": 362.213376
+                          },
+                          {
+                            "airflow": 0.795879,
+                            "power": 407.490048
+                          },
+                          {
+                            "airflow": 0.8843099999999999,
+                            "power": 452.76672
+                          }
+                        ],
                         "specification_method": "SIMPLE"
                       }
-                    ]
+                    ],
+                    "minimum_airflow": 943.7834176069222,
+                    "minimum_outdoor_airflow": 80.07591726720004,
+                    "fan_control": "CONSTANT",
+                    "air_energy_recovery": {
+                      "id": "ERVHX PRM ZONE 2",
+                      "type": "ENTHALPY_HEAT_WHEEL",
+                      "design_sensible_effectiveness": 0.5,
+                      "design_latent_effectiveness": 0.5,
+                      "outdoor_airflow": 0.08007591726720004,
+                      "exhaust_airflow": 0.08007591726720004,
+                      "energy_recovery_operation": "OTHER"
+                    },
+                    "maximum_outdoor_airflow": 943.7834176069222,
+                    "air_economizer": {
+                      "id": "OA CONTROLLER PRM ZONE 3",
+                      "type": "DIFFERENTIAL_TEMPERATURE"
+                    },
+                    "operation_during_occupied": "CYCLING"
                   }
                 },
                 {
@@ -174,28 +357,25 @@
                     "design_total_cool_capacity": 23892.78811,
                     "design_sensible_cool_capacity": 17841.9395211425,
                     "type": "DIRECT_EXPANSION",
-                    "rated_total_cool_capacity": 23961.891117390784,
-                    "rated_sensible_cool_capacity": 16365.285759303168,
                     "oversizing_factor": 1.0434749155652048,
                     "is_calculated_size": false,
-                    "efficiency_metric_values": [
-                      2.716627422903058,
-                      9.269517531037021,
-                      9.239539801135374,
-                      9.099777624393708
-                    ],
+                    "rated_total_cool_capacity": 23961.891117390784,
+                    "rated_sensible_cool_capacity": 16365.285759303168,
                     "efficiency_metric_types": [
                       "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
                       "ENERGY_EFFICIENCY_RATIO",
                       "SEASONAL_ENERGY_EFFICIENCY_RATIO",
                       "INTEGRATED_ENERGY_EFFICIENCY_RATIO"
+                    ],
+                    "efficiency_metric_values": [
+                      2.716627422903058,
+                      9.269517531037021,
+                      9.239539801135374,
+                      9.099777624393708
                     ]
                   },
                   "fan_system": {
                     "id": "PSZHP FAN CV - PRM ZONE 3-fansystem",
-                    "minimum_airflow": 1206.6051448583091,
-                    "minimum_outdoor_airflow": 126.40434073919998,
-                    "fan_control": "CONSTANT",
                     "supply_fans": [
                       {
                         "id": "PSZHP FAN CV - PRM ZONE 3",
@@ -208,9 +388,73 @@
                         "motor_heat_to_airflow_fraction": 1.0,
                         "motor_heat_to_zone_fraction": 0.0,
                         "motor_location_zone": "N/A",
+                        "operating_points": [
+                          {
+                            "airflow": 0.0,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 0.11061099999999999,
+                            "power": 56.632832
+                          },
+                          {
+                            "airflow": 0.22122199999999997,
+                            "power": 113.265664
+                          },
+                          {
+                            "airflow": 0.33183299999999993,
+                            "power": 169.898496
+                          },
+                          {
+                            "airflow": 0.44244399999999995,
+                            "power": 226.531328
+                          },
+                          {
+                            "airflow": 0.553055,
+                            "power": 283.16416
+                          },
+                          {
+                            "airflow": 0.6636659999999999,
+                            "power": 339.796992
+                          },
+                          {
+                            "airflow": 0.7742769999999999,
+                            "power": 396.429824
+                          },
+                          {
+                            "airflow": 0.8848879999999999,
+                            "power": 453.062656
+                          },
+                          {
+                            "airflow": 0.9954989999999999,
+                            "power": 509.69548800000007
+                          },
+                          {
+                            "airflow": 1.10611,
+                            "power": 566.32832
+                          }
+                        ],
                         "specification_method": "SIMPLE"
                       }
-                    ]
+                    ],
+                    "minimum_airflow": 1206.6051448583091,
+                    "minimum_outdoor_airflow": 126.40434073919998,
+                    "fan_control": "CONSTANT",
+                    "air_energy_recovery": {
+                      "id": "ERVHX PRM ZONE 3",
+                      "type": "ENTHALPY_HEAT_WHEEL",
+                      "design_sensible_effectiveness": 0.5,
+                      "design_latent_effectiveness": 0.5,
+                      "outdoor_airflow": 0.12640434073919998,
+                      "exhaust_airflow": 0.12640434073919998,
+                      "energy_recovery_operation": "OTHER"
+                    },
+                    "maximum_outdoor_airflow": 1206.6051448583091,
+                    "air_economizer": {
+                      "id": "OA CONTROLLER PRM ZONE 4",
+                      "type": "DIFFERENTIAL_TEMPERATURE"
+                    },
+                    "operation_during_occupied": "CYCLING"
                   }
                 },
                 {
@@ -220,28 +464,25 @@
                     "design_total_cool_capacity": 21455.50077,
                     "design_sensible_cool_capacity": 15965.681787980098,
                     "type": "DIRECT_EXPANSION",
-                    "rated_total_cool_capacity": 21517.554625810226,
-                    "rated_sensible_cool_capacity": 14656.437836016148,
                     "oversizing_factor": 1.043474915565205,
                     "is_calculated_size": false,
-                    "efficiency_metric_values": [
-                      2.720100049564994,
-                      9.28136662504608,
-                      9.252014495083554,
-                      9.12076905259934
-                    ],
+                    "rated_total_cool_capacity": 21517.554625810226,
+                    "rated_sensible_cool_capacity": 14656.437836016148,
                     "efficiency_metric_types": [
                       "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
                       "ENERGY_EFFICIENCY_RATIO",
                       "SEASONAL_ENERGY_EFFICIENCY_RATIO",
                       "INTEGRATED_ENERGY_EFFICIENCY_RATIO"
+                    ],
+                    "efficiency_metric_values": [
+                      2.720100049564994,
+                      9.28136662504608,
+                      9.252014495083554,
+                      9.12076905259934
                     ]
                   },
                   "fan_system": {
                     "id": "PSZHP FAN CV - PRM ZONE 4-fansystem",
-                    "minimum_airflow": 927.511308973983,
-                    "minimum_outdoor_airflow": 80.07591726720001,
-                    "fan_control": "CONSTANT",
                     "supply_fans": [
                       {
                         "id": "PSZHP FAN CV - PRM ZONE 4",
@@ -254,9 +495,73 @@
                         "motor_heat_to_airflow_fraction": 1.0,
                         "motor_heat_to_zone_fraction": 0.0,
                         "motor_location_zone": "N/A",
+                        "operating_points": [
+                          {
+                            "airflow": 0.0,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 0.09840600000000001,
+                            "power": 50.38387199999999
+                          },
+                          {
+                            "airflow": 0.19681200000000001,
+                            "power": 100.76774399999998
+                          },
+                          {
+                            "airflow": 0.29521800000000004,
+                            "power": 151.151616
+                          },
+                          {
+                            "airflow": 0.39362400000000003,
+                            "power": 201.53548799999996
+                          },
+                          {
+                            "airflow": 0.49203,
+                            "power": 251.91935999999998
+                          },
+                          {
+                            "airflow": 0.5904360000000001,
+                            "power": 302.303232
+                          },
+                          {
+                            "airflow": 0.688842,
+                            "power": 352.6871039999999
+                          },
+                          {
+                            "airflow": 0.7872480000000001,
+                            "power": 403.0709759999999
+                          },
+                          {
+                            "airflow": 0.885654,
+                            "power": 453.45484799999997
+                          },
+                          {
+                            "airflow": 0.98406,
+                            "power": 503.83871999999997
+                          }
+                        ],
                         "specification_method": "SIMPLE"
                       }
-                    ]
+                    ],
+                    "minimum_airflow": 927.511308973983,
+                    "minimum_outdoor_airflow": 80.07591726720001,
+                    "fan_control": "CONSTANT",
+                    "air_energy_recovery": {
+                      "id": "ERVHX PRM ZONE 4",
+                      "type": "ENTHALPY_HEAT_WHEEL",
+                      "design_sensible_effectiveness": 0.5,
+                      "design_latent_effectiveness": 0.5,
+                      "outdoor_airflow": 0.08007591726720001,
+                      "exhaust_airflow": 0.08007591726720001,
+                      "energy_recovery_operation": "OTHER"
+                    },
+                    "maximum_outdoor_airflow": 927.511308973983,
+                    "air_economizer": {
+                      "id": "OA CONTROLLER PRM ZONE 1",
+                      "type": "DIFFERENTIAL_TEMPERATURE"
+                    },
+                    "operation_during_occupied": "CYCLING"
                   }
                 }
               ],
@@ -365,6 +670,8 @@
                       "floor_area": 983.7540066816,
                       "number_of_occupants": 52.95,
                       "occupant_multiplier_schedule": "ASHRAE 229 BLDG OCCUP SCH",
+                      "occupant_sensible_heat_gain": 82.65719994962143,
+                      "occupant_latent_heat_gain": 37.34280005037858,
                       "interior_lighting": [
                         {
                           "id": "CORE SPACE LIGHTS",
@@ -384,6 +691,9 @@
                           "latent_fraction": 0.0,
                           "power": 7938.894833920513
                         }
+                      ],
+                      "service_water_heating_uses": [
+                        "SWH TEST CORE WATER EQUIPMENT"
                       ]
                     }
                   ]
@@ -451,33 +761,42 @@
                       "subsurfaces": [
                         {
                           "id": "SOUTH WIN 1 PRM SPACE 1",
-                          "classification": "WINDOW",
                           "glazed_area": 21.497763456,
                           "opaque_area": 0.0,
                           "u_factor": 3.235085690385431,
                           "solar_heat_gain_coefficient": 0.3882426852673203,
                           "visible_transmittance": 0.42257987490084714,
-                          "has_automatic_shades": false
+                          "has_automatic_shades": false,
+                          "classification": "WINDOW",
+                          "dynamic_glazing_type": "NOT_DYNAMIC",
+                          "has_shading_overhang": false,
+                          "has_shading_sidefins": false
                         },
                         {
                           "id": "SOUTH WIN 2 PRM SPACE 1",
-                          "classification": "WINDOW",
                           "glazed_area": 21.456421603199995,
                           "opaque_area": 0.0,
                           "u_factor": 3.235085690385431,
                           "solar_heat_gain_coefficient": 0.3882426852673203,
                           "visible_transmittance": 0.42257987490084714,
-                          "has_automatic_shades": false
+                          "has_automatic_shades": false,
+                          "classification": "WINDOW",
+                          "dynamic_glazing_type": "NOT_DYNAMIC",
+                          "has_shading_overhang": false,
+                          "has_shading_sidefins": false
                         },
                         {
                           "id": "SOUTH WIN 3 PRM SPACE 1",
-                          "classification": "WINDOW",
                           "glazed_area": 21.456421603200003,
                           "opaque_area": 0.0,
                           "u_factor": 3.235085690385431,
                           "solar_heat_gain_coefficient": 0.3882426852673203,
                           "visible_transmittance": 0.42257987490084714,
-                          "has_automatic_shades": false
+                          "has_automatic_shades": false,
+                          "classification": "WINDOW",
+                          "dynamic_glazing_type": "NOT_DYNAMIC",
+                          "has_shading_overhang": false,
+                          "has_shading_sidefins": false
                         }
                       ]
                     },
@@ -523,6 +842,8 @@
                       "floor_area": 207.22023072,
                       "number_of_occupants": 11.15,
                       "occupant_multiplier_schedule": "ASHRAE 229 BLDG OCCUP SCH",
+                      "occupant_sensible_heat_gain": 82.65769385847082,
+                      "occupant_latent_heat_gain": 37.34230614152918,
                       "interior_lighting": [
                         {
                           "id": "PRM SPACE 1 LIGHTS",
@@ -567,23 +888,29 @@
                       "subsurfaces": [
                         {
                           "id": "EAST WIN 1 PRM SPACE 2",
-                          "classification": "WINDOW",
                           "glazed_area": 41.83795503359999,
                           "opaque_area": 0.0,
                           "u_factor": 3.235085690385431,
                           "solar_heat_gain_coefficient": 0.3882426852673203,
                           "visible_transmittance": 0.42257987490084714,
-                          "has_automatic_shades": false
+                          "has_automatic_shades": false,
+                          "classification": "WINDOW",
+                          "dynamic_glazing_type": "NOT_DYNAMIC",
+                          "has_shading_overhang": false,
+                          "has_shading_sidefins": false
                         },
                         {
                           "id": "EAST WIN 2 PRM SPACE 2",
-                          "classification": "WINDOW",
                           "glazed_area": 1.6537012391999997,
                           "opaque_area": 0.0,
                           "u_factor": 3.235085690385431,
                           "solar_heat_gain_coefficient": 0.3882426852673203,
                           "visible_transmittance": 0.42257987490084714,
-                          "has_automatic_shades": false
+                          "has_automatic_shades": false,
+                          "classification": "WINDOW",
+                          "dynamic_glazing_type": "NOT_DYNAMIC",
+                          "has_shading_overhang": false,
+                          "has_shading_sidefins": false
                         }
                       ]
                     },
@@ -671,6 +998,8 @@
                       "floor_area": 131.27199552000008,
                       "number_of_occupants": 7.07,
                       "occupant_multiplier_schedule": "ASHRAE 229 BLDG OCCUP SCH",
+                      "occupant_sensible_heat_gain": 82.65776604367461,
+                      "occupant_latent_heat_gain": 37.3422339563254,
                       "interior_lighting": [
                         {
                           "id": "PRM SPACE 2 LIGHTS",
@@ -736,33 +1065,42 @@
                       "subsurfaces": [
                         {
                           "id": "NORTH WIN 1 PRM SPACE 3",
-                          "classification": "WINDOW",
                           "glazed_area": 21.456421603200003,
                           "opaque_area": 0.0,
                           "u_factor": 3.235085690385431,
                           "solar_heat_gain_coefficient": 0.3882426852673203,
                           "visible_transmittance": 0.42257987490084714,
-                          "has_automatic_shades": false
+                          "has_automatic_shades": false,
+                          "classification": "WINDOW",
+                          "dynamic_glazing_type": "NOT_DYNAMIC",
+                          "has_shading_overhang": false,
+                          "has_shading_sidefins": false
                         },
                         {
                           "id": "NORTH WIN 2 PRM SPACE 3",
-                          "classification": "WINDOW",
                           "glazed_area": 21.497763456,
                           "opaque_area": 0.0,
                           "u_factor": 3.235085690385431,
                           "solar_heat_gain_coefficient": 0.3882426852673203,
                           "visible_transmittance": 0.42257987490084714,
-                          "has_automatic_shades": false
+                          "has_automatic_shades": false,
+                          "classification": "WINDOW",
+                          "dynamic_glazing_type": "NOT_DYNAMIC",
+                          "has_shading_overhang": false,
+                          "has_shading_sidefins": false
                         },
                         {
                           "id": "NORTH WIN 3 PRM SPACE 3",
-                          "classification": "WINDOW",
                           "glazed_area": 21.456421603199995,
                           "opaque_area": 0.0,
                           "u_factor": 3.235085690385431,
                           "solar_heat_gain_coefficient": 0.3882426852673203,
                           "visible_transmittance": 0.42257987490084714,
-                          "has_automatic_shades": false
+                          "has_automatic_shades": false,
+                          "classification": "WINDOW",
+                          "dynamic_glazing_type": "NOT_DYNAMIC",
+                          "has_shading_overhang": false,
+                          "has_shading_sidefins": false
                         }
                       ]
                     },
@@ -829,6 +1167,8 @@
                       "floor_area": 207.22023071999996,
                       "number_of_occupants": 11.15,
                       "occupant_multiplier_schedule": "ASHRAE 229 BLDG OCCUP SCH",
+                      "occupant_sensible_heat_gain": 82.65791043889419,
+                      "occupant_latent_heat_gain": 37.34208956110581,
                       "interior_lighting": [
                         {
                           "id": "PRM SPACE 3 LIGHTS",
@@ -926,23 +1266,29 @@
                       "subsurfaces": [
                         {
                           "id": "WEST WIN 1 PRM SPACE 4",
-                          "classification": "WINDOW",
                           "glazed_area": 1.6536741119999998,
                           "opaque_area": 0.0,
                           "u_factor": 3.235085690385431,
                           "solar_heat_gain_coefficient": 0.3882426852673203,
                           "visible_transmittance": 0.42257987490084714,
-                          "has_automatic_shades": false
+                          "has_automatic_shades": false,
+                          "classification": "WINDOW",
+                          "dynamic_glazing_type": "NOT_DYNAMIC",
+                          "has_shading_overhang": false,
+                          "has_shading_sidefins": false
                         },
                         {
                           "id": "WEST WIN 2 PRM SPACE 4",
-                          "classification": "WINDOW",
                           "glazed_area": 41.83795503359999,
                           "opaque_area": 0.0,
                           "u_factor": 3.235085690385431,
                           "solar_heat_gain_coefficient": 0.3882426852673203,
                           "visible_transmittance": 0.42257987490084714,
-                          "has_automatic_shades": false
+                          "has_automatic_shades": false,
+                          "classification": "WINDOW",
+                          "dynamic_glazing_type": "NOT_DYNAMIC",
+                          "has_shading_overhang": false,
+                          "has_shading_sidefins": false
                         }
                       ]
                     }
@@ -977,6 +1323,8 @@
                       "floor_area": 131.27199552000002,
                       "number_of_occupants": 7.06,
                       "occupant_multiplier_schedule": "ASHRAE 229 BLDG OCCUP SCH",
+                      "occupant_sensible_heat_gain": 82.65780647488778,
+                      "occupant_latent_heat_gain": 37.34219352511223,
                       "interior_lighting": [
                         {
                           "id": "PRM SPACE 4 LIGHTS",
@@ -1000,9 +1348,6 @@
                     }
                   ]
                 }
-              ],
-              "service_water_heating_uses": [
-                "SWH TEST CORE WATER EQUIPMENT"
               ]
             }
           ],
@@ -1272,6 +1617,33 @@
         {
           "id": "SWH TEST CORE WATER CONNECTION",
           "is_central_system": true,
+          "service_water_piping": {
+            "id": "SWH TEST CORE WATER CONNECTION piping",
+            "is_recirculation_loop": true,
+            "are_thermal_losses_modeled": false,
+            "child": [
+              {
+                "id": "SWH TEST Supply Equipment Bypass Pipe",
+                "are_thermal_losses_modeled": false
+              },
+              {
+                "id": "SWH TEST Supply Outlet Pipe",
+                "are_thermal_losses_modeled": false
+              },
+              {
+                "id": "SWH TEST Demand Inlet Pipe",
+                "are_thermal_losses_modeled": false
+              },
+              {
+                "id": "SWH TEST Demand Bypass Pipe",
+                "are_thermal_losses_modeled": false
+              },
+              {
+                "id": "SWH TEST Demand Outlet Pipe",
+                "are_thermal_losses_modeled": false
+              }
+            ]
+          },
           "is_ground_temperature_used_for_entering_water": false
         }
       ],
