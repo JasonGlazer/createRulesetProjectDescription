@@ -868,7 +868,13 @@ class Translator:
         # insert the space into the corresponding Zone
         for zone in self.building_segment['zones']:
             zone['spaces'] = spaces.get(zone['id'].upper(), [])
-        return spaces
+        legacy_spaces = {}
+        for zone_name, zone_spaces in spaces.items():
+            if len(zone_spaces) == 1:
+                legacy_spaces[zone_name] = zone_spaces[0]
+            else:
+                legacy_spaces[zone_name] = zone_spaces
+        return legacy_spaces
 
     def gather_interior_lighting(self):
         tabular_reports = self.json_results_object['TabularReports']
@@ -3087,7 +3093,10 @@ class Translator:
         uses: List[JsonDict] = []
         use_zone_by_id: Dict[str, str] = {}
         water_use_table: Dict[str, JsonDict] = self.get_table_dictionary('EquipmentSummary', 'Water Use')
-        service_water_table: Dict[str, JsonDict] = self.get_table_dictionary('EquipmentSummary', 'Service Water Heating')
+        service_water_table: Dict[str, JsonDict] = self.get_table_dictionary(
+            'EquipmentSummary',
+            'Service Water Heating'
+        )
         heater_metadata_by_name = self.gather_service_water_heater_metadata()
         serves_type_map: Dict[str, str] = {
             'SHOWER': 'SHOWER',
@@ -3156,7 +3165,9 @@ class Translator:
                 use_zone_by_id[use['id']] = zone_name
             peak_flow = to_float_or_none(row.get('Peak Use Water Flow Rate [m3/s]'))
             if peak_flow is None:
-                peak_flow = to_float_or_none(heater_metadata_by_name.get(heater_key, {}).get('peak_use_flow_rate'))
+                peak_flow = to_float_or_none(
+                    heater_metadata_by_name.get(heater_key, {}).get('peak_use_flow_rate')
+                )
             if peak_flow is not None:
                 use['use'] = peak_flow * 60000
                 use['use_units'] = 'VOLUME'
