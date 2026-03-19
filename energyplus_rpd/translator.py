@@ -1,3 +1,4 @@
+from operator import truediv
 from pathlib import Path
 from typing import Any, Dict, List
 from datetime import datetime
@@ -1366,6 +1367,8 @@ class Translator:
         possible_return_fans = self.gather_possible_return_fans_by_airloop()
         dehumid_option_by_airloop = self.gather_dehumid_option_by_airloop()
         humid_option_by_airloop = self.gather_humid_option_by_airloop()
+        #topology_by_airloop = self.analyze_topology_by_airloop()
+        supply_topology_by_airloop = self.analyze_supply_topology_by_airloop()
 
         coils_table = self.get_table("CoilSizingDetails", "Coils")
         if not coils_table:
@@ -1697,6 +1700,136 @@ class Translator:
 
         self.building_segment["heating_ventilating_air_conditioning_systems"] = hvac_systems
         return hvac_systems, self.terminals_by_zone
+
+    def analyze_supply_topology_by_airloop(self):
+        tops = {} # nested dictionary with inner dictionary having predefined terms such as "supply-fan"
+        airloop_supplies = self.gather_table_into_list('HVACTopology',
+                                                       "Air Loop Supply Side Component Arrangement")
+        previous_airloop_name = ''
+        top = {}
+        oa_found = False
+        heat_coil_found = False
+
+        for row_count, airloop_supply in enumerate(airloop_supplies):
+            current_airloop_name = airloop_supply['Airloop Name']
+
+            # find outside air system
+            if (airloop_supply['Component Type'] == 'AIRLOOPHVAC:OUTDOORAIRSYSTEM' or
+                    airloop_supply['Sub-Component Type'] == 'AIRLOOPHVAC:OUTDOORAIRSYSTEM' or
+                    airloop_supply['Sub-Sub-Component Type'] == 'AIRLOOPHVAC:OUTDOORAIRSYSTEM'):
+                oa_found = True
+
+            # find fan(s)
+            found = False
+            if 'FAN:' in airloop_supply['Component Type']:
+                name = airloop_supply['Component Name']
+                found = True
+            elif 'FAN:' in airloop_supply['Sub-Component Type']:
+                name = airloop_supply['Sub-Component Name']
+                found = True
+            elif 'FAN:' in airloop_supply['Sub-Sub-Component Type']:
+                name = airloop_supply['Sub-Sub-Component Name']
+                found = True
+            if found:
+                if oa_found:
+                    top['supply_fan'] = name
+                else:
+                    top['return_fan'] = name
+
+            # find cooling coils
+            found = False
+            if 'COIL:COOLING:' in airloop_supply['Component Type']:
+                name = airloop_supply['Component Name']
+                found = True
+            elif 'COIL:COOLING:' in airloop_supply['Sub-Component Type']:
+                name = airloop_supply['Sub-Component Name']
+                found = True
+            elif 'COIL:COOLING:' in airloop_supply['Sub-Sub-Component Type']:
+                name = airloop_supply['Sub-Sub-Component Name']
+                found = True
+            if found:
+                top['cooling_coil'] = name
+
+            # find heating coil(s)
+            found = False
+            if 'COIL:HEATING:' in airloop_supply['Component Type']:
+                name = airloop_supply['Component Name']
+                found = True
+            elif 'COIL:HEATING:' in airloop_supply['Sub-Component Type']:
+                name = airloop_supply['Sub-Component Name']
+                found = True
+            elif 'COIL:HEATING:' in airloop_supply['Sub-Sub-Component Type']:
+                name = airloop_supply['Sub-Sub-Component Name']
+                found = True
+            if found:
+                if heat_coil_found:
+                    top['backup_heating_coil'] = name
+                else:
+                    top['main_heating_coil'] = name
+                heat_coil_found = True
+
+            if (row_count == len(airloop_supplies) - 1) or ((row_count < len(airloop_supplies) - 1) and (
+                    current_airloop_name != airloop_supplies[row_count + 1]['Airloop Name'])):
+                oa_found = False
+                heat_coil_found = False
+                if top: # add the current airloop topology unless empty (first iteration)
+
+                    # if no supply fan ever found but return fan was, assume classified wrong
+                    if 'supply_fan' not in top and 'return_fan' in top:
+                        top['supply_fan'] = top['return_fan']
+                        del top['return_fan']
+
+                    # add to dictionary across all airloops
+                    tops[current_airloop_name] = top
+                    top = {}
+            previous_airloop_name = current_airloop_name
+        return tops
+
+    def zones_by_airloop(self):
+        zones = {}
+        airloop_demands = self.gather_table_into_list('HVACTopology',
+                                                       "Air Loop Demand Side Component Arrangement")
+        zone_equipments = self.gather_table_into_list('HVACTopology',
+                                                       "Zone Equipment Component Arrangement")
+
+        heat_by_zone = []
+        for zone_equipment in zone_equipments:
+            if 'COIL:HEATING:' in zone_equipment['Component Type']:
+                heat_by_zone.append(zone_equipment['Zone Name'])
+            elif 'COIL:HEATING:' in zone_equipment['Sub-Component Type']:
+                heat_by_zone.append(zone_equipment['Zone Name'])
+            elif 'COIL:HEATING:' in zone_equipment['Sub-Sub-Component Type']:
+                heat_by_zone.append(zone_equipment['Zone Name'])
+
+        cool_by_zone = []
+        for zone_equipment in zone_equipments:
+            if 'COIL:HEATING:' in zone_equipment['Component Type']:
+                cool_by_zone.append(zone_equipment['Zone Name'])
+            elif 'COIL:HEATING:' in zone_equipment['Sub-Component Type']:
+                cool_by_zone.append(zone_equipment['Zone Name'])
+            elif 'COIL:HEATING:' in zone_equipment['Sub-Sub-Component Type']:
+                cool_by_zone.append(zone_equipment['Zone Name'])
+
+        zones_by_airloop = {}
+        for airloop_demand in airloop_demands:
+            if airloop_demand['Zone Name'] and airloop_demand['Airloop Name']:
+                pass
+
+
+
+        for airloop_demand in airloop_demands:
+            top = {
+                'AtleastOneZoneHasHeatingCoil': False,
+                'AtleastOneZoneHasCoolingCoil': False
+            }
+            if airloop_demand['Zone Name'] in heat_by_zone:
+                top['AtleastOneZoneHasHeatingCoil'] = True
+            if airloop_demand['Zone Name'] in cool_by_zone:
+                top['AtleastOneZoneHasCoolingCoil'] = True
+
+            tops[airloop_demand['Airloop Name']] = top
+
+        return zones
 
     def gather_economizer_by_airloop(self):
         economizers = {}
