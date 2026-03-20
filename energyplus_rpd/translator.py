@@ -2853,17 +2853,99 @@ class Translator:
                 pipe_children.append(pipe_child)
         return pipe_children
 
+    def is_service_water_recirculation_loop(self, loop_name: str) -> bool:
+        loop_object = self.epjson_object.get('PlantLoop', {}).get(loop_name, {})
+        if not loop_object:
+            return False
+
+        demand_branch_names = self.gather_branch_names_from_branch_list(
+            non_empty_string(loop_object.get('demand_side_branch_list_name'))
+        )
+        if not demand_branch_names:
+            return False
+
+        has_water_use_connections = False
+        has_demand_side_pump = False
+        has_demand_side_pipe = False
+        has_inlet_branch = False
+        has_outlet_branch = False
+
+        demand_inlet_node = non_empty_string(loop_object.get('demand_side_inlet_node_name'))
+        demand_outlet_node = non_empty_string(loop_object.get('demand_side_outlet_node_name'))
+
+        for branch_name in demand_branch_names:
+            branch_object = self.epjson_object.get('Branch', {}).get(branch_name, {})
+            for component in branch_object.get('components', []):
+                component_type = non_empty_string(component.get('component_object_type'))
+                if not component_type:
+                    continue
+                component_type_upper = component_type.upper()
+                if component_type == 'WaterUse:Connections':
+                    has_water_use_connections = True
+                elif 'PUMP' in component_type_upper:
+                    has_demand_side_pump = True
+                elif component_type.startswith('Pipe:'):
+                    has_demand_side_pipe = True
+
+                component_inlet_node = non_empty_string(component.get('component_inlet_node_name'))
+                component_outlet_node = non_empty_string(component.get('component_outlet_node_name'))
+                if demand_inlet_node and component_inlet_node == demand_inlet_node:
+                    has_inlet_branch = True
+                if demand_outlet_node and component_outlet_node == demand_outlet_node:
+                    has_outlet_branch = True
+
+        if not has_water_use_connections:
+            return False
+
+        has_closed_loop_path = bool(demand_inlet_node and demand_outlet_node and has_inlet_branch and has_outlet_branch)
+        if not has_closed_loop_path:
+            return False
+
+        if has_demand_side_pump:
+            return True
+
+        connector_list_name = non_empty_string(loop_object.get('demand_side_connector_list_name'))
+        if not connector_list_name:
+            return False
+
+        connector_list = self.epjson_object.get('ConnectorList', {}).get(connector_list_name, {})
+        splitter_name = ''
+        mixer_name = ''
+        for index in range(1, 11):
+            connector_type = non_empty_string(connector_list.get(f'connector_{index}_object_type'))
+            connector_name = non_empty_string(connector_list.get(f'connector_{index}_name'))
+            if connector_type == 'Connector:Splitter' and connector_name:
+                splitter_name = connector_name
+            elif connector_type == 'Connector:Mixer' and connector_name:
+                mixer_name = connector_name
+
+        if not splitter_name or not mixer_name:
+            return False
+
+        splitter_object = self.epjson_object.get('Connector:Splitter', {}).get(splitter_name, {})
+        mixer_object = self.epjson_object.get('Connector:Mixer', {}).get(mixer_name, {})
+        if not splitter_object or not mixer_object:
+            return False
+
+        splitter_inlet_branch = non_empty_string(splitter_object.get('inlet_branch_name'))
+        mixer_outlet_branch = non_empty_string(mixer_object.get('outlet_branch_name'))
+        if not splitter_inlet_branch or not mixer_outlet_branch:
+            return False
+
+        return has_demand_side_pipe
+
     def make_service_water_piping(self, loop_name: str, system_id: str) -> Optional[JsonDict]:
         if not loop_name:
             return None
         pipe_children = self.gather_service_water_loop_pipe_children(loop_name)
         piping: JsonDict = {
             'id': system_id + ' piping',
-            'is_recirculation_loop': True,
             'are_thermal_losses_modeled': any(
                 child.get('are_thermal_losses_modeled', False) for child in pipe_children
             )
         }
+        if self.is_service_water_recirculation_loop(loop_name):
+            piping['is_recirculation_loop'] = True
         if pipe_children:
             piping['child'] = pipe_children
         return piping

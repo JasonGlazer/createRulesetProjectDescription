@@ -4780,7 +4780,6 @@ class TestTranslator(TestCase):
                 'is_central_system': True,
                 'service_water_piping': {
                     'id': 'SWH CONNECTION 1 piping',
-                    'is_recirculation_loop': True,
                     'are_thermal_losses_modeled': False
                 },
                 'design_supply_temperature': 60.0,
@@ -5316,7 +5315,6 @@ class TestTranslator(TestCase):
             added_systems[0]['service_water_piping'],
             {
                 'id': 'SWH CONNECTION 1 piping',
-                'is_recirculation_loop': True,
                 'are_thermal_losses_modeled': True,
                 'child': [
                     {
@@ -5334,6 +5332,218 @@ class TestTranslator(TestCase):
                 ]
             }
         )
+
+    def test_add_service_water_heating_marks_recirculation_loop_when_topology_is_explicit(self):
+        t = self.set_minimal_files()
+        t.epjson_object['PlantLoop'] = {
+            'SWH LOOP': {
+                'plant_side_branch_list_name': 'SWH Supply Branches',
+                'demand_side_branch_list_name': 'SWH Demand Branches',
+                'demand_side_connector_list_name': 'SWH Demand Connectors',
+                'demand_side_inlet_node_name': 'SWH Demand Inlet Node',
+                'demand_side_outlet_node_name': 'SWH Demand Outlet Node'
+            }
+        }
+        t.epjson_object['BranchList'] = {
+            'SWH Supply Branches': {
+                'branches': [
+                    {'branch_name': 'SWH Supply Branch 1'}
+                ]
+            },
+            'SWH Demand Branches': {
+                'branches': [
+                    {'branch_name': 'SWH Demand Inlet Branch'},
+                    {'branch_name': 'SWH Demand Load Branch'},
+                    {'branch_name': 'SWH Demand Outlet Branch'}
+                ]
+            }
+        }
+        t.epjson_object['Branch'] = {
+            'SWH Supply Branch 1': {
+                'components': [
+                    {
+                        'component_object_type': 'WaterHeater:Mixed',
+                        'component_name': 'MAIN SWH HEATER'
+                    }
+                ]
+            },
+            'SWH Demand Inlet Branch': {
+                'components': [
+                    {
+                        'component_object_type': 'Pipe:Adiabatic',
+                        'component_name': 'SWH Demand Inlet Pipe',
+                        'component_inlet_node_name': 'SWH Demand Inlet Node',
+                        'component_outlet_node_name': 'SWH Demand Inlet Pipe Outlet Node'
+                    }
+                ]
+            },
+            'SWH Demand Load Branch': {
+                'components': [
+                    {
+                        'component_object_type': 'WaterUse:Connections',
+                        'component_name': 'SWH CONNECTION 1',
+                        'component_inlet_node_name': 'SWH Demand Inlet Pipe Outlet Node',
+                        'component_outlet_node_name': 'SWH Demand Load Outlet Node'
+                    }
+                ]
+            },
+            'SWH Demand Outlet Branch': {
+                'components': [
+                    {
+                        'component_object_type': 'Pipe:Indoor',
+                        'component_name': 'SWH Demand Outlet Pipe',
+                        'component_inlet_node_name': 'SWH Demand Load Outlet Node',
+                        'component_outlet_node_name': 'SWH Demand Outlet Node'
+                    }
+                ]
+            }
+        }
+        t.epjson_object['ConnectorList'] = {
+            'SWH Demand Connectors': {
+                'connector_1_object_type': 'Connector:Splitter',
+                'connector_1_name': 'SWH Demand Splitter',
+                'connector_2_object_type': 'Connector:Mixer',
+                'connector_2_name': 'SWH Demand Mixer'
+            }
+        }
+        t.epjson_object['Connector:Splitter'] = {
+            'SWH Demand Splitter': {
+                'inlet_branch_name': 'SWH Demand Inlet Branch',
+                'branches': [
+                    {'outlet_branch_name': 'SWH Demand Load Branch'}
+                ]
+            }
+        }
+        t.epjson_object['Connector:Mixer'] = {
+            'SWH Demand Mixer': {
+                'outlet_branch_name': 'SWH Demand Outlet Branch',
+                'branches': [
+                    {'inlet_branch_name': 'SWH Demand Load Branch'}
+                ]
+            }
+        }
+        t.epjson_object['Pipe:Adiabatic'] = {
+            'SWH Demand Inlet Pipe': {
+                'inlet_node_name': 'SWH Demand Inlet Node',
+                'outlet_node_name': 'SWH Demand Inlet Pipe Outlet Node'
+            }
+        }
+        t.epjson_object['Pipe:Indoor'] = {
+            'SWH Demand Outlet Pipe': {
+                'fluid_inlet_node_name': 'SWH Demand Load Outlet Node',
+                'fluid_outlet_node_name': 'SWH Demand Outlet Node',
+                'ambient_temperature_zone_name': 'CORE_ZN',
+                'pipe_inside_diameter': 0.025,
+                'pipe_length': 8.0
+            }
+        }
+        t.json_results_object['TabularReports'] = [
+            {
+                "For": "Entire Facility",
+                "ReportName": "EquipmentSummary",
+                "Tables": [
+                    {
+                        "Cols": [
+                            "Drain Water Heat Exchanger Type",
+                            "Drain Water Heat Exchanger Destination",
+                            "Drain Water Heat Exchanger U-Factor Times Area",
+                            "Average Heat Recovery Effectiveness",
+                            "Hot Water Supply Temperature Schedule ",
+                            "Hot Water Supply Temperature Schedule Maximum [C]",
+                            "Cold Water Supply Temperature Schedule",
+                            "Cold Water Supply Temperature Schedule Minimum [C]",
+                            "PlantLoop Name",
+                            "Branch Name",
+                            "Supply Water Storage Tank Name",
+                            "Reclamation Water Storage Tank Name"
+                        ],
+                        "Rows": {
+                            "SWH CONNECTION 1": [
+                                "", "", "", "", "SUPPLY_SCH", "60.0", "", "", "SWH LOOP", "SWH Supply Branch 1", "", ""
+                            ]
+                        },
+                        "TableName": "WaterUse Connections"
+                    },
+                    {
+                        "Cols": [
+                            "Type",
+                            "Storage Volume [m3]",
+                            "Input [W]",
+                            "Thermal Efficiency [W/W]",
+                            "Recovery Efficiency [W/W]",
+                            "Energy Factor",
+                            "Fuel Type",
+                            "Set Point Schedule Name for Heater 1",
+                            "Set Point at 11am First Wednesday for Heater 1 [C]",
+                            "Days with Same 11am Value for Heater 1",
+                            "Month Assumed for Heater 1",
+                            "Set Point Schedule Name for Heater 2",
+                            "Set Point at 11am First Wednesday for Heater 2 [C]",
+                            "Days with Same 11am Value for Heater 2",
+                            "Month Assumed for Heater 2",
+                            "Peak Use Water Flow Rate [m3/s]",
+                            "Use Flow Rate Fraction Schedule Name",
+                            "Ambient Temperature Zone Name"
+                        ],
+                        "Rows": {
+                            "MAIN SWH HEATER": [
+                                "WaterHeater:Mixed",
+                                "0.300",
+                                "8500.0",
+                                "0.82",
+                                "0.76",
+                                "0.64",
+                                "NaturalGas",
+                                "SWH_SETPOINT_SCH",
+                                "60.0",
+                                "31",
+                                "January",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "0.0003",
+                                "SWH_USE_FRAC_SCH",
+                                "CORE_ZN"
+                            ]
+                        },
+                        "TableName": "Service Water Heating"
+                    },
+                    {
+                        "Cols": [
+                            "Zone",
+                            "End-Use Subcategory",
+                            "WaterUse Connection Name",
+                            "Peak Water Flow Rate [m3/s]",
+                            "Peak Flow Multipler Schedule",
+                            "Peak Flow Multipler Schedule Maximum",
+                            "Target Temperature Schedule",
+                            "Target Temperature  Schedule Maximum [C]",
+                            "Hot Supply Temperature Schedule",
+                            "Hot Supply Temperature  Schedule Maximum [C]",
+                            "Cold Supply Temperature Schedule",
+                            "Cold Supply Temperature  Schedule Minimum [C]",
+                            "Sensible Fraction Schedule",
+                            "Sensible Fraction  Schedule Maximum",
+                            "Latent Fraction Schedule",
+                            "Latent Fraction  Schedule Maximum"
+                        ],
+                        "Rows": {
+                            "RESTROOM HOT WATER": [
+                                "CORE_ZN", "Restroom Sink", "SWH CONNECTION 1", "0.0002", "RESTROOM_WATER_SCH",
+                                "1.0", "TARGET_TEMP_SCH", "43.0", "HOT_SUPPLY_TEMP_SCH", "60.0",
+                                "COLD_SUPPLY_TEMP_SCH", "12.0", "", "", "", ""
+                            ]
+                        },
+                        "TableName": "Water Use"
+                    }
+                ]
+            }
+        ]
+
+        added_systems, _, _ = t.add_service_water_heating()
+
+        self.assertTrue(added_systems[0]['service_water_piping']['is_recirculation_loop'])
 
     def test_add_service_water_heating_assigns_uses_to_spaces(self):
         t = self.set_minimal_files()
