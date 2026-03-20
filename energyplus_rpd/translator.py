@@ -1341,6 +1341,18 @@ class Translator:
         supply_topology_by_airloop = self.analyze_supply_topology_by_airloop()
         humid_option_by_airloop = self.gather_humid_option_by_airloop()
 
+        coils_table = self.get_table_dictionary("CoilSizingDetails", "Coils")
+        coil_connections = self.gather_coil_connections()
+        heating_coil_efficiencies = self.gather_heating_coil_efficiencies()
+        cooling_coil_efficiencies = self.gather_cooling_coil_efficiencies()
+        coil_connections = self.gather_coil_connections()
+        dehumid_option_by_airloop = self.gather_dehumid_option_by_airloop()
+
+        air_flows_62 = self.gather_airflows_from_62()
+        exhaust_fan_names = self.gather_exhaust_fans_by_airloop()
+        equipment_fans = self.gather_equipment_fans()
+        economizer_by_airloop = self.gather_economizer_by_airloop()
+
         for airloop, supply_top in supply_topology_by_airloop.items():
             hvac = {"id": airloop}
 
@@ -1349,29 +1361,28 @@ class Translator:
 
             hvac_systems.append(hvac)
 
-            heating_system = self.get_airloop_heating_system(airloop, supply_top)
+            heating_system = self.get_airloop_heating_system(airloop, supply_top, coils_table,
+                                                             heating_coil_efficiencies, coil_connections)
             if heating_system:
                 hvac["heating_system"] = heating_system
 
-            cooling_system = self.get_airloop_cooling_system(airloop, supply_top)
+            cooling_system = self.get_airloop_cooling_system(airloop, supply_top, coils_table,
+                                                             cooling_coil_efficiencies,
+                                                             coil_connections, dehumid_option_by_airloop)
             if cooling_system:
                 hvac["cooling_system"] = cooling_system
 
-            if 'supply_fan' in supply_top:
-                supply_fan_name = supply_top['supply_fan']
-                fs = {'id': f"{supply_fan_name}-fansystem"}
-                hvac["fan_system"] = fs
+            fan_system = self.get_airloop_fan_system(airloop, supply_top, equipment_fans, air_flows_62,
+                                                     exhaust_fan_names, economizer_by_airloop)
+            if fan_system:
+                hvac["fan_system"] = fan_system
 
         self.building_segment["heating_ventilating_air_conditioning_systems"] = hvac_systems
         return hvac_systems
 
-    def get_airloop_heating_system(self, airloop, supply_top):
+    def get_airloop_heating_system(self, airloop, supply_top, coils_table, heating_coil_efficiencies, coil_connections):
         hs = {}
         if 'main_heating_coil' in supply_top:
-            coils_table = self.get_table_dictionary("CoilSizingDetails", "Coils")
-            heating_coil_efficiencies = self.gather_heating_coil_efficiencies()
-            coil_connections = self.gather_coil_connections()
-
             heat_coil_name = supply_top['main_heating_coil']
             heat_coil = coils_table[heat_coil_name]
             current_coil_efficiencies = heating_coil_efficiencies[heat_coil_name]
@@ -1432,18 +1443,12 @@ class Translator:
                 hs['heatpump_auxiliary_heat_type'] = heating_type_convert(backup_type)
         return hs
 
-    def get_airloop_cooling_system(self, airloop, supply_top):
+    def get_airloop_cooling_system(self, airloop, supply_top, coils_table, cooling_coil_efficiencies,
+                                   coil_connections, dehumid_option_by_airloop):
         cs = {}
         if 'cooling_coil' in supply_top:
-            coils_table = self.get_table_dictionary("CoilSizingDetails", "Coils")
-            cooling_coil_efficiencies = self.gather_cooling_coil_efficiencies()
-            coil_connections = self.gather_coil_connections()
-            dehumid_option_by_airloop = self.gather_dehumid_option_by_airloop()
-
             cool_coil_name = supply_top['cooling_coil']
             cool_coil = coils_table[cool_coil_name]
-            current_coil_efficiencies = cooling_coil_efficiencies[cool_coil_name]
-
             coil_type = cool_coil["Coil Type"]
             total_capacity = float(cool_coil["Coil Final Gross Total Capacity [W]"])
             sensible_capacity = float(cool_coil["Coil Final Gross Sensible Capacity [W]"])
@@ -1451,7 +1456,6 @@ class Translator:
             rated_sensible_capacity = float(cool_coil["Coil Sensible Capacity at Rating Conditions [W]"])
             ideal_load_peak = float(cool_coil["Coil Total Capacity at Ideal Loads Peak [W]"])
             is_autosized = cool_coil["Autosized Coil Capacity?"]
-            leaving_db = float(cool_coil["Coil Leaving Air Drybulb at Rating Conditions [C]"])
 
             if sensible_capacity < 0:
                 sensible_capacity = 0
@@ -1490,17 +1494,57 @@ class Translator:
                 cs['dehumidification_type'] = dehumid_option_by_airloop[airloop]
         return cs
 
-    def get_airloop_heating_system(self, airloop, supply_top):
+    def get_airloop_fan_system(self, airloop, supply_top, equipment_fans, air_flows_62, exhaust_fan_names,
+                               economizer_by_airloop):
         fs = {}
         if 'supply_fan' in supply_top:
-            fan_name = supply_top['supply_fan']
+            supply_fan_name = supply_top['supply_fan']
+            supply_fan, supply_fan_extra = equipment_fans[supply_fan_name]
 
+            fs = {"id": f"{supply_fan_name}-fansystem"}
+            if supply_fan:
+                fan = {
+                    "id": supply_fan_name,
+                    "specification_method": "SIMPLE"
+                }
+                fan.update(supply_fan)
+                fs["supply_fans"] = [fan,]
 
-        if 'return_fan' in supply_top:
-            return_fan_name = supply_top['return_fan']
+                if airloop in air_flows_62:
+                    fs["minimum_airflow"], fs["minimum_outdoor_airflow"] = air_flows_62[airloop]
 
+                if supply_fan_extra["type"] == "Fan:SystemModel":
+                    if (supply_fan_extra["speed_control_method"] == "Discrete" and
+                            supply_fan_extra["number_of_speeds"] == 1):
+                        fs["fan_control"] = "CONSTANT"
+                elif "variable" not in supply_fan_extra["type"].lower():
+                    fs["fan_control"] = "CONSTANT"
+
+                if "air_energy_recovery" in supply_fan_extra:
+                    fs["air_energy_recovery"] = supply_fan_extra["air_energy_recovery"]
+
+                if airloop in exhaust_fan_names:
+                    fs["exhaust_fans"] = [{"id": n, **equipment_fans[n][0]} for n in exhaust_fan_names[airloop]]
+
+                if airloop in economizer_by_airloop:
+                    econo = economizer_by_airloop[airloop]
+                    if 'XTRA-Maxair' in econo:
+                        fs['maximum_outdoor_airflow'] = 1000 * econo['XTRA-Maxair']
+                        del econo['XTRA-Maxair']
+                    fs['air_economizer'] = economizer_by_airloop[airloop]
+
+                if 'speed_control_method' in supply_fan_extra:
+                    method = supply_fan_extra["speed_control_method"]
+                    if method == 'Discrete':
+                        fs['operation_during_occupied'] = 'CYCLING'
+                    elif method == 'Continuous':
+                        fs['operation_during_occupied'] = 'CONTINUOUS'
+
+                if 'return_fan' in supply_top:
+                    return_fan_name = supply_top['return_fan']
+                    return_fan, return_fan_extra = equipment_fans[return_fan_name]
+                    fs['return_fans'] = [{"id": return_fan_name, **return_fan, "specification_method": "SIMPLE"}, ]
         return fs
-
 
     def add_heating_ventilation_system_old(self):
         hvac_systems = []
@@ -1524,11 +1568,11 @@ class Translator:
         supply_fan_names_by_coil_connection = self.gather_supply_fan_names_by_coil_connection()
 #        cooling_coil_efficiencies = self.gather_cooling_coil_efficiencies()
 #        heating_coil_efficiencies = self.gather_heating_coil_efficiencies()
-        equipment_fans = self.gather_equipment_fans()
+#        equipment_fans = self.gather_equipment_fans()
         air_terminals = self.gather_air_terminal()
-        exhaust_fan_names = self.gather_exhaust_fans_by_airloop()
-        air_flows_62 = self.gather_airflows_from_62()
-        economizer_by_airloop = self.gather_economizer_by_airloop()
+#        exhaust_fan_names = self.gather_exhaust_fans_by_airloop()
+#        air_flows_62 = self.gather_airflows_from_62()
+#        economizer_by_airloop = self.gather_economizer_by_airloop()
         possible_return_fans = self.gather_possible_return_fans_by_airloop()
 #        dehumid_option_by_airloop = self.gather_dehumid_option_by_airloop()
 #        humid_option_by_airloop = self.gather_humid_option_by_airloop()
@@ -1701,46 +1745,48 @@ class Translator:
 
             # ---------- Fan system ----------
             if supply_fan and supply_fan.lower() != "unknown" and supply_fan in equipment_fans:
-                fan, fan_extra = equipment_fans[supply_fan]
-                fs = {
-                    "id": f"{supply_fan}-fansystem",
-                    "supply_fans": [{"id": supply_fan, **fan, "specification_method": "SIMPLE"}],
-                }
+                pass
+#                fan, fan_extra = equipment_fans[supply_fan]
+#                fs = {
+#                    "id": f"{supply_fan}-fansystem",
+#                    "supply_fans": [{"id": supply_fan, **fan, "specification_method": "SIMPLE"}],
+#                }
 
-                if hvac_name in air_flows_62:
-                    fs["minimum_airflow"], fs["minimum_outdoor_airflow"] = air_flows_62[hvac_name]
+#                if hvac_name in air_flows_62:
+#                    fs["minimum_airflow"], fs["minimum_outdoor_airflow"] = air_flows_62[hvac_name]
 
-                if fan_extra.get("type") == "Fan:SystemModel":
-                    if fan_extra.get("speed_control_method") == "Discrete" and fan_extra.get("number_of_speeds") == 1:
-                        fs["fan_control"] = "CONSTANT"
-                elif "variable" not in fan_extra.get("type", "").lower():
-                    fs["fan_control"] = "CONSTANT"
+#                if fan_extra.get("type") == "Fan:SystemModel":
+#                    if fan_extra.get("speed_control_method") == "Discrete" and fan_extra.get("number_of_speeds") == 1:
+#                        fs["fan_control"] = "CONSTANT"
+#                elif "variable" not in fan_extra.get("type", "").lower():
+#                    fs["fan_control"] = "CONSTANT"
 
-                if "air_energy_recovery" in fan_extra:
-                    fs["air_energy_recovery"] = fan_extra["air_energy_recovery"]
+#                if "air_energy_recovery" in fan_extra:
+#                    fs["air_energy_recovery"] = fan_extra["air_energy_recovery"]
 
-                if hvac_name in exhaust_fan_names:
-                    fs["exhaust_fans"] = [{"id": n, **equipment_fans[n][0]} for n in exhaust_fan_names[hvac_name]]
+#                if hvac_name in exhaust_fan_names:
+#                    fs["exhaust_fans"] = [{"id": n, **equipment_fans[n][0]} for n in exhaust_fan_names[hvac_name]]
 
-                if hvac_name in economizer_by_airloop:
-                    econo = economizer_by_airloop[hvac_name]
-                    if 'XTRA-Maxair' in econo:
-                        fs['maximum_outdoor_airflow'] = 1000 * econo['XTRA-Maxair']
-                        del econo['XTRA-Maxair']
-                    fs['air_economizer'] = economizer_by_airloop[hvac_name]
+#                if hvac_name in economizer_by_airloop:
+#                    econo = economizer_by_airloop[hvac_name]
+#                    if 'XTRA-Maxair' in econo:
+#                        fs['maximum_outdoor_airflow'] = 1000 * econo['XTRA-Maxair']
+#                        del econo['XTRA-Maxair']
+#                    fs['air_economizer'] = economizer_by_airloop[hvac_name]
 
-                if 'speed_control_method' in fan_extra:
-                    method = fan_extra["speed_control_method"]
-                    if method == 'Discrete':
-                        fs['operation_during_occupied'] = 'CYCLING'
-                    elif method == 'Continuous':
-                        fs['operation_during_occupied'] = 'CONTINUOUS'
+#                if 'speed_control_method' in fan_extra:
+#                    method = fan_extra["speed_control_method"]
+#                    if method == 'Discrete':
+#                        fs['operation_during_occupied'] = 'CYCLING'
+#                    elif method == 'Continuous':
+#                        fs['operation_during_occupied'] = 'CONTINUOUS'
 
                 if hvac_name in possible_return_fans:
                     possible_fan = possible_return_fans[hvac_name]
                     if supply_fan != possible_fan:
-                        return_fan, return_fan_extra = equipment_fans[possible_fan]
-                        fs['return_fans'] = [{"id": possible_fan, **return_fan, "specification_method": "SIMPLE"},]
+                        pass
+#                        return_fan, return_fan_extra = equipment_fans[possible_fan]
+#                        fs['return_fans'] = [{"id": possible_fan, **return_fan, "specification_method": "SIMPLE"},]
 
                 hvac["fan_system"] = fs
 
