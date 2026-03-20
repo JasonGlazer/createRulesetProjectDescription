@@ -1340,15 +1340,78 @@ class Translator:
         hvac_systems = []
         supply_topology_by_airloop = self.analyze_supply_topology_by_airloop()
         coils_table = self.get_table_dictionary("CoilSizingDetails", "Coils")
+        heating_coil_efficiencies = self.gather_heating_coil_efficiencies()
+        humid_option_by_airloop = self.gather_humid_option_by_airloop()
+        coil_connections = self.gather_coil_connections()
 
         for airloop, supply_top in supply_topology_by_airloop.items():
             hvac = {"id": airloop}
+
+            if airloop in humid_option_by_airloop:
+                hvac['humidification_type'] = humid_option_by_airloop[airloop]
+
             hvac_systems.append(hvac)
 
             if 'main_heating_coil' in supply_top:
                 heat_coil_name = supply_top['main_heating_coil']
                 heat_coil = coils_table[heat_coil_name]
-                hs = {"id": f"{airloop}-heating"}
+                current_coil_efficiencies = heating_coil_efficiencies[heat_coil_name]
+
+                coil_type = heat_coil["Coil Type"]
+                total_capacity = float(heat_coil["Coil Final Gross Total Capacity [W]"])
+                sensible_capacity = float(heat_coil["Coil Final Gross Sensible Capacity [W]"])
+                rated_capacity = float(heat_coil["Coil Total Capacity at Rating Conditions [W]"])
+                ideal_load_peak = float(heat_coil["Coil Total Capacity at Ideal Loads Peak [W]"])
+                is_autosized = heat_coil["Autosized Coil Capacity?"]
+                leaving_db = float(heat_coil["Coil Leaving Air Drybulb at Rating Conditions [C]"])
+
+                if sensible_capacity < 0:
+                    sensible_capacity = 0
+                if total_capacity < 0:
+                    total_capacity = sensible_capacity
+                oversize = 1.0
+                if ideal_load_peak > 0:
+                    oversize = total_capacity / ideal_load_peak
+                hs = {
+                    "id": f"{airloop}-heating",
+                    "design_capacity": total_capacity,
+                    "type": heating_type_convert(coil_type),
+                    "energy_source_type": source_from_coil(coil_type),
+                    "oversizing_factor": oversize,
+                    "is_calculated_size": is_autosized == "Yes",
+                }
+                if rated_capacity != -999:
+                    hs["rated_capacity"] = rated_capacity
+                if leaving_db != -999:
+                    hs["heating_coil_setpoint"] = leaving_db
+
+                mt, mv = self.process_heating_metrics(heat_coil_name, heating_coil_efficiencies)
+                if mv:
+                    hs["efficiency_metric_types"] = mt
+                    hs["efficiency_metric_values"] = mv
+
+                if "minimum_temperature_compressor" in current_coil_efficiencies:
+                    min_temp = current_coil_efficiencies["minimum_temperature_compressor"]
+                    if min_temp is not None:
+                        hs["heatpump_low_shutoff_temperature"] = min_temp
+
+                if "max_temperature_supplement" in current_coil_efficiencies:
+                    max_supplement_temp = current_coil_efficiencies["max_temperature_supplement"]
+                    if max_supplement_temp is not None:
+                        hs['heatpump_auxiliary_heat_high_shutoff_temperature'] = max_supplement_temp
+
+                # Combined loop mapping logic (water-to-air HP vs generic water)
+                if "WATERTOAIRHEATPUMP" in coil_type.upper() and heat_coil_name in coil_connections:
+                    hs["water_source_heat_pump_loop"] = coil_connections[heat_coil_name]["plant_loop_name"]
+                elif "WATER" in coil_type.upper() and heat_coil_name in coil_connections:
+                    hs["hot_water_loop"] = coil_connections[heat_coil_name]["plant_loop_name"]
+
+                if "backup_heating_coil" in supply_top:
+                    backup_coil_name = supply_top['backup_heating_coil']
+                    backup_coil = coils_table[backup_coil_name]
+                    backup_type = backup_coil["Coil Type"]
+                    hs['heatpump_auxiliary_heat_type'] = heating_type_convert(backup_type)
+
                 hvac["heating_system"] = hs
 
             if 'cooling_coil' in supply_top:
@@ -1386,7 +1449,7 @@ class Translator:
         coil_connections = self.gather_coil_connections()
         supply_fan_names_by_coil_connection = self.gather_supply_fan_names_by_coil_connection()
         cooling_coil_efficiencies = self.gather_cooling_coil_efficiencies()
-        heating_coil_efficiencies = self.gather_heating_coil_efficiencies()
+#        heating_coil_efficiencies = self.gather_heating_coil_efficiencies()
         equipment_fans = self.gather_equipment_fans()
         air_terminals = self.gather_air_terminal()
         exhaust_fan_names = self.gather_exhaust_fans_by_airloop()
@@ -1394,7 +1457,7 @@ class Translator:
         economizer_by_airloop = self.gather_economizer_by_airloop()
         possible_return_fans = self.gather_possible_return_fans_by_airloop()
         dehumid_option_by_airloop = self.gather_dehumid_option_by_airloop()
-        humid_option_by_airloop = self.gather_humid_option_by_airloop()
+#        humid_option_by_airloop = self.gather_humid_option_by_airloop()
         supply_topology_by_airloop = self.analyze_supply_topology_by_airloop()
         zones_by_airloop, zone_by_terminal = self.analyze_demand_topology_by_airloop()
         equip_topology_by_zone = self.analyze_zone_equipment()
@@ -1436,7 +1499,7 @@ class Translator:
             if rk == "None":
                 continue
 
-            coil_type = r[col("Coil Type")]
+#            coil_type = r[col("Coil Type")]
             hvac_type = r[col("HVAC Type")]
             hvac_name = r[col("HVAC Name")]
 
@@ -1454,13 +1517,13 @@ class Translator:
 
             zones = [z.strip() for z in r[col("Zone Name(s)")].split(";") if z.strip()]
 
-            total_capacity = float(r[col("Coil Final Gross Total Capacity [W]")])
-            sensible_capacity = float(r[col("Coil Final Gross Sensible Capacity [W]")])
-            rated_capacity = float(r[col("Coil Total Capacity at Rating Conditions [W]")])
-            rated_sensible_capacity = float(r[col("Coil Sensible Capacity at Rating Conditions [W]")])
-            ideal_load_peak = float(r[col("Coil Total Capacity at Ideal Loads Peak [W]")])
-            is_autosized = r[col("Autosized Coil Capacity?")]
-            leaving_db = float(r[col("Coil Leaving Air Drybulb at Rating Conditions [C]")])
+#            total_capacity = float(r[col("Coil Final Gross Total Capacity [W]")])
+#            sensible_capacity = float(r[col("Coil Final Gross Sensible Capacity [W]")])
+#            rated_capacity = float(r[col("Coil Total Capacity at Rating Conditions [W]")])
+#            rated_sensible_capacity = float(r[col("Coil Sensible Capacity at Rating Conditions [W]")])
+#            ideal_load_peak = float(r[col("Coil Total Capacity at Ideal Loads Peak [W]")])
+#            is_autosized = r[col("Autosized Coil Capacity?")]
+#            leaving_db = float(r[col("Coil Leaving Air Drybulb at Rating Conditions [C]")])
             supply_fan = r[col("Supply Fan Name for Coil")]
 
             # Combined "unknown fan" resolution logic
@@ -1470,63 +1533,65 @@ class Translator:
                 supply_fan = supply_fan_names_by_coil_connection.get(rk, supply_fan)
 
             # Normalize sentinel/negative capacities (combined approach)
-            if sensible_capacity < 0:
-                sensible_capacity = 0
-            if total_capacity < 0:
-                total_capacity = sensible_capacity
+#            if sensible_capacity < 0:
+#                sensible_capacity = 0
+#            if total_capacity < 0:
+#                total_capacity = sensible_capacity
 
-            oversize = 1.0
-            if ideal_load_peak > 0:
-                oversize = total_capacity / ideal_load_peak
+#            oversize = 1.0
+#            if ideal_load_peak > 0:
+#                oversize = total_capacity / ideal_load_peak
 
             hvac = next((x for x in hvac_systems if x["id"] == hvac_name), None)
             if not hvac:
-                hvac = {"id": hvac_name}
+                pass
+#                hvac = {"id": hvac_name}
 
-                if hvac_name in humid_option_by_airloop:
-                    hvac['humidification_type'] = humid_option_by_airloop[hvac_name]
+#                if hvac_name in humid_option_by_airloop:
+#                    hvac['humidification_type'] = humid_option_by_airloop[hvac_name]
 
-                hvac_systems.append(hvac)
+#                hvac_systems.append(hvac)
 
             # ---------- Heating ----------
             if "HEATING" in coil_type.upper():
-                is_sup = heating_coil_efficiencies.get(rk, {}).get("used_as_sup_heat", False)
-                if is_sup and hvac.get("heating_system", {}).get("type") == "HEAT_PUMP":
-                    hvac["heating_system"]["heatpump_auxiliary_heat_type"] = heating_type_convert(coil_type)
-                else:
-                    hs = {
-                        "id": f"{hvac_name}-heating",
-                        "design_capacity": total_capacity,
-                        "type": heating_type_convert(coil_type),
-                        "energy_source_type": source_from_coil(coil_type),
-                        "oversizing_factor": oversize,
-                        "is_calculated_size": is_autosized == "Yes",
-                    }
-                    if rated_capacity != -999:
-                        hs["rated_capacity"] = rated_capacity
-                    if leaving_db != -999:
-                        hs["heating_coil_setpoint"] = leaving_db
+                pass
+#                is_sup = heating_coil_efficiencies.get(rk, {}).get("used_as_sup_heat", False)
+#                if is_sup and hvac.get("heating_system", {}).get("type") == "HEAT_PUMP":
+#                    hvac["heating_system"]["heatpump_auxiliary_heat_type"] = heating_type_convert(coil_type)
+#                else:
+#                    hs = {
+#                        "id": f"{hvac_name}-heating",
+#                        "design_capacity": total_capacity,
+#                        "type": heating_type_convert(coil_type),
+#                        "energy_source_type": source_from_coil(coil_type),
+#                        "oversizing_factor": oversize,
+#                        "is_calculated_size": is_autosized == "Yes",
+#                    }
+#                    if rated_capacity != -999:
+#                        hs["rated_capacity"] = rated_capacity
+#                    if leaving_db != -999:
+#                        hs["heating_coil_setpoint"] = leaving_db
 
                     # Combined loop mapping logic (water-to-air HP vs generic water)
-                    if "WATERTOAIRHEATPUMP" in coil_type.upper() and rk in coil_connections:
-                        hs["water_source_heat_pump_loop"] = coil_connections[rk]["plant_loop_name"]
-                    elif "WATER" in coil_type.upper() and rk in coil_connections:
-                        hs["hot_water_loop"] = coil_connections[rk]["plant_loop_name"]
+#                    if "WATERTOAIRHEATPUMP" in coil_type.upper() and rk in coil_connections:
+#                        hs["water_source_heat_pump_loop"] = coil_connections[rk]["plant_loop_name"]
+#                    elif "WATER" in coil_type.upper() and rk in coil_connections:
+#                        hs["hot_water_loop"] = coil_connections[rk]["plant_loop_name"]
 
-                    mt, mv = self.process_heating_metrics(rk, heating_coil_efficiencies)
-                    if mv:
-                        hs["efficiency_metric_types"] = mt
-                        hs["efficiency_metric_values"] = mv
+#                    mt, mv = self.process_heating_metrics(rk, heating_coil_efficiencies)
+#                    if mv:
+#                        hs["efficiency_metric_types"] = mt
+#                        hs["efficiency_metric_values"] = mv
 
-                    min_temp = heating_coil_efficiencies.get(rk, {}).get("minimum_temperature_compressor")
-                    if min_temp is not None:
-                        hs["heatpump_low_shutoff_temperature"] = min_temp
+#                    min_temp = heating_coil_efficiencies.get(rk, {}).get("minimum_temperature_compressor")
+#                    if min_temp is not None:
+#                        hs["heatpump_low_shutoff_temperature"] = min_temp
 
-                    max_supplement_temp = heating_coil_efficiencies.get(rk, {}).get("max_temperature_supplement")
-                    if max_supplement_temp is not None:
-                        hs['heatpump_auxiliary_heat_high_shutoff_temperature'] = max_supplement_temp
+#                    max_supplement_temp = heating_coil_efficiencies.get(rk, {}).get("max_temperature_supplement")
+#                    if max_supplement_temp is not None:
+#                        hs['heatpump_auxiliary_heat_high_shutoff_temperature'] = max_supplement_temp
 
-                    hvac["heating_system"] = hs
+#                    hvac["heating_system"] = hs
 
             # ---------- Cooling ----------
             elif "COOLING" in coil_type.upper():
