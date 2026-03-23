@@ -1106,6 +1106,104 @@ class TestTranslator(TestCase):
 
         self.assertEqual(added_zones, expected)
 
+    def test_add_zones_deduplicates_interior_surface_pairs(self):
+        t = self.set_minimal_files()
+        t.epjson_object['BuildingSurface:Detailed'] = {
+            'INT_WALL_A': {
+                'zone_name': 'ZONE_A',
+                'outside_boundary_condition': 'Surface',
+                'outside_boundary_condition_object': 'INT_WALL_B'
+            },
+            'INT_WALL_B': {
+                'zone_name': 'ZONE_B',
+                'outside_boundary_condition': 'Surface',
+                'outside_boundary_condition_object': 'INT_WALL_A'
+            }
+        }
+        t.surfaces_by_zone = t.get_zone_for_each_surface()
+        t.json_results_object['TabularReports'] = [
+            {
+                'For': 'Entire Facility',
+                'ReportName': 'EnvelopeSummary',
+                'Tables': [{
+                    'Cols': [
+                        'Construction',
+                        'Reflectance',
+                        'U-Factor with Film [W/m2-K]',
+                        'U-Factor no Film [W/m2-K]',
+                        'Gross Area [m2]',
+                        'Net Area [m2]',
+                        'Azimuth [deg]',
+                        'Tilt [deg]',
+                        'Cardinal Direction'
+                    ],
+                    'Rows': {
+                        'INT_WALL_A': [
+                            'INT_WALL',
+                            '0.30',
+                            '0.290',
+                            '0.303',
+                            '10.00',
+                            '10.00',
+                            '90.00',
+                            '90.00',
+                            'E'
+                        ],
+                        'INT_WALL_B': [
+                            'INT_WALL',
+                            '0.30',
+                            '0.290',
+                            '0.303',
+                            '10.00',
+                            '10.00',
+                            '270.00',
+                            '90.00',
+                            'W'
+                        ]
+                    },
+                    'TableName': 'Opaque Interior'
+                }]
+            },
+            {
+                'For': 'Entire Facility',
+                'ReportName': 'InputVerificationandResultsSummary',
+                'Tables': [{
+                    'Cols': [
+                        'Area [m2]',
+                        'Conditioned (Y/N)',
+                        'Part of Total Floor Area (Y/N)',
+                        'Volume [m3]',
+                        'Multipliers',
+                        'Above Ground Gross Wall Area [m2]',
+                        'Underground Gross Wall Area [m2]',
+                        'Window Glass Area [m2]',
+                        'Opening Area [m2]',
+                        'Lighting [W/m2]',
+                        'People [m2 per person]',
+                        'Plug and Process [W/m2]'
+                    ],
+                    'Rows': {
+                        'ZONE_A': ['10.00', 'Yes', 'Yes', '30.00', '1.00', '0.00', '0.00', '0.00', '0.00',
+                                   '0.0000', '', '0.0000'],
+                        'ZONE_B': ['10.00', 'Yes', 'Yes', '30.00', '1.00', '0.00', '0.00', '0.00', '0.00',
+                                   '0.0000', '', '0.0000'],
+                        'Total': ['20.00', '', '', '60.00', '', '0.00', '0.00', '0.00', '0.00', '0.0000', '', '0.0000'],
+                        'Conditioned Total': ['20.00', '', '', '60.00', '', '0.00', '0.00', '0.00', '0.00', '0.0000', '', '0.0000'],
+                        'Unconditioned Total': ['0.00', '', '', '0.00', '', '0.00', '0.00', '0.00', '0.00', '', '', ''],
+                        'Not Part of Total': ['0.00', '', '', '0.00', '', '0.00', '0.00', '0.00', '0.00', '0.0000', '', '0.0000']
+                    },
+                    'TableName': 'Zone Summary'
+                }]
+            }
+        ]
+
+        added_zones = t.add_zones()
+
+        self.assertEqual(len(added_zones[0]['surfaces']), 1)
+        self.assertEqual(added_zones[0]['surfaces'][0]['id'], 'INT_WALL_A')
+        self.assertEqual(added_zones[0]['surfaces'][0]['adjacent_zone'], 'ZONE_B')
+        self.assertEqual(added_zones[1]['surfaces'], [])
+
     def test_add_calendar(self):
         t = self.set_minimal_files()
         t.json_results_object['TabularReports'] = \
