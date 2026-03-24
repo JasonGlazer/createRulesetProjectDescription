@@ -1336,7 +1336,7 @@ class Translator:
                         shadows_cast = solar_distribution != 'MinimalShadowing'
         return shadows_cast
 
-    def add_heating_ventilation_system(self):
+    def add_airloop_heating_ventilation_ac_system(self):
         hvac_systems = []
         supply_topology_by_airloop = self.analyze_supply_topology_by_airloop()
         humid_option_by_airloop = self.gather_humid_option_by_airloop()
@@ -1546,6 +1546,116 @@ class Translator:
                     fs['return_fans'] = [{"id": return_fan_name, **return_fan, "specification_method": "SIMPLE"}, ]
         return fs
 
+    def add_terminal_hvac_system(self):
+        zones_by_airloop, zone_by_terminal, airloop_by_zone = self.analyze_demand_topology_by_airloop()
+        equip_topology_by_zone = self.analyze_zone_equipment()
+        coils_table = self.get_table_dictionary("CoilSizingDetails", "Coils")
+        air_terminals = self.gather_air_terminal()
+        equipment_fans = self.gather_equipment_fans()
+
+        # The following is from the schema description of the Terminal.Type:
+        #
+        # System configurations that typically are at the zone and include a compressor (such as packaged terminal air
+        # conditioning, packaged terminal heat pumps, window air conditioning units, and water loop heat pumps) should
+        # be reported in the schema using HeatingSystem and CoolingSystem. Systems that include gas or electric
+        # furnaces should be reported in the schema using HeatingSystem. Distributed systems where each zone is
+        # individually served by dedicated fans and/or coils (such as four-pipe fan coil, two-pipe fan coil, radiant
+        # systems, baseboards, chilled beams, and variable refrigerant flow indoor units) should be reported in the
+        # schema using Terminal with the cooling and heating described in the cooling_source and heating_source data
+        # elements (and any other relevant Terminal Data elements). Evaporative cooling systems should be described
+        # in CoolingSystem. Passive diffusers with no coil or fan should be described in Terminal.
+
+        for zone, top in equip_topology_by_zone.items():
+            if 'cooling_coil' in top:
+                cooling_coil_name = top['cooling_coil']
+            if 'main_heating_coil' in top:
+                main_heating_coil_name = top['main_heating_coil']
+            if 'backup_heating_coil' in top:
+                backup_heating_coil_name = top['backup_heating_coil']
+
+            if self.does_zone_have_compressor(top, coils_table):
+                pass
+            else:
+                if zone in airloop_by_zone:
+                    airloop_name = airloop_by_zone[zone]
+                else:
+                    airloop_name = ''
+                if zone in air_terminals:
+                    at = air_terminals[zone]
+                    t = {
+                        "id": at["terminal_name"],
+                        "type": terminal_option_convert(at["type_input"]),
+                        "heating_source": terminal_heating_source_convert(at["heat_coil_type"]),
+                        "cooling_source": terminal_cooling_source_convert(at["chill_coil_type"]),
+                        "served_by_heating_ventilating_air_conditioning_system": airloop_name,
+                        "primary_airflow": at["primary_airflow_rate"] * 1000,
+                        "supply_design_heating_setpoint_temperature": at["supply_heat_set_point"],
+                        "supply_design_cooling_setpoint_temperature": at["supply_cool_set_point"],
+                        "minimum_airflow": at["min_flow"] * 1000,
+                        "minimum_outdoor_airflow": at["min_oa_flow"] * 1000,
+                        "heating_capacity": at["heating_capacity"],
+                        "cooling_capacity": at["cooling_capacity"],
+                    }
+                    if main_heating_coil_name in coils_table:
+                        coils_detail = coils_table[main_heating_coil_name]
+                        if coils_detail["HVAC Type"] == "ZONEHVAC:AIRDISTRIBUTIONUNIT":
+                            t["heating_capacity"] = float(coils_detail['Coil Final Gross Total Capacity [W]'])
+                    if at.get("fan_name"):
+                        if at["fan_name"] in equipment_fans:
+                            tfan, _ = equipment_fans[at["fan_name"]]
+                            t["fan"] = {"id": at["fan_name"], **tfan}
+                            t["fan_configuration"] = terminal_config_convert(at["type_input"])
+                    if at.get("secondary_airflow_rate", 0) > 0:
+                        t["secondary_airflow"] = at["secondary_airflow_rate"] * 1000
+                    if at.get("max_flow_during_reheat", 0) > 0:
+                        t["maximum_heating_airflow"] = at["max_flow_during_reheat"] * 1000
+                    if at.get("min_oa_schedule_name") and at["min_oa_schedule_name"] != "n/a":
+                        t["minimum_outdoor_airflow_multiplier_schedule"] = at["min_oa_schedule_name"]
+                    self.merge_into_terminal_list(zone, t)  # append to self.terminals_by_zone
+
+        return self.terminals_by_zone
+
+    def merge_into_terminal_list(self, zone_name, terminal):
+        zone_key = zone_name.upper()
+        if zone_key not in self.terminals_by_zone:
+            self.terminals_by_zone[zone_key] = [terminal]
+            return
+        for existing in self.terminals_by_zone[zone_key]:
+            if existing.get("id") == terminal.get("id"):
+                existing.update(terminal)
+                return
+        self.terminals_by_zone[zone_key].append(terminal)
+
+    def does_zone_have_compressor(self, zone_topology, coils_table):
+        has_cooling_compressor = False
+        has_heating_compressor = False
+        if 'cooling_coil' in zone_topology:
+            cooling_coil_name = zone_topology['cooling_coil']
+            if cooling_coil_name in coils_table:
+                coil_details = coils_table[cooling_coil_name]
+                if 'DX' in coil_details['Coil Type']:
+                    has_cooling_compressor = True
+                elif 'WATERTOAIRHEATPUMP' in coil_details['Coil Type']:
+                    has_cooling_compressor = True
+        if 'main_heating_coil' in zone_topology:
+            heating_coil_name = zone_topology['main_heating_coil']
+            if heating_coil_name in coils_table:
+                coil_details = coils_table[heating_coil_name]
+                if 'DX' in coil_details['Coil Type']:
+                    has_heating_compressor = True
+                elif 'WATERTOAIRHEATPUMP' in coil_details['Coil Type']:
+                    has_heating_compressor = True
+        if not has_heating_compressor:
+            if 'backup_heating_coil' in zone_topology:
+                heating_coil_name = zone_topology['backup_heating_coil']
+                if heating_coil_name in coils_table:
+                    coil_details = coils_table[heating_coil_name]
+                    if 'DX' in coil_details['Coil Type']:
+                        has_heating_compressor = True
+                    elif 'WATERTOAIRHEATPUMP' in coil_details['Coil Type']:
+                        has_heating_compressor = True
+        return has_cooling_compressor or has_heating_compressor
+
     def add_heating_ventilation_system_old(self):
         hvac_systems = []
         zone_hvac_terminals = {}
@@ -1553,32 +1663,32 @@ class Translator:
         # Used later to add ZoneHVAC terminals that might not show up in CoilSizingDetails:Coils
         zone_hvac_equipment = self.gather_zone_hvac_equipment_by_zone()
 
-        def merge_terminal(zone_name, terminal):
-            zone_key = zone_name.upper()
-            if zone_key not in self.terminals_by_zone:
-                self.terminals_by_zone[zone_key] = [terminal]
-                return
-            for existing in self.terminals_by_zone[zone_key]:
-                if existing.get("id") == terminal.get("id"):
-                    existing.update(terminal)
-                    return
-            self.terminals_by_zone[zone_key].append(terminal)
+#        def merge_terminal(zone_name, terminal):
+#            zone_key = zone_name.upper()
+#            if zone_key not in self.terminals_by_zone:
+#                self.terminals_by_zone[zone_key] = [terminal]
+#                return
+#            for existing in self.terminals_by_zone[zone_key]:
+#                if existing.get("id") == terminal.get("id"):
+#                    existing.update(terminal)
+#                    return
+#            self.terminals_by_zone[zone_key].append(terminal)
 
 #        coil_connections = self.gather_coil_connections()
         supply_fan_names_by_coil_connection = self.gather_supply_fan_names_by_coil_connection()
 #        cooling_coil_efficiencies = self.gather_cooling_coil_efficiencies()
 #        heating_coil_efficiencies = self.gather_heating_coil_efficiencies()
 #        equipment_fans = self.gather_equipment_fans()
-        air_terminals = self.gather_air_terminal()
+#        air_terminals = self.gather_air_terminal()
 #        exhaust_fan_names = self.gather_exhaust_fans_by_airloop()
 #        air_flows_62 = self.gather_airflows_from_62()
 #        economizer_by_airloop = self.gather_economizer_by_airloop()
         possible_return_fans = self.gather_possible_return_fans_by_airloop()
 #        dehumid_option_by_airloop = self.gather_dehumid_option_by_airloop()
 #        humid_option_by_airloop = self.gather_humid_option_by_airloop()
-        supply_topology_by_airloop = self.analyze_supply_topology_by_airloop()
-        zones_by_airloop, zone_by_terminal = self.analyze_demand_topology_by_airloop()
-        equip_topology_by_zone = self.analyze_zone_equipment()
+#        supply_topology_by_airloop = self.analyze_supply_topology_by_airloop()
+#        zones_by_airloop, zone_by_terminal = self.analyze_demand_topology_by_airloop()
+#        equip_topology_by_zone = self.analyze_zone_equipment()
 
         coils_table = self.get_table("CoilSizingDetails", "Coils")
         if not coils_table:
@@ -1606,8 +1716,8 @@ class Translator:
             total_cap = float(r[col("Coil Final Gross Total Capacity [W]")])
             supply_fan = r[col("Supply Fan Name for Coil")]
 
-            if hvac_type == "ZONEHVAC:AIRDISTRIBUTIONUNIT":
-                terminal_capacity_by_zone[zone] = total_cap
+#            if hvac_type == "ZONEHVAC:AIRDISTRIBUTIONUNIT":
+#                terminal_capacity_by_zone[zone] = total_cap
 
             if hvac_type == "AirLoopHVAC" and supply_fan and supply_fan.lower() != "unknown":
                 non_unknown_supply_fan_by_hvac[hvac_name] = supply_fan
@@ -1793,37 +1903,37 @@ class Translator:
             # ---------- Air terminals (from EquipmentSummary:Air Terminals) ----------
             for zone in zones:
                 use_air_terminal = hvac_type == "AirLoopHVAC" or hvac_type.upper() == "ZONEHVAC:AIRDISTRIBUTIONUNIT"
-                if use_air_terminal and zone in air_terminals:
-                    at = air_terminals[zone]
-                    t = {
-                        "id": at["terminal_name"],
-                        "type": terminal_option_convert(at["type_input"]),
-                        "heating_source": terminal_heating_source_convert(at["heat_coil_type"]),
-                        "cooling_source": terminal_cooling_source_convert(at["chill_coil_type"]),
-                        "served_by_heating_ventilating_air_conditioning_system": hvac_name,
-                        "primary_airflow": at["primary_airflow_rate"] * 1000,
-                        "supply_design_heating_setpoint_temperature": at["supply_heat_set_point"],
-                        "supply_design_cooling_setpoint_temperature": at["supply_cool_set_point"],
-                        "minimum_airflow": at["min_flow"] * 1000,
-                        "minimum_outdoor_airflow": at["min_oa_flow"] * 1000,
-                        "heating_capacity": at["heating_capacity"],
-                        "cooling_capacity": at["cooling_capacity"],
-                    }
-                    if zone in terminal_capacity_by_zone:
-                        t["heating_capacity"] = terminal_capacity_by_zone[zone]
-                    if at.get("fan_name"):
-                        if at["fan_name"] in equipment_fans:
-                            tfan, _ = equipment_fans[at["fan_name"]]
-                            t["fan"] = {"id": at["fan_name"], **tfan}
-                            t["fan_configuration"] = terminal_config_convert(at["type_input"])
-                    if at.get("secondary_airflow_rate", 0) > 0:
-                        t["secondary_airflow"] = at["secondary_airflow_rate"] * 1000
-                    if at.get("max_flow_during_reheat", 0) > 0:
-                        t["maximum_heating_airflow"] = at["max_flow_during_reheat"] * 1000
-                    if at.get("min_oa_schedule_name") and at["min_oa_schedule_name"] != "n/a":
-                        t["minimum_outdoor_airflow_multiplier_schedule"] = at["min_oa_schedule_name"]
+#                if use_air_terminal and zone in air_terminals:
+#                     at = air_terminals[zone]
+#                     t = {
+#                         "id": at["terminal_name"],
+#                         "type": terminal_option_convert(at["type_input"]),
+#                         "heating_source": terminal_heating_source_convert(at["heat_coil_type"]),
+#                         "cooling_source": terminal_cooling_source_convert(at["chill_coil_type"]),
+#                         "served_by_heating_ventilating_air_conditioning_system": hvac_name,
+#                         "primary_airflow": at["primary_airflow_rate"] * 1000,
+#                         "supply_design_heating_setpoint_temperature": at["supply_heat_set_point"],
+#                         "supply_design_cooling_setpoint_temperature": at["supply_cool_set_point"],
+#                         "minimum_airflow": at["min_flow"] * 1000,
+#                         "minimum_outdoor_airflow": at["min_oa_flow"] * 1000,
+#                         "heating_capacity": at["heating_capacity"],
+#                         "cooling_capacity": at["cooling_capacity"],
+#                     }
+#                     if zone in terminal_capacity_by_zone:
+#                         t["heating_capacity"] = terminal_capacity_by_zone[zone]
+#                     if at.get("fan_name"):
+#                         if at["fan_name"] in equipment_fans:
+#                             tfan, _ = equipment_fans[at["fan_name"]]
+#                             t["fan"] = {"id": at["fan_name"], **tfan}
+#                             t["fan_configuration"] = terminal_config_convert(at["type_input"])
+#                     if at.get("secondary_airflow_rate", 0) > 0:
+#                         t["secondary_airflow"] = at["secondary_airflow_rate"] * 1000
+#                     if at.get("max_flow_during_reheat", 0) > 0:
+#                         t["maximum_heating_airflow"] = at["max_flow_during_reheat"] * 1000
+#                     if at.get("min_oa_schedule_name") and at["min_oa_schedule_name"] != "n/a":
+#                         t["minimum_outdoor_airflow_multiplier_schedule"] = at["min_oa_schedule_name"]
 
-                    merge_terminal(zone, t)
+#                    merge_terminal(zone, t)
 
                 # ---------- ZoneHVAC terminals inferred from coil sizing rows ----------
                 if hvac_type.upper().startswith("ZONEHVAC:") and hvac_type.upper() != "ZONEHVAC:AIRDISTRIBUTIONUNIT":
@@ -2001,6 +2111,7 @@ class Translator:
     def analyze_demand_topology_by_airloop(self):
         zones_by_airloop = {}
         zone_by_terminal = {}
+        airloop_by_zone = {}
         airloop_demands = self.gather_table_into_list('HVACTopology',
                                                       "Air Loop Demand Side Component Arrangement")
         for airloop_demand in airloop_demands:
@@ -2008,11 +2119,12 @@ class Translator:
                 current_air_loop = airloop_demand['Airloop Name']
                 zone_name = airloop_demand['Zone Name']
                 zone_by_terminal[airloop_demand['Terminal Unit Name']] = zone_name
+                airloop_by_zone[zone_name] = current_air_loop
                 if current_air_loop in zones_by_airloop:
                     zones_by_airloop[current_air_loop].append(zone_name)
                 else:
                     zones_by_airloop[current_air_loop] = [zone_name,]
-        return zones_by_airloop, zone_by_terminal
+        return zones_by_airloop, zone_by_terminal, airloop_by_zone
 
     def analyze_zone_equipment(self):
         tops = {}
@@ -3323,7 +3435,8 @@ class Translator:
         self.add_constructions()
         self.surfaces_by_zone = self.get_zone_for_each_surface()
         self.gather_coil_connections()
-        self.add_heating_ventilation_system()
+        self.add_airloop_heating_ventilation_ac_system()
+        self.add_terminal_hvac_system()
         self.add_chillers()
         self.add_boilers()
         self.add_heat_rejection()
