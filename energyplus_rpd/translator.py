@@ -80,14 +80,14 @@ def is_float(string: str) -> bool:
         return False
 
 
-def terminal_option_convert(type_of_input_object):
-    if 'VAV' in type_of_input_object.upper():
-        option = 'VARIABLE_AIR_VOLUME'
-    elif 'CONSTANTVOLUME' in type_of_input_object.upper():
-        option = 'CONSTANT_AIR_VOLUME'
-    else:
-        option = 'OTHER'
-    return option
+# def terminal_option_convert(type_of_input_object):
+#     if 'VAV' in type_of_input_object.upper():
+#         option = 'VARIABLE_AIR_VOLUME'
+#     elif 'CONSTANTVOLUME' in type_of_input_object.upper():
+#         option = 'CONSTANT_AIR_VOLUME'
+#     else:
+#         option = 'OTHER'
+#     return option
 
 
 def terminal_heating_source_convert(heat_coil_type):
@@ -1565,53 +1565,60 @@ class Translator:
         # elements (and any other relevant Terminal Data elements). Evaporative cooling systems should be described
         # in CoolingSystem. Passive diffusers with no coil or fan should be described in Terminal.
 
-        for zone, top in equip_topology_by_zone.items():
-            if 'cooling_coil' in top:
-                cooling_coil_name = top['cooling_coil']
-            if 'main_heating_coil' in top:
-                main_heating_coil_name = top['main_heating_coil']
-            if 'backup_heating_coil' in top:
-                backup_heating_coil_name = top['backup_heating_coil']
+        for zone, topology in equip_topology_by_zone.items():
+            for ze in topology:
+                if 'cooling_coil' in ze:
+                    cooling_coil_name = ze['cooling_coil']
+                if 'main_heating_coil' in ze:
+                    main_heating_coil_name = ze['main_heating_coil']
+                if 'backup_heating_coil' in ze:
+                    backup_heating_coil_name = ze['backup_heating_coil']
 
-            if self.does_zone_have_compressor(top, coils_table):
-                pass
-            else:
-                if zone in airloop_by_zone:
-                    airloop_name = airloop_by_zone[zone]
+                if self.does_zone_equip_have_compressor(ze, coils_table):
+                    pass
                 else:
-                    airloop_name = ''
-                if zone in air_terminals:
-                    at = air_terminals[zone]
-                    t = {
-                        "id": at["terminal_name"],
-                        "type": terminal_option_convert(at["type_input"]),
-                        "heating_source": terminal_heating_source_convert(at["heat_coil_type"]),
-                        "cooling_source": terminal_cooling_source_convert(at["chill_coil_type"]),
-                        "served_by_heating_ventilating_air_conditioning_system": airloop_name,
-                        "primary_airflow": at["primary_airflow_rate"] * 1000,
-                        "supply_design_heating_setpoint_temperature": at["supply_heat_set_point"],
-                        "supply_design_cooling_setpoint_temperature": at["supply_cool_set_point"],
-                        "minimum_airflow": at["min_flow"] * 1000,
-                        "minimum_outdoor_airflow": at["min_oa_flow"] * 1000,
-                        "heating_capacity": at["heating_capacity"],
-                        "cooling_capacity": at["cooling_capacity"],
-                    }
-                    if main_heating_coil_name in coils_table:
-                        coils_detail = coils_table[main_heating_coil_name]
-                        if coils_detail["HVAC Type"] == "ZONEHVAC:AIRDISTRIBUTIONUNIT":
-                            t["heating_capacity"] = float(coils_detail['Coil Final Gross Total Capacity [W]'])
-                    if at.get("fan_name"):
-                        if at["fan_name"] in equipment_fans:
-                            tfan, _ = equipment_fans[at["fan_name"]]
-                            t["fan"] = {"id": at["fan_name"], **tfan}
-                            t["fan_configuration"] = terminal_config_convert(at["type_input"])
-                    if at.get("secondary_airflow_rate", 0) > 0:
-                        t["secondary_airflow"] = at["secondary_airflow_rate"] * 1000
-                    if at.get("max_flow_during_reheat", 0) > 0:
-                        t["maximum_heating_airflow"] = at["max_flow_during_reheat"] * 1000
-                    if at.get("min_oa_schedule_name") and at["min_oa_schedule_name"] != "n/a":
-                        t["minimum_outdoor_airflow_multiplier_schedule"] = at["min_oa_schedule_name"]
-                    self.merge_into_terminal_list(zone, t)  # append to self.terminals_by_zone
+                    if zone in airloop_by_zone:
+                        airloop_name = airloop_by_zone[zone]
+                    else:
+                        airloop_name = ''
+                    if 'has_ADU' in ze and zone in air_terminals:
+                        if 'has_vav' in ze:
+                            primary_terminal_option = 'VARIABLE_AIR_VOLUME'
+                        else:
+                            primary_terminal_option = 'CONSTANT_AIR_VOLUME'
+                        at = air_terminals[zone]
+                        t = {
+                            "id": at["terminal_name"],
+                            "type": primary_terminal_option,
+                            "heating_source": terminal_heating_source_convert(at["heat_coil_type"]),
+                            "cooling_source": terminal_cooling_source_convert(at["chill_coil_type"]),
+                            "served_by_heating_ventilating_air_conditioning_system": airloop_name,
+                            "primary_airflow": at["primary_airflow_rate"] * 1000,
+                            "supply_design_heating_setpoint_temperature": at["supply_heat_set_point"],
+                            "supply_design_cooling_setpoint_temperature": at["supply_cool_set_point"],
+                            "minimum_airflow": at["min_flow"] * 1000,
+                            "minimum_outdoor_airflow": at["min_oa_flow"] * 1000,
+                            "heating_capacity": at["heating_capacity"],
+                            "cooling_capacity": at["cooling_capacity"],
+                        }
+                        if main_heating_coil_name in coils_table:
+                            coils_detail = coils_table[main_heating_coil_name]
+                            if coils_detail["HVAC Type"] == "ZONEHVAC:AIRDISTRIBUTIONUNIT":
+                                t["heating_capacity"] = float(coils_detail['Coil Final Gross Total Capacity [W]'])
+                        if at.get("fan_name"):
+                            if at["fan_name"] in equipment_fans:
+                                tfan, _ = equipment_fans[at["fan_name"]]
+                                t["fan"] = {"id": at["fan_name"], **tfan}
+                                t["fan_configuration"] = terminal_config_convert(at["type_input"])
+                        if at.get("secondary_airflow_rate", 0) > 0:
+                            t["secondary_airflow"] = at["secondary_airflow_rate"] * 1000
+                        if at.get("max_flow_during_reheat", 0) > 0:
+                            t["maximum_heating_airflow"] = at["max_flow_during_reheat"] * 1000
+                        if at.get("min_oa_schedule_name") and at["min_oa_schedule_name"] != "n/a":
+                            t["minimum_outdoor_airflow_multiplier_schedule"] = at["min_oa_schedule_name"]
+                        self.merge_into_terminal_list(zone, t)  # append to self.terminals_by_zone
+                    else:  # not an ZONEHVAC:AIRDISTRIBUTIONUNIT
+                        pass
 
         return self.terminals_by_zone
 
@@ -1626,19 +1633,19 @@ class Translator:
                 return
         self.terminals_by_zone[zone_key].append(terminal)
 
-    def does_zone_have_compressor(self, zone_topology, coils_table):
+    def does_zone_equip_have_compressor(self, zone_equip_topology, coils_table):
         has_cooling_compressor = False
         has_heating_compressor = False
-        if 'cooling_coil' in zone_topology:
-            cooling_coil_name = zone_topology['cooling_coil']
+        if 'cooling_coil' in zone_equip_topology:
+            cooling_coil_name = zone_equip_topology['cooling_coil']
             if cooling_coil_name in coils_table:
                 coil_details = coils_table[cooling_coil_name]
                 if 'DX' in coil_details['Coil Type']:
                     has_cooling_compressor = True
                 elif 'WATERTOAIRHEATPUMP' in coil_details['Coil Type']:
                     has_cooling_compressor = True
-        if 'main_heating_coil' in zone_topology:
-            heating_coil_name = zone_topology['main_heating_coil']
+        if 'main_heating_coil' in zone_equip_topology:
+            heating_coil_name = zone_equip_topology['main_heating_coil']
             if heating_coil_name in coils_table:
                 coil_details = coils_table[heating_coil_name]
                 if 'DX' in coil_details['Coil Type']:
@@ -1646,8 +1653,8 @@ class Translator:
                 elif 'WATERTOAIRHEATPUMP' in coil_details['Coil Type']:
                     has_heating_compressor = True
         if not has_heating_compressor:
-            if 'backup_heating_coil' in zone_topology:
-                heating_coil_name = zone_topology['backup_heating_coil']
+            if 'backup_heating_coil' in zone_equip_topology:
+                heating_coil_name = zone_equip_topology['backup_heating_coil']
                 if heating_coil_name in coils_table:
                     coil_details = coils_table[heating_coil_name]
                     if 'DX' in coil_details['Coil Type']:
@@ -2127,82 +2134,31 @@ class Translator:
         return zones_by_airloop, zone_by_terminal, airloop_by_zone
 
     def analyze_zone_equipment(self):
-        tops = {}
+        # dictionary that is returned has zone names as the keys and for each is a list
+        # that contains dictionsary for each zone equipment (usually ZoneHVAC:*)
+        # each of these subdictionaries has fan, heating coil, cooling coil
+
         zone_equipments = self.gather_table_into_list('HVACTopology',
                                                       "Zone Equipment Component Arrangement")
-        component_type_map = {
-            'AIRTERMINAL:DUALDUCT:VAV': 'VARIABLE_AIR_VOLUME',
-            'AIRTERMINAL:DUALDUCT:VAV:OUTDOORAIR': 'VARIABLE_AIR_VOLUME',
-            'AIRTERMINAL:SINGLEDUCT:VAV:REHEAT': 'VARIABLE_AIR_VOLUME',
-            'AIRTERMINAL:SINGLEDUCT:VAV:NOREHEAT': 'VARIABLE_AIR_VOLUME',
-            'AIRTERMINAL:SINGLEDUCT:SERIESPIU:REHEAT': 'VARIABLE_AIR_VOLUME',
-            'AIRTERMINAL:SINGLEDUCT:PARALLELPIU:REHEAT': 'VARIABLE_AIR_VOLUME',
-            'AIRTERMINAL:SINGLEDUCT:VAV:REHEAT:VARIABLESPEEDFAN': 'VARIABLE_AIR_VOLUME',
-            'AIRTERMINAL:SINGLEDUCT:VAV:HEATANDCOOL:REHEAT': 'VARIABLE_AIR_VOLUME',
-            'AIRTERMINAL:SINGLEDUCT:VAV:HEATANDCOOL:NOREHEAT': 'VARIABLE_AIR_VOLUME',
-            'AIRTERMINAL:DUALDUCT:CONSTANTVOLUME': 'CONSTANT_AIR_VOLUME',
-            'AIRTERMINAL:SINGLEDUCT:CONSTANTVOLUME:REHEAT': 'CONSTANT_AIR_VOLUME',
-            'AIRTERMINAL:SINGLEDUCT:CONSTANTVOLUME:NOREHEAT': 'CONSTANT_AIR_VOLUME',
-            'AIRTERMINAL:SINGLEDUCT:CONSTANTVOLUME:FOURPIPEINDUCTION': 'CONSTANT_AIR_VOLUME',
-            'AIRTERMINAL:SINGLEDUCT:CONSTANTVOLUME:COOLEDBEAM': 'CONSTANT_AIR_VOLUME',
-            'ZONEHVAC:COOLINGPANEL:RADIANTCONVECTIVE:WATER': 'RADIANT',
-            'ZONEHVAC:HIGHTEMPERATURERADIANT': 'RADIANT',
-            'ZONEHVAC:LOWTEMPERATURERADIANT:VARIABLEFLOW': 'RADIANT',
-            'ZONEHVAC:LOWTEMPERATURERADIANT:CONSTANTFLOW': 'RADIANT',
-            'ZONEHVAC:LOWTEMPERATURERADIANT:ELECTRIC': 'RADIANT',
-            'ZONEHVAC:BASEBOARD:RADIANTCONVECTIVE:ELECTRIC': 'BASEBOARD',
-            'ZONEHVAC:BASEBOARD:RADIANTCONVECTIVE:WATER': 'BASEBOARD',
-            'ZONEHVAC:BASEBOARD:RADIANTCONVECTIVE:STEAM': 'BASEBOARD',
-            'ZONEHVAC:BASEBOARD:CONVECTIVE:ELECTRIC': 'BASEBOARD',
-            'ZONEHVAC:BASEBOARD:CONVECTIVE:WATER': 'BASEBOARD',
-            'ZONEHVAC:TERMINALUNIT:VARIABLEREFRIGERANTFLOW': 'VARIABLE_REFRIGERANT_FLOW',
-            'ZONEHVAC:AIRDISTRIBUTIONUNIT': 'OTHER',
-            'ZONEHVAC:ENERGYRECOVERYVENTILATOR': 'OTHER',
-            'ZONEHVAC:EVAPORATIVECOOLERUNIT': 'OTHER',
-            'ZONEHVAC:HYBRIDUNITARYHVAC': 'OTHER',
-            'ZONEHVAC:FORCEDAIR:USERDEFINED': 'OTHER',
-            'ZONEHVAC:FOURPIPEFANCOIL': 'OTHER',
-            'ZONEHVAC:OUTDOORAIRUNIT': 'OTHER',
-            'ZONEHVAC:PACKAGEDTERMINALAIRCONDITIONER': 'OTHER',
-            'ZONEHVAC:PACKAGEDTERMINALHEATPUMP': 'OTHER',
-            'ZONEHVAC:UNITHEATER': 'OTHER',
-            'ZONEHVAC:UNITVENTILATOR': 'OTHER',
-            'ZONEHVAC:VENTILATEDSLAB': 'OTHER',
-            'ZONEHVAC:WATERTOAIRHEATPUMP': 'OTHER',
-            'ZONEHVAC:WINDOWAIRCONDITIONER': 'OTHER',
-            'ZONEHVAC:DEHUMIDIFIER:DX': 'OTHER',
-            'ZONEHVAC:IDEALLOADSAIRSYSTEM': 'OTHER',
-            'ZONEHVAC:REFRIGERATIONCHILLERSET': 'OTHER',
-            'FAN:ZONEEXHAUST': 'OTHER',
-            'WATERHEATER:HEATPUMP:PUMPEDCONDENSER': 'OTHER',
-            'WATERHEATER:HEATPUMP:WRAPPEDCONDENSER': 'OTHER',
-            'HEATEXCHANGER:AIRTOAIR:FLATPLATE': 'OTHER',
-            'AIRLOOPHVAC:UNITARYSYSTEM': 'OTHER',
-        }
-
-        top = {}
+        tops = {}
+        ze = {}
         heat_coil_found = False
+        component_group_list = []
+
         for row_count, zone_equipment in enumerate(zone_equipments):
             zone_name = zone_equipment['Zone Name']
+            component_name = zone_equipment['Component Name']
 
-            found = False
-            if 'FAN:' in zone_equipment['Component Type']:
-                name = zone_equipment['Component Name']
-                found = True
-            elif 'FAN:' in zone_equipment['Sub-Component Type']:
-                name = zone_equipment['Sub-Component Name']
-                found = True
+            if 'ZONEHVAC:AIRDISTRIBUTIONUNIT' in zone_equipment['Component Type']:
+                ze['has_ADU'] = True
+
+            if 'FAN:' in zone_equipment['Sub-Component Type']:
+                ze['fan'] = zone_equipment['Sub-Component Name']
             elif 'FAN:' in zone_equipment['Sub-Sub-Component Type']:
-                name = zone_equipment['Sub-Sub-Component Name']
-                found = True
-            if found:
-                top['fan'] = name
+                ze['fan'] = zone_equipment['Sub-Sub-Component Name']
 
             found = False
-            if 'COIL:HEATING:' in zone_equipment['Component Type']:
-                name = zone_equipment['Component Name']
-                found = True
-            elif 'COIL:HEATING:' in zone_equipment['Sub-Component Type']:
+            if 'COIL:HEATING:' in zone_equipment['Sub-Component Type']:
                 name = zone_equipment['Sub-Component Name']
                 found = True
             elif 'COIL:HEATING:' in zone_equipment['Sub-Sub-Component Type']:
@@ -2210,40 +2166,56 @@ class Translator:
                 found = True
             if found:
                 if heat_coil_found:
-                    top['backup_heating_coil'] = name
+                    ze['backup_heating_coil'] = name
                 else:
-                    top['main_heating_coil'] = name
+                    ze['main_heating_coil'] = name
                 heat_coil_found = True
 
-            found = False
-            if 'COIL:COOLING:' in zone_equipment['Component Type']:
-                name = zone_equipment['Component Name']
-                found = True
-            elif 'COIL:COOLING:' in zone_equipment['Sub-Component Type']:
-                name = zone_equipment['Sub-Component Name']
-                found = True
+            if 'COIL:COOLING:' in zone_equipment['Sub-Component Type']:
+                ze['cooling_coil'] = zone_equipment['Sub-Component Name']
             elif 'COIL:COOLING:' in zone_equipment['Sub-Sub-Component Type']:
-                name = zone_equipment['Sub-Sub-Component Name']
-                found = True
-            if found:
-                top['cooling_coil'] = name
+                ze['cooling_coil'] = zone_equipment['Sub-Sub-Component Name']
 
-            if zone_equipment['Component Type'] in component_type_map:
-                terminal_option = component_type_map[zone_equipment['Component Type']]
-                top[terminal_option] = True
-            if zone_equipment['Sub-Component Type'] in component_type_map:
-                terminal_option = component_type_map[zone_equipment['Sub-Component Type']]
-                top[terminal_option] = True
-            if zone_equipment['Sub-Sub-Component Type'] in component_type_map:
-                terminal_option = component_type_map[zone_equipment['Sub-Sub-Component Type']]
-                top[terminal_option] = True
+            if 'VAV:' in zone_equipment['Sub-Component Type']:
+                ze['has_vav'] = True
+            elif 'VAV:' in zone_equipment['Sub-Sub-Component Type']:
+                ze['has_vav'] = True
 
+            if 'PIU:' in zone_equipment['Sub-Component Type']:
+                ze['has_vav'] = True
+            elif 'PIU:' in zone_equipment['Sub-Sub-Component Type']:
+                ze['has_vav'] = True
+
+            type_of_component = zone_equipment['Component Type']
+            name = zone_equipment['Component Name']
+            component_group = (type_of_component, name)
+            if component_group not in component_group_list and component_group != ('', ''):
+                component_group_list.append(component_group)
+
+            type_of_component = zone_equipment['Sub-Component Type']
+            name = zone_equipment['Sub-Component Name']
+            component_group = (type_of_component, name)
+            if component_group not in component_group_list and component_group != ('', ''):
+                component_group_list.append(component_group)
+
+            type_of_component = zone_equipment['Sub-Sub-Component Type']
+            name = zone_equipment['Sub-Sub-Component Name']
+            component_group = (type_of_component, name)
+            if component_group not in component_group_list and component_group != ('', ''):
+                component_group_list.append(component_group)
+
+            #  when new zone equipment component name or end of list
             if (row_count == len(zone_equipments) - 1) or ((row_count < len(zone_equipments) - 1) and (
-                    zone_name != zone_equipments[row_count + 1]['Zone Name'])):
+                    component_name != zone_equipments[row_count + 1]['Component Name'])):
                 heat_coil_found = False
-                if top:  # add the current topology unless empty (first iteration)
-                    tops[zone_name] = top
-                    top = {}
+                if component_group_list:
+                    ze['component_group_list'] = component_group_list
+                    component_group_list = []
+                    if zone_name in tops:
+                        tops[zone_name].append(ze)
+                    else:
+                        tops[zone_name] = [ze,]
+                ze = {}
         return tops
 
     def gather_economizer_by_airloop(self):
