@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-03-18T11:37Z",
+    "time_of_creation": "2026-03-26T18:37Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -31,6 +31,20 @@
               "heating_ventilating_air_conditioning_systems": [
                 {
                   "id": "DOAS_AIRLOOP",
+                  "heating_system": {
+                    "id": "DOAS_AIRLOOP-heating",
+                    "design_capacity": 16749.73541123112,
+                    "type": "FURNACE",
+                    "energy_source_type": "NATURAL_GAS",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "efficiency_metric_types": [
+                      "THERMAL_EFFICIENCY"
+                    ],
+                    "efficiency_metric_values": [
+                      0.8
+                    ]
+                  },
                   "cooling_system": {
                     "id": "DOAS_AIRLOOP-cooling",
                     "design_total_cool_capacity": 41036.12142596982,
@@ -58,6 +72,7 @@
                     "supply_fans": [
                       {
                         "id": "FANSYSTEMMODEL CONSTANTVOLUME",
+                        "specification_method": "SIMPLE",
                         "design_airflow": 0.4719474432,
                         "is_airflow_calculated": false,
                         "design_electric_power": 1000.0,
@@ -112,454 +127,13 @@
                             "airflow": 0.47194744320000004,
                             "power": 1000.0
                           }
-                        ],
-                        "specification_method": "SIMPLE"
+                        ]
                       }
                     ],
                     "minimum_airflow": 471.94744320000007,
                     "minimum_outdoor_airflow": 0.0,
                     "fan_control": "CONSTANT",
                     "operation_during_occupied": "CYCLING"
-                  }
-                },
-                {
-                  "id": "CORE_ZONE_WTR_TO_AIR_HP_ELEC_BACKUP",
-                  "heating_system": {
-                    "id": "CORE_ZONE_WTR_TO_AIR_HP_ELEC_BACKUP-heating",
-                    "design_capacity": 14231.417360050018,
-                    "type": "FLUID_LOOP",
-                    "energy_source_type": "OTHER",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": true,
-                    "water_source_heat_pump_loop": "unknown",
-                    "heatpump_auxiliary_heat_high_shutoff_temperature": 21.0
-                  },
-                  "fan_system": {
-                    "id": "WTR-TO-AIR HP ELEC BACKUP FAN ON OFF-fansystem",
-                    "supply_fans": [
-                      {
-                        "id": "WTR-TO-AIR HP ELEC BACKUP FAN ON OFF",
-                        "design_airflow": 0.9438948864,
-                        "is_airflow_calculated": true,
-                        "design_electric_power": 390.36182233250616,
-                        "design_pressure_rise": 250.0,
-                        "total_efficiency": 0.6045,
-                        "motor_efficiency": 0.8,
-                        "motor_heat_to_airflow_fraction": 1.0,
-                        "motor_heat_to_zone_fraction": 0.0,
-                        "motor_location_zone": "N/A",
-                        "operating_points": [
-                          {
-                            "airflow": 0.0,
-                            "power": 0.0
-                          },
-                          {
-                            "airflow": 0.09438948863999999,
-                            "power": 39.03618223325062
-                          },
-                          {
-                            "airflow": 0.18877897727999998,
-                            "power": 78.07236446650124
-                          },
-                          {
-                            "airflow": 0.28316846592,
-                            "power": 117.10854669975184
-                          },
-                          {
-                            "airflow": 0.37755795455999996,
-                            "power": 156.14472893300248
-                          },
-                          {
-                            "airflow": 0.47194744320000004,
-                            "power": 195.18091116625308
-                          },
-                          {
-                            "airflow": 0.56633693184,
-                            "power": 234.21709339950368
-                          },
-                          {
-                            "airflow": 0.66072642048,
-                            "power": 273.2532756327543
-                          },
-                          {
-                            "airflow": 0.7551159091199999,
-                            "power": 312.28945786600497
-                          },
-                          {
-                            "airflow": 0.84950539776,
-                            "power": 351.32564009925557
-                          },
-                          {
-                            "airflow": 0.9438948864000001,
-                            "power": 390.36182233250616
-                          }
-                        ],
-                        "specification_method": "SIMPLE"
-                      }
-                    ],
-                    "fan_control": "CONSTANT",
-                    "operation_during_occupied": "CYCLING"
-                  },
-                  "cooling_system": {
-                    "id": "CORE_ZONE_WTR_TO_AIR_HP_ELEC_BACKUP-cooling",
-                    "design_total_cool_capacity": 19536.513600134753,
-                    "design_sensible_cool_capacity": 19536.513600134753,
-                    "type": "DIRECT_EXPANSION",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false,
-                    "condenser_water_loop": "unknown"
-                  }
-                },
-                {
-                  "id": "PERIMETER_ZONE_3_WTR_TO_AIR_HP_ELEC_BACKUP",
-                  "heating_system": {
-                    "id": "PERIMETER_ZONE_3_WTR_TO_AIR_HP_ELEC_BACKUP-heating",
-                    "design_capacity": 7862.465909625652,
-                    "type": "FLUID_LOOP",
-                    "energy_source_type": "OTHER",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": true,
-                    "water_source_heat_pump_loop": "unknown",
-                    "heatpump_auxiliary_heat_high_shutoff_temperature": 21.0
-                  },
-                  "fan_system": {
-                    "id": "WTR-TO-AIR HP ELEC BACKUP FAN ON OFF 1-fansystem",
-                    "supply_fans": [
-                      {
-                        "id": "WTR-TO-AIR HP ELEC BACKUP FAN ON OFF 1",
-                        "design_airflow": 0.9438948864,
-                        "is_airflow_calculated": true,
-                        "design_electric_power": 390.36182233250616,
-                        "design_pressure_rise": 250.0,
-                        "total_efficiency": 0.6045,
-                        "motor_efficiency": 0.8,
-                        "motor_heat_to_airflow_fraction": 1.0,
-                        "motor_heat_to_zone_fraction": 0.0,
-                        "motor_location_zone": "N/A",
-                        "operating_points": [
-                          {
-                            "airflow": 0.0,
-                            "power": 0.0
-                          },
-                          {
-                            "airflow": 0.09438948863999999,
-                            "power": 39.03618223325062
-                          },
-                          {
-                            "airflow": 0.18877897727999998,
-                            "power": 78.07236446650124
-                          },
-                          {
-                            "airflow": 0.28316846592,
-                            "power": 117.10854669975184
-                          },
-                          {
-                            "airflow": 0.37755795455999996,
-                            "power": 156.14472893300248
-                          },
-                          {
-                            "airflow": 0.47194744320000004,
-                            "power": 195.18091116625308
-                          },
-                          {
-                            "airflow": 0.56633693184,
-                            "power": 234.21709339950368
-                          },
-                          {
-                            "airflow": 0.66072642048,
-                            "power": 273.2532756327543
-                          },
-                          {
-                            "airflow": 0.7551159091199999,
-                            "power": 312.28945786600497
-                          },
-                          {
-                            "airflow": 0.84950539776,
-                            "power": 351.32564009925557
-                          },
-                          {
-                            "airflow": 0.9438948864000001,
-                            "power": 390.36182233250616
-                          }
-                        ],
-                        "specification_method": "SIMPLE"
-                      }
-                    ],
-                    "fan_control": "CONSTANT",
-                    "operation_during_occupied": "CYCLING"
-                  },
-                  "cooling_system": {
-                    "id": "PERIMETER_ZONE_3_WTR_TO_AIR_HP_ELEC_BACKUP-cooling",
-                    "design_total_cool_capacity": 12055.705452986003,
-                    "design_sensible_cool_capacity": 12055.705452986003,
-                    "type": "DIRECT_EXPANSION",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false,
-                    "condenser_water_loop": "unknown"
-                  }
-                },
-                {
-                  "id": "PERIMETER_ZONE_2_WTR_TO_AIR_HP_ELEC_BACKUP",
-                  "heating_system": {
-                    "id": "PERIMETER_ZONE_2_WTR_TO_AIR_HP_ELEC_BACKUP-heating",
-                    "design_capacity": 2279.8310335412225,
-                    "type": "FLUID_LOOP",
-                    "energy_source_type": "OTHER",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": true,
-                    "water_source_heat_pump_loop": "unknown",
-                    "heatpump_auxiliary_heat_high_shutoff_temperature": 21.0
-                  },
-                  "fan_system": {
-                    "id": "WTR-TO-AIR HP ELEC BACKUP FAN ON OFF 2-fansystem",
-                    "supply_fans": [
-                      {
-                        "id": "WTR-TO-AIR HP ELEC BACKUP FAN ON OFF 2",
-                        "design_airflow": 0.9438948864,
-                        "is_airflow_calculated": true,
-                        "design_electric_power": 390.36182233250616,
-                        "design_pressure_rise": 250.0,
-                        "total_efficiency": 0.6045,
-                        "motor_efficiency": 0.8,
-                        "motor_heat_to_airflow_fraction": 1.0,
-                        "motor_heat_to_zone_fraction": 0.0,
-                        "motor_location_zone": "N/A",
-                        "operating_points": [
-                          {
-                            "airflow": 0.0,
-                            "power": 0.0
-                          },
-                          {
-                            "airflow": 0.09438948863999999,
-                            "power": 39.03618223325062
-                          },
-                          {
-                            "airflow": 0.18877897727999998,
-                            "power": 78.07236446650124
-                          },
-                          {
-                            "airflow": 0.28316846592,
-                            "power": 117.10854669975184
-                          },
-                          {
-                            "airflow": 0.37755795455999996,
-                            "power": 156.14472893300248
-                          },
-                          {
-                            "airflow": 0.47194744320000004,
-                            "power": 195.18091116625308
-                          },
-                          {
-                            "airflow": 0.56633693184,
-                            "power": 234.21709339950368
-                          },
-                          {
-                            "airflow": 0.66072642048,
-                            "power": 273.2532756327543
-                          },
-                          {
-                            "airflow": 0.7551159091199999,
-                            "power": 312.28945786600497
-                          },
-                          {
-                            "airflow": 0.84950539776,
-                            "power": 351.32564009925557
-                          },
-                          {
-                            "airflow": 0.9438948864000001,
-                            "power": 390.36182233250616
-                          }
-                        ],
-                        "specification_method": "SIMPLE"
-                      }
-                    ],
-                    "fan_control": "CONSTANT",
-                    "operation_during_occupied": "CYCLING"
-                  },
-                  "cooling_system": {
-                    "id": "PERIMETER_ZONE_2_WTR_TO_AIR_HP_ELEC_BACKUP-cooling",
-                    "design_total_cool_capacity": 3168.634977177619,
-                    "design_sensible_cool_capacity": 3168.634977177619,
-                    "type": "DIRECT_EXPANSION",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false,
-                    "condenser_water_loop": "unknown"
-                  }
-                },
-                {
-                  "id": "PERIMETER_ZONE_1_WTR_TO_AIR_HP_ELEC_BACKUP",
-                  "heating_system": {
-                    "id": "PERIMETER_ZONE_1_WTR_TO_AIR_HP_ELEC_BACKUP-heating",
-                    "design_capacity": 3735.703249488519,
-                    "type": "FLUID_LOOP",
-                    "energy_source_type": "OTHER",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": true,
-                    "water_source_heat_pump_loop": "unknown",
-                    "heatpump_auxiliary_heat_high_shutoff_temperature": 21.0
-                  },
-                  "fan_system": {
-                    "id": "WTR-TO-AIR HP ELEC BACKUP FAN ON OFF 3-fansystem",
-                    "supply_fans": [
-                      {
-                        "id": "WTR-TO-AIR HP ELEC BACKUP FAN ON OFF 3",
-                        "design_airflow": 0.9438948864,
-                        "is_airflow_calculated": true,
-                        "design_electric_power": 390.36182233250616,
-                        "design_pressure_rise": 250.0,
-                        "total_efficiency": 0.6045,
-                        "motor_efficiency": 0.8,
-                        "motor_heat_to_airflow_fraction": 1.0,
-                        "motor_heat_to_zone_fraction": 0.0,
-                        "motor_location_zone": "N/A",
-                        "operating_points": [
-                          {
-                            "airflow": 0.0,
-                            "power": 0.0
-                          },
-                          {
-                            "airflow": 0.09438948863999999,
-                            "power": 39.03618223325062
-                          },
-                          {
-                            "airflow": 0.18877897727999998,
-                            "power": 78.07236446650124
-                          },
-                          {
-                            "airflow": 0.28316846592,
-                            "power": 117.10854669975184
-                          },
-                          {
-                            "airflow": 0.37755795455999996,
-                            "power": 156.14472893300248
-                          },
-                          {
-                            "airflow": 0.47194744320000004,
-                            "power": 195.18091116625308
-                          },
-                          {
-                            "airflow": 0.56633693184,
-                            "power": 234.21709339950368
-                          },
-                          {
-                            "airflow": 0.66072642048,
-                            "power": 273.2532756327543
-                          },
-                          {
-                            "airflow": 0.7551159091199999,
-                            "power": 312.28945786600497
-                          },
-                          {
-                            "airflow": 0.84950539776,
-                            "power": 351.32564009925557
-                          },
-                          {
-                            "airflow": 0.9438948864000001,
-                            "power": 390.36182233250616
-                          }
-                        ],
-                        "specification_method": "SIMPLE"
-                      }
-                    ],
-                    "fan_control": "CONSTANT",
-                    "operation_during_occupied": "CYCLING"
-                  },
-                  "cooling_system": {
-                    "id": "PERIMETER_ZONE_1_WTR_TO_AIR_HP_ELEC_BACKUP-cooling",
-                    "design_total_cool_capacity": 5196.891119927934,
-                    "design_sensible_cool_capacity": 5196.891119927934,
-                    "type": "DIRECT_EXPANSION",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false,
-                    "condenser_water_loop": "unknown"
-                  }
-                },
-                {
-                  "id": "PERIMETER_ZONE_4_WTR_TO_AIR_HP_ELEC_BACKUP",
-                  "heating_system": {
-                    "id": "PERIMETER_ZONE_4_WTR_TO_AIR_HP_ELEC_BACKUP-heating",
-                    "design_capacity": 4953.169475279442,
-                    "type": "FLUID_LOOP",
-                    "energy_source_type": "OTHER",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": true,
-                    "water_source_heat_pump_loop": "unknown",
-                    "heatpump_auxiliary_heat_high_shutoff_temperature": 21.0
-                  },
-                  "fan_system": {
-                    "id": "WTR-TO-AIR HP ELEC BACKUP FAN ON OFF 4-fansystem",
-                    "supply_fans": [
-                      {
-                        "id": "WTR-TO-AIR HP ELEC BACKUP FAN ON OFF 4",
-                        "design_airflow": 0.9438948864,
-                        "is_airflow_calculated": true,
-                        "design_electric_power": 390.36182233250616,
-                        "design_pressure_rise": 250.0,
-                        "total_efficiency": 0.6045,
-                        "motor_efficiency": 0.8,
-                        "motor_heat_to_airflow_fraction": 1.0,
-                        "motor_heat_to_zone_fraction": 0.0,
-                        "motor_location_zone": "N/A",
-                        "operating_points": [
-                          {
-                            "airflow": 0.0,
-                            "power": 0.0
-                          },
-                          {
-                            "airflow": 0.09438948863999999,
-                            "power": 39.03618223325062
-                          },
-                          {
-                            "airflow": 0.18877897727999998,
-                            "power": 78.07236446650124
-                          },
-                          {
-                            "airflow": 0.28316846592,
-                            "power": 117.10854669975184
-                          },
-                          {
-                            "airflow": 0.37755795455999996,
-                            "power": 156.14472893300248
-                          },
-                          {
-                            "airflow": 0.47194744320000004,
-                            "power": 195.18091116625308
-                          },
-                          {
-                            "airflow": 0.56633693184,
-                            "power": 234.21709339950368
-                          },
-                          {
-                            "airflow": 0.66072642048,
-                            "power": 273.2532756327543
-                          },
-                          {
-                            "airflow": 0.7551159091199999,
-                            "power": 312.28945786600497
-                          },
-                          {
-                            "airflow": 0.84950539776,
-                            "power": 351.32564009925557
-                          },
-                          {
-                            "airflow": 0.9438948864000001,
-                            "power": 390.36182233250616
-                          }
-                        ],
-                        "specification_method": "SIMPLE"
-                      }
-                    ],
-                    "fan_control": "CONSTANT",
-                    "operation_during_occupied": "CYCLING"
-                  },
-                  "cooling_system": {
-                    "id": "PERIMETER_ZONE_4_WTR_TO_AIR_HP_ELEC_BACKUP-cooling",
-                    "design_total_cool_capacity": 7591.391314545295,
-                    "design_sensible_cool_capacity": 7591.391314545295,
-                    "type": "DIRECT_EXPANSION",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false,
-                    "condenser_water_loop": "unknown"
                   }
                 }
               ],
@@ -659,15 +233,6 @@
                       "minimum_outdoor_airflow": 0.0,
                       "heating_capacity": 5190.390479619039,
                       "cooling_capacity": 8074.24979485201
-                    },
-                    {
-                      "id": "CORE_ZONE_WTR_TO_AIR_HP_ELEC_BACKUP-terminal",
-                      "served_by_heating_ventilating_air_conditioning_system": "CORE_ZONE_WTR_TO_AIR_HP_ELEC_BACKUP",
-                      "type": "CONSTANT_AIR_VOLUME",
-                      "is_supply_ducted": false,
-                      "primary_airflow": 943.8948864,
-                      "cooling_capacity": 19536.513600134753,
-                      "heating_capacity": 14231.417360050018
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
@@ -835,15 +400,6 @@
                       "minimum_outdoor_airflow": 0.0,
                       "heating_capacity": 1405.480102414513,
                       "cooling_capacity": 2172.0197309242894
-                    },
-                    {
-                      "id": "PERIMETER_ZONE_1_WTR_TO_AIR_HP_ELEC_BACKUP-terminal",
-                      "served_by_heating_ventilating_air_conditioning_system": "PERIMETER_ZONE_1_WTR_TO_AIR_HP_ELEC_BACKUP",
-                      "type": "CONSTANT_AIR_VOLUME",
-                      "is_supply_ducted": false,
-                      "primary_airflow": 943.8948864,
-                      "cooling_capacity": 5196.891119927934,
-                      "heating_capacity": 3735.703249488519
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
@@ -998,15 +554,6 @@
                       "minimum_outdoor_airflow": 0.0,
                       "heating_capacity": 858.340278666244,
                       "cooling_capacity": 1323.3317234753542
-                    },
-                    {
-                      "id": "PERIMETER_ZONE_2_WTR_TO_AIR_HP_ELEC_BACKUP-terminal",
-                      "served_by_heating_ventilating_air_conditioning_system": "PERIMETER_ZONE_2_WTR_TO_AIR_HP_ELEC_BACKUP",
-                      "type": "CONSTANT_AIR_VOLUME",
-                      "is_supply_ducted": false,
-                      "primary_airflow": 943.8948864,
-                      "cooling_capacity": 3168.634977177619,
-                      "heating_capacity": 2279.8310335412225
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
@@ -1174,15 +721,6 @@
                       "minimum_outdoor_airflow": 0.0,
                       "heating_capacity": 3471.040746653363,
                       "cooling_capacity": 5373.723602518666
-                    },
-                    {
-                      "id": "PERIMETER_ZONE_3_WTR_TO_AIR_HP_ELEC_BACKUP-terminal",
-                      "served_by_heating_ventilating_air_conditioning_system": "PERIMETER_ZONE_3_WTR_TO_AIR_HP_ELEC_BACKUP",
-                      "type": "CONSTANT_AIR_VOLUME",
-                      "is_supply_ducted": false,
-                      "primary_airflow": 943.8948864,
-                      "cooling_capacity": 12055.705452986003,
-                      "heating_capacity": 7862.465909625652
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
@@ -1337,15 +875,6 @@
                       "minimum_outdoor_airflow": 0.0,
                       "heating_capacity": 2179.2185329232193,
                       "cooling_capacity": 3382.9698730127284
-                    },
-                    {
-                      "id": "PERIMETER_ZONE_4_WTR_TO_AIR_HP_ELEC_BACKUP-terminal",
-                      "served_by_heating_ventilating_air_conditioning_system": "PERIMETER_ZONE_4_WTR_TO_AIR_HP_ELEC_BACKUP",
-                      "type": "CONSTANT_AIR_VOLUME",
-                      "is_supply_ducted": false,
-                      "primary_airflow": 943.8948864,
-                      "cooling_capacity": 7591.391314545295,
-                      "heating_capacity": 4953.169475279442
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
