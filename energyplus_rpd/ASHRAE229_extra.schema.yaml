@@ -720,7 +720,7 @@ RulesetModelDescription:
       EPout Report: "EquipmentSummary"
       EPout Table: "Water Use Connections"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     service_water_heating_equipment:
       Description: "Service water heating equipment on the site"
@@ -738,7 +738,7 @@ RulesetModelDescription:
       EPout Report: "EquipmentSummary"
       EPout Table: "Service Water Heating"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     service_water_heating_uses:
       Description: "Service water heating uses on the site"
@@ -756,7 +756,7 @@ RulesetModelDescription:
       EPout Report: "EquipmentSummary"
       EPout Table: "Water Use Equipment"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     pumps:
       Description: "Pumps used on the site"
@@ -1343,7 +1343,7 @@ BuildingSegment:
       EPout Report: "EquipmentSummary"
       EPout Table: "Water Use Equipment"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "NotRequired"
       EP Notes: "New element probably needed."
     service_water_heating_uses:
       Description: "List of IDs of service water heating uses"
@@ -1361,7 +1361,7 @@ BuildingSegment:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "New element probably needed."
 
 Zone:
@@ -2153,7 +2153,7 @@ Space:
       EPout Report: "EquipmentSummary"
       EPout Table: "Water Use Equipment"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
 
 ConditioningOptions:
@@ -10382,7 +10382,7 @@ ServiceWaterHeatingDistributionSystem:
       EPout Report: "EquipmentSummary"
       EPout Table: "Water Use Connections"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     reporting_name:
       Description: "Descriptive name used in RCT reports if id is not already a descriptive name"
@@ -10436,7 +10436,7 @@ ServiceWaterHeatingDistributionSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotRequired"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     design_supply_temperature_difference:
       Description: "Design supply temperature difference (deltaT) of service water heating loop"
@@ -10473,7 +10473,7 @@ ServiceWaterHeatingDistributionSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "NotRequired"
       EP Notes: ""
     is_central_system:
       Description: "Indicates whether it is a central service water heater distribution system"
@@ -10491,7 +10491,7 @@ ServiceWaterHeatingDistributionSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotRequired"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     service_water_piping:
       Description: "Connected service water piping"
@@ -10509,7 +10509,7 @@ ServiceWaterHeatingDistributionSystem:
       EPout Report: "EquipmentSummary"
       EPout Table: "Water Use Connections"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     distribution_compactness:
       Description: "Type of compact distribution system"
@@ -10600,7 +10600,7 @@ ServiceWaterHeatingDistributionSystem:
       EPout Report: "EquipmentSummary"
       EPout Table: "Water Use Connections"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "NotRequired"
       EP Notes: ""
     drain_heat_recovery_type:
       Description: "Drain heat recovery type"
@@ -10654,7 +10654,7 @@ ServiceWaterHeatingDistributionSystem:
       EPout Report: "EquipmentSummary"
       EPout Table: "Water Use Connections"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     is_ground_temperature_used_for_entering_water:
       Description: "Indicates whether ground temperature is the source of the entering water temperature"
@@ -10671,7 +10671,7 @@ ServiceWaterHeatingDistributionSystem:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotRequired"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
 
 ServiceWaterHeatingConfigurationOptions:
@@ -10737,7 +10737,7 @@ ServiceWaterPiping:
       EPout Report: "EquipmentSummary"
       EPout Table: "Water Use Connections"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     reporting_name:
       Description: "Descriptive name used in RCT reports if id is not already a descriptive name"
@@ -10789,7 +10789,7 @@ ServiceWaterPiping:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     are_thermal_losses_modeled:
       Description: "Indicates if thermal losses from the service water heating piping are modeled"
@@ -10806,7 +10806,7 @@ ServiceWaterPiping:
       EPout Report: "EquipmentSummary"
       EPout Table: "Water Use Connections"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     insulation_thickness:
       Description: "Pipe insulation thickness"
@@ -10919,7 +10919,7 @@ ServiceWaterPiping:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotRequired"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     service_water_heating_design_and_control:
       Description: "Design and control used for service heating piping"
@@ -11124,7 +11124,7 @@ ServiceWaterHeatingEquipment:
       EPout Report: "EquipmentSummary"
       EPout Table: "Service Water Heating"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     reporting_name:
       Description: "Descriptive name used in RCT reports if id is not already a descriptive name"
@@ -11176,7 +11176,7 @@ ServiceWaterHeatingEquipment:
       EPout Report: "EquipmentSummary"
       EPout Table: "Service Water Heating"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     distribution_system:
       Description: "ID of the ServiceWaterHeatingDistributionSystem connected to the ServiceWaterHeatingEquipment"
@@ -11195,7 +11195,7 @@ ServiceWaterHeatingEquipment:
       EPout Report: "EquipmentSummary"
       EPout Table: "Water Use Connections"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     efficiency_metric_types:
       Description: "List of efficiency metrics that correspond to the values in efficiency_metric_values list"
@@ -11212,7 +11212,7 @@ ServiceWaterHeatingEquipment:
       EPout Report: "EquipmentSummary"
       EPout Table: "Service Water Heating"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     efficiency_metric_values:
       Description: "List of efficiency metric values that correspond to the descriptors in efficiency_metric_types list"
@@ -11229,7 +11229,7 @@ ServiceWaterHeatingEquipment:
       EPout Report: "EquipmentSummary"
       EPout Table: "Service Water Heating"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     draw_pattern:
       Description: "Draw pattern"
@@ -11247,7 +11247,7 @@ ServiceWaterHeatingEquipment:
       EPout Report: "EquipmentSummary"
       EPout Table: "Service Water Heating"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "NotRequired"
       EP Notes: "Not sure if used by RCT tests"
     first_hour_rating:
       Description: "First hour rating volume"
@@ -11267,7 +11267,7 @@ ServiceWaterHeatingEquipment:
       EPout Report: "EquipmentSummary"
       EPout Table: "Service Water Heating"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "NotRequired"
       EP Notes: ""
     operating_points:
       Description: "Operating points"
@@ -11305,7 +11305,7 @@ ServiceWaterHeatingEquipment:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     rated_capacity:
       Description: "Rated capacity"
@@ -11362,7 +11362,7 @@ ServiceWaterHeatingEquipment:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotRequired"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     setpoint_temperature:
       Description: "Set point temperature"
@@ -11380,7 +11380,7 @@ ServiceWaterHeatingEquipment:
       EPout Report: "EquipmentSummary"
       EPout Table: "Service Water Heating"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     compressor_location:
       Description: "Description of where the heat pump for the water heater is located"
@@ -11542,7 +11542,7 @@ ServiceWaterHeatingEquipment:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     status_type:
       Description: "Choice of new, existing, addition, alteration, etc. for each ruleset."
@@ -11577,7 +11577,7 @@ ServiceWaterHeatingEquipment:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "NotRequired"
       EP Notes: ""
     hot_water_loop:
       Description: "ID of the FluidLoop for hot water"
@@ -11595,7 +11595,7 @@ ServiceWaterHeatingEquipment:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotRequired"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
 
 ServiceWaterHeatingEfficiencyMetricOptions:
@@ -11932,7 +11932,7 @@ Tank:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     reporting_name:
       Description: "Descriptive name used in RCT reports if id is not already a descriptive name"
@@ -11987,7 +11987,7 @@ Tank:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     type:
       Description: "Service water heater tank type"
@@ -12004,7 +12004,7 @@ Tank:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotStarted"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     height:
       Description: "Tank height"
@@ -12149,7 +12149,7 @@ ServiceWaterHeatingUse:
       EPout Report: "EquipmentSummary"
       EPout Table: "Water Use Equipment"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     reporting_name:
       Description: "Descriptive name used in RCT reports if id is not already a descriptive name"
@@ -12202,7 +12202,7 @@ ServiceWaterHeatingUse:
       EPout Report: "EquipmentSummary"
       EPout Table: "Water Use Equipment"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "NotRequired"
       EP Notes: ""
     water_serves_type:
       Description: "The use of the water serves the type"
@@ -12219,7 +12219,7 @@ ServiceWaterHeatingUse:
       EPout Report: ""
       EPout Table: ""
       EPout Column: ""
-      EPstatus: "NotRequired"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     served_by_distribution_system:
       Description: "ID of the ServiceWaterHeatingDistributionSystem that serves this end use"
@@ -12238,7 +12238,7 @@ ServiceWaterHeatingUse:
       EPout Report: "EquipmentSummary"
       EPout Table: "Water Use Connections"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     use:
       Description: "Usage of service hot water"
@@ -12256,7 +12256,7 @@ ServiceWaterHeatingUse:
       EPout Report: "EquipmentSummary"
       EPout Table: "Service Water Heating, Water Use Equipment"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     use_units:
       Description: "Type of units for use of service hot water"
@@ -12273,7 +12273,7 @@ ServiceWaterHeatingUse:
       EPout Report: "EquipmentSummary"
       EPout Table: "Service Water Heating, Water Use Equipment"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     use_multiplier_schedule:
       Description: "ID of the Schedule containing the multiplier for the use of service hot water"
@@ -12291,7 +12291,7 @@ ServiceWaterHeatingUse:
       EPout Report: "EquipmentSummary"
       EPout Table: "Service Water Heating, Water Use Equipment"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     temperature_at_fixture:
       Description: "Temperature leaving the fixture that is result of mixing hot water from the water heater and cold water from the tap."
@@ -12310,7 +12310,7 @@ ServiceWaterHeatingUse:
       EPout Report: "EquipmentSummary"
       EPout Table: "Water Use Equipment"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: ""
     is_heat_recovered_by_drain:
       Description: "Indicates if heat is being recovered from the drain"
@@ -12328,7 +12328,7 @@ ServiceWaterHeatingUse:
       EPout Report: "EquipmentSummary"
       EPout Table: "Water Use Connections"
       EPout Column: ""
-      EPstatus: "ToDo"
+      EPstatus: "NotRequired"
       EP Notes: ""
     is_recovered_heat_used_by_cold_side_feed:
       Description: "Indicates if heat is being recovered from the drain is used on the cold side feed"
