@@ -303,6 +303,20 @@ class Translator:
                     boundary_by_surface[surface_name.upper()] = fields['outside_boundary_condition'].upper()
         return boundary_by_surface
 
+    @staticmethod
+    def should_emit_surface(surface_name, surfaces_by_surface, adjacent_surfaces):
+        if surface_name not in surfaces_by_surface:
+            return False
+        surface = surfaces_by_surface[surface_name]
+        if surface.get('adjacent_to') != 'INTERIOR':
+            return True
+
+        adjacent_surface = adjacent_surfaces.get(surface_name)
+        if adjacent_surface not in surfaces_by_surface:
+            return True
+
+        return surface_name <= adjacent_surface
+
     def add_materials(self):
         materials = []
         if 'Material' in self.epjson_object:
@@ -613,6 +627,7 @@ class Translator:
         tabular_reports = self.json_results_object['TabularReports']
         zones = []
         surfaces_by_surface = self.gather_surfaces()
+        adjacent_surfaces = self.get_adjacent_surface_for_each_surface()
         setpoint_schedules = self.gather_thermostat_setpoint_schedules()
         humid_sch_name_by_zone = self.gather_humidity_schedules()
         effective_by_zone = self.gather_air_dist_effectiveness()
@@ -665,7 +680,7 @@ class Translator:
                             surfaces = []
                             for key, value in self.surfaces_by_zone.items():
                                 if zone_name == value:
-                                    if key in surfaces_by_surface:
+                                    if self.should_emit_surface(key, surfaces_by_surface, adjacent_surfaces):
                                         surfaces.append(surfaces_by_surface[key])
                             zone['surfaces'] = surfaces
                             if zone_name in infiltration_by_zone:
