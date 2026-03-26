@@ -1499,7 +1499,7 @@ class TestTranslator(TestCase):
              }
         ]
 
-        added_hvac_systems, added_terminals_by_zone = t.add_heating_ventilation_system()
+        added_hvac_systems = t.add_airloop_heating_ventilation_ac_system()
 
         expected_hvac = [{
             'id': '5 ZONE PVAV 1',
@@ -1513,18 +1513,7 @@ class TestTranslator(TestCase):
                  'oversizing_factor': 7.950141547603329,
                  'is_calculated_size': True}
         }]
-
-        expected_terminals = {'PERIMETER_MID_ZN_1 ZN': [
-            {'id': 'ADU PERIMETER_MID_ZN_1 ZN VAV TERMINAL', 'type': 'VARIABLE_AIR_VOLUME',
-             'heating_source': 'ELECTRIC', 'cooling_source': 'NONE',
-             'served_by_heating_ventilating_air_conditioning_system': '5 ZONE PVAV 1', 'primary_airflow': 1090.0,
-             'supply_design_heating_setpoint_temperature': 50.0, 'supply_design_cooling_setpoint_temperature': 12.78,
-             'minimum_airflow': 160.0, 'minimum_outdoor_airflow': 90.0, 'heating_capacity': 11828.176,
-             'cooling_capacity': 11993.2}]}
-
         self.assertEqual(added_hvac_systems, expected_hvac)
-
-        self.assertEqual(added_terminals_by_zone, expected_terminals)
 
     def test_add_heating_ventilation_system_uses_coil_connection_fan_name_when_unknown(self):
         t = self.set_minimal_files()

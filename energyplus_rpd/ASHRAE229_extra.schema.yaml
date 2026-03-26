@@ -5721,8 +5721,8 @@ HeatingSystem:
       EPout Report: "Equipment Summary"
       EPout Table: "DX Heating Coils, DX Heating Coils [ HSPF2 ], Heating Coils"
       EPout Column: "HSPF, HSPF2, Nominal Efficiency   "
-      EPstatus: "ToDo"
-      EP Notes: "Was PartialUsingOutput. Does not completely work with heat pumps with backup coils since only one coil gets populated"
+      EPstatus: "PartialUsingOutput"
+      EP Notes: "Does not completely work with heat pumps with backup coils."
     efficiency_metric_types:
       Description: "List of efficiency metrics that correspond to the values in efficiency_metric_values list"
       Data Type: "[<HeatingMetricOptions>]"
@@ -5739,8 +5739,8 @@ HeatingSystem:
       EPout Report: "Equipment Summary"
       EPout Table: "DX Heating Coils, DX Heating Coils [ HSPF2 ], Heating Coils"
       EPout Column: ""
-      EPstatus: "ToDo"
-      EP Notes: "Was PartialUsingOutput. parial support for heat pumps and furnaces "
+      EPstatus: "PartialUsingOutput"
+      EP Notes: "Parial support for heat pumps and furnaces "
     heatpump_auxiliary_heat_type:
       Description: "Heatpump auxiliary heat type used for backup"
       Data Type: "<HeatpumpAuxiliaryHeatOptions>"
@@ -7602,8 +7602,8 @@ Terminal:
       EPout Report: "Equipment Summary"
       EPout Table: "Air Terminals"
       EPout Column: "Type of Input Object"
-      EPstatus: "ToDo"
-      EP Notes: "Was previously PartialUsingOutput. Used by RCT. Based on the type of input object. Does not cover baseboard or radiant yet."
+      EPstatus: "DoneUsingOutput"
+      EP Notes: "Used by RCT. Based on the type of input object."
     served_by_heating_ventilating_air_conditioning_system:
       Description: "ID of the HeatingVentilatingAirConditioningSystem serving the terminal"
       Data Type: "Reference"
@@ -7620,7 +7620,7 @@ Terminal:
       EPout Report: "CoilSizingDetails"
       EPout Table: "Coils"
       EPout Column: "HVAC Name"
-      EPstatus: "ToDo"
+      EPstatus: "PartialUsingOutput"
       EP Notes: "Was previously PartialUsingOutput. Used by RCT. Follow the nodes to identify the central air handling system. Part of topology report."
     heating_source:
       Description: "Source of heating"
@@ -7910,7 +7910,7 @@ Terminal:
       EPout Report: "Equipment Summary"
       EPout Table: "Air Terminals"
       EPout Column: "Heating capacity"
-      EPstatus: "ToDo"
+      EPstatus: "PartialUsingOutput"
       EP Notes: "Was previously PartialUsingOutput. For fancoils look for the coil associated and find its capacity. Need topology report. For ZoneHVAC:LowTemperatureRadiant already in Component Sizing Summary. For ZoneHVAC:Baseboard:RadiantConvective:Water it is in Component Sizing Summary."
     cooling_capacity:
       Description: "Cooling capacity for the radiant system or cooling coil"
