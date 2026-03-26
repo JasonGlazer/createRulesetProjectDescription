@@ -99,6 +99,7 @@ def non_empty_string(value: Any) -> str:
         return ''
     return value_string
 
+
 def terminal_heating_source_convert(heat_coil_type):
     if 'WATER' in heat_coil_type.upper():
         option = 'HOT_WATER'
