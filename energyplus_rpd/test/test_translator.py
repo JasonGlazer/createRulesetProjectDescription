@@ -9,7 +9,6 @@ from energyplus_rpd.translator import energy_source_convert
 from energyplus_rpd.translator import heating_type_convert
 from energyplus_rpd.translator import cooling_type_convert
 from energyplus_rpd.translator import source_from_coil
-from energyplus_rpd.translator import terminal_option_convert
 from energyplus_rpd.translator import terminal_heating_source_convert
 from energyplus_rpd.translator import terminal_cooling_source_convert
 from energyplus_rpd.translator import terminal_config_convert
@@ -6329,11 +6328,6 @@ class TestTranslator(TestCase):
         self.assertEqual(source_from_coil('Coil:Heating:Water'), 'OTHER')
         self.assertEqual(source_from_coil('Coil:Heating:Fuel'), 'NATURAL_GAS')
         self.assertEqual(source_from_coil('Coil:Heating:Electric'), 'ELECTRICITY')
-
-    def test_terminal_option_convert(self):
-        self.assertEqual(terminal_option_convert('AirTerminal:SingleDuct:ConstantVolume:Reheat'), 'CONSTANT_AIR_VOLUME')
-        self.assertEqual(terminal_option_convert('AirTerminal:SingleDuct:VAV:NoReheat'), 'VARIABLE_AIR_VOLUME')
-        self.assertEqual(terminal_option_convert('AirTerminal:SingleDuct:Mixer'), 'OTHER')
 
     def test_terminal_heating_source_convert(self):
         self.assertEqual(terminal_heating_source_convert('Coil:Heating:Water'), 'HOT_WATER')

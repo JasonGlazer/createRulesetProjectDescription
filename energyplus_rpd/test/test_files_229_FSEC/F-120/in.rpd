@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-03-18T11:37Z",
+    "time_of_creation": "2026-03-26T15:06Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -31,6 +31,20 @@
               "heating_ventilating_air_conditioning_systems": [
                 {
                   "id": "PSZ_AC_CORE_ZONE",
+                  "heating_system": {
+                    "id": "PSZ_AC_CORE_ZONE-heating",
+                    "design_capacity": 17584.0,
+                    "type": "FURNACE",
+                    "energy_source_type": "NATURAL_GAS",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": false,
+                    "efficiency_metric_types": [
+                      "THERMAL_EFFICIENCY"
+                    ],
+                    "efficiency_metric_values": [
+                      0.78
+                    ]
+                  },
                   "cooling_system": {
                     "id": "PSZ_AC_CORE_ZONE-cooling",
                     "design_total_cool_capacity": 17584.0,
@@ -58,6 +72,7 @@
                     "supply_fans": [
                       {
                         "id": "PSZ_AC_CORE_ZONE_FANSYSTEMMODEL_CONSTANTVOLUME",
+                        "specification_method": "SIMPLE",
                         "design_airflow": 0.9438948864,
                         "is_airflow_calculated": false,
                         "design_electric_power": 600.0,
@@ -112,8 +127,7 @@
                             "airflow": 0.9438948864000001,
                             "power": 600.0
                           }
-                        ],
-                        "specification_method": "SIMPLE"
+                        ]
                       }
                     ],
                     "minimum_airflow": 943.8948864,
@@ -147,11 +161,34 @@
                       0.78
                     ]
                   },
+                  "cooling_system": {
+                    "id": "PSZ_AC_PERIMETER_ZONE_1-cooling",
+                    "design_total_cool_capacity": 17584.0,
+                    "design_sensible_cool_capacity": 14162.35708598975,
+                    "type": "DIRECT_EXPANSION",
+                    "oversizing_factor": 1.0623442176685511,
+                    "is_calculated_size": false,
+                    "rated_total_cool_capacity": 17592.607303646626,
+                    "rated_sensible_cool_capacity": 12821.751413322929,
+                    "efficiency_metric_types": [
+                      "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
+                      "ENERGY_EFFICIENCY_RATIO",
+                      "SEASONAL_ENERGY_EFFICIENCY_RATIO",
+                      "INTEGRATED_ENERGY_EFFICIENCY_RATIO"
+                    ],
+                    "efficiency_metric_values": [
+                      2.556484925767422,
+                      8.723088649347936,
+                      8.757394639139433,
+                      8.539257509693556
+                    ]
+                  },
                   "fan_system": {
                     "id": "PSZ_HP_PERIMETER_ZONE_1_FANSYSTEMMODEL_CONSTANT_VOLUME-fansystem",
                     "supply_fans": [
                       {
                         "id": "PSZ_HP_PERIMETER_ZONE_1_FANSYSTEMMODEL_CONSTANT_VOLUME",
+                        "specification_method": "SIMPLE",
                         "design_airflow": 0.9438948864,
                         "is_airflow_calculated": false,
                         "design_electric_power": 600.0,
@@ -206,8 +243,7 @@
                             "airflow": 0.9438948864000001,
                             "power": 600.0
                           }
-                        ],
-                        "specification_method": "SIMPLE"
+                        ]
                       }
                     ],
                     "minimum_airflow": 943.8948864,
@@ -241,11 +277,34 @@
                       0.78
                     ]
                   },
+                  "cooling_system": {
+                    "id": "PSZ_AC_PERIMETER_ZONE_2-cooling",
+                    "design_total_cool_capacity": 17584.0,
+                    "design_sensible_cool_capacity": 14162.35708598975,
+                    "type": "DIRECT_EXPANSION",
+                    "oversizing_factor": 1.0655351819004624,
+                    "is_calculated_size": false,
+                    "rated_total_cool_capacity": 17592.607303646626,
+                    "rated_sensible_cool_capacity": 12821.751413322929,
+                    "efficiency_metric_types": [
+                      "FULL_LOAD_COEFFICIENT_OF_PERFORMANCE",
+                      "ENERGY_EFFICIENCY_RATIO",
+                      "SEASONAL_ENERGY_EFFICIENCY_RATIO",
+                      "INTEGRATED_ENERGY_EFFICIENCY_RATIO"
+                    ],
+                    "efficiency_metric_values": [
+                      2.6319860450825376,
+                      8.980709161901142,
+                      9.014030516636003,
+                      8.758131896324436
+                    ]
+                  },
                   "fan_system": {
                     "id": "PSZ_HP_PERIMETER_ZONE_2_FANSYSTEMMODEL_CONSTANT_VOLUME 1-fansystem",
                     "supply_fans": [
                       {
                         "id": "PSZ_HP_PERIMETER_ZONE_2_FANSYSTEMMODEL_CONSTANT_VOLUME 1",
+                        "specification_method": "SIMPLE",
                         "design_airflow": 0.9438948864,
                         "is_airflow_calculated": false,
                         "design_electric_power": 600.0,
@@ -300,8 +359,7 @@
                             "airflow": 0.9438948864000001,
                             "power": 600.0
                           }
-                        ],
-                        "specification_method": "SIMPLE"
+                        ]
                       }
                     ],
                     "minimum_airflow": 943.8948864,
@@ -321,6 +379,20 @@
                 },
                 {
                   "id": "PSZ_AC_PERIMETER_ZONE_3",
+                  "heating_system": {
+                    "id": "PSZ_AC_PERIMETER_ZONE_3-heating",
+                    "design_capacity": 17584.0,
+                    "type": "FURNACE",
+                    "energy_source_type": "NATURAL_GAS",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": false,
+                    "efficiency_metric_types": [
+                      "THERMAL_EFFICIENCY"
+                    ],
+                    "efficiency_metric_values": [
+                      0.78
+                    ]
+                  },
                   "cooling_system": {
                     "id": "PSZ_AC_PERIMETER_ZONE_3-cooling",
                     "design_total_cool_capacity": 17584.0,
@@ -348,6 +420,7 @@
                     "supply_fans": [
                       {
                         "id": "PSZ_HP_PERIMETER_ZONE_3_FANSYSTEMMODEL_CONSTANT_VOLUME",
+                        "specification_method": "SIMPLE",
                         "design_airflow": 0.9438948864,
                         "is_airflow_calculated": false,
                         "design_electric_power": 600.0,
@@ -402,8 +475,7 @@
                             "airflow": 0.9438948864000001,
                             "power": 600.0
                           }
-                        ],
-                        "specification_method": "SIMPLE"
+                        ]
                       }
                     ],
                     "minimum_airflow": 943.8948864,
@@ -423,6 +495,20 @@
                 },
                 {
                   "id": "PSZ_AC_PERIMETER_ZONE_4",
+                  "heating_system": {
+                    "id": "PSZ_AC_PERIMETER_ZONE_4-heating",
+                    "design_capacity": 17584.0,
+                    "type": "FURNACE",
+                    "energy_source_type": "NATURAL_GAS",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": false,
+                    "efficiency_metric_types": [
+                      "THERMAL_EFFICIENCY"
+                    ],
+                    "efficiency_metric_values": [
+                      0.78
+                    ]
+                  },
                   "cooling_system": {
                     "id": "PSZ_AC_PERIMETER_ZONE_4-cooling",
                     "design_total_cool_capacity": 17584.0,
@@ -450,6 +536,7 @@
                     "supply_fans": [
                       {
                         "id": "PSZ_AC_PERIMETER_ZONE_4_FANSYSTEMMODEL_CONSTANT_VOLUME",
+                        "specification_method": "SIMPLE",
                         "design_airflow": 0.9438948864,
                         "is_airflow_calculated": false,
                         "design_electric_power": 600.0,
@@ -504,8 +591,7 @@
                             "airflow": 0.9438948864000001,
                             "power": 600.0
                           }
-                        ],
-                        "specification_method": "SIMPLE"
+                        ]
                       }
                     ],
                     "minimum_airflow": 943.8948864,

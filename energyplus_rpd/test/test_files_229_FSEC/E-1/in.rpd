@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-03-18T11:36Z",
+    "time_of_creation": "2026-03-26T15:06Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -31,6 +31,26 @@
               "heating_ventilating_air_conditioning_systems": [
                 {
                   "id": "PSZHP-CORE ZONE",
+                  "heating_system": {
+                    "id": "PSZHP-CORE ZONE-heating",
+                    "design_capacity": 34762.72216,
+                    "type": "HEAT_PUMP",
+                    "energy_source_type": "ELECTRICITY",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": false,
+                    "rated_capacity": 27341.60112339227,
+                    "heating_coil_setpoint": 37.79804085487262,
+                    "efficiency_metric_types": [
+                      "HEATING_SEASONAL_PERFORMANCE_FACTOR",
+                      "HEATING_SEASONAL_PERFORMANCE_FACTOR_2"
+                    ],
+                    "efficiency_metric_values": [
+                      8.24816095013307,
+                      8.29645269745296
+                    ],
+                    "heatpump_low_shutoff_temperature": -12.2222222222222,
+                    "heatpump_auxiliary_heat_type": "ELECTRIC_RESISTANCE"
+                  },
                   "cooling_system": {
                     "id": "PSZHP-CORE ZONE-cooling",
                     "design_total_cool_capacity": 34762.72216,
@@ -58,6 +78,7 @@
                     "supply_fans": [
                       {
                         "id": "PSZHP FAN CV - CORE ZONE 1",
+                        "specification_method": "SIMPLE",
                         "design_airflow": 1.65562,
                         "is_airflow_calculated": true,
                         "design_electric_power": 847.67744,
@@ -112,8 +133,7 @@
                             "airflow": 1.65562,
                             "power": 847.67744
                           }
-                        ],
-                        "specification_method": "SIMPLE"
+                        ]
                       }
                     ],
                     "minimum_airflow": 1644.965016888754,
@@ -138,6 +158,26 @@
                 },
                 {
                   "id": "PSZHP-PRM ZONE 1",
+                  "heating_system": {
+                    "id": "PSZHP-PRM ZONE 1-heating",
+                    "design_capacity": 43577.73714,
+                    "type": "HEAT_PUMP",
+                    "energy_source_type": "ELECTRICITY",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": false,
+                    "rated_capacity": 34274.793017012584,
+                    "heating_coil_setpoint": 38.600055795746506,
+                    "efficiency_metric_types": [
+                      "HEATING_SEASONAL_PERFORMANCE_FACTOR",
+                      "HEATING_SEASONAL_PERFORMANCE_FACTOR_2"
+                    ],
+                    "efficiency_metric_values": [
+                      8.317871442494623,
+                      8.331586374323185
+                    ],
+                    "heatpump_low_shutoff_temperature": -12.2222222222222,
+                    "heatpump_auxiliary_heat_type": "ELECTRIC_RESISTANCE"
+                  },
                   "cooling_system": {
                     "id": "PSZHP-PRM ZONE 1-cooling",
                     "design_total_cool_capacity": 43577.73714,
@@ -165,6 +205,7 @@
                     "supply_fans": [
                       {
                         "id": "PSZHP FAN CV - PRM ZONE 1",
+                        "specification_method": "SIMPLE",
                         "design_airflow": 1.98027,
                         "is_airflow_calculated": true,
                         "design_electric_power": 1013.89824,
@@ -219,8 +260,7 @@
                             "airflow": 1.9802700000000002,
                             "power": 1013.89824
                           }
-                        ],
-                        "specification_method": "SIMPLE"
+                        ]
                       }
                     ],
                     "minimum_airflow": 1852.6669096819583,
@@ -245,6 +285,26 @@
                 },
                 {
                   "id": "PSZHP-PRM ZONE 2",
+                  "heating_system": {
+                    "id": "PSZHP-PRM ZONE 2-heating",
+                    "design_capacity": 19280.73486,
+                    "type": "HEAT_PUMP",
+                    "energy_source_type": "ELECTRICITY",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": false,
+                    "rated_capacity": 15164.69738709336,
+                    "heating_coil_setpoint": 38.43886939878184,
+                    "efficiency_metric_types": [
+                      "HEATING_SEASONAL_PERFORMANCE_FACTOR",
+                      "HEATING_SEASONAL_PERFORMANCE_FACTOR_2"
+                    ],
+                    "efficiency_metric_values": [
+                      8.174552631427227,
+                      8.324749644360642
+                    ],
+                    "heatpump_low_shutoff_temperature": -12.2222222222222,
+                    "heatpump_auxiliary_heat_type": "ELECTRIC_RESISTANCE"
+                  },
                   "cooling_system": {
                     "id": "PSZHP-PRM ZONE 2-cooling",
                     "design_total_cool_capacity": 19280.73486,
@@ -272,6 +332,7 @@
                     "supply_fans": [
                       {
                         "id": "PSZHP FAN CV - PRM ZONE 2",
+                        "specification_method": "SIMPLE",
                         "design_airflow": 0.88431,
                         "is_airflow_calculated": true,
                         "design_electric_power": 452.76672,
@@ -326,8 +387,7 @@
                             "airflow": 0.8843099999999999,
                             "power": 452.76672
                           }
-                        ],
-                        "specification_method": "SIMPLE"
+                        ]
                       }
                     ],
                     "minimum_airflow": 943.7834176069281,
@@ -352,6 +412,26 @@
                 },
                 {
                   "id": "PSZHP-PRM ZONE 3",
+                  "heating_system": {
+                    "id": "PSZHP-PRM ZONE 3-heating",
+                    "design_capacity": 23892.78811,
+                    "type": "HEAT_PUMP",
+                    "energy_source_type": "ELECTRICITY",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": false,
+                    "rated_capacity": 18792.17281151349,
+                    "heating_coil_setpoint": 38.278009842691496,
+                    "efficiency_metric_types": [
+                      "HEATING_SEASONAL_PERFORMANCE_FACTOR",
+                      "HEATING_SEASONAL_PERFORMANCE_FACTOR_2"
+                    ],
+                    "efficiency_metric_values": [
+                      8.286518783563746,
+                      8.317816971299019
+                    ],
+                    "heatpump_low_shutoff_temperature": -12.2222222222222,
+                    "heatpump_auxiliary_heat_type": "ELECTRIC_RESISTANCE"
+                  },
                   "cooling_system": {
                     "id": "PSZHP-PRM ZONE 3-cooling",
                     "design_total_cool_capacity": 23892.78811,
@@ -379,6 +459,7 @@
                     "supply_fans": [
                       {
                         "id": "PSZHP FAN CV - PRM ZONE 3",
+                        "specification_method": "SIMPLE",
                         "design_airflow": 1.10611,
                         "is_airflow_calculated": true,
                         "design_electric_power": 566.32832,
@@ -433,8 +514,7 @@
                             "airflow": 1.10611,
                             "power": 566.32832
                           }
-                        ],
-                        "specification_method": "SIMPLE"
+                        ]
                       }
                     ],
                     "minimum_airflow": 1206.605144858869,
@@ -459,6 +539,26 @@
                 },
                 {
                   "id": "PSZHP-PRM ZONE 4",
+                  "heating_system": {
+                    "id": "PSZHP-PRM ZONE 4-heating",
+                    "design_capacity": 21455.50077,
+                    "type": "HEAT_PUMP",
+                    "energy_source_type": "ELECTRICITY",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": false,
+                    "rated_capacity": 16875.195827758947,
+                    "heating_coil_setpoint": 38.43879080269504,
+                    "efficiency_metric_types": [
+                      "HEATING_SEASONAL_PERFORMANCE_FACTOR",
+                      "HEATING_SEASONAL_PERFORMANCE_FACTOR_2"
+                    ],
+                    "efficiency_metric_values": [
+                      8.247338535497553,
+                      8.32474628405143
+                    ],
+                    "heatpump_low_shutoff_temperature": -12.2222222222222,
+                    "heatpump_auxiliary_heat_type": "ELECTRIC_RESISTANCE"
+                  },
                   "cooling_system": {
                     "id": "PSZHP-PRM ZONE 4-cooling",
                     "design_total_cool_capacity": 21455.50077,
@@ -486,6 +586,7 @@
                     "supply_fans": [
                       {
                         "id": "PSZHP FAN CV - PRM ZONE 4",
+                        "specification_method": "SIMPLE",
                         "design_airflow": 0.98406,
                         "is_airflow_calculated": true,
                         "design_electric_power": 503.83871999999997,
@@ -540,8 +641,7 @@
                             "airflow": 0.98406,
                             "power": 503.83871999999997
                           }
-                        ],
-                        "specification_method": "SIMPLE"
+                        ]
                       }
                     ],
                     "minimum_airflow": 927.5113089743571,

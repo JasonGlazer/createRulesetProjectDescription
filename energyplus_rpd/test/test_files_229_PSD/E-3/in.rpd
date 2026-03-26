@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-03-18T11:37Z",
+    "time_of_creation": "2026-03-26T15:07Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -32,6 +32,17 @@
                 {
                   "id": "VAV_AHU_1",
                   "humidification_type": "OTHER",
+                  "heating_system": {
+                    "id": "VAV_AHU_1-heating",
+                    "design_capacity": 43960.6605258333,
+                    "type": "FLUID_LOOP",
+                    "energy_source_type": "OTHER",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": true,
+                    "rated_capacity": 43989.80972900975,
+                    "heating_coil_setpoint": 32.210343965812015,
+                    "hot_water_loop": "HOT_WATER_HEATING_LOOP"
+                  },
                   "cooling_system": {
                     "id": "VAV_AHU_1-cooling",
                     "design_total_cool_capacity": 87921.3210516667,
@@ -59,6 +70,7 @@
                     "supply_fans": [
                       {
                         "id": "FANSYSTEMMODEL VAV 1",
+                        "specification_method": "SIMPLE",
                         "design_airflow": 4.719474432,
                         "is_airflow_calculated": false,
                         "design_electric_power": 7457.0,
@@ -113,8 +125,7 @@
                             "airflow": 4.719474432,
                             "power": 7457.0
                           }
-                        ],
-                        "specification_method": "SIMPLE"
+                        ]
                       }
                     ],
                     "minimum_airflow": 707.9211648,
@@ -302,8 +313,7 @@
                       "id": "HW_BASEBOARD_CORE_ZONE-terminal",
                       "type": "BASEBOARD",
                       "is_supply_ducted": false,
-                      "heating_source": "HOT_WATER",
-                      "heating_capacity": 1758.42642103333
+                      "heating_source": "HOT_WATER"
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
@@ -539,8 +549,7 @@
                       "id": "HW_BASEBOARD_PERIMETER_ZONE_1-terminal",
                       "type": "BASEBOARD",
                       "is_supply_ducted": false,
-                      "heating_source": "HOT_WATER",
-                      "heating_capacity": 1758.42642103333
+                      "heating_source": "HOT_WATER"
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
@@ -763,8 +772,7 @@
                       "id": "HW_BASEBOARD_PERIMETER_ZONE_2-terminal",
                       "type": "BASEBOARD",
                       "is_supply_ducted": false,
-                      "heating_source": "HOT_WATER",
-                      "heating_capacity": 1758.42642103333
+                      "heating_source": "HOT_WATER"
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
@@ -1000,8 +1008,7 @@
                       "id": "HW_BASEBOARD_PERIMETER_ZONE_3-terminal",
                       "type": "BASEBOARD",
                       "is_supply_ducted": false,
-                      "heating_source": "HOT_WATER",
-                      "heating_capacity": 1758.42642103333
+                      "heating_source": "HOT_WATER"
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",
@@ -1206,6 +1213,12 @@
                   },
                   "terminals": [
                     {
+                      "id": "HW_BASEBOARD_PERIMETER_ZONE_4-terminal",
+                      "type": "BASEBOARD",
+                      "is_supply_ducted": false,
+                      "heating_source": "HOT_WATER"
+                    },
+                    {
                       "id": "ADU VAV_HW_RHT_PERIMETER_ZONE 4",
                       "type": "VARIABLE_AIR_VOLUME",
                       "heating_source": "HOT_WATER",
@@ -1219,13 +1232,6 @@
                       "heating_capacity": 7033.70568413333,
                       "cooling_capacity": 3341.373578333834,
                       "minimum_outdoor_airflow_multiplier_schedule": "Constant-1.0"
-                    },
-                    {
-                      "id": "HW_BASEBOARD_PERIMETER_ZONE_4-terminal",
-                      "type": "BASEBOARD",
-                      "is_supply_ducted": false,
-                      "heating_source": "HOT_WATER",
-                      "heating_capacity": 1758.42642103333
                     }
                   ],
                   "floor_name": "Floor at Height 0.00",

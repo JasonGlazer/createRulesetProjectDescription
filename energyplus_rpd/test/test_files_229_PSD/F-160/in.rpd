@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-03-18T11:37Z",
+    "time_of_creation": "2026-03-26T15:07Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -28,423 +28,7 @@
           "building_segments": [
             {
               "id": "segment 1",
-              "heating_ventilating_air_conditioning_systems": [
-                {
-                  "id": "CV UNIT HEATER GAS",
-                  "heating_system": {
-                    "id": "CV UNIT HEATER GAS-heating",
-                    "design_capacity": 17584.2642103333,
-                    "type": "FURNACE",
-                    "energy_source_type": "NATURAL_GAS",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false,
-                    "efficiency_metric_types": [
-                      "THERMAL_EFFICIENCY"
-                    ],
-                    "efficiency_metric_values": [
-                      0.78
-                    ]
-                  },
-                  "fan_system": {
-                    "id": "CV UNIT HEATER FAN-fansystem",
-                    "supply_fans": [
-                      {
-                        "id": "CV UNIT HEATER FAN",
-                        "design_airflow": 0.1179868608,
-                        "is_airflow_calculated": true,
-                        "design_electric_power": 90.00711952457144,
-                        "design_pressure_rise": 534.0,
-                        "total_efficiency": 0.7,
-                        "motor_efficiency": 0.9,
-                        "motor_heat_to_airflow_fraction": 1.0,
-                        "motor_heat_to_zone_fraction": 0.0,
-                        "motor_location_zone": "N/A",
-                        "operating_points": [
-                          {
-                            "airflow": 0.0,
-                            "power": 0.0
-                          },
-                          {
-                            "airflow": 0.011798686079999999,
-                            "power": 9.000711952457143
-                          },
-                          {
-                            "airflow": 0.023597372159999998,
-                            "power": 18.001423904914287
-                          },
-                          {
-                            "airflow": 0.03539605824,
-                            "power": 27.00213585737143
-                          },
-                          {
-                            "airflow": 0.047194744319999996,
-                            "power": 36.00284780982857
-                          },
-                          {
-                            "airflow": 0.058993430400000005,
-                            "power": 45.00355976228572
-                          },
-                          {
-                            "airflow": 0.07079211648,
-                            "power": 54.00427171474286
-                          },
-                          {
-                            "airflow": 0.08259080256,
-                            "power": 63.00498366720001
-                          },
-                          {
-                            "airflow": 0.09438948863999999,
-                            "power": 72.00569561965715
-                          },
-                          {
-                            "airflow": 0.10618817472,
-                            "power": 81.0064075721143
-                          },
-                          {
-                            "airflow": 0.11798686080000001,
-                            "power": 90.00711952457144
-                          }
-                        ],
-                        "specification_method": "SIMPLE"
-                      }
-                    ],
-                    "fan_control": "CONSTANT",
-                    "operation_during_occupied": "CYCLING"
-                  }
-                },
-                {
-                  "id": "CV UNIT HEATER GAS 1",
-                  "heating_system": {
-                    "id": "CV UNIT HEATER GAS 1-heating",
-                    "design_capacity": 17584.2642103333,
-                    "type": "FURNACE",
-                    "energy_source_type": "NATURAL_GAS",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false,
-                    "efficiency_metric_types": [
-                      "THERMAL_EFFICIENCY"
-                    ],
-                    "efficiency_metric_values": [
-                      0.78
-                    ]
-                  },
-                  "fan_system": {
-                    "id": "CV UNIT HEATER FAN 1-fansystem",
-                    "supply_fans": [
-                      {
-                        "id": "CV UNIT HEATER FAN 1",
-                        "design_airflow": 0.1179868608,
-                        "is_airflow_calculated": true,
-                        "design_electric_power": 90.00711952457144,
-                        "design_pressure_rise": 534.0,
-                        "total_efficiency": 0.7,
-                        "motor_efficiency": 0.9,
-                        "motor_heat_to_airflow_fraction": 1.0,
-                        "motor_heat_to_zone_fraction": 0.0,
-                        "motor_location_zone": "N/A",
-                        "operating_points": [
-                          {
-                            "airflow": 0.0,
-                            "power": 0.0
-                          },
-                          {
-                            "airflow": 0.011798686079999999,
-                            "power": 9.000711952457143
-                          },
-                          {
-                            "airflow": 0.023597372159999998,
-                            "power": 18.001423904914287
-                          },
-                          {
-                            "airflow": 0.03539605824,
-                            "power": 27.00213585737143
-                          },
-                          {
-                            "airflow": 0.047194744319999996,
-                            "power": 36.00284780982857
-                          },
-                          {
-                            "airflow": 0.058993430400000005,
-                            "power": 45.00355976228572
-                          },
-                          {
-                            "airflow": 0.07079211648,
-                            "power": 54.00427171474286
-                          },
-                          {
-                            "airflow": 0.08259080256,
-                            "power": 63.00498366720001
-                          },
-                          {
-                            "airflow": 0.09438948863999999,
-                            "power": 72.00569561965715
-                          },
-                          {
-                            "airflow": 0.10618817472,
-                            "power": 81.0064075721143
-                          },
-                          {
-                            "airflow": 0.11798686080000001,
-                            "power": 90.00711952457144
-                          }
-                        ],
-                        "specification_method": "SIMPLE"
-                      }
-                    ],
-                    "fan_control": "CONSTANT",
-                    "operation_during_occupied": "CYCLING"
-                  }
-                },
-                {
-                  "id": "CV UNIT HEATER GAS 2",
-                  "heating_system": {
-                    "id": "CV UNIT HEATER GAS 2-heating",
-                    "design_capacity": 17584.2642103333,
-                    "type": "FURNACE",
-                    "energy_source_type": "NATURAL_GAS",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false,
-                    "efficiency_metric_types": [
-                      "THERMAL_EFFICIENCY"
-                    ],
-                    "efficiency_metric_values": [
-                      0.78
-                    ]
-                  },
-                  "fan_system": {
-                    "id": "CV UNIT HEATER FAN 2-fansystem",
-                    "supply_fans": [
-                      {
-                        "id": "CV UNIT HEATER FAN 2",
-                        "design_airflow": 0.1179868608,
-                        "is_airflow_calculated": true,
-                        "design_electric_power": 90.00711952457144,
-                        "design_pressure_rise": 534.0,
-                        "total_efficiency": 0.7,
-                        "motor_efficiency": 0.9,
-                        "motor_heat_to_airflow_fraction": 1.0,
-                        "motor_heat_to_zone_fraction": 0.0,
-                        "motor_location_zone": "N/A",
-                        "operating_points": [
-                          {
-                            "airflow": 0.0,
-                            "power": 0.0
-                          },
-                          {
-                            "airflow": 0.011798686079999999,
-                            "power": 9.000711952457143
-                          },
-                          {
-                            "airflow": 0.023597372159999998,
-                            "power": 18.001423904914287
-                          },
-                          {
-                            "airflow": 0.03539605824,
-                            "power": 27.00213585737143
-                          },
-                          {
-                            "airflow": 0.047194744319999996,
-                            "power": 36.00284780982857
-                          },
-                          {
-                            "airflow": 0.058993430400000005,
-                            "power": 45.00355976228572
-                          },
-                          {
-                            "airflow": 0.07079211648,
-                            "power": 54.00427171474286
-                          },
-                          {
-                            "airflow": 0.08259080256,
-                            "power": 63.00498366720001
-                          },
-                          {
-                            "airflow": 0.09438948863999999,
-                            "power": 72.00569561965715
-                          },
-                          {
-                            "airflow": 0.10618817472,
-                            "power": 81.0064075721143
-                          },
-                          {
-                            "airflow": 0.11798686080000001,
-                            "power": 90.00711952457144
-                          }
-                        ],
-                        "specification_method": "SIMPLE"
-                      }
-                    ],
-                    "fan_control": "CONSTANT",
-                    "operation_during_occupied": "CYCLING"
-                  }
-                },
-                {
-                  "id": "CV UNIT HEATER GAS 3",
-                  "heating_system": {
-                    "id": "CV UNIT HEATER GAS 3-heating",
-                    "design_capacity": 17584.2642103333,
-                    "type": "FURNACE",
-                    "energy_source_type": "NATURAL_GAS",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false,
-                    "efficiency_metric_types": [
-                      "THERMAL_EFFICIENCY"
-                    ],
-                    "efficiency_metric_values": [
-                      0.78
-                    ]
-                  },
-                  "fan_system": {
-                    "id": "CV UNIT HEATER FAN 3-fansystem",
-                    "supply_fans": [
-                      {
-                        "id": "CV UNIT HEATER FAN 3",
-                        "design_airflow": 0.1179868608,
-                        "is_airflow_calculated": true,
-                        "design_electric_power": 90.00711952457144,
-                        "design_pressure_rise": 534.0,
-                        "total_efficiency": 0.7,
-                        "motor_efficiency": 0.9,
-                        "motor_heat_to_airflow_fraction": 1.0,
-                        "motor_heat_to_zone_fraction": 0.0,
-                        "motor_location_zone": "N/A",
-                        "operating_points": [
-                          {
-                            "airflow": 0.0,
-                            "power": 0.0
-                          },
-                          {
-                            "airflow": 0.011798686079999999,
-                            "power": 9.000711952457143
-                          },
-                          {
-                            "airflow": 0.023597372159999998,
-                            "power": 18.001423904914287
-                          },
-                          {
-                            "airflow": 0.03539605824,
-                            "power": 27.00213585737143
-                          },
-                          {
-                            "airflow": 0.047194744319999996,
-                            "power": 36.00284780982857
-                          },
-                          {
-                            "airflow": 0.058993430400000005,
-                            "power": 45.00355976228572
-                          },
-                          {
-                            "airflow": 0.07079211648,
-                            "power": 54.00427171474286
-                          },
-                          {
-                            "airflow": 0.08259080256,
-                            "power": 63.00498366720001
-                          },
-                          {
-                            "airflow": 0.09438948863999999,
-                            "power": 72.00569561965715
-                          },
-                          {
-                            "airflow": 0.10618817472,
-                            "power": 81.0064075721143
-                          },
-                          {
-                            "airflow": 0.11798686080000001,
-                            "power": 90.00711952457144
-                          }
-                        ],
-                        "specification_method": "SIMPLE"
-                      }
-                    ],
-                    "fan_control": "CONSTANT",
-                    "operation_during_occupied": "CYCLING"
-                  }
-                },
-                {
-                  "id": "CV UNIT HEATER GAS 4",
-                  "heating_system": {
-                    "id": "CV UNIT HEATER GAS 4-heating",
-                    "design_capacity": 17584.2642103333,
-                    "type": "FURNACE",
-                    "energy_source_type": "NATURAL_GAS",
-                    "oversizing_factor": 1.0,
-                    "is_calculated_size": false,
-                    "efficiency_metric_types": [
-                      "THERMAL_EFFICIENCY"
-                    ],
-                    "efficiency_metric_values": [
-                      0.78
-                    ]
-                  },
-                  "fan_system": {
-                    "id": "CV UNIT HEATER FAN 4-fansystem",
-                    "supply_fans": [
-                      {
-                        "id": "CV UNIT HEATER FAN 4",
-                        "design_airflow": 0.1179868608,
-                        "is_airflow_calculated": true,
-                        "design_electric_power": 90.00711952457144,
-                        "design_pressure_rise": 534.0,
-                        "total_efficiency": 0.7,
-                        "motor_efficiency": 0.9,
-                        "motor_heat_to_airflow_fraction": 1.0,
-                        "motor_heat_to_zone_fraction": 0.0,
-                        "motor_location_zone": "N/A",
-                        "operating_points": [
-                          {
-                            "airflow": 0.0,
-                            "power": 0.0
-                          },
-                          {
-                            "airflow": 0.011798686079999999,
-                            "power": 9.000711952457143
-                          },
-                          {
-                            "airflow": 0.023597372159999998,
-                            "power": 18.001423904914287
-                          },
-                          {
-                            "airflow": 0.03539605824,
-                            "power": 27.00213585737143
-                          },
-                          {
-                            "airflow": 0.047194744319999996,
-                            "power": 36.00284780982857
-                          },
-                          {
-                            "airflow": 0.058993430400000005,
-                            "power": 45.00355976228572
-                          },
-                          {
-                            "airflow": 0.07079211648,
-                            "power": 54.00427171474286
-                          },
-                          {
-                            "airflow": 0.08259080256,
-                            "power": 63.00498366720001
-                          },
-                          {
-                            "airflow": 0.09438948863999999,
-                            "power": 72.00569561965715
-                          },
-                          {
-                            "airflow": 0.10618817472,
-                            "power": 81.0064075721143
-                          },
-                          {
-                            "airflow": 0.11798686080000001,
-                            "power": 90.00711952457144
-                          }
-                        ],
-                        "specification_method": "SIMPLE"
-                      }
-                    ],
-                    "fan_control": "CONSTANT",
-                    "operation_during_occupied": "CYCLING"
-                  }
-                }
-              ],
+              "heating_ventilating_air_conditioning_systems": [],
               "zones": [
                 {
                   "id": "CORE ZONE 1",
@@ -524,14 +108,6 @@
                     "flow_rate": 0.0,
                     "multiplier_schedule": "Constant-1.0"
                   },
-                  "terminals": [
-                    {
-                      "id": "CV UNIT HEATER GAS-terminal",
-                      "served_by_heating_ventilating_air_conditioning_system": "CV UNIT HEATER GAS",
-                      "primary_airflow": 117.9868608,
-                      "heating_capacity": 17584.2642103333
-                    }
-                  ],
                   "floor_name": "Floor at Height 0.00",
                   "zonal_exhaust_fans": [
                     {
@@ -740,14 +316,6 @@
                     "flow_rate": 114.0,
                     "multiplier_schedule": "Constant-1.0"
                   },
-                  "terminals": [
-                    {
-                      "id": "CV UNIT HEATER GAS 3-terminal",
-                      "served_by_heating_ventilating_air_conditioning_system": "CV UNIT HEATER GAS 3",
-                      "primary_airflow": 117.9868608,
-                      "heating_capacity": 17584.2642103333
-                    }
-                  ],
                   "floor_name": "Floor at Height 0.00",
                   "zonal_exhaust_fans": [
                     {
@@ -943,14 +511,6 @@
                     "flow_rate": 77.32,
                     "multiplier_schedule": "Constant-1.0"
                   },
-                  "terminals": [
-                    {
-                      "id": "CV UNIT HEATER GAS 2-terminal",
-                      "served_by_heating_ventilating_air_conditioning_system": "CV UNIT HEATER GAS 2",
-                      "primary_airflow": 117.9868608,
-                      "heating_capacity": 17584.2642103333
-                    }
-                  ],
                   "floor_name": "Floor at Height 0.00",
                   "zonal_exhaust_fans": [
                     {
@@ -1159,14 +719,6 @@
                     "flow_rate": 80.49000000000001,
                     "multiplier_schedule": "CONSTANT SCHEDULE"
                   },
-                  "terminals": [
-                    {
-                      "id": "CV UNIT HEATER GAS 1-terminal",
-                      "served_by_heating_ventilating_air_conditioning_system": "CV UNIT HEATER GAS 1",
-                      "primary_airflow": 117.9868608,
-                      "heating_capacity": 17584.2642103333
-                    }
-                  ],
                   "floor_name": "Floor at Height 0.00",
                   "zonal_exhaust_fans": [
                     {
@@ -1362,14 +914,6 @@
                     "flow_rate": 53.72,
                     "multiplier_schedule": "CONSTANT SCHEDULE"
                   },
-                  "terminals": [
-                    {
-                      "id": "CV UNIT HEATER GAS 4-terminal",
-                      "served_by_heating_ventilating_air_conditioning_system": "CV UNIT HEATER GAS 4",
-                      "primary_airflow": 117.9868608,
-                      "heating_capacity": 17584.2642103333
-                    }
-                  ],
                   "floor_name": "Floor at Height 0.00",
                   "zonal_exhaust_fans": [
                     {

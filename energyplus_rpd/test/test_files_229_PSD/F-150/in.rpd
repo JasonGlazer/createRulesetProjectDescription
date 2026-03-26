@@ -8,7 +8,7 @@
     "schema_name": "Ruleset Evaluation Schema",
     "schema_version": "0.1.7",
     "schema_url": "https://github.com/open229/ruleset-model-description-schema",
-    "time_of_creation": "2026-03-18T11:37Z",
+    "time_of_creation": "2026-03-26T15:07Z",
     "version": "1.0.0",
     "author": "The createRulesetProjectDescription script written primarily by Jason Glazer of GARD Analytics, Inc. as part of NREL EnergyPlus Development Team as funded by USDOE.",
     "description": "",
@@ -31,6 +31,14 @@
               "heating_ventilating_air_conditioning_systems": [
                 {
                   "id": "PVAV_RH_AHU",
+                  "heating_system": {
+                    "id": "PVAV_RH_AHU-heating",
+                    "design_capacity": 150000.0,
+                    "type": "ELECTRIC_RESISTANCE",
+                    "energy_source_type": "ELECTRICITY",
+                    "oversizing_factor": 1.0,
+                    "is_calculated_size": false
+                  },
                   "cooling_system": {
                     "id": "PVAV_RH_AHU-cooling",
                     "design_total_cool_capacity": 117733.64025731593,
@@ -39,14 +47,14 @@
                     "oversizing_factor": 1.0,
                     "is_calculated_size": false,
                     "rated_total_cool_capacity": 96514.29744825551,
-                    "rated_sensible_cool_capacity": 85239.00454702812,
-                    "chilled_water_loop": "CHILLED_WATER_LOOP"
+                    "rated_sensible_cool_capacity": 85239.00454702812
                   },
                   "fan_system": {
                     "id": "PVAV_RH_AHU_FANSYSTEMMODEL_VAV-fansystem",
                     "supply_fans": [
                       {
                         "id": "PVAV_RH_AHU_FANSYSTEMMODEL_VAV",
+                        "specification_method": "SIMPLE",
                         "design_airflow": 4.719474432,
                         "is_airflow_calculated": false,
                         "design_electric_power": 10000.0,
@@ -101,8 +109,7 @@
                             "airflow": 4.719474432,
                             "power": 10000.0
                           }
-                        ],
-                        "specification_method": "SIMPLE"
+                        ]
                       }
                     ],
                     "minimum_airflow": 707.9211648,
@@ -198,6 +205,82 @@
                     "flow_rate": 0.0,
                     "multiplier_schedule": "Constant-1.0"
                   },
+                  "terminals": [
+                    {
+                      "id": "PARALLEL PIU ELEC RHT AIR DISTRIBUTION UNIT",
+                      "type": "VARIABLE_AIR_VOLUME",
+                      "heating_source": "ELECTRIC",
+                      "cooling_source": "NONE",
+                      "served_by_heating_ventilating_air_conditioning_system": "PVAV_RH_AHU",
+                      "primary_airflow": 943.8948864,
+                      "supply_design_heating_setpoint_temperature": 32.2222222222223,
+                      "supply_design_cooling_setpoint_temperature": 12.8,
+                      "minimum_airflow": 749.5631948508,
+                      "minimum_outdoor_airflow": 0.0,
+                      "heating_capacity": 8792.0,
+                      "cooling_capacity": 0.0,
+                      "fan": {
+                        "id": "PARALLEL PIU ELEC RHT FAN",
+                        "design_airflow": 2.8316846592,
+                        "is_airflow_calculated": true,
+                        "design_electric_power": 1011.3159497142858,
+                        "design_pressure_rise": 250.0,
+                        "total_efficiency": 0.7,
+                        "motor_efficiency": 0.9,
+                        "motor_heat_to_airflow_fraction": 1.0,
+                        "motor_heat_to_zone_fraction": 0.0,
+                        "motor_location_zone": "N/A",
+                        "operating_points": [
+                          {
+                            "airflow": 0.0,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 0.28316846592,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 0.56633693184,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 0.84950539776,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 1.13267386368,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 1.4158423296,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 1.69901079552,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 1.98217926144,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 2.26534772736,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 2.5485161932800002,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 2.8316846592,
+                            "power": 1011.3159497142858
+                          }
+                        ]
+                      },
+                      "fan_configuration": "PARALLEL",
+                      "secondary_airflow": 2831.6846592
+                    }
+                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
@@ -349,6 +432,82 @@
                     "flow_rate": 114.0,
                     "multiplier_schedule": "Constant-1.0"
                   },
+                  "terminals": [
+                    {
+                      "id": "PARALLEL PIU ELEC RHT 1 AIR DISTRIBUTION UNIT",
+                      "type": "VARIABLE_AIR_VOLUME",
+                      "heating_source": "ELECTRIC",
+                      "cooling_source": "NONE",
+                      "served_by_heating_ventilating_air_conditioning_system": "PVAV_RH_AHU",
+                      "primary_airflow": 943.8948864,
+                      "supply_design_heating_setpoint_temperature": 32.2222222222223,
+                      "supply_design_cooling_setpoint_temperature": 12.8,
+                      "minimum_airflow": 157.94130837888,
+                      "minimum_outdoor_airflow": 0.0,
+                      "heating_capacity": 8792.0,
+                      "cooling_capacity": 0.0,
+                      "fan": {
+                        "id": "PARALLEL PIU ELEC RHT FAN 1",
+                        "design_airflow": 2.8316846592,
+                        "is_airflow_calculated": true,
+                        "design_electric_power": 1011.3159497142858,
+                        "design_pressure_rise": 250.0,
+                        "total_efficiency": 0.7,
+                        "motor_efficiency": 0.9,
+                        "motor_heat_to_airflow_fraction": 1.0,
+                        "motor_heat_to_zone_fraction": 0.0,
+                        "motor_location_zone": "N/A",
+                        "operating_points": [
+                          {
+                            "airflow": 0.0,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 0.28316846592,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 0.56633693184,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 0.84950539776,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 1.13267386368,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 1.4158423296,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 1.69901079552,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 1.98217926144,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 2.26534772736,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 2.5485161932800002,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 2.8316846592,
+                            "power": 1011.3159497142858
+                          }
+                        ]
+                      },
+                      "fan_configuration": "PARALLEL",
+                      "secondary_airflow": 2831.6846592
+                    }
+                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
@@ -487,6 +646,82 @@
                     "flow_rate": 77.32,
                     "multiplier_schedule": "Constant-1.0"
                   },
+                  "terminals": [
+                    {
+                      "id": "PARALLEL PIU ELEC RHT 2 AIR DISTRIBUTION UNIT",
+                      "type": "VARIABLE_AIR_VOLUME",
+                      "heating_source": "ELECTRIC",
+                      "cooling_source": "NONE",
+                      "served_by_heating_ventilating_air_conditioning_system": "PVAV_RH_AHU",
+                      "primary_airflow": 943.8948864,
+                      "supply_design_heating_setpoint_temperature": 32.2222222222223,
+                      "supply_design_cooling_setpoint_temperature": 12.8,
+                      "minimum_airflow": 100.02730962240007,
+                      "minimum_outdoor_airflow": 0.0,
+                      "heating_capacity": 8792.0,
+                      "cooling_capacity": 0.0,
+                      "fan": {
+                        "id": "PARALLEL PIU ELEC RHT FAN 2",
+                        "design_airflow": 2.8316846592,
+                        "is_airflow_calculated": true,
+                        "design_electric_power": 1011.3159497142858,
+                        "design_pressure_rise": 250.0,
+                        "total_efficiency": 0.7,
+                        "motor_efficiency": 0.9,
+                        "motor_heat_to_airflow_fraction": 1.0,
+                        "motor_heat_to_zone_fraction": 0.0,
+                        "motor_location_zone": "N/A",
+                        "operating_points": [
+                          {
+                            "airflow": 0.0,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 0.28316846592,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 0.56633693184,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 0.84950539776,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 1.13267386368,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 1.4158423296,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 1.69901079552,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 1.98217926144,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 2.26534772736,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 2.5485161932800002,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 2.8316846592,
+                            "power": 1011.3159497142858
+                          }
+                        ]
+                      },
+                      "fan_configuration": "PARALLEL",
+                      "secondary_airflow": 2831.6846592
+                    }
+                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
@@ -638,6 +873,82 @@
                     "flow_rate": 80.49000000000001,
                     "multiplier_schedule": "CONSTANT SCHEDULE"
                   },
+                  "terminals": [
+                    {
+                      "id": "PARALLEL PIU ELEC RHT 3 AIR DISTRIBUTION UNIT",
+                      "type": "VARIABLE_AIR_VOLUME",
+                      "heating_source": "ELECTRIC",
+                      "cooling_source": "NONE",
+                      "served_by_heating_ventilating_air_conditioning_system": "PVAV_RH_AHU",
+                      "primary_airflow": 943.8948864,
+                      "supply_design_heating_setpoint_temperature": 32.2222222222223,
+                      "supply_design_cooling_setpoint_temperature": 12.8,
+                      "minimum_airflow": 157.8998648448,
+                      "minimum_outdoor_airflow": 0.0,
+                      "heating_capacity": 8792.0,
+                      "cooling_capacity": 2833.957451444962,
+                      "fan": {
+                        "id": "PARALLEL PIU ELEC RHT FAN 3",
+                        "design_airflow": 2.8316846592,
+                        "is_airflow_calculated": true,
+                        "design_electric_power": 1011.3159497142858,
+                        "design_pressure_rise": 250.0,
+                        "total_efficiency": 0.7,
+                        "motor_efficiency": 0.9,
+                        "motor_heat_to_airflow_fraction": 1.0,
+                        "motor_heat_to_zone_fraction": 0.0,
+                        "motor_location_zone": "N/A",
+                        "operating_points": [
+                          {
+                            "airflow": 0.0,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 0.28316846592,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 0.56633693184,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 0.84950539776,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 1.13267386368,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 1.4158423296,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 1.69901079552,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 1.98217926144,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 2.26534772736,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 2.5485161932800002,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 2.8316846592,
+                            "power": 1011.3159497142858
+                          }
+                        ]
+                      },
+                      "fan_configuration": "PARALLEL",
+                      "secondary_airflow": 2831.6846592
+                    }
+                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {
@@ -776,6 +1087,82 @@
                     "flow_rate": 5371542.0,
                     "multiplier_schedule": "CONSTANT SCHEDULE"
                   },
+                  "terminals": [
+                    {
+                      "id": "PARALLEL PIU ELEC RHT 4 AIR DISTRIBUTION UNIT",
+                      "type": "VARIABLE_AIR_VOLUME",
+                      "heating_source": "ELECTRIC",
+                      "cooling_source": "NONE",
+                      "served_by_heating_ventilating_air_conditioning_system": "PVAV_RH_AHU",
+                      "primary_airflow": 943.8948864,
+                      "supply_design_heating_setpoint_temperature": 32.2222222222223,
+                      "supply_design_cooling_setpoint_temperature": 12.8,
+                      "minimum_airflow": 100.05356350943998,
+                      "minimum_outdoor_airflow": 0.0,
+                      "heating_capacity": 8792.0,
+                      "cooling_capacity": 1771.4611066006792,
+                      "fan": {
+                        "id": "PARALLEL PIU ELEC RHT FAN 4",
+                        "design_airflow": 2.8316846592,
+                        "is_airflow_calculated": true,
+                        "design_electric_power": 1011.3159497142858,
+                        "design_pressure_rise": 250.0,
+                        "total_efficiency": 0.7,
+                        "motor_efficiency": 0.9,
+                        "motor_heat_to_airflow_fraction": 1.0,
+                        "motor_heat_to_zone_fraction": 0.0,
+                        "motor_location_zone": "N/A",
+                        "operating_points": [
+                          {
+                            "airflow": 0.0,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 0.28316846592,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 0.56633693184,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 0.84950539776,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 1.13267386368,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 1.4158423296,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 1.69901079552,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 1.98217926144,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 2.26534772736,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 2.5485161932800002,
+                            "power": 0.0
+                          },
+                          {
+                            "airflow": 2.8316846592,
+                            "power": 1011.3159497142858
+                          }
+                        ]
+                      },
+                      "fan_configuration": "PARALLEL",
+                      "secondary_airflow": 2831.6846592
+                    }
+                  ],
                   "floor_name": "Floor at Height 0.00",
                   "spaces": [
                     {

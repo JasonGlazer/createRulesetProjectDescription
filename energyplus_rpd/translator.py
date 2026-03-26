@@ -80,16 +80,6 @@ def is_float(string: str) -> bool:
         return False
 
 
-# def terminal_option_convert(type_of_input_object):
-#     if 'VAV' in type_of_input_object.upper():
-#         option = 'VARIABLE_AIR_VOLUME'
-#     elif 'CONSTANTVOLUME' in type_of_input_object.upper():
-#         option = 'CONSTANT_AIR_VOLUME'
-#     else:
-#         option = 'OTHER'
-#     return option
-
-
 def terminal_heating_source_convert(heat_coil_type):
     if 'WATER' in heat_coil_type.upper():
         option = 'HOT_WATER'
@@ -1480,10 +1470,10 @@ class Translator:
                 cs["rated_sensible_cool_capacity"] = rated_sensible_capacity
 
             # Combined loop mapping logic (water-to-air HP vs generic water)
-            if "WATERTOAIRHEATPUMP" in coil_type.upper() and cool_coil_name in coil_connections:
-                cs["water_source_heat_pump_loop"] = coil_connections[cool_coil_name]["plant_loop_name"]
-            elif "WATER" in coil_type.upper() and cool_coil_name in coil_connections:
-                cs["hot_water_loop"] = coil_connections[cool_coil_name]["plant_loop_name"]
+            # if "WATERTOAIRHEATPUMP" in coil_type.upper() and cool_coil_name in coil_connections:
+            #    cs["water_source_heat_pump_loop"] = coil_connections[cool_coil_name]["plant_loop_name"]
+            # elif "WATER" in coil_type.upper() and cool_coil_name in coil_connections:
+            #    cs["hot_water_loop"] = coil_connections[cool_coil_name]["plant_loop_name"]
 
             mt, mv = self.process_cooling_metrics(cool_coil_name, cooling_coil_efficiencies)
             if mv:
@@ -1596,10 +1586,10 @@ class Translator:
                         }
                         if 'main_heating_coil' in ze:
                             main_heating_coil_name = ze['main_heating_coil']
-                        if main_heating_coil_name in coils_table:
-                            coils_detail = coils_table[main_heating_coil_name]
-                            if coils_detail["HVAC Type"] == "ZONEHVAC:AIRDISTRIBUTIONUNIT":
-                                t["heating_capacity"] = float(coils_detail['Coil Final Gross Total Capacity [W]'])
+                            if main_heating_coil_name in coils_table:
+                                coils_detail = coils_table[main_heating_coil_name]
+                                if coils_detail["HVAC Type"] == "ZONEHVAC:AIRDISTRIBUTIONUNIT":
+                                    t["heating_capacity"] = float(coils_detail['Coil Final Gross Total Capacity [W]'])
                         if at.get("fan_name"):
                             if at["fan_name"] in equipment_fans:
                                 tfan, _ = equipment_fans[at["fan_name"]]
