@@ -5445,7 +5445,7 @@ HeatingVentilatingAirConditioningSystem:
       EPout Report: "HVAC Topology"
       EPout Table: "Air Loop Supply Side Component Arrangement"
       EPout Column: "Component Type"
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Used by RCT. Would need to analyze structure of topology to determine if this is preheat system. May be multiple ways to configure a preheat (central) heating coil when additional heat is added at the zone or as a second central coil but generally a preheat coil is used to temper the air prior to the cooling coil. Generically, trace the air flow path through the topology and see if it passes a heating coil prior to the cooling coil. Typically an additional heating coil is down stream of the cooling coil sometimes in the airhandling unit or sometimes at the terminal but this is not really required. The simplest approach is just to see if a heating coil is located prior to the cooling coil."
     humidification_type:
       Description: "Humidification type"
@@ -5756,7 +5756,7 @@ HeatingSystem:
       EPout Report: "HVAC Topology"
       EPout Table: "Air Loop Supply Side Component Arrangement"
       EPout Column: "Sub-Component Type"
-      EPstatus: "ToDo"
+      EPstatus: "DoneUsingOutput"
       EP Notes: "Look for AIRLOOPHVAC:UNITARYSYSTEM in Component Type and see if COIL:HEATING:DX:* is in the sub-component type and if so check if another COIL:HEATING:* is also present. Use the type of the coil to determine this. There are probably additional configuration options that should also be checked."
     heatpump_auxiliary_heat_high_shutoff_temperature:
       Description: "Heatpump auxiliary heat high temperature shutoff"

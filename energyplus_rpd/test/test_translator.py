@@ -1368,7 +1368,7 @@ class TestTranslator(TestCase):
 
         self.assertFalse(t.are_shadows_cast_from_surfaces())
 
-    def test_add_heating_ventilation_system(self):
+    def test_add_airloop_heating_ventilation_system(self):
         t = self.set_minimal_files()
 
         t.json_results_object['TabularReports'] = [
@@ -1443,7 +1443,96 @@ class TestTranslator(TestCase):
                                  "Yes",
                                  "25.0",
                                  "Fan1",
-                             ]
+                             ],
+                             "5 ZONE PVAV 1 MAIN GAS HTG COIL 113KBTU/HR 0.8 THERMAL EFF": [
+                                 "Coil:Heating:Fuel",
+                                 "AirLoop",
+                                 "AirLoopHVAC",
+                                 "5 ZONE PVAV 1",
+                                 "PERIMETER_MID_ZN_1 ZN; PERIMETER_MID_ZN_2 ZN; PERIMETER_MID_ZN_3 ZN; PERIMETER_MID_ZN_4 ZN; CORE_MID ZN;",
+                                 "Coincident",
+                                 "HeatingDesignCapacity",
+                                 "N/A",
+                                 "Yes",
+                                 "Yes",
+                                 "unknown",
+                                 "No",
+                                 "32393.426577987113",
+                                 "32393.426577987113",
+                                 "-999",
+                                 "-999",
+                                 "-999",
+                                 "-999",
+                                 "1",
+                                 "1",
+                                 "1019.7116000000001",
+                                 "1004.8585895",
+                                 "0.9650815201399018",
+                                 "5 ZONE PVAV 1 FAN",
+                                 "Fan:VariableVolume",
+                                 "5.636878632376783",
+                                 "5.440047399378317",
+                                 "",
+                                 "-999",
+                                 "-999",
+                                 "-999",
+                                 "-999",
+                                 "-999",
+                                 "-999",
+                                 "-999",
+                                 "-999",
+                                 "-999",
+                                 "DENVER-AURORA-BUCKLEY.AFB_CO_USA ANN HTG 99.6% CONDNS DB",
+                                 "12/21 06:50:00",
+                                 "unknown",
+                                 "unknown",
+                                 "DENVER-AURORA-BUCKLEY.AFB_CO_USA ANN HTG 99.6% CONDNS DB",
+                                 "12/21 08:00:00",
+                                 "Sensible",
+                                 "32393.426577987113",
+                                 "32393.426577987113",
+                                 "1",
+                                 "1.6320142198134948",
+                                 "1.6910635897130348",
+                                 "-6.974992022154104",
+                                 "-6.9749908447265625",
+                                 "0.0029224068400844514",
+                                 "262.12078027724783",
+                                 "12.7777777777778",
+                                 "9.613927746476529",
+                                 "0.008",
+                                 "33037.168222222244",
+                                 "-999",
+                                 "-999",
+                                 "-999",
+                                 "-999",
+                                 "0",
+                                 "32393.426577987113",
+                                 "-17.9",
+                                 "0.0009552379321563568",
+                                 "-17.927401687494502",
+                                 "1.1951710386854",
+                                 "70.67570054466222",
+                                 "19.3558191696452",
+                                 "0.007663561556133055",
+                                 "19.598294813346396",
+                                 "0.007571842219992779",
+                                 "42.809736573978526",
+                                 "28327.309078388174",
+                                 "0",
+                                 "-999",
+                                 "-999",
+                                 "-999",
+                                 "-999",
+                                 "-999",
+                                 "-999",
+                                 "-999",
+                                 "-999",
+                                 "-999",
+                                 "-999",
+                                 "-999"
+                             ],
+
                          },
                          "TableName": "Coils"
                      },
@@ -1494,25 +1583,260 @@ class TestTranslator(TestCase):
                              ]
                          },
                          "TableName": "Air Terminals"
-                     }
-                 ]
-             }
-        ]
+                     },
+                     {
+                         "Cols": [
+                             "Type",
+                             "Design Coil Load [W]",
+                             "Nominal Total Capacity [W]",
+                             "Nominal Efficiency [W/W]",
+                             "Used as Supplementary Heat",
+                             "Airloop Name",
+                             "Plantloop Name"
+                         ],
+                         "Rows": {
+                             "5 ZONE PVAV 1 MAIN GAS HTG COIL 113KBTU/HR 0.8 THERMAL EFF": [
+                                 "Coil:Heating:Fuel",
+                                 "",
+                                 "32393.426577987113",
+                                 "0.8",
+                                 "No",
+                                 "5 ZONE PVAV 1",
+                                 "N/A"
+                             ],
+                         },
+                         "TableName": "Heating Coils"
+                     },
+                     {
+                         "Cols": [
+                             "DX Heating Coil Type",
+                             "Heating to Cooling Capacity Sizing Ratio",
+                             "High Temperature Heating (net) Rating Capacity [W]",
+                             "Low Temperature Heating (net) Rating Capacity [W]",
+                             "HSPF [Btu/W-h]",
+                             "Region Number",
+                             "Minimum Outdoor Dry-Bulb Temperature for Compressor Operation [C]",
+                             "Supplemental Heat High Shutoff Temperature [C]",
+                             "Airloop Name"
+                         ],
+                         "Rows": {
+                             "None": [
+                                 "",
+                                 "",
+                                 "",
+                                 "",
+                                 "",
+                                 "",
+                                 "",
+                                 "",
+                                 ""
+                             ]
+                         },
+                         "TableName": "DX Heating Coils"
+                     },
+                     {
+                         "Cols": [
+                             "DX Heating Coil Type",
+                             "High Temperature Heating (net) Rating Capacity [W]",
+                             "Low Temperature Heating (net) Rating Capacity [W]",
+                             "HSPF2 [Btu/W-h]",
+                             "Region Number",
+                             "Minimum Outdoor Dry-Bulb Temperature for Compressor Operation [C]",
+                             "Airloop Name"
+                         ],
+                         "Rows": {
+                             "None": [
+                                 "",
+                                 "",
+                                 "",
+                                 "",
+                                 "",
+                                 "",
+                                 ""
+                             ]
+                         },
+                         "TableName": "DX Heating Coils AHRI 2023"
+                     },
 
+                     {
+                         "Cols": [
+                             "Type",
+                             "Total Efficiency [W/W]",
+                             "Delta Pressure [pa]",
+                             "Max Air Flow Rate [m3/s]",
+                             "Rated Electricity Rate [W]",
+                             "Rated Power Per Max Air Flow Rate [W-s/m3]",
+                             "Motor Heat In Air Fraction",
+                             "Fan Energy Index",
+                             "End Use Subcategory",
+                             "Design Day Name for Fan Sizing Peak",
+                             "Date/Time for Fan Sizing Peak",
+                             "Purpose",
+                             "Is Autosized",
+                             "Motor Efficiency",
+                             "Motor Heat to Zone Fraction",
+                             "Motor Loss Zone Name",
+                             "Speed Control Method",
+                             "Number of Speeds",
+                             "Airloop Name"
+                         ],
+                         "Rows": {
+                             "5 ZONE PVAV 1 FAN": [
+                                 "Fan:VariableVolume",
+                                 "0.6045",
+                                 "1389.9161178",
+                                 "5.636878632376783",
+                                 "12960.77496314791",
+                                 "2299.282246153846",
+                                 "1",
+                                 "1.1129712361918185",
+                                 "General",
+                                 "DENVER-AURORA-BUCKLEY.AFB_CO_USA ANN CLG .4% CONDNS DB=>MWB",
+                                 "7/21 08:00:00",
+                                 "N/A",
+                                 "Yes",
+                                 "0.93",
+                                 "0",
+                                 "N/A",
+                                 "Continuous",
+                                 "N/A",
+                                 "5 ZONE PVAV 1"
+                             ],
+                         },
+                         "TableName": "Fans"
+                     },
+
+                 ]
+             },
+            {
+                "For": "Entire Facility",
+                "ReportName": "HVACTopology",
+                "Tables": [
+                    {
+                        "Cols": [
+                            "Airloop Name",
+                            "Splitter Name",
+                            "Supply Branch Name",
+                            "Supply Branch Type",
+                            "Component Type",
+                            "Component Name",
+                            "Sub-Component Type",
+                            "Sub-Component Name",
+                            "Sub-Sub-Component Type",
+                            "Sub-Sub-Component Name",
+                            "Mixer Name"
+                        ],
+                        "Rows": {
+                            "9": [
+                                "5 ZONE PVAV 1",
+                                "",
+                                "5 ZONE PVAV 1 MAIN BRANCH",
+                                "Main",
+                                "AIRLOOPHVAC:OUTDOORAIRSYSTEM",
+                                "5 ZONE PVAV 1 OA SYSTEM",
+                                "",
+                                "",
+                                "",
+                                "",
+                                ""
+                            ],
+                            "10": [
+                                "5 ZONE PVAV 1",
+                                "",
+                                "5 ZONE PVAV 1 MAIN BRANCH",
+                                "Main",
+                                "AIRLOOPHVAC:OUTDOORAIRSYSTEM",
+                                "5 ZONE PVAV 1 OA SYSTEM",
+                                "OUTDOORAIR:MIXER",
+                                "5 ZONE PVAV 1 OA SYSTEM OUTDOOR AIR MIXER",
+                                "",
+                                "",
+                                ""
+                            ],
+                            "11": [
+                                "5 ZONE PVAV 1",
+                                "",
+                                "5 ZONE PVAV 1 MAIN BRANCH",
+                                "Main",
+                                "COILSYSTEM:COOLING:DX",
+                                "5 ZONE PVAV 1 2SPD DX CLG COIL 320KBTU/HR 9.8EER COILSYSTEM",
+                                "",
+                                "",
+                                "",
+                                "",
+                                ""
+                            ],
+                            "12": [
+                                "5 ZONE PVAV 1",
+                                "",
+                                "5 ZONE PVAV 1 MAIN BRANCH",
+                                "Main",
+                                "COILSYSTEM:COOLING:DX",
+                                "5 ZONE PVAV 1 2SPD DX CLG COIL 320KBTU/HR 9.8EER COILSYSTEM",
+                                "COIL:COOLING:DX:TWOSPEED",
+                                "5 ZONE PVAV 1 2SPD DX CLG COIL 320KBTU/HR 9.8EER",
+                                "",
+                                "",
+                                ""
+                            ],
+                            "13": [
+                                "5 ZONE PVAV 1",
+                                "",
+                                "5 ZONE PVAV 1 MAIN BRANCH",
+                                "Main",
+                                "COIL:HEATING:FUEL",
+                                "5 ZONE PVAV 1 MAIN GAS HTG COIL 113KBTU/HR 0.8 THERMAL EFF",
+                                "",
+                                "",
+                                "",
+                                "",
+                                ""
+                            ],
+                            "14": [
+                                "5 ZONE PVAV 1",
+                                "",
+                                "5 ZONE PVAV 1 MAIN BRANCH",
+                                "Main",
+                                "FAN:VARIABLEVOLUME",
+                                "5 ZONE PVAV 1 FAN",
+                                "",
+                                "",
+                                "",
+                                "",
+                                ""
+                            ],
+                        },
+                        "TableName": "Air Loop Supply Side Component Arrangement"
+                    },
+                ]
+            },
+        ]
         added_hvac_systems = t.add_airloop_heating_ventilation_ac_system()
 
         expected_hvac = [{
-            'id': '5 ZONE PVAV 1',
-            'cooling_system':
-                {'id': '5 ZONE PVAV 1-cooling',
-                 'design_total_cool_capacity': 98149.824,
-                 'design_sensible_cool_capacity': 78534.22,
-                 'type': 'DIRECT_EXPANSION',
-                 'rated_total_cool_capacity': 12345.67,
-                 'rated_sensible_cool_capacity': 12345.67,
-                 'oversizing_factor': 7.950141547603329,
-                 'is_calculated_size': True}
-        }]
+            'cooling_system': {'design_sensible_cool_capacity': 78534.22,
+                               'design_total_cool_capacity': 98149.824, 'id': '5 ZONE PVAV 1-cooling',
+                               'is_calculated_size': True, 'oversizing_factor': 7.950141547603329,
+                               'rated_sensible_cool_capacity': 12345.67,
+                               'rated_total_cool_capacity': 12345.67, 'type': 'DIRECT_EXPANSION'},
+            'fan_system': {'id': '5 ZONE PVAV 1 FAN-fansystem', 'operation_during_occupied': 'CONTINUOUS',
+                           'supply_fans': [{'design_airflow': 5.636878632376783,
+                                            'design_electric_power': 12960.77496314791,
+                                            'design_pressure_rise': 1389.9161178,
+                                            'id': '5 ZONE PVAV 1 FAN', 'is_airflow_calculated': True,
+                                            'motor_efficiency': 0.93,
+                                            'motor_heat_to_airflow_fraction': 1.0,
+                                            'motor_heat_to_zone_fraction': 0.0,
+                                            'motor_location_zone': 'N/A', 'operating_points': [],
+                                            'specification_method': 'SIMPLE',
+                                            'total_efficiency': 0.6045}]},
+            'heating_system': {'design_capacity': 32393.426577987113,
+                               'efficiency_metric_types': ['THERMAL_EFFICIENCY'],
+                               'efficiency_metric_values': [0.8], 'energy_source_type': 'NATURAL_GAS',
+                               'heating_coil_setpoint': 1.0, 'id': '5 ZONE PVAV 1-heating',
+                               'is_calculated_size': True, 'oversizing_factor': 1.0, 'type': 'FURNACE'},
+            'id': '5 ZONE PVAV 1'}]
+
         self.assertEqual(added_hvac_systems, expected_hvac)
 
     def test_add_heating_ventilation_system_uses_coil_connection_fan_name_when_unknown(self):
@@ -1665,7 +1989,7 @@ class TestTranslator(TestCase):
         self.assertEqual(added_hvac_systems[0]['fan_system']['supply_fans'][0]['id'], 'MAIN FAN')
         self.assertEqual(added_terminals_by_zone, {})
 
-    def test_add_heating_ventilation_system_hp(self):
+    def test_add_airloop_heating_ventilation_system_hp(self):
         #  uses the small office proposed model
         t = self.set_minimal_files()
 
@@ -4027,7 +4351,7 @@ class TestTranslator(TestCase):
             },
         ]
 
-        added_hvac_systems, added_terminals_by_zone = t.add_heating_ventilation_system()
+        added_hvac_systems = t.add_airloop_heating_ventilation_ac_system()
 
         expected_hvac = [
             {
@@ -4237,44 +4561,7 @@ class TestTranslator(TestCase):
             },
         ]
 
-        expected_terminals = {'CORE_ZN ZN': [
-            {'id': 'ADU CORE_ZN ZN PSZ-AC-1 DIFFUSER', 'type': 'CONSTANT_AIR_VOLUME', 'heating_source': 'NONE',
-             'cooling_source': 'NONE', 'served_by_heating_ventilating_air_conditioning_system': 'CORE_ZN ZN PSZ-AC-1',
-             'primary_airflow': 370.0, 'supply_design_heating_setpoint_temperature': 50.0,
-             'supply_design_cooling_setpoint_temperature': 12.78, 'minimum_airflow': 110.0,
-             'minimum_outdoor_airflow': 60.0, 'heating_capacity': 1270.47, 'cooling_capacity': 4058.82}],
-            'PERIMETER_ZN_1 ZN': [
-                {'id': 'ADU PERIMETER_ZN_1 ZN PSZ-AC-2 DIFFUSER', 'type': 'CONSTANT_AIR_VOLUME',
-                 'heating_source': 'NONE', 'cooling_source': 'NONE',
-                 'served_by_heating_ventilating_air_conditioning_system': 'PERIMETER_ZN_1 ZN PSZ-AC-2',
-                 'primary_airflow': 340.0, 'supply_design_heating_setpoint_temperature': 50.0,
-                 'supply_design_cooling_setpoint_temperature': 12.78, 'minimum_airflow': 90.0,
-                 'minimum_outdoor_airflow': 50.0, 'heating_capacity': 3729.13,
-                 'cooling_capacity': 3755.63}], 'PERIMETER_ZN_2 ZN': [
-                {'id': 'ADU PERIMETER_ZN_2 ZN PSZ-AC-3 DIFFUSER', 'type': 'CONSTANT_AIR_VOLUME',
-                 'heating_source': 'NONE', 'cooling_source': 'NONE',
-                 'served_by_heating_ventilating_air_conditioning_system': 'PERIMETER_ZN_2 ZN PSZ-AC-3',
-                 'primary_airflow': 290.0, 'supply_design_heating_setpoint_temperature': 50.0,
-                 'supply_design_cooling_setpoint_temperature': 12.78, 'minimum_airflow': 50.0,
-                 'minimum_outdoor_airflow': 30.0, 'heating_capacity': 2272.61, 'cooling_capacity': 3153.59}],
-            'PERIMETER_ZN_3 ZN': [
-                {'id': 'ADU PERIMETER_ZN_3 ZN PSZ-AC-4 DIFFUSER', 'type': 'CONSTANT_AIR_VOLUME',
-                 'heating_source': 'NONE', 'cooling_source': 'NONE',
-                 'served_by_heating_ventilating_air_conditioning_system': 'PERIMETER_ZN_3 ZN PSZ-AC-4',
-                 'primary_airflow': 320.0, 'supply_design_heating_setpoint_temperature': 50.0,
-                 'supply_design_cooling_setpoint_temperature': 12.78, 'minimum_airflow': 90.0,
-                 'minimum_outdoor_airflow': 50.0, 'heating_capacity': 3761.15,
-                 'cooling_capacity': 3501.01}], 'PERIMETER_ZN_4 ZN': [
-                {'id': 'ADU PERIMETER_ZN_4 ZN PSZ-AC-5 DIFFUSER', 'type': 'CONSTANT_AIR_VOLUME',
-                 'heating_source': 'NONE', 'cooling_source': 'NONE',
-                 'served_by_heating_ventilating_air_conditioning_system': 'PERIMETER_ZN_4 ZN PSZ-AC-5',
-                 'primary_airflow': 350.0, 'supply_design_heating_setpoint_temperature': 50.0,
-                 'supply_design_cooling_setpoint_temperature': 12.78, 'minimum_airflow': 50.0,
-                 'minimum_outdoor_airflow': 30.0, 'heating_capacity': 2272.61, 'cooling_capacity': 3818.87}]}
-
         self.assertEqual(added_hvac_systems, expected_hvac)
-
-        self.assertEqual(added_terminals_by_zone, expected_terminals)
 
     def test_replace_serial_number(self):
         t = self.set_minimal_files()
