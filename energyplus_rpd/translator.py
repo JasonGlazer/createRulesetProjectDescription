@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional, Tuple
 from datetime import datetime
 from datetime import timezone
 
@@ -78,6 +78,26 @@ def is_float(string: str) -> bool:
         return True
     except ValueError:
         return False
+
+
+def to_float_or_none(value: Any) -> Optional[float]:
+    if value is None:
+        return None
+    value_string = str(value).strip()
+    if not value_string or value_string.upper() in {'N/A', 'NA'}:
+        return None
+    if is_float(value_string):
+        return float(value_string)
+    return None
+
+
+def non_empty_string(value: Any) -> str:
+    if value is None:
+        return ''
+    value_string = str(value).strip()
+    if value_string.upper() in {'N/A', 'NA'}:
+        return ''
+    return value_string
 
 
 def terminal_heating_source_convert(heat_coil_type):
@@ -748,7 +768,7 @@ class Translator:
 
     def add_spaces(self):
         tabular_reports = self.json_results_object['TabularReports']
-        spaces = {}
+        spaces: Dict[str, List[JsonDict]] = {}
         lights_by_space = self.gather_interior_lighting()
         people_schedule_by_zone = self.gather_people_schedule_by_zone()
         equipment_by_zone = self.gather_miscellaneous_equipment()
@@ -845,13 +865,21 @@ class Translator:
                                 if self.validator.is_in_901_enumeration('ServiceWaterHeatingSpaceOptions2019ASHRAE901',
                                                                         second_tag.upper()):
                                     space['service_water_heating_area_type'] = second_tag
-                            spaces[zone_name] = space
+                            zone_key = zone_name.upper()
+                            if zone_key not in spaces:
+                                spaces[zone_key] = [space]
+                            else:
+                                spaces[zone_key].append(space)
         # insert the space into the corresponding Zone
         for zone in self.building_segment['zones']:
-            zone['spaces'] = []
-            if zone['id'] in spaces:
-                zone['spaces'].append(spaces[zone['id']])
-        return spaces
+            zone['spaces'] = spaces.get(zone['id'].upper(), [])
+        legacy_spaces = {}
+        for zone_name, zone_spaces in spaces.items():
+            if len(zone_spaces) == 1:
+                legacy_spaces[zone_name] = zone_spaces[0]
+            else:
+                legacy_spaces[zone_name] = zone_spaces
+        return legacy_spaces
 
     def gather_interior_lighting(self):
         tabular_reports = self.json_results_object['TabularReports']
@@ -2003,8 +2031,8 @@ class Translator:
         if not table:
             return supply_fan_name_by_coil
         rows = table['Rows']
-        row_keys = list(rows.keys())
-        cols = table['Cols']
+        row_keys: List[str] = list(rows.keys())
+        cols: List[str] = table['Cols']
         supply_fan_name_column = -1
         if 'Supply Fan Name for HVAC' in cols:
             supply_fan_name_column = cols.index('Supply Fan Name for HVAC')
@@ -2023,7 +2051,7 @@ class Translator:
             supply_fan_name_by_coil[row_key] = supply_fan_name
         return supply_fan_name_by_coil
 
-    def gather_table_into_list(self, report_name, table_name):
+    def gather_table_into_list(self, report_name: str, table_name: str) -> List[JsonDict]:
         # transform the rows and columns format into a list of dictionaries
         list_of_dict: List[JsonDict] = []
         table: JsonDict = self.get_table(report_name, table_name)
@@ -2888,6 +2916,602 @@ class Translator:
         self.model_description['fluid_loops'] = fluid_loops
         return fluid_loops
 
+    def gather_service_water_heater_loops(self) -> Dict[str, str]:
+        loop_by_heater: Dict[str, str] = {}
+        plant_loop_arrangements: List[JsonDict] = self.gather_table_into_list(
+            'HVACTopology',
+            'Plant Loop Component Arrangement'
+        )
+        for arrangement_row in plant_loop_arrangements:
+            component_type: str = non_empty_string(arrangement_row.get('Component Type'))
+            if 'WATERHEATER' in component_type.upper():
+                component_name: str = non_empty_string(arrangement_row.get('Component Name'))
+                loop_name: str = non_empty_string(arrangement_row.get('Loop Name'))
+                if component_name and loop_name:
+                    loop_by_heater[component_name] = loop_name
+        return loop_by_heater
+
+    def gather_mains_schedule(self) -> Tuple[str, Optional[bool]]:
+        mains_schedule: str = ''
+        is_ground_based: Optional[bool] = None
+        mains_info_table: Dict[str, JsonDict] = self.get_table_dictionary(
+            'InitializationSummary',
+            'Site Water Mains Temperature Information'
+        )
+        for row in mains_info_table.values():
+            schedule_name: str = non_empty_string(row.get('Water Mains Temperature Schedule Name{}'))
+            if schedule_name:
+                mains_schedule = schedule_name
+                self.schedules_used_names.append(schedule_name)
+            method: str = non_empty_string(row.get('Calculation Method{}')).upper()
+            if method:
+                is_ground_based = method == 'CORRELATION'
+            break
+        return mains_schedule, is_ground_based
+
+    def gather_service_water_heater_metadata(self) -> Dict[str, JsonDict]:
+        metadata_by_name: Dict[str, JsonDict] = {}
+        tank_metadata_by_name: Dict[str, JsonDict] = {}
+        tank_object_sections = ('WaterHeater:Mixed', 'WaterHeater:Stratified')
+
+        for object_type in tank_object_sections:
+            for heater_name, heater_object in self.epjson_object.get(object_type, {}).items():
+                heater_key = heater_name.upper()
+                heater_metadata: JsonDict = {
+                    'object_type': object_type,
+                    'peak_use_flow_rate': heater_object.get('peak_use_flow_rate'),
+                    'use_flow_rate_fraction_schedule_name': heater_object.get('use_flow_rate_fraction_schedule_name'),
+                    'ambient_temperature_zone_name': heater_object.get('ambient_temperature_zone_name'),
+                    'end_use_subcategory': heater_object.get('end_use_subcategory')
+                }
+                if object_type == 'WaterHeater:Mixed':
+                    heater_metadata['setpoint_temperature_schedule_name'] = heater_object.get(
+                        'setpoint_temperature_schedule_name'
+                    )
+                else:
+                    heater_metadata['setpoint_temperature_schedule_name'] = (
+                        heater_object.get('heater_1_setpoint_temperature_schedule_name')
+                        or heater_object.get('heater_2_setpoint_temperature_schedule_name')
+                    )
+                metadata_by_name[heater_key] = heater_metadata
+                tank_metadata_by_name[heater_key] = heater_metadata
+
+        heat_pump_object_sections = (
+            'WaterHeater:HeatPump:PumpedCondenser',
+            'WaterHeater:HeatPump:WrappedCondenser'
+        )
+        for object_type in heat_pump_object_sections:
+            for heater_name, heater_object in self.epjson_object.get(object_type, {}).items():
+                heater_key = heater_name.upper()
+                tank_name: str = non_empty_string(heater_object.get('tank_name'))
+                tank_key = tank_name.upper()
+                heater_metadata: JsonDict = {
+                    'object_type': object_type,
+                    'tank_name': tank_name,
+                    'setpoint_temperature_schedule_name': heater_object.get(
+                        'compressor_setpoint_temperature_schedule_name'
+                    )
+                }
+                tank_metadata = tank_metadata_by_name.get(tank_key, {})
+                for key in (
+                        'peak_use_flow_rate',
+                        'use_flow_rate_fraction_schedule_name',
+                        'ambient_temperature_zone_name',
+                        'end_use_subcategory'
+                ):
+                    if key in tank_metadata:
+                        heater_metadata[key] = tank_metadata[key]
+                metadata_by_name[heater_key] = heater_metadata
+                if tank_key and tank_key in metadata_by_name:
+                    metadata_by_name[tank_key]['heat_pump_water_heater_name'] = heater_name
+
+        return metadata_by_name
+
+    def gather_branch_names_from_branch_list(self, branch_list_name: str) -> List[str]:
+        if not branch_list_name:
+            return []
+        branch_list = self.epjson_object.get('BranchList', {}).get(branch_list_name, {})
+        branches = branch_list.get('branches', [])
+        branch_names: List[str] = []
+        for branch in branches:
+            branch_name = non_empty_string(branch.get('branch_name'))
+            if branch_name:
+                branch_names.append(branch_name)
+        return branch_names
+
+    def gather_service_water_loop_pipe_children(self, loop_name: str) -> List[JsonDict]:
+        loop_object = self.epjson_object.get('PlantLoop', {}).get(loop_name, {})
+        if not loop_object:
+            return []
+        branch_names: List[str] = []
+        branch_names.extend(
+            self.gather_branch_names_from_branch_list(non_empty_string(loop_object.get('plant_side_branch_list_name')))
+        )
+        branch_names.extend(
+            self.gather_branch_names_from_branch_list(non_empty_string(loop_object.get('demand_side_branch_list_name')))
+        )
+        pipe_children: List[JsonDict] = []
+        pipe_object_types = ('Pipe:Adiabatic', 'Pipe:Indoor', 'Pipe:Outdoor', 'Pipe:Underground')
+        for branch_name in branch_names:
+            branch_object = self.epjson_object.get('Branch', {}).get(branch_name, {})
+            for component in branch_object.get('components', []):
+                component_type = non_empty_string(component.get('component_object_type'))
+                component_name = non_empty_string(component.get('component_name'))
+                if component_type not in pipe_object_types or not component_name:
+                    continue
+                pipe_object = self.epjson_object.get(component_type, {}).get(component_name, {})
+                pipe_child: JsonDict = {
+                    'id': component_name,
+                    'are_thermal_losses_modeled': component_type != 'Pipe:Adiabatic'
+                }
+                if component_type == 'Pipe:Indoor':
+                    pipe_child['loop_pipe_location'] = 'CONDITIONED'
+                    location_zone = non_empty_string(pipe_object.get('ambient_temperature_zone_name'))
+                    if location_zone:
+                        pipe_child['location_zone'] = location_zone
+                elif component_type == 'Pipe:Outdoor':
+                    pipe_child['loop_pipe_location'] = 'OUTSIDE'
+                elif component_type == 'Pipe:Underground':
+                    pipe_child['loop_pipe_location'] = 'UNDERGROUND'
+                if 'pipe_length' in pipe_object:
+                    length = to_float_or_none(pipe_object.get('pipe_length'))
+                    if length is not None:
+                        pipe_child['length'] = length
+                if 'pipe_inside_diameter' in pipe_object:
+                    diameter = to_float_or_none(pipe_object.get('pipe_inside_diameter'))
+                    if diameter is not None:
+                        pipe_child['diameter'] = diameter
+                pipe_children.append(pipe_child)
+        return pipe_children
+
+    def is_service_water_recirculation_loop(self, loop_name: str) -> bool:
+        loop_object = self.epjson_object.get('PlantLoop', {}).get(loop_name, {})
+        if not loop_object:
+            return False
+
+        demand_branch_names = self.gather_branch_names_from_branch_list(
+            non_empty_string(loop_object.get('demand_side_branch_list_name'))
+        )
+        if not demand_branch_names:
+            return False
+
+        has_water_use_connections = False
+        has_demand_side_pump = False
+        has_demand_side_pipe = False
+        has_inlet_branch = False
+        has_outlet_branch = False
+
+        demand_inlet_node = non_empty_string(loop_object.get('demand_side_inlet_node_name'))
+        demand_outlet_node = non_empty_string(loop_object.get('demand_side_outlet_node_name'))
+
+        for branch_name in demand_branch_names:
+            branch_object = self.epjson_object.get('Branch', {}).get(branch_name, {})
+            for component in branch_object.get('components', []):
+                component_type = non_empty_string(component.get('component_object_type'))
+                if not component_type:
+                    continue
+                component_type_upper = component_type.upper()
+                if component_type == 'WaterUse:Connections':
+                    has_water_use_connections = True
+                elif 'PUMP' in component_type_upper:
+                    has_demand_side_pump = True
+                elif component_type.startswith('Pipe:'):
+                    has_demand_side_pipe = True
+
+                component_inlet_node = non_empty_string(component.get('component_inlet_node_name'))
+                component_outlet_node = non_empty_string(component.get('component_outlet_node_name'))
+                if demand_inlet_node and component_inlet_node == demand_inlet_node:
+                    has_inlet_branch = True
+                if demand_outlet_node and component_outlet_node == demand_outlet_node:
+                    has_outlet_branch = True
+
+        if not has_water_use_connections:
+            return False
+
+        has_closed_loop_path = bool(demand_inlet_node and demand_outlet_node and has_inlet_branch and has_outlet_branch)
+        if not has_closed_loop_path:
+            return False
+
+        if has_demand_side_pump:
+            return True
+
+        connector_list_name = non_empty_string(loop_object.get('demand_side_connector_list_name'))
+        if not connector_list_name:
+            return False
+
+        connector_list = self.epjson_object.get('ConnectorList', {}).get(connector_list_name, {})
+        splitter_name = ''
+        mixer_name = ''
+        for index in range(1, 11):
+            connector_type = non_empty_string(connector_list.get(f'connector_{index}_object_type'))
+            connector_name = non_empty_string(connector_list.get(f'connector_{index}_name'))
+            if connector_type == 'Connector:Splitter' and connector_name:
+                splitter_name = connector_name
+            elif connector_type == 'Connector:Mixer' and connector_name:
+                mixer_name = connector_name
+
+        if not splitter_name or not mixer_name:
+            return False
+
+        splitter_object = self.epjson_object.get('Connector:Splitter', {}).get(splitter_name, {})
+        mixer_object = self.epjson_object.get('Connector:Mixer', {}).get(mixer_name, {})
+        if not splitter_object or not mixer_object:
+            return False
+
+        splitter_inlet_branch = non_empty_string(splitter_object.get('inlet_branch_name'))
+        mixer_outlet_branch = non_empty_string(mixer_object.get('outlet_branch_name'))
+        if not splitter_inlet_branch or not mixer_outlet_branch:
+            return False
+
+        return has_demand_side_pipe
+
+    def make_service_water_piping(self, loop_name: str, system_id: str) -> Optional[JsonDict]:
+        if not loop_name:
+            return None
+        pipe_children = self.gather_service_water_loop_pipe_children(loop_name)
+        piping: JsonDict = {
+            'id': system_id + ' piping',
+            'are_thermal_losses_modeled': any(
+                child.get('are_thermal_losses_modeled', False) for child in pipe_children
+            )
+        }
+        if self.is_service_water_recirculation_loop(loop_name):
+            piping['is_recirculation_loop'] = True
+        if pipe_children:
+            piping['child'] = pipe_children
+        return piping
+
+    def assign_service_water_heating_uses_to_spaces(self, use_zone_by_id: Dict[str, str]) -> None:
+        assigned_use_ids = set()
+        use_object_by_id = {
+            item['id']: item for item in self.model_description.get('service_water_heating_uses', [])
+        }
+        zones = self.building_segment.get('zones', [])
+        for zone in zones:
+            zone_id = non_empty_string(zone.get('id')).upper()
+            if not zone_id:
+                continue
+            zone_use_ids = [use_id for use_id, use_zone in use_zone_by_id.items() if use_zone == zone_id]
+            if not zone_use_ids:
+                continue
+            spaces = zone.get('spaces', [])
+            if not spaces:
+                continue
+            if len(spaces) > 1:
+                total_occupants = sum(to_float_or_none(space.get('number_of_occupants')) or 0.0 for space in spaces)
+                total_floor_area = sum(to_float_or_none(space.get('floor_area')) or 0.0 for space in spaces)
+                for use_id in zone_use_ids:
+                    use_object = use_object_by_id.get(use_id)
+                    if not use_object:
+                        continue
+                    use_units = use_object.get('use_units')
+                    use_value = to_float_or_none(use_object.get('use'))
+                    if use_value is None or use_units not in {'POWER', 'VOLUME'}:
+                        continue
+                    if total_occupants > 0:
+                        use_object['use'] = use_value / total_occupants
+                        use_object['use_units'] = f'{use_units}_PER_PERSON'
+                    elif total_floor_area > 0:
+                        use_object['use'] = use_value / total_floor_area
+                        use_object['use_units'] = f'{use_units}_PER_AREA'
+            for space in spaces:
+                space['service_water_heating_uses'] = zone_use_ids
+            assigned_use_ids.update(zone_use_ids)
+
+        if 'service_water_heating_uses' not in self.model_description:
+            return
+        remaining_use_ids = [
+            item['id']
+            for item in self.model_description['service_water_heating_uses']
+            if item['id'] not in assigned_use_ids
+        ]
+        if remaining_use_ids:
+            self.building_segment['service_water_heating_uses'] = remaining_use_ids
+        elif 'service_water_heating_uses' in self.building_segment:
+            del self.building_segment['service_water_heating_uses']
+
+    def add_service_water_heating_distribution_systems(
+            self
+    ) -> Tuple[List[JsonDict], Dict[str, str], Dict[str, str], Dict[str, str]]:
+        systems: List[JsonDict] = []
+        system_id_by_connection: Dict[str, str] = {}
+        system_id_by_loop: Dict[str, str] = {}
+        system_id_by_heater: Dict[str, str] = {}
+        mains_schedule, is_ground_based = self.gather_mains_schedule()
+        connection_table: Dict[str, JsonDict] = self.get_table_dictionary('EquipmentSummary', 'WaterUse Connections')
+        for connection_name, row in connection_table.items():
+            connection_name = non_empty_string(connection_name)
+            if not connection_name or connection_name.upper() == 'NONE':
+                continue
+            system: JsonDict = {'id': connection_name}
+            loop_name: str = non_empty_string(row.get('PlantLoop Name'))
+            if loop_name:
+                system_id_by_loop[loop_name] = connection_name
+                system['is_central_system'] = True
+                piping = self.make_service_water_piping(loop_name, connection_name)
+                if piping:
+                    system['service_water_piping'] = piping
+            design_supply_temperature: Optional[float] = to_float_or_none(
+                row.get('Hot Water Supply Temperature Schedule Maximum [C]')
+            )
+            if design_supply_temperature is not None:
+                system['design_supply_temperature'] = design_supply_temperature
+            if mains_schedule:
+                system['entering_water_mains_temperature_schedule'] = mains_schedule
+            if is_ground_based is not None:
+                system['is_ground_temperature_used_for_entering_water'] = is_ground_based
+            systems.append(system)
+            system_id_by_connection[connection_name] = connection_name
+
+        loop_by_heater: Dict[str, str] = self.gather_service_water_heater_loops()
+        for _, loop_name in loop_by_heater.items():
+            if loop_name and loop_name not in system_id_by_loop:
+                system = {'id': loop_name}
+                piping = self.make_service_water_piping(loop_name, loop_name)
+                if piping:
+                    system['service_water_piping'] = piping
+                if mains_schedule:
+                    system['entering_water_mains_temperature_schedule'] = mains_schedule
+                if is_ground_based is not None:
+                    system['is_ground_temperature_used_for_entering_water'] = is_ground_based
+                systems.append(system)
+                system_id_by_loop[loop_name] = loop_name
+
+        service_water_table: Dict[str, JsonDict] = self.get_table_dictionary(
+            'EquipmentSummary',
+            'Service Water Heating'
+        )
+        for heater_name in service_water_table.keys():
+            heater_name = non_empty_string(heater_name)
+            if not heater_name or heater_name.upper() == 'NONE':
+                continue
+            loop_name = loop_by_heater.get(heater_name, '')
+            if loop_name and loop_name in system_id_by_loop:
+                system_id_by_heater[heater_name] = system_id_by_loop[loop_name]
+
+        if not system_id_by_connection and not system_id_by_loop:
+            for heater_name, row in service_water_table.items():
+                heater_name = non_empty_string(heater_name)
+                if not heater_name or heater_name.upper() == 'NONE':
+                    continue
+                system_id = heater_name + ' distribution system'
+                system: JsonDict = {'id': system_id, 'is_central_system': False}
+                design_supply_temperature = to_float_or_none(
+                    row.get('Set Point at 11am First Wednesday for Heater 1 [C]')
+                )
+                if design_supply_temperature is not None:
+                    system['design_supply_temperature'] = design_supply_temperature
+                if mains_schedule:
+                    system['entering_water_mains_temperature_schedule'] = mains_schedule
+                if is_ground_based is not None:
+                    system['is_ground_temperature_used_for_entering_water'] = is_ground_based
+                systems.append(system)
+                system_id_by_heater[heater_name] = system_id
+
+        if systems:
+            self.model_description['service_water_heating_distribution_systems'] = systems
+        return systems, system_id_by_connection, system_id_by_loop, system_id_by_heater
+
+    def add_service_water_heating_equipment(
+            self,
+            system_id_by_loop: Dict[str, str],
+            system_id_by_heater: Dict[str, str],
+            default_system_id: str
+    ) -> List[JsonDict]:
+        equipment_list: List[JsonDict] = []
+        service_water_table: Dict[str, JsonDict] = self.get_table_dictionary(
+            'EquipmentSummary',
+            'Service Water Heating'
+        )
+        loop_by_heater: Dict[str, str] = self.gather_service_water_heater_loops()
+        for heater_name, row in service_water_table.items():
+            heater_name = non_empty_string(heater_name)
+            if not heater_name or heater_name.upper() == 'NONE':
+                continue
+            loop_name: str = loop_by_heater.get(heater_name, '')
+            distribution_system: str = ''
+            if loop_name in system_id_by_loop:
+                distribution_system = system_id_by_loop[loop_name]
+            elif heater_name in system_id_by_heater:
+                distribution_system = system_id_by_heater[heater_name]
+            elif default_system_id:
+                distribution_system = default_system_id
+            if not distribution_system:
+                continue
+            equipment: JsonDict = {
+                'id': heater_name,
+                'distribution_system': distribution_system
+            }
+            fuel_type: str = non_empty_string(row.get('Fuel Type'))
+            if fuel_type:
+                try:
+                    equipment['heater_fuel_type'] = energy_source_convert(fuel_type)
+                except KeyError:
+                    if fuel_type.upper() in {'ELECTRICITY', 'NATURAL_GAS', 'PROPANE', 'FUEL_OIL', 'STEAM'}:
+                        equipment['heater_fuel_type'] = fuel_type.upper()
+                    else:
+                        equipment['heater_fuel_type'] = 'OTHER'
+
+            metric_types: List[str] = []
+            metric_values: List[float] = []
+            thermal_efficiency: Optional[float] = to_float_or_none(row.get('Thermal Efficiency [W/W]'))
+            if thermal_efficiency is not None:
+                metric_types.append('THERMAL_EFFICIENCY')
+                metric_values.append(thermal_efficiency)
+            energy_factor: Optional[float] = to_float_or_none(row.get('Energy Factor'))
+            if energy_factor is not None:
+                metric_types.append('ENERGY_FACTOR')
+                metric_values.append(energy_factor)
+            if metric_types:
+                equipment['efficiency_metric_types'] = metric_types
+                equipment['efficiency_metric_values'] = metric_values
+
+            input_power: Optional[float] = to_float_or_none(row.get('Input [W]'))
+            if input_power is not None:
+                equipment['input_power'] = input_power
+            recovery_efficiency: Optional[float] = to_float_or_none(row.get('Recovery Efficiency [W/W]'))
+            if recovery_efficiency is not None:
+                equipment['recovery_efficiency'] = recovery_efficiency
+            setpoint_temperature: Optional[float] = to_float_or_none(
+                row.get('Set Point at 11am First Wednesday for Heater 1 [C]')
+            )
+            if setpoint_temperature is not None:
+                equipment['setpoint_temperature'] = setpoint_temperature
+
+            storage_volume: Optional[float] = to_float_or_none(row.get('Storage Volume [m3]'))
+            if storage_volume is not None and storage_volume > 0:
+                tank_type: str = 'COMMERCIAL_STORAGE'
+                heater_type: str = non_empty_string(row.get('Type')).upper()
+                if 'INSTANTANEOUS' in heater_type:
+                    tank_type = 'COMMERCIAL_INSTANTANEOUS'
+                equipment['tank'] = {
+                    'id': heater_name + '-tank',
+                    'storage_capacity': storage_volume * 1000,
+                    'type': tank_type
+                }
+
+            if loop_name:
+                equipment['hot_water_loop'] = loop_name
+            equipment_list.append(equipment)
+        if equipment_list:
+            self.model_description['service_water_heating_equipment'] = equipment_list
+        return equipment_list
+
+    def add_service_water_heating_uses(
+            self,
+            system_id_by_connection: Dict[str, str],
+            system_id_by_heater: Dict[str, str],
+            default_system_id: str
+    ) -> List[JsonDict]:
+        uses: List[JsonDict] = []
+        use_zone_by_id: Dict[str, str] = {}
+        water_use_table: Dict[str, JsonDict] = self.get_table_dictionary('EquipmentSummary', 'Water Use')
+        service_water_table: Dict[str, JsonDict] = self.get_table_dictionary(
+            'EquipmentSummary',
+            'Service Water Heating'
+        )
+        heater_metadata_by_name = self.gather_service_water_heater_metadata()
+        serves_type_map: Dict[str, str] = {
+            'SHOWER': 'SHOWER',
+            'BATH': 'BATH',
+            'RESTROOM': 'RESTROOM_SINK',
+            'DISHWASHER': 'DISHWASHER',
+            'KITCHEN': 'KITCHEN_SINK',
+            'WASH': 'WASH_SINK',
+            'CLOTHES': 'CLOTHES_WASHER'
+        }
+        for use_name, row in water_use_table.items():
+            use_name = non_empty_string(use_name)
+            if not use_name or use_name.upper() == 'NONE':
+                continue
+            connection_name: str = non_empty_string(row.get('WaterUse Connection Name'))
+            served_by: str = system_id_by_connection.get(connection_name, default_system_id)
+            if not served_by:
+                continue
+            use: JsonDict = {
+                'id': use_name,
+                'served_by_distribution_system': served_by
+            }
+            zone_name = non_empty_string(row.get('Zone')).upper()
+            if zone_name:
+                use_zone_by_id[use_name] = zone_name
+            peak_flow: Optional[float] = to_float_or_none(row.get('Peak Water Flow Rate [m3/s]'))
+            if peak_flow is not None:
+                use['use'] = peak_flow * 60000
+                use['use_units'] = 'VOLUME'
+            flow_schedule: str = non_empty_string(row.get('Peak Flow Multipler Schedule'))
+            if flow_schedule:
+                use['use_multiplier_schedule'] = flow_schedule
+                self.schedules_used_names.append(flow_schedule)
+            target_temperature: Optional[float] = to_float_or_none(row.get('Target Temperature  Schedule Maximum [C]'))
+            if target_temperature is not None:
+                use['temperature_at_fixture'] = target_temperature
+            end_use_subcategory: str = non_empty_string(row.get('End-Use Subcategory')).upper()
+            for key, value in serves_type_map.items():
+                if key in end_use_subcategory:
+                    use['water_serves_type'] = value
+                    break
+            uses.append(use)
+
+        if uses:
+            self.model_description['service_water_heating_uses'] = uses
+            self.building_segment['service_water_heating_uses'] = [item['id'] for item in uses]
+            self.assign_service_water_heating_uses_to_spaces(use_zone_by_id)
+            return uses
+
+        for heater_name, row in service_water_table.items():
+            heater_name = non_empty_string(heater_name)
+            if not heater_name or heater_name.upper() == 'NONE':
+                continue
+            served_by: str = system_id_by_heater.get(heater_name, default_system_id)
+            if not served_by:
+                continue
+            heater_key = heater_name.upper()
+            use: JsonDict = {
+                'id': heater_name + ' use',
+                'served_by_distribution_system': served_by
+            }
+            zone_name = non_empty_string(
+                heater_metadata_by_name.get(heater_key, {}).get('ambient_temperature_zone_name')
+            ).upper()
+            if zone_name:
+                use_zone_by_id[use['id']] = zone_name
+            peak_flow = to_float_or_none(row.get('Peak Use Water Flow Rate [m3/s]'))
+            if peak_flow is None:
+                peak_flow = to_float_or_none(
+                    heater_metadata_by_name.get(heater_key, {}).get('peak_use_flow_rate')
+                )
+            if peak_flow is not None:
+                use['use'] = peak_flow * 60000
+                use['use_units'] = 'VOLUME'
+
+            flow_schedule = non_empty_string(row.get('Use Flow Rate Fraction Schedule Name'))
+            if not flow_schedule:
+                flow_schedule = non_empty_string(
+                    heater_metadata_by_name.get(heater_key, {}).get('use_flow_rate_fraction_schedule_name')
+                )
+            if flow_schedule:
+                use['use_multiplier_schedule'] = flow_schedule
+                self.schedules_used_names.append(flow_schedule)
+
+            temperature_at_fixture = to_float_or_none(
+                row.get('Set Point at 11am First Wednesday for Heater 1 [C]')
+            )
+            if temperature_at_fixture is not None:
+                use['temperature_at_fixture'] = temperature_at_fixture
+
+            end_use_subcategory = non_empty_string(
+                heater_metadata_by_name.get(heater_key, {}).get('end_use_subcategory')
+            ).upper()
+            for key, value in serves_type_map.items():
+                if key in end_use_subcategory:
+                    use['water_serves_type'] = value
+                    break
+            uses.append(use)
+
+        if uses:
+            self.model_description['service_water_heating_uses'] = uses
+            self.building_segment['service_water_heating_uses'] = [item['id'] for item in uses]
+            self.assign_service_water_heating_uses_to_spaces(use_zone_by_id)
+        return uses
+
+    def add_service_water_heating(self) -> Tuple[List[JsonDict], List[JsonDict], List[JsonDict]]:
+        systems, system_id_by_connection, system_id_by_loop, system_id_by_heater = (
+            self.add_service_water_heating_distribution_systems()
+        )
+        default_system_id = systems[0]['id'] if systems else ''
+        equipment = self.add_service_water_heating_equipment(
+            system_id_by_loop,
+            system_id_by_heater,
+            default_system_id
+        )
+        uses = self.add_service_water_heating_uses(
+            system_id_by_connection,
+            system_id_by_heater,
+            default_system_id
+        )
+        return systems, equipment, uses
+
     def add_simulation_outputs(self):
         source_map = {'Electricity': 'ELECTRICITY',
                       'Natural Gas': 'NATURAL_GAS',
@@ -3107,6 +3731,7 @@ class Translator:
         self.add_fluid_loops()
         self.add_zones()
         self.add_spaces()
+        self.add_service_water_heating()
         self.add_exterior_lighting()
         self.add_simulation_outputs()
         self.add_schedules()
