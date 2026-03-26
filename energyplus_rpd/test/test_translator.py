@@ -1449,7 +1449,8 @@ class TestTranslator(TestCase):
                                  "AirLoop",
                                  "AirLoopHVAC",
                                  "5 ZONE PVAV 1",
-                                 "PERIMETER_MID_ZN_1 ZN; PERIMETER_MID_ZN_2 ZN; PERIMETER_MID_ZN_3 ZN; PERIMETER_MID_ZN_4 ZN; CORE_MID ZN;",
+                                 "PERIMETER_MID_ZN_1 ZN; PERIMETER_MID_ZN_2 ZN; PERIMETER_MID_ZN_3 ZN; "
+                                 "PERIMETER_MID_ZN_4 ZN; CORE_MID ZN;",
                                  "Coincident",
                                  "HeatingDesignCapacity",
                                  "N/A",
