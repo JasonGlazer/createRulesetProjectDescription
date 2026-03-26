@@ -1617,9 +1617,49 @@ class Translator:
                         if at.get("min_oa_schedule_name") and at["min_oa_schedule_name"] != "n/a":
                             t["minimum_outdoor_airflow_multiplier_schedule"] = at["min_oa_schedule_name"]
                         self.merge_into_terminal_list(zone, t)  # append to self.terminals_by_zone
-                    else:  # not an ZONEHVAC:AIRDISTRIBUTIONUNIT
-                        pass
-
+                    elif 'has_baseboard' in ze:
+                        for (type_of_component, obj_name) in ze['component_group_list']:
+                            if 'BASEBOARD' in type_of_component:
+                                obj_name_uc = obj_name.upper()
+                                zone_baseboards = self.epjson_object.get(type_of_component, {})
+                                t = {
+                                    "id": f"{obj_name_uc}-terminal",
+                                    "type": "BASEBOARD",
+                                    "is_supply_ducted": False,
+                                }
+                                if "ELECTRIC" in type_of_component:
+                                    t['heating_source'] = 'ELECTRIC'
+                                else:
+                                    t['heating_source'] = 'HOT_WATER'
+                                if obj_name in zone_baseboards:
+                                    bb = zone_baseboards[obj_name]
+                                    cap = bb.get("heating_design_capacity")
+                                    if is_float(cap):
+                                        t["heating_capacity"] = float(cap)
+                                self.merge_into_terminal_list(zone, t)
+                    elif 'has_radiant' in ze:
+                        for (type_of_component, obj_name) in ze['component_group_list']:
+                            if 'RADIANT' in type_of_component:
+                                t = {
+                                    "id": f"{obj_name}-terminal",
+                                    "type": "RADIANT",
+                                    "is_supply_ducted": False,
+                                }
+                                if "ELECTRIC" in type_of_component:
+                                    t['heating_source'] = 'ELECTRIC'
+                                else:
+                                    t['heating_source'] = 'HOT_WATER'
+                                self.merge_into_terminal_list(zone, t)
+                    elif 'has_vrf' in ze:
+                        for (type_of_component, obj_name) in ze['component_group_list']:
+                            if 'RADIANT' in type_of_component:
+                                t = {
+                                    "id": f"{obj_name}-terminal",
+                                    "type": "VARIABLE_REFRIGERANT_FLOW",
+                                    "is_supply_ducted": False,
+                                    'heating_source': 'OTHER'
+                                }
+                            self.merge_into_terminal_list(zone, t)
         return self.terminals_by_zone
 
     def merge_into_terminal_list(self, zone_name, terminal):
@@ -1990,22 +2030,22 @@ class Translator:
 
         for zone_name_uc, equipments in zone_hvac_equipment.items():
             for object_type, object_name in equipments:
-                obj_type_uc = (object_type or "").upper()
-                obj_name = object_name or ""
-                obj_name_uc = obj_name.upper()
-
+#                obj_type_uc = (object_type or "").upper()
+#                obj_name = object_name or ""
+#                obj_name_uc = obj_name.upper()
+#
                 if obj_type_uc == "ZONEHVAC:BASEBOARD:CONVECTIVE:WATER":
-                    t: JsonDict = {
-                        "id": f"{obj_name_uc}-terminal",
-                        "type": "BASEBOARD",
-                        "is_supply_ducted": False,
-                        "heating_source": "HOT_WATER",
-                    }
-                    if obj_name in zone_baseboards:
-                        bb = zone_baseboards[obj_name]
-                        cap = bb.get("heating_design_capacity")
-                        if is_float(cap):
-                            t["heating_capacity"] = float(cap)
+#                   t: JsonDict = {
+#                        "id": f"{obj_name_uc}-terminal",
+#                        "type": "BASEBOARD",
+#                        "is_supply_ducted": False,
+#                        "heating_source": "HOT_WATER",
+#                    }
+#                    if obj_name in zone_baseboards:
+#                        bb = zone_baseboards[obj_name]
+#                        cap = bb.get("heating_design_capacity")
+#                        if is_float(cap):
+#                            t["heating_capacity"] = float(cap)
                     merge_terminal(zone_name_uc, t)
 
                 elif obj_type_uc == "ZONEHVAC:WATERTOAIRHEATPUMP":
@@ -2185,6 +2225,28 @@ class Translator:
                 ze['has_vav'] = True
             elif 'PIU:' in zone_equipment['Sub-Sub-Component Type']:
                 ze['has_vav'] = True
+
+            if 'BASEBOARD:' in zone_equipment['Component Type']:
+                ze['has_baseboard'] = True
+            elif 'BASEBOARD:' in zone_equipment['Sub-Component Type']:
+                ze['has_baseboard'] = True
+            elif 'BASEBOARD:' in zone_equipment['Sub-Sub-Component Type']:
+                ze['has_baseboard'] = True
+            # use elif here since some baseboards also use term radiant
+            elif 'RADIANT' in zone_equipment['Component Type']:
+                ze['has_radiant'] = True
+            elif 'RADIANT' in zone_equipment['Sub-Component Type']:
+                ze['has_radiant'] = True
+            elif 'RADIANT' in zone_equipment['Sub-Sub-Component Type']:
+                ze['has_radiant'] = True
+
+            if 'VARIABLEREFRIGERANTFLOW' in zone_equipment['Component Type']:
+                ze['has_vrf'] = True
+            elif 'VARIABLEREFRIGERANTFLOW' in zone_equipment['Sub-Component Type']:
+                ze['has_vrf'] = True
+            elif 'VARIABLEREFRIGERANTFLOW' in zone_equipment['Sub-Sub-Component Type']:
+                ze['has_vrf'] = True
+
 
             type_of_component = zone_equipment['Component Type']
             name = zone_equipment['Component Name']
