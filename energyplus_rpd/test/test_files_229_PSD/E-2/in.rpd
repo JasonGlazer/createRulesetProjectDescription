@@ -340,17 +340,6 @@
                   "air_distribution_effectiveness": 1.2,
                   "surfaces": [
                     {
-                      "id": "CORE_ZONE_5_WALL_SOUTH REVERSED",
-                      "classification": "WALL",
-                      "area": 161.47017744,
-                      "tilt": 90.0,
-                      "azimuth": 0.0,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "CORE ZONE 1"
-                    },
-                    {
                       "id": "PERIMETER_ZONE_1_CEILING",
                       "classification": "CEILING",
                       "area": 207.27205824,
@@ -431,17 +420,6 @@
                           "has_shading_sidefins": false
                         }
                       ]
-                    },
-                    {
-                      "id": "PERIMETER_ZONE_4_WALL_SOUTH REVERSED",
-                      "classification": "WALL",
-                      "area": 25.626748550753035,
-                      "tilt": 90.0,
-                      "azimuth": 315.0,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "PRM ZONE 4 (WEST)"
                     }
                   ],
                   "infiltration": {
@@ -509,28 +487,6 @@
                   "maximum_humidity_setpoint_schedule": "Zone Dehumdification Schedule",
                   "air_distribution_effectiveness": 1.2,
                   "surfaces": [
-                    {
-                      "id": "CORE_ZONE_5_WALL_EAST REVERSED",
-                      "classification": "WALL",
-                      "area": 95.6483736,
-                      "tilt": 90.0,
-                      "azimuth": 270.0,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "CORE ZONE 1"
-                    },
-                    {
-                      "id": "PERIMETER_ZONE_1_WALL_EAST REVERSED",
-                      "classification": "WALL",
-                      "area": 25.62338656344968,
-                      "tilt": 90.0,
-                      "azimuth": 225.01,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "PRM ZONE 1 (SOUTH)"
-                    },
                     {
                       "id": "PERIMETER_ZONE_2_CEILING",
                       "classification": "CEILING",
@@ -666,28 +622,6 @@
                   "maximum_humidity_setpoint_schedule": "Zone Dehumdification Schedule",
                   "air_distribution_effectiveness": 1.2,
                   "surfaces": [
-                    {
-                      "id": "CORE_ZONE_5_WALL_NORTH REVERSED",
-                      "classification": "WALL",
-                      "area": 161.47017744,
-                      "tilt": 90.0,
-                      "azimuth": 180.0,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "CORE ZONE 1"
-                    },
-                    {
-                      "id": "PERIMETER_ZONE_2_WALL_NORTH REVERSED",
-                      "classification": "WALL",
-                      "area": 25.620024134969583,
-                      "tilt": 90.0,
-                      "azimuth": 135.0,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "PRM ZONE 2 (EAST)"
-                    },
                     {
                       "id": "PERIMETER_ZONE_3_CEILING",
                       "classification": "CEILING",
@@ -836,28 +770,6 @@
                   "maximum_humidity_setpoint_schedule": "Zone Dehumdification Schedule",
                   "air_distribution_effectiveness": 1.2,
                   "surfaces": [
-                    {
-                      "id": "CORE_ZONE_5_WALL_WEST REVERSED",
-                      "classification": "WALL",
-                      "area": 95.6483736,
-                      "tilt": 90.0,
-                      "azimuth": 90.0,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "CORE ZONE 1"
-                    },
-                    {
-                      "id": "PERIMETER_ZONE_3_WALL_WEST REVERSED",
-                      "classification": "WALL",
-                      "area": 25.62338656344967,
-                      "tilt": 90.0,
-                      "azimuth": 44.99,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "PRM ZONE 3 (NORTH)"
-                    },
                     {
                       "id": "PERIMETER_ZONE_4_CEILING",
                       "classification": "CEILING",
