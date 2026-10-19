@@ -748,17 +748,6 @@
                   "air_distribution_effectiveness": 0.8,
                   "surfaces": [
                     {
-                      "id": "CORE_ZONE_5_WALL_SOUTH REVERSED",
-                      "classification": "WALL",
-                      "area": 161.52446232,
-                      "tilt": 90.0,
-                      "azimuth": 0.0,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "CORE ZONE 1"
-                    },
-                    {
                       "id": "PERIMETER_ZONE_1_CEILING",
                       "classification": "CEILING",
                       "area": 207.33814098,
@@ -839,17 +828,6 @@
                           "has_shading_sidefins": false
                         }
                       ]
-                    },
-                    {
-                      "id": "PERIMETER_ZONE_4_WALL_SOUTH REVERSED",
-                      "classification": "WALL",
-                      "area": 25.626748550753035,
-                      "tilt": 90.0,
-                      "azimuth": 315.0,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "PRM ZONE 4 (WEST)"
                     }
                   ],
                   "infiltration": {
@@ -914,28 +892,6 @@
                   "design_thermostat_cooling_setpoint": 24.0,
                   "air_distribution_effectiveness": 0.8,
                   "surfaces": [
-                    {
-                      "id": "CORE_ZONE_5_WALL_EAST REVERSED",
-                      "classification": "WALL",
-                      "area": 95.60240976000001,
-                      "tilt": 90.0,
-                      "azimuth": 270.0,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "CORE ZONE 1"
-                    },
-                    {
-                      "id": "PERIMETER_ZONE_1_WALL_EAST REVERSED",
-                      "classification": "WALL",
-                      "area": 25.62758911651049,
-                      "tilt": 90.0,
-                      "azimuth": 225.0,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "PRM ZONE 1 (SOUTH)"
-                    },
                     {
                       "id": "PERIMETER_ZONE_2_CEILING",
                       "classification": "CEILING",
@@ -1068,28 +1024,6 @@
                   "design_thermostat_cooling_setpoint": 24.0,
                   "air_distribution_effectiveness": 0.8,
                   "surfaces": [
-                    {
-                      "id": "CORE_ZONE_5_WALL_NORTH REVERSED",
-                      "classification": "WALL",
-                      "area": 161.52446232,
-                      "tilt": 90.0,
-                      "azimuth": 180.0,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "CORE ZONE 1"
-                    },
-                    {
-                      "id": "PERIMETER_ZONE_2_WALL_NORTH REVERSED",
-                      "classification": "WALL",
-                      "area": 25.62758911651049,
-                      "tilt": 90.0,
-                      "azimuth": 135.0,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "PRM ZONE 2 (EAST)"
-                    },
                     {
                       "id": "PERIMETER_ZONE_3_CEILING",
                       "classification": "CEILING",
@@ -1235,28 +1169,6 @@
                   "design_thermostat_cooling_setpoint": 24.0,
                   "air_distribution_effectiveness": 0.8,
                   "surfaces": [
-                    {
-                      "id": "CORE_ZONE_5_WALL_WEST REVERSED",
-                      "classification": "WALL",
-                      "area": 95.60240976000001,
-                      "tilt": 90.0,
-                      "azimuth": 90.0,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "CORE ZONE 1"
-                    },
-                    {
-                      "id": "PERIMETER_ZONE_3_WALL_WEST REVERSED",
-                      "classification": "WALL",
-                      "area": 25.626748550753035,
-                      "tilt": 90.0,
-                      "azimuth": 45.0,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "PRM ZONE 3 (NORTH)"
-                    },
                     {
                       "id": "PERIMETER_ZONE_4_CEILING",
                       "classification": "CEILING",

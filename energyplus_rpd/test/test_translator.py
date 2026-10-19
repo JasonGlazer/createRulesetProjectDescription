@@ -1017,13 +1017,13 @@ class TestTranslator(TestCase):
         expected = [
             {'id': 'EXTERIOR_LIGHTS_A',
              'power': 50.7,
-             'multiplier_schedule': 'uses_astronomical_clock_not_schedule'},
+             'multiplier_schedule': 'EXTERIOR_LIGHTS_A ASTRONOMICAL CONTROL'},
             {'id': 'EXTERIOR_LIGHTS_B',
              'power': 115.1,
-             'multiplier_schedule': 'uses_astronomical_clock_not_schedule'},
+             'multiplier_schedule': 'EXTERIOR_LIGHTS_B ASTRONOMICAL CONTROL'},
             {'id': 'EXTERIOR_LIGHTS_C',
              'power': 445.5,
-             'multiplier_schedule': 'uses_astronomical_clock_not_schedule'}]
+             'multiplier_schedule': 'EXTERIOR_LIGHTS_C ASTRONOMICAL CONTROL'}]
 
         self.assertEqual(added_exterior_lighting, expected)
 
@@ -1930,7 +1930,7 @@ class TestTranslator(TestCase):
                                             'motor_efficiency': 0.93,
                                             'motor_heat_to_airflow_fraction': 1.0,
                                             'motor_heat_to_zone_fraction': 0.0,
-                                            'motor_location_zone': 'N/A', 'operating_points': [],
+                                            'operating_points': [],
                                             'specification_method': 'SIMPLE',
                                             'total_efficiency': 0.6045}]},
             'heating_system': {'design_capacity': 32393.426577987113,
@@ -2455,8 +2455,7 @@ class TestTranslator(TestCase):
                     'id': 'MAIN SWH HEATER-tank',
                     'storage_capacity': 300.0,
                     'type': 'COMMERCIAL_STORAGE'
-                },
-                'hot_water_loop': 'SERVICE WATER HEATING LOOP'
+                }
             }
         ]
         expected_uses = [
@@ -3708,7 +3707,7 @@ class TestTranslator(TestCase):
                 {'design_airflow': 7.69, 'is_airflow_calculated': True, 'design_electric_power': 16476.98,
                  'design_pressure_rise': 1363.04, 'total_efficiency': 0.64, 'motor_efficiency': 0.92,
                  'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
-                 'motor_location_zone': 'N/A', 'operating_points': []},
+                 'operating_points': []},
                 {'type': 'Fan:VariableVolume', 'fan_energy_index': 1.17, 'purpose': 'N/A',
                  'airloop_name': 'BASEMENT STORY 0 VAV_PFP_BOXES (SYS8)',
                  'speed_control_method': 'Continuous'}),
@@ -3716,21 +3715,21 @@ class TestTranslator(TestCase):
                 {'design_airflow': 7.67, 'is_airflow_calculated': True, 'design_electric_power': 5688.78,
                  'design_pressure_rise': 365.09, 'total_efficiency': 0.49, 'motor_efficiency': 0.9,
                  'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
-                 'motor_location_zone': 'N/A', 'operating_points': []},
+                 'operating_points': []},
                 {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.11, 'purpose': 'N/A', 'airloop_name': 'N/A',
                  'speed_control_method': 'Continuous'}),
             'CORE_BOTTOM ZN PFP TERM FAN': (
                 {'design_airflow': 7.94, 'is_airflow_calculated': True, 'design_electric_power': 5888.98,
                  'design_pressure_rise': 365.09, 'total_efficiency': 0.49, 'motor_efficiency': 0.9,
                  'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
-                 'motor_location_zone': 'N/A', 'operating_points': []},
+                 'operating_points': []},
                 {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.11, 'purpose': 'N/A', 'airloop_name': 'N/A',
                  'speed_control_method': 'Continuous'}),
             'DATACENTER_BASEMENT_ZN_6 ZN PSZ-VAV FAN': (
                 {'design_airflow': 30.36, 'is_airflow_calculated': True, 'design_electric_power': 0.0,
                  'design_pressure_rise': 0.0, 'total_efficiency': 0.57, 'motor_efficiency': 0.94,
                  'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
-                 'motor_location_zone': 'N/A', 'operating_points': []},
+                 'operating_points': []},
                 {'type': 'Fan:VariableVolume', 'fan_energy_index': 0.0, 'purpose': 'N/A',
                  'airloop_name': 'DATACENTER_BASEMENT_ZN_6 ZN PSZ-VAV',
                  'speed_control_method': 'Continuous'}),
@@ -3738,7 +3737,7 @@ class TestTranslator(TestCase):
                 {'design_airflow': 1.53, 'is_airflow_calculated': True, 'design_electric_power': 1137.67,
                  'design_pressure_rise': 342.66, 'total_efficiency': 0.46, 'motor_efficiency': 0.84,
                  'motor_heat_to_airflow_fraction': 1.0, 'motor_heat_to_zone_fraction': 0.0,
-                 'motor_location_zone': 'N/A', 'operating_points': []},
+                 'operating_points': []},
                 {'type': 'Fan:ConstantVolume', 'fan_energy_index': 1.23, 'purpose': 'N/A', 'airloop_name': 'N/A',
                  'speed_control_method': 'Continuous'})}
 

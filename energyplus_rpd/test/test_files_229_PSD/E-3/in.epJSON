@@ -2213,7 +2213,7 @@
             "design_electric_power_consumption": 0.01,
             "design_maximum_air_flow_rate": 4.67227968768,
             "design_power_sizing_method": "TotalEfficiencyAndPressure",
-            "design_pressure_rise": 2.4908891,
+            "design_pressure_rise": 0.0012938009717054458,
             "electric_power_function_of_flow_fraction_curve_name": "VAV Fan Curve",
             "electric_power_minimum_flow_rate_fraction": 0,
             "electric_power_per_unit_flow_rate": 840,

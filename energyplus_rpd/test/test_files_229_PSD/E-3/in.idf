@@ -5384,7 +5384,7 @@
     4.67227968768,           !- Design Maximum Air Flow Rate {m3/s}
     Continuous,              !- Speed Control Method
     0,                       !- Electric Power Minimum Flow Rate Fraction
-    2.4908891,               !- Design Pressure Rise {Pa}
+    0.0012938009717054458,    !- Design Pressure Rise {Pa}
     0.999,                   !- Motor Efficiency
     1,                       !- Motor In Air Stream Fraction
     0.01,                    !- Design Electric Power Consumption {W}
@@ -7059,4 +7059,3 @@ Output:Table:Annual,
     Water Use Equipment Total Volume Flow Rate,  !- Variable or Meter or EMS Variable or Field 5 Name
     Maximum,                 !- Aggregation Type for Variable or Meter 5
     10;                        !- Digits After Decimal 5
- 

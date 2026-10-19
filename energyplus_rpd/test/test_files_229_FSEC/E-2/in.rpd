@@ -250,28 +250,6 @@
                       "adjacent_to": "EXTERIOR",
                       "does_cast_shade": true,
                       "construction": "ROOF TYPE 1"
-                    },
-                    {
-                      "id": "SOUTHPARTWALL CORE SPACE",
-                      "classification": "WALL",
-                      "area": 161.47477382399998,
-                      "tilt": 90.0,
-                      "azimuth": 180.0,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "PRM ZONE 1 (SOUTH)"
-                    },
-                    {
-                      "id": "WESTPARTWALL CORE SPACE",
-                      "classification": "WALL",
-                      "area": 95.65296998400001,
-                      "tilt": 90.0,
-                      "azimuth": 270.0,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "PRM ZONE 4 (WEST)"
                     }
                   ],
                   "infiltration": {
@@ -432,17 +410,6 @@
                           "has_shading_sidefins": false
                         }
                       ]
-                    },
-                    {
-                      "id": "WESTPARTWALL PRM SPACE 2",
-                      "classification": "WALL",
-                      "area": 25.62002413496958,
-                      "tilt": 90.0,
-                      "azimuth": 315.0,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "PRM ZONE 4 (WEST)"
                     }
                   ],
                   "infiltration": {
@@ -558,17 +525,6 @@
                       "construction": "SLAB-ON-GRADE TYPE 1"
                     },
                     {
-                      "id": "NORTHPARTWALL PRM SPACE 3",
-                      "classification": "WALL",
-                      "area": 25.620024134969583,
-                      "tilt": 90.0,
-                      "azimuth": 315.0,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "PRM ZONE 3 (NORTH)"
-                    },
-                    {
                       "id": "ROOF PRM SPACE 2",
                       "classification": "CEILING",
                       "area": 131.27199552000008,
@@ -577,28 +533,6 @@
                       "adjacent_to": "EXTERIOR",
                       "does_cast_shade": true,
                       "construction": "ROOF TYPE 1"
-                    },
-                    {
-                      "id": "SOUTHPARTWALL PRM SPACE 3",
-                      "classification": "WALL",
-                      "area": 25.620024134969587,
-                      "tilt": 90.0,
-                      "azimuth": 225.0,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "PRM ZONE 1 (SOUTH)"
-                    },
-                    {
-                      "id": "WESTPARTWALL PRM SPACE 3",
-                      "classification": "WALL",
-                      "area": 95.65296998400001,
-                      "tilt": 90.0,
-                      "azimuth": 270.0,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "CORE ZONE 1"
                     }
                   ],
                   "infiltration": {
@@ -746,28 +680,6 @@
                       "adjacent_to": "EXTERIOR",
                       "does_cast_shade": true,
                       "construction": "ROOF TYPE 2"
-                    },
-                    {
-                      "id": "SOUTHPARTWALL PRM SPACE 4",
-                      "classification": "WALL",
-                      "area": 25.620024134969576,
-                      "tilt": 90.0,
-                      "azimuth": 225.0,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "PRM ZONE 4 (WEST)"
-                    },
-                    {
-                      "id": "SOUTHPARTWALL PRM SPACE 5",
-                      "classification": "WALL",
-                      "area": 161.47477382399998,
-                      "tilt": 90.0,
-                      "azimuth": 180.0,
-                      "adjacent_to": "INTERIOR",
-                      "does_cast_shade": true,
-                      "construction": "INTERIOR WALL",
-                      "adjacent_zone": "CORE ZONE 1"
                     }
                   ],
                   "infiltration": {

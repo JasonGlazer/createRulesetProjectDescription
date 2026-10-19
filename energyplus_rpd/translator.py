@@ -228,6 +228,8 @@ class Translator:
         self.metadata = {}
         self.surfaces_by_zone = {}
         self.schedules_used_names = []
+        self.generated_schedules = {}
+        self.translation_warnings = []
         self.terminals_by_zone = {}
         self.serial_number = 0
         self.id_used = set()
@@ -358,25 +360,52 @@ class Translator:
                     'r_value': material_dict['thermal_resistance']
                 }
                 materials.append(material)
+        for object_type, objects in self.epjson_object.items():
+            if object_type in {'Material', 'Material:NoMass'}:
+                continue
+            if not object_type.startswith(('Material:', 'WindowMaterial:')):
+                continue
+            for name, fields in objects.items():
+                material = {'id': name}
+                if object_type == 'Material:AirGap':
+                    material['r_value'] = fields['thermal_resistance']
+                else:
+                    for source, target in [('thickness', 'thickness'), ('conductivity', 'thermal_conductivity'),
+                                           ('density', 'density'), ('specific_heat', 'specific_heat')]:
+                        if source in fields:
+                            material[target] = fields[source]
+                    material['notes'] = ('EnergyPlus ' + object_type + '. Only directly available material '
+                                         'properties are exported; assembly glazing performance is reported '
+                                         'on subsurfaces.')
+                materials.append(material)
         self.model_description['materials'] = materials
         return materials
 
     def add_constructions(self):
         constructions = []
         u_by_construction = self.gather_ufactor_by_construction()
+        material_names = {name.upper(): name for object_type, objects in self.epjson_object.items()
+                          if object_type == 'Material' or object_type.startswith(('Material:', 'WindowMaterial:'))
+                          for name in objects}
         if 'Construction' in self.epjson_object:
             constructions_in = self.epjson_object['Construction']
             for construction_name, layer_dict in constructions_in.items():
+                layer_dict = dict(layer_dict)
                 # fix the order of the dictionary because the use of 'outside_layer' messes it up
                 if 'outside_layer' in layer_dict and 'layer_1' not in layer_dict:
                     layer_dict['layer_1'] = layer_dict.pop('outside_layer')
                 sorted_layer_dict = dict(sorted(layer_dict.items()))
                 construction = {'id': construction_name.upper(),
-                                'primary_layers': list(sorted_layer_dict.values())
+                                'primary_layers': [material_names.get(name.upper(), name)
+                                                   for name in sorted_layer_dict.values()]
                                 }
                 if construction_name.upper() in u_by_construction:
                     construction['u_factor'] = u_by_construction[construction_name.upper()]
                 constructions.append(construction)
+        for object_type, field in [('Construction:FfactorGroundFloor', 'f_factor'),
+                                   ('Construction:CfactorUndergroundWall', 'c_factor')]:
+            for name, fields in self.epjson_object.get(object_type, {}).items():
+                constructions.append({'id': name.upper(), field: fields[field]})
         self.model_description['constructions'] = constructions
         return constructions
 
@@ -635,13 +664,37 @@ class Translator:
                                 'power': float(rows[exterior_light_name][total_watt_column]),
                             }
                             if rows[exterior_light_name][type_column] == 'AstronomicalClock':
-                                exterior_light['multiplier_schedule'] = 'uses_astronomical_clock_not_schedule'
+                                exterior_light['multiplier_schedule'] = self.add_astronomical_lighting_schedule(
+                                    exterior_light_name, exterior_light['power'])
                             else:
                                 if rows[exterior_light_name][schedule_column] != '-':
                                     exterior_light['multiplier_schedule'] = rows[exterior_light_name][schedule_column]
                             exterior_lightings.append(exterior_light)
         self.building['exterior_lighting'] = exterior_lightings
         return exterior_lightings
+
+    def add_astronomical_lighting_schedule(self, name, power):
+        schedule_id = name.upper() + ' ASTRONOMICAL CONTROL'
+        variable = (name + ':Exterior Lights Electricity Rate').upper()
+        columns = self.json_hourly_results_object.get('Cols', [])
+        index = next((index for index, column in enumerate(columns)
+                      if column['Variable'].upper() == variable and column.get('Units', 'W') == 'W'), None)
+        schedule = {'id': schedule_id, 'type': 'MULTIPLIER_DIMENSIONLESS'}
+        if index is not None and power > 0:
+            values = [next(iter(row.values()))[index] / power
+                      for row in self.json_hourly_results_object.get('Rows', [])]
+            if len(values) in {8808, 8832}:
+                # Sizing periods precede the annual weather run in this output.
+                values = values[48:]
+            schedule.update(sequence_type='HOURLY', hourly_values=values)
+        else:
+            warning = (f'{name}: astronomical-clock lighting requires hourly '
+                       'Exterior Lights Electricity Rate [W] output. Effective operating values are unspecified.')
+            schedule['notes'] = warning
+            self.translation_warnings.append(warning)
+            print(warning)
+        self.generated_schedules[schedule_id] = schedule
+        return schedule_id
 
     def add_zones(self):
         tabular_reports = self.json_results_object['TabularReports']
@@ -1196,14 +1249,17 @@ class Translator:
         return infiltration_by_zone
 
     def add_schedules(self):
-        unique_schedule_names_used = list(set(self.schedules_used_names))
-        unique_schedule_names_used = [name.upper() for name in unique_schedule_names_used]
+        self.collect_schedule_references(self.model_description)
+        unique_schedule_names_used = list(dict.fromkeys(name.upper() for name in self.schedules_used_names))
         output_variables = {}
         if 'Cols' in self.json_hourly_results_object:
             output_variables = self.json_hourly_results_object['Cols']
         selected_names = {}
         for count, output_variable in enumerate(output_variables):
-            output_variable_name = output_variable['Variable'].replace(':Schedule Value', '')
+            output_variable_name = output_variable['Variable'].upper()
+            if not output_variable_name.endswith(':SCHEDULE VALUE'):
+                continue
+            output_variable_name = output_variable_name[:-len(':SCHEDULE VALUE')]
             if output_variable_name in unique_schedule_names_used:
                 selected_names[output_variable_name] = count
         # print(selected_names)
@@ -1247,16 +1303,16 @@ class Translator:
                         week2_name = init_schedules[schedule_name]['WeekSchedule 2']
                         if week2_name:
                             if week2_name in init_week_schedules:
-                                summer_day = init_week_schedules[week1_name]['SummerDesignDay']
-                                winter_day = init_week_schedules[week1_name]['WinterDesignDay']
+                                summer_day = init_week_schedules[week2_name]['SummerDesignDay']
+                                winter_day = init_week_schedules[week2_name]['WinterDesignDay']
                     if summer_day:
                         if summer_day in init_day_schedules:
                             day = init_day_schedules[summer_day]
-                            design_cooling_hourly = [float(day[f"{x:02d}:00"]) for x in range(1, 24)]
+                            design_cooling_hourly = [float(day[f"{x:02d}:00"]) for x in range(1, 25)]
                     if winter_day:
                         if winter_day in init_day_schedules:
                             day = init_day_schedules[winter_day]
-                            design_heating_hourly = [float(day[f"{x:02d}:00"]) for x in range(1, 24)]
+                            design_heating_hourly = [float(day[f"{x:02d}:00"]) for x in range(1, 25)]
             schedule = {
                 'id': schedule_name,
                 'sequence_type': 'HOURLY',
@@ -1268,7 +1324,50 @@ class Translator:
                 if type_by_name[schedule_name]:
                     schedule['type'] = type_by_name[schedule_name]
             schedules.append(schedule)
+        annual_length = next((len(schedule['hourly_values']) for schedule in schedules
+                              if len(schedule['hourly_values']) in {8760, 8784}), 8760)
+        constants = {name.upper(): fields['hourly_value']
+                     for name, fields in self.epjson_object.get('Schedule:Constant', {}).items()}
+        constants.setdefault('ALWAYS_1', 1.0)
+        # EnergyPlus ScheduleManager creates these fixed schedules internally.
+        constants.setdefault('CONSTANT-1.0', 1.0)
+        constants.setdefault('CONSTANT-0.0', 0.0)
+        for name in unique_schedule_names_used:
+            if name in selected_names:
+                continue
+            if name in self.generated_schedules:
+                schedules.append(self.generated_schedules[name])
+            elif name in constants:
+                schedule = {'id': name, 'sequence_type': 'HOURLY',
+                            'hourly_values': [constants[name]] * annual_length,
+                            'hourly_heating_design_day': [constants[name]] * 24,
+                            'hourly_cooling_design_day': [constants[name]] * 24}
+                if type_by_name.get(name):
+                    schedule['type'] = type_by_name[name]
+                schedules.append(schedule)
+            else:
+                raise ValueError(
+                    f'Missing hourly Schedule Value output for referenced schedule {name}. '
+                    'Add Output:Variable, *, Schedule Value, Hourly; to the EnergyPlus input, '
+                    'rerun EnergyPlus with JSON time-series output enabled, and retry conversion '
+                    'using the updated hourly JSON file. Referenced nonconstant schedules '
+                    'cannot be exported without hourly values.')
         self.model_description['schedules'] = schedules
+
+    def collect_schedule_references(self, obj):
+        """Resolve every emitted schedule reference to the canonical hourly ID."""
+        if isinstance(obj, dict):
+            for key, value in obj.items():
+                if key.endswith(('_schedule', '_schedules')) and isinstance(value, (str, list)):
+                    values = value if isinstance(value, list) else [value]
+                    canonical = [name.upper() for name in values]
+                    obj[key] = canonical if isinstance(value, list) else canonical[0]
+                    self.schedules_used_names.extend(canonical)
+                else:
+                    self.collect_schedule_references(value)
+        elif isinstance(obj, list):
+            for value in obj:
+                self.collect_schedule_references(value)
 
     def gather_schedule_type(self):
         raw_to_final_map = {
@@ -2401,8 +2500,9 @@ class Translator:
                              'total_efficiency': total_efficiency,
                              'motor_efficiency': motor_eff,
                              'motor_heat_to_airflow_fraction': motor_heat_in_air,
-                             'motor_heat_to_zone_fraction': motor_heat_to_zone_frac,
-                             'motor_location_zone': motor_loss_zone_name}
+                             'motor_heat_to_zone_fraction': motor_heat_to_zone_frac}
+            if non_empty_string(motor_loss_zone_name):
+                equipment_fan['motor_location_zone'] = motor_loss_zone_name
             fan_extra = {'type': extra_type,
                          'fan_energy_index': fan_energy_index,
                          'purpose': purpose,
@@ -2916,7 +3016,7 @@ class Translator:
         self.model_description['fluid_loops'] = fluid_loops
         return fluid_loops
 
-    def gather_service_water_heater_loops(self) -> Dict[str, str]:
+    def gather_service_water_heater_loops(self, side='Supply') -> Dict[str, str]:
         loop_by_heater: Dict[str, str] = {}
         plant_loop_arrangements: List[JsonDict] = self.gather_table_into_list(
             'HVACTopology',
@@ -2924,7 +3024,8 @@ class Translator:
         )
         for arrangement_row in plant_loop_arrangements:
             component_type: str = non_empty_string(arrangement_row.get('Component Type'))
-            if 'WATERHEATER' in component_type.upper():
+            if ('WATERHEATER' in component_type.upper()
+                    and non_empty_string(arrangement_row.get('Side', 'Supply')).upper() == side.upper()):
                 component_name: str = non_empty_string(arrangement_row.get('Component Name'))
                 loop_name: str = non_empty_string(arrangement_row.get('Loop Name'))
                 if component_name and loop_name:
@@ -3159,6 +3260,11 @@ class Translator:
             piping['is_recirculation_loop'] = True
         if pipe_children:
             piping['child'] = pipe_children
+        # A potable-water pump references ServiceWaterPiping, not an HVAC loop.
+        fluid_loop_ids = {loop['id'] for loop in self.model_description.get('fluid_loops', [])}
+        for pump in self.model_description.get('pumps', []):
+            if pump.get('loop_or_piping') == loop_name and loop_name not in fluid_loop_ids:
+                pump['loop_or_piping'] = piping['id']
         return piping
 
     def assign_service_water_heating_uses_to_spaces(self, use_zone_by_id: Dict[str, str]) -> None:
@@ -3370,8 +3476,9 @@ class Translator:
                     'type': tank_type
                 }
 
-            if loop_name:
-                equipment['hot_water_loop'] = loop_name
+            source_loop = self.gather_service_water_heater_loops('Demand').get(heater_name)
+            if source_loop:
+                equipment['hot_water_loop'] = source_loop
             equipment_list.append(equipment)
         if equipment_list:
             self.model_description['service_water_heating_equipment'] = equipment_list
